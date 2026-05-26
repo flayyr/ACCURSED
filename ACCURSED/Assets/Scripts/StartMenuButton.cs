@@ -58,10 +58,7 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
         SortButtons();
 
-        if (buttons.Count == 1)
-        {
-            SelectButton(0);
-        }
+        SelectDefaultPlayButton();
     }
 
     private void OnDisable()
@@ -182,6 +179,24 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         #else
             Application.Quit();
         #endif
+    }
+
+    private static void SelectDefaultPlayButton()
+    {
+        if (buttons.Count == 0)
+            return;
+
+        StartMenuButton playButton = buttons.Find(b => b.buttonType == ButtonType.Play);
+
+        if (playButton != null)
+        {
+            int playIndex = buttons.IndexOf(playButton);
+            SelectButton(playIndex);
+        }
+        else
+        {
+            SelectButton(0);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
