@@ -14,18 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Debug
-        run: |
-          echo "Actor: ${{ github.actor }}"
-          echo "Event: ${{ github.event_name }}"
-
-          if [ -z "${{ secrets.DISCORD_WEBHOOK }}" ]; then
-            echo "Webhook missing"
-            exit 1
-          else
-            echo "Webhook exists"
-          fi
-
       - uses: actions/checkout@v4
 
       - name: Fake deploy
