@@ -3,7 +3,14 @@ name: Deploy Notifications
 on:
   push:
     branches:
-      - main
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+  pull_request_target:
+    branches:
+      - '**'
+  merge_group:
 
 jobs:
   deploy:
