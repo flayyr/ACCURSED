@@ -32,13 +32,13 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public GameObject leftArrowPrefab;
     public GameObject rightArrowPrefab;
 
-    public Vector2 leftArrowOffset = new Vector2(-120f, 0);
-    public Vector2 rightArrowOffset = new Vector2(120f, 0);
+    public Vector3 leftArrowOffset = new Vector3(-120f, 0, 0);
+    public Vector3 rightArrowOffset = new Vector3(120f, 0, 0);
 
     [Header("Inputs")]
     public bool allowEscapeToQuit = true;
 
-    private Vector2 normalScale;
+    private Vector3 normalScale;
     private GameObject leftArrowInstance;
     private GameObject rightArrowInstance;
     private bool isSelected;
@@ -87,8 +87,8 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void LateUpdate()
     {
-        Vector2 targetScale = isSelected ? normalScale * selectedScale : normalScale;
-        transform.localScale = Vector2.Lerp(transform.localScale, targetScale, Time.deltaTime * scaleSpeed);
+        Vector3 targetScale = isSelected ? normalScale * selectedScale : normalScale;
+        transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * scaleSpeed);
     }
 
     private void HandleKeyboardSelection()
@@ -186,6 +186,8 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("Mouse entered: " + gameObject.name);
+
         int index = buttons.IndexOf(this);
 
         if (index != -1)
@@ -239,17 +241,58 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         RemoveArrows();
 
+        RectTransform buttonRect = GetComponent<RectTransform>();
+
+        if (buttonRect == null)
+        {
+            Debug.LogWarning("Button has no RectTransform: " + gameObject.name);
+            return;
+        }
+
         if (leftArrowPrefab != null)
         {
             leftArrowInstance = Instantiate(leftArrowPrefab, transform);
-            leftArrowInstance.transform.localPosition = leftArrowOffset;
+            SetupArrowAsButtonChild(leftArrowInstance, buttonRect, true);
         }
 
         if (rightArrowPrefab != null)
         {
             rightArrowInstance = Instantiate(rightArrowPrefab, transform);
-            rightArrowInstance.transform.localPosition = rightArrowOffset;
+            SetupArrowAsButtonChild(rightArrowInstance, buttonRect, false);
         }
+    }
+
+    private void SetupArrowAsButtonChild(GameObject arrowObject, RectTransform buttonRect, bool isLeftArrow)
+    {
+        RectTransform arrowRect = arrowObject.GetComponent<RectTransform>();
+
+        if (arrowRect == null)
+        {
+            Debug.LogWarning("Arrow prefab needs a RectTransform.");
+            return;
+        }
+
+        arrowObject.SetActive(true);
+
+        arrowRect.anchorMin = new Vector2(0.5f, 0.5f);
+        arrowRect.anchorMax = new Vector2(0.5f, 0.5f);
+        arrowRect.pivot = new Vector2(0.5f, 0.5f);
+
+        float buttonHalfWidth = buttonRect.rect.width / 2f;
+
+        Vector3 offset = isLeftArrow ? leftArrowOffset : rightArrowOffset;
+
+        float baseX = isLeftArrow ? -buttonHalfWidth : buttonHalfWidth;
+
+        arrowRect.anchoredPosition = new Vector2(
+            baseX + offset.x,
+            offset.y
+        );
+
+        arrowRect.localScale = Vector3.one;
+        arrowRect.localRotation = Quaternion.identity;
+
+        arrowRect.SetAsLastSibling();
     }
 
     private void RemoveArrows()
