@@ -1,11 +1,30 @@
-- uses: sarisia/actions-status-discord@v1
-  if: always()
-  with:
-    webhook: ${{ secrets.DISCORD_WEBHOOK }}
-    status: ${{ job.status }}
-    content: "Hey <@316911818725392384>"
-    title: "deploy"
-    description: "Build and deploy to GitHub Pages"
-    color: 0x0000ff
-    url: "https://github.com/sarisia/actions-status-discord"
-    username: GitHub Actions
+name: Deploy Notifications
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Fake deploy step
+        run: echo "Deploying..."
+
+      - name: Send Discord notification
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          content: "Hey <@316911818725392384>"
+          title: "deploy"
+          description: "Build and deploy to GitHub Pages"
+          color: 0x0000ff
+          url: "https://github.com/sarisia/actions-status-discord"
+          username: GitHub Actions
