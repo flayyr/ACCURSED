@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public enum ButtonType
     {
@@ -43,7 +43,7 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private GameObject rightArrowInstance;
     private bool isSelected;
 
-    private static readonly List<MainMenuButton> buttons = new List<MainMenuButton>();
+    private static readonly List<StartMenuButton> buttons = new List<StartMenuButton>();
     private static int selectedIndex = 0;
 
     private void Awake()
@@ -140,7 +140,7 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         if (allowEscapeToQuit)
         {
-            MainMenuButton quitButton = buttons.Find(b => b.buttonType == ButtonType.Quit);
+            StartMenuButton quitButton = buttons.Find(b => b.buttonType == ButtonType.Quit);
 
             if (quitButton != null)
             {

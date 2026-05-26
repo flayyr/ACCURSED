@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 1039499521}
   - component: {fileID: 1039499520}
   m_Layer: 0
-  m_Name: EscapeMenuHandler(Don't Change Content)
+  m_Name: EscapeMenuHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -242,16 +242,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuButton
   buttonType: 0
   startScreenName: StartMenu
-  playName: PlayScene
-  saveName: SavesScene
-  settingName: SettingScene
-  creditName: CreditScene
-  selectedScale: 1.2
-  scaleSpeed: 12
+  playName: 
+  saveName: 
+  settingName: 
+  creditName: 
+  selectedScale: 0
+  scaleSpeed: 0
   leftArrowPrefab: {fileID: 0}
   rightArrowPrefab: {fileID: 0}
-  leftArrowOffset: {x: -120, y: 0, z: 0}
-  rightArrowOffset: {x: 120, y: 0, z: 0}
+  leftArrowOffset: {x: 0, y: 0, z: 0}
+  rightArrowOffset: {x: 0, y: 0, z: 0}
   allowEscapeToQuit: 1
 --- !u!4 &1039499521
 Transform:
