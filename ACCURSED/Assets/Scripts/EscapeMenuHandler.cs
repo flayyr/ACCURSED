@@ -5,8 +5,8 @@ using UnityEngine.EventSystems;
 
 public class EscapeMenuHandler : MonoBehaviour
 {
-    [Header("Scene Names")]
-    public string startScreenName = "StartScene";
+    [Header("Scene Name")]
+    public string startScreenName = "StartMenu";
 
     public void Update()
     {

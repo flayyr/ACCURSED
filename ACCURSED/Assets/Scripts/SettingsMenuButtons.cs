@@ -1,49 +1,44 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
-public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class SettingsMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public enum ButtonType
     {
-        Play,
-        Saves,
+        Keyboard,
+        Controller,
+        Display,
+        Sound,
         Settings,
-        Credits,
         Quit
     }
 
     [Header("Button Type")]
     public ButtonType buttonType;
 
-    [Header("Scene Names")]
+    [Header("Scene Name")]
     public string startScreenName = "StartMenu";
-    public string playName = "PlayScene";
-    public string saveName = "SavesScene";
-    public string settingName = "SettingScene";
-    public string creditName = "CreditScene";
 
-    [Header("Selection Visualization")]
-    public float selectedScale = 1.2f;
-    public float scaleSpeed = 12f;
+    [Header("Settings Tags")]
+    public GameObject keyboardTag;
+    public GameObject controllerTag;
+    public GameObject displayTag;
+    public GameObject soundTag;
+    public GameObject settingsTag;
 
-    [Header("Arrows")]
-    public GameObject leftArrowPrefab;
-    public GameObject rightArrowPrefab;
-
-    public Vector3 leftArrowOffset = new Vector3(-120f, 0, 0);
-    public Vector3 rightArrowOffset = new Vector3(120f, 0, 0);
-
-    [Header("Inputs")]
-    public bool allowEscapeToQuit = true;
+    [Header("Selected")]
+    public GameObject ArrowPrefab;
+    private GameObject ArrowInstance;
+    public float ArrowWidth;
+    public float ArrowHeight;
 
     private Vector3 normalScale;
-    private GameObject leftArrowInstance;
-    private GameObject rightArrowInstance;
     private bool isSelected;
 
-    private static readonly List<StartMenuButton> buttons = new List<StartMenuButton>();
+    private static readonly List<SettingsMenuButton> buttons = new List<SettingsMenuButton>();
     private static int selectedIndex = 0;
 
     private void Awake()
@@ -65,11 +60,8 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         buttons.Remove(this);
 
-        if (leftArrowInstance  != null)
-            Destroy(leftArrowInstance);
-
-        if (rightArrowInstance != null)
-            Destroy(rightArrowInstance);
+        if (ArrowInstance != null)
+            Destroy(ArrowInstance);
     }
 
     public void Update()
@@ -79,13 +71,6 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
         HandleKeyboardSelection();
         HandleConfirmInput();
-        HandleEscapeInput();
-    }
-
-    private void LateUpdate()
-    {
-        Vector3 targetScale = isSelected ? normalScale * selectedScale : normalScale;
-        transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * scaleSpeed);
     }
 
     private void HandleKeyboardSelection()
@@ -122,63 +107,45 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         }
     }
 
-    private void HandleEscapeInput()
-    {
-        if (!Input.GetKeyDown(KeyCode.Escape))
-            return;
-
-        string currentScene = SceneManager.GetActiveScene().name;
-
-        if (currentScene != startScreenName)
-        {
-            SceneManager.LoadScene(startScreenName);
-            return;
-        }
-
-        if (allowEscapeToQuit)
-        {
-            StartMenuButton quitButton = buttons.Find(b => b.buttonType == ButtonType.Quit);
-
-            if (quitButton != null)
-            {
-                quitButton.ActivateButton();
-            }
-        }
-    }
-
     public void ActivateButton()
     {
         switch (buttonType)
         {
-            case ButtonType.Play:
-                SceneManager.LoadScene(playName);
+            case ButtonType.Keyboard:
+                ShowTag(keyboardTag);
                 break;
 
-            case ButtonType.Saves:
-                SceneManager.LoadScene(saveName);
+            case ButtonType.Controller:
+                ShowTag(controllerTag);
+                break;
+
+            case ButtonType.Display:
+                ShowTag(displayTag);
+                break;
+
+            case ButtonType.Sound:
+                ShowTag(soundTag);
                 break;
 
             case ButtonType.Settings:
-                SceneManager.LoadScene(settingName);
-                break;
-
-            case ButtonType.Credits:
-                SceneManager.LoadScene(creditName);
+                ShowTag(settingsTag);
                 break;
 
             case ButtonType.Quit:
-                QuitGame();
+                SceneManager.LoadScene(startScreenName);
                 break;
         }
     }
 
-    private void QuitGame()
+    private void ShowTag(GameObject tagToShow)
     {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
+        keyboardTag.SetActive(false);
+        controllerTag.SetActive(false);
+        displayTag.SetActive(false);
+        soundTag.SetActive(false);
+        settingsTag.SetActive(false);
+
+        tagToShow.SetActive(true);
     }
 
     private static void SelectDefaultPlayButton()
@@ -186,7 +153,7 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (buttons.Count == 0)
             return;
 
-        StartMenuButton playButton = buttons.Find(b => b.buttonType == ButtonType.Play);
+        SettingsMenuButton playButton = buttons.Find(b => b.buttonType == ButtonType.Keyboard);
 
         if (playButton != null)
         {
@@ -244,17 +211,17 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
         if (isSelected)
         {
-            SpawnArrows();
+            SpawnArrow();
         }
         else
         {
-            RemoveArrows();
+            RemoveArrow();
         }
     }
 
-    private void SpawnArrows()
+    private void SpawnArrow()
     {
-        RemoveArrows();
+        RemoveArrow();
 
         RectTransform buttonRect = GetComponent<RectTransform>();
 
@@ -264,20 +231,14 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
             return;
         }
 
-        if (leftArrowPrefab != null)
+        if (ArrowPrefab != null)
         {
-            leftArrowInstance = Instantiate(leftArrowPrefab, transform);
-            SetupArrowAsButtonChild(leftArrowInstance, buttonRect, true);
-        }
-
-        if (rightArrowPrefab != null)
-        {
-            rightArrowInstance = Instantiate(rightArrowPrefab, transform);
-            SetupArrowAsButtonChild(rightArrowInstance, buttonRect, false);
+            ArrowInstance = Instantiate(ArrowPrefab, transform);
+            SetupArrowAsButtonChild(ArrowInstance, buttonRect);
         }
     }
 
-    private void SetupArrowAsButtonChild(GameObject arrowObject, RectTransform buttonRect, bool isLeftArrow)
+    private void SetupArrowAsButtonChild(GameObject arrowObject, RectTransform buttonRect)
     {
         RectTransform arrowRect = arrowObject.GetComponent<RectTransform>();
 
@@ -293,35 +254,27 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         arrowRect.anchorMax = new Vector2(0.5f, 0.5f);
         arrowRect.pivot = new Vector2(0.5f, 0.5f);
 
+        arrowRect.sizeDelta = new Vector2(ArrowWidth, ArrowHeight);
+
         float buttonHalfWidth = buttonRect.rect.width / 2f;
+        float arrowOffset = 60f;
 
-        Vector3 offset = isLeftArrow ? leftArrowOffset : rightArrowOffset;
-
-        float baseX = isLeftArrow ? -buttonHalfWidth : buttonHalfWidth;
-
-        arrowRect.anchoredPosition = new Vector2(
-            baseX + offset.x,
-            offset.y
-        );
+        // This places one arrow to the left of the button.
+        arrowRect.anchoredPosition = new Vector2(-buttonHalfWidth + arrowOffset, 0f);
 
         arrowRect.localScale = Vector3.one;
         arrowRect.localRotation = Quaternion.identity;
 
+
         arrowRect.SetAsLastSibling();
     }
 
-    private void RemoveArrows()
+    private void RemoveArrow()
     {
-        if (leftArrowInstance != null)
+        if (ArrowInstance != null)
         {
-            Destroy(leftArrowInstance);
-            leftArrowInstance = null;
-        }
-
-        if (rightArrowInstance != null)
-        {
-            Destroy(rightArrowInstance);
-            rightArrowInstance = null;
+            Destroy(ArrowInstance);
+            ArrowInstance = null;
         }
     }
 
