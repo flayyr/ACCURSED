@@ -22,12 +22,12 @@ public class SettingsMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerE
     [Header("Scene Name")]
     public string startScreenName = "StartMenu";
 
-    [Header("Settings Tags")]
-    public GameObject keyboardTag;
-    public GameObject controllerTag;
-    public GameObject displayTag;
-    public GameObject soundTag;
-    public GameObject settingsTag;
+    [Header("Settings Tabs")]
+    public GameObject keyboardTab;
+    public GameObject controllerTab;
+    public GameObject displayTab;
+    public GameObject soundTab;
+    public GameObject settingsTab;
 
     [Header("Selected")]
     public GameObject ArrowPrefab;
@@ -112,23 +112,23 @@ public class SettingsMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerE
         switch (buttonType)
         {
             case ButtonType.Keyboard:
-                ShowTag(keyboardTag);
+                ShowTab(keyboardTab);
                 break;
 
             case ButtonType.Controller:
-                ShowTag(controllerTag);
+                ShowTab(controllerTab);
                 break;
 
             case ButtonType.Display:
-                ShowTag(displayTag);
+                ShowTab(displayTab);
                 break;
 
             case ButtonType.Sound:
-                ShowTag(soundTag);
+                ShowTab(soundTab);
                 break;
 
             case ButtonType.Settings:
-                ShowTag(settingsTag);
+                ShowTab(settingsTab);
                 break;
 
             case ButtonType.Quit:
@@ -137,15 +137,15 @@ public class SettingsMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerE
         }
     }
 
-    private void ShowTag(GameObject tagToShow)
+    private void ShowTab(GameObject TabToShow)
     {
-        keyboardTag.SetActive(false);
-        controllerTag.SetActive(false);
-        displayTag.SetActive(false);
-        soundTag.SetActive(false);
-        settingsTag.SetActive(false);
+        keyboardTab.SetActive(false);
+        controllerTab.SetActive(false);
+        displayTab.SetActive(false);
+        soundTab.SetActive(false);
+        settingsTab.SetActive(false);
 
-        tagToShow.SetActive(true);
+        TabToShow.SetActive(true);
     }
 
     private static void SelectDefaultPlayButton()
