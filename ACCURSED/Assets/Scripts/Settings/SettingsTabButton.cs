@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class SettingsTabButton : SettingsMenuSelectable
 {
@@ -9,6 +10,11 @@ public class SettingsTabButton : SettingsMenuSelectable
 
     [Header("All Tab Panels")]
     public List<GameObject> allTabPanels = new List<GameObject>();
+
+    [Header("This Tab's Scroll View")]
+    public ScrollRect tabScrollRect;
+    public RectTransform tabScrollContent;
+    public RectTransform tabScrollViewport;
 
     public override void Activate()
     {
@@ -30,15 +36,29 @@ public class SettingsTabButton : SettingsMenuSelectable
             tabPanel.SetActive(true);
     }
 
-    public override void OnPointerClick(PointerEventData eventData)
+    public override void OnPointerEnter(PointerEventData eventData)
     {
+        if (navigator != null && navigator.IsAdjustingSlider)
+            return;
+
         if (navigator != null)
-            navigator.SelectTabByMouse(this);
+        {
+            navigator.SelectTab(this, false);
+        }
     }
 
-    public new void OnPointerEnter(PointerEventData eventData)
+    public override void OnPointerClick(PointerEventData eventData)
     {
+        if (navigator != null && navigator.IsAdjustingSlider)
+            return;
+
         if (navigator != null)
-            navigator.SelectTabByMouse(this);
+        {
+            navigator.SelectTab(this, true);
+        }
+        else
+        {
+            ShowThisTab();
+        }
     }
 }

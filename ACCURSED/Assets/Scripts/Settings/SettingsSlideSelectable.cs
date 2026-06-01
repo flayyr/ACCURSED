@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class SettingsSliderSelectable : SettingsMenuSelectable
 {
@@ -10,6 +11,12 @@ public class SettingsSliderSelectable : SettingsMenuSelectable
     public GameObject adjustingPrefab;
 
     private GameObject adjustingInstance;
+
+    [Header("Keyboard Adjust Instruction")]
+    public GameObject instructionPrefab;
+    public Vector2 instructionOffset = new Vector2(0f, -35f);
+
+    private GameObject instructionInstance;
 
     private void Awake()
     {
@@ -27,8 +34,17 @@ public class SettingsSliderSelectable : SettingsMenuSelectable
 
     public override void Activate()
     {
+        Debug.Log("Slider Activate on: " + gameObject.name);
+
         if (navigator != null)
+        {
+            Debug.Log("Slider adjust mode");
             navigator.StartSliderAdjustMode(this);
+        }
+        else
+        {
+            Debug.LogWarning("Slider has no navigator: " + gameObject.name);
+        }
     }
 
     public void AdjustSlider(float amount)
@@ -42,9 +58,15 @@ public class SettingsSliderSelectable : SettingsMenuSelectable
     public void SetAdjusting(bool adjusting)
     {
         if (adjusting)
+        {
             SpawnAdjustingVisual();
+            SpawnInstructionText();
+        }
         else
+        {
             RemoveAdjustingVisual();
+            RemoveInstructionText();
+        }
     }
 
     private void SpawnAdjustingVisual()
@@ -90,9 +112,60 @@ public class SettingsSliderSelectable : SettingsMenuSelectable
         }
     }
 
+    private void SpawnInstructionText()
+    {
+        RemoveInstructionText();
+
+        Debug.Log("Selected");
+
+        if (instructionPrefab == null)
+            return;
+
+        RectTransform sliderRect = GetComponent<RectTransform>();
+
+        if (sliderRect == null)
+            return;
+
+        instructionInstance = Instantiate(instructionPrefab, sliderRect);
+
+        RectTransform rect = instructionInstance.GetComponent<RectTransform>();
+
+        if (rect == null)
+        {
+            Destroy(instructionInstance);
+            instructionInstance = null;
+            return;
+        }
+
+        rect.anchorMin = new Vector2(0.5f, 0f);
+        rect.anchorMax = new Vector2(0.5f, 0f);
+        rect.pivot = new Vector2(0.5f, 1f);
+
+        rect.anchoredPosition = instructionOffset;
+        rect.localScale = Vector3.one;
+        rect.localRotation = Quaternion.identity;
+
+        rect.SetAsLastSibling();
+    }
+
+    private void RemoveInstructionText()
+    {
+        if (instructionInstance != null)
+        {
+            Destroy(instructionInstance);
+            instructionInstance = null;
+        }
+    }
+
+    public override void OnPointerClick(PointerEventData eventData)
+    {
+        
+    }
+
     protected override void OnDisable()
     {
         base.OnDisable();
         RemoveAdjustingVisual();
+        RemoveInstructionText();
     }
 }
