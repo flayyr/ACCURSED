@@ -15,7 +15,7 @@ public class EscMenuUIButton : MonoBehaviour
 
     void Awake()
     {
-        uiButton= GetComponent<Button>();
+        uiButton = GetComponent<Button>();
 
         // set image
         Image img = imageObj.GetComponent<Image>(); 

@@ -5,6 +5,6 @@ public class SOExeQuit : EscMenuUIButtonSO
 {
     public override void Execute()
     {
-        // quit
+        // quit to main menu
     }
 }
