@@ -1557,7 +1557,6 @@ GameObject:
   - component: {fileID: 214652871}
   - component: {fileID: 214652870}
   - component: {fileID: 214652869}
-  - component: {fileID: 214652868}
   m_Layer: 5
   m_Name: Controller
   m_TagString: Untagged
@@ -1585,28 +1584,6 @@ RectTransform:
   m_AnchoredPosition: {x: -403, y: 304.36}
   m_SizeDelta: {x: 163.07, y: 110.61}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &214652868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 214652866}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3274fda82a6e2d4299e522e81fd2e04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SettingsMenuButton
-  buttonType: 1
-  startScreenName: StartMenu
-  keyboardTab: {fileID: 0}
-  controllerTab: {fileID: 0}
-  displayTab: {fileID: 0}
-  soundTab: {fileID: 0}
-  settingsTab: {fileID: 0}
-  ArrowPrefab: {fileID: 165010807854659853, guid: c78c1c7fbce123e41a00b42b6b81dce7, type: 3}
-  ArrowWidth: 200
-  ArrowHeight: 200
 --- !u!61 &214652869
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1726,19 +1703,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 214652870}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 214652868}
-        m_TargetAssemblyTypeName: SettingsMenuButton, Assembly-CSharp
-        m_MethodName: ActivateButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!222 &214652873
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3272,7 +3237,6 @@ GameObject:
   - component: {fileID: 727975272}
   - component: {fileID: 727975271}
   - component: {fileID: 727975270}
-  - component: {fileID: 727975269}
   m_Layer: 5
   m_Name: Display
   m_TagString: Untagged
@@ -3300,28 +3264,6 @@ RectTransform:
   m_AnchoredPosition: {x: -138.23004, y: 305.11}
   m_SizeDelta: {x: 141.93, y: 125.38}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &727975269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 727975267}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3274fda82a6e2d4299e522e81fd2e04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SettingsMenuButton
-  buttonType: 2
-  startScreenName: StartMenu
-  keyboardTab: {fileID: 0}
-  controllerTab: {fileID: 0}
-  displayTab: {fileID: 0}
-  soundTab: {fileID: 0}
-  settingsTab: {fileID: 0}
-  ArrowPrefab: {fileID: 165010807854659853, guid: c78c1c7fbce123e41a00b42b6b81dce7, type: 3}
-  ArrowWidth: 200
-  ArrowHeight: 200
 --- !u!61 &727975270
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3746,7 +3688,6 @@ GameObject:
   - component: {fileID: 826301689}
   - component: {fileID: 826301688}
   - component: {fileID: 826301687}
-  - component: {fileID: 826301686}
   m_Layer: 5
   m_Name: Sound
   m_TagString: Untagged
@@ -3774,28 +3715,6 @@ RectTransform:
   m_AnchoredPosition: {x: 109.85997, y: 304.36}
   m_SizeDelta: {x: 123.39, y: 103.23}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &826301686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 826301684}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3274fda82a6e2d4299e522e81fd2e04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SettingsMenuButton
-  buttonType: 3
-  startScreenName: StartMenu
-  keyboardTab: {fileID: 0}
-  controllerTab: {fileID: 0}
-  displayTab: {fileID: 0}
-  soundTab: {fileID: 0}
-  settingsTab: {fileID: 0}
-  ArrowPrefab: {fileID: 165010807854659853, guid: c78c1c7fbce123e41a00b42b6b81dce7, type: 3}
-  ArrowWidth: 200
-  ArrowHeight: 200
 --- !u!61 &826301687
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3915,19 +3834,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 826301688}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 826301686}
-        m_TargetAssemblyTypeName: SettingsMenuButton, Assembly-CSharp
-        m_MethodName: ActivateButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!222 &826301691
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3977,7 +3884,6 @@ GameObject:
   - component: {fileID: 863670211}
   - component: {fileID: 863670210}
   - component: {fileID: 863670209}
-  - component: {fileID: 863670208}
   m_Layer: 5
   m_Name: Keyboard
   m_TagString: Untagged
@@ -4005,28 +3911,6 @@ RectTransform:
   m_AnchoredPosition: {x: -670.39, y: 302.41}
   m_SizeDelta: {x: 166.24, y: 108.4}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &863670208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863670206}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3274fda82a6e2d4299e522e81fd2e04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SettingsMenuButton
-  buttonType: 0
-  startScreenName: StartMenu
-  keyboardTab: {fileID: 0}
-  controllerTab: {fileID: 0}
-  displayTab: {fileID: 0}
-  soundTab: {fileID: 0}
-  settingsTab: {fileID: 0}
-  ArrowPrefab: {fileID: 165010807854659853, guid: c78c1c7fbce123e41a00b42b6b81dce7, type: 3}
-  ArrowWidth: 200
-  ArrowHeight: 200
 --- !u!61 &863670209
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4558,7 +4442,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3106843960147394512, guid: 2ed3448b4da667649bb55eef7592de33, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9720
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3106843960147394512, guid: 2ed3448b4da667649bb55eef7592de33, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5169,7 +5053,6 @@ GameObject:
   - component: {fileID: 1246848001}
   - component: {fileID: 1246848000}
   - component: {fileID: 1246847999}
-  - component: {fileID: 1246847998}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -5197,28 +5080,6 @@ RectTransform:
   m_AnchoredPosition: {x: 355.92996, y: 302.41}
   m_SizeDelta: {x: 117.39, y: 113.7}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1246847998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1246847996}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3274fda82a6e2d4299e522e81fd2e04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SettingsMenuButton
-  buttonType: 4
-  startScreenName: StartMenu
-  keyboardTab: {fileID: 0}
-  controllerTab: {fileID: 0}
-  displayTab: {fileID: 0}
-  soundTab: {fileID: 0}
-  settingsTab: {fileID: 0}
-  ArrowPrefab: {fileID: 165010807854659853, guid: c78c1c7fbce123e41a00b42b6b81dce7, type: 3}
-  ArrowWidth: 200
-  ArrowHeight: 200
 --- !u!61 &1246847999
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5338,19 +5199,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1246848000}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1246847998}
-        m_TargetAssemblyTypeName: SettingsMenuButton, Assembly-CSharp
-        m_MethodName: ActivateButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!222 &1246848003
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5858,7 +5707,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3106843960147394512, guid: 2ed3448b4da667649bb55eef7592de33, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9720
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3106843960147394512, guid: 2ed3448b4da667649bb55eef7592de33, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6764,7 +6613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3106843960147394512, guid: 2ed3448b4da667649bb55eef7592de33, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9720
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3106843960147394512, guid: 2ed3448b4da667649bb55eef7592de33, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7630,7 +7479,6 @@ GameObject:
   - component: {fileID: 1951485072}
   - component: {fileID: 1951485071}
   - component: {fileID: 1951485070}
-  - component: {fileID: 1951485069}
   m_Layer: 5
   m_Name: Quit
   m_TagString: Untagged
@@ -7658,28 +7506,6 @@ RectTransform:
   m_AnchoredPosition: {x: 621.42993, y: 302.41}
   m_SizeDelta: {x: 98.87, y: 108.4}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1951485069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1951485067}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3274fda82a6e2d4299e522e81fd2e04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SettingsMenuButton
-  buttonType: 5
-  startScreenName: StartMenu
-  keyboardTab: {fileID: 0}
-  controllerTab: {fileID: 0}
-  displayTab: {fileID: 0}
-  soundTab: {fileID: 0}
-  settingsTab: {fileID: 0}
-  ArrowPrefab: {fileID: 165010807854659853, guid: c78c1c7fbce123e41a00b42b6b81dce7, type: 3}
-  ArrowWidth: 200
-  ArrowHeight: 200
 --- !u!61 &1951485070
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7799,19 +7625,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1951485071}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1951485069}
-        m_TargetAssemblyTypeName: SettingsMenuButton, Assembly-CSharp
-        m_MethodName: ActivateButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!222 &1951485074
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9058,7 +8872,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3106843960147394512, guid: 2ed3448b4da667649bb55eef7592de33, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9720
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3106843960147394512, guid: 2ed3448b4da667649bb55eef7592de33, type: 3}
       propertyPath: m_LocalRotation.w
