@@ -17,35 +17,31 @@ public class SpecialItemPickup : ItemPickup
 
     public void Update()
     {
-
+        if (specialItem != null && Input.GetKeyDown(KeyCode.X))
+        {
+            ConfirmItem();
+        }
     }
 
     public override void AddItem(ItemPickupSO item)
     {
-        item = specialItem;
-
-        // instantiate "OK" prompt
-        GameObject pickupConf = Instantiate(UIPromptPrefab);
-        PromptUI promptProperties = pickupConf.GetComponent<PromptUI>();
-
-        promptProperties.promptText = "OK";
+        GetComponent<ToolTipManager>().Prompt("OK");
 
         // instantiate normal item showcase
         GameObject itemShowcase = Instantiate(UISpecialItemPickup);
         NormalItemPickupUI normalItemShowcaseProperties = itemShowcase.GetComponent<NormalItemPickupUI>();
 
         // assign to item
-        item.promptUIObj = pickupConf;
-        item.itemShowcaseUIObj = itemShowcase;
+        specialItem = item;
+        specialItem.itemShowcaseUIObj = itemShowcase;
     }
 
     public override void ConfirmItem()
     {
-
         // pseudocode: add item to inventory
-
-        Destroy(specialItem.promptUIObj);
+        
         Destroy(specialItem.itemShowcaseUIObj);
+        specialItem = null;
 
     }
 }

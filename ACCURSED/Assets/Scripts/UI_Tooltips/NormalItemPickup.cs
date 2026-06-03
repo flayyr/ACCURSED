@@ -6,7 +6,7 @@ public class NormalItemPickup : ItemPickup
     [SerializeField] GameObject UIPromptPrefab;
     [SerializeField] GameObject UINormalItemPickup;
 
-    public Queue<ItemPickupSO> itemPickupQueue;
+    public Queue<ItemPickupSO> itemPickupQueue = new Queue<ItemPickupSO>();
     void Awake()
     {
         
@@ -14,25 +14,23 @@ public class NormalItemPickup : ItemPickup
 
     public void Update()
     {
-     
+        if (itemPickupQueue.Count > 0 && Input.GetKeyDown(KeyCode.X))
+        {
+            ConfirmItem();
+        }
     }
     public override void AddItem(ItemPickupSO item)
     {
         itemPickupQueue.Enqueue(item);
 
         // instantiate "OK" prompt
-        GameObject pickupConf = Instantiate(UIPromptPrefab);
-        PromptUI promptProperties = pickupConf.GetComponent<PromptUI>();
-
-        promptProperties.promptText = "OK";
+        GetComponent<ToolTipManager>().Prompt("OK");
 
         // instantiate normal item showcase
         GameObject itemShowcase = Instantiate(UINormalItemPickup);
-        NormalItemPickupUI normalItemShowcaseProperties = itemShowcase.GetComponent<NormalItemPickupUI>();
 
         // assign to item
-        item.promptUIObj = pickupConf;
-        item.itemShowcaseUIObj = itemShowcase;
+        item.itemShowcaseUIObj = itemShowcase; ;
 
     }
 
@@ -41,8 +39,6 @@ public class NormalItemPickup : ItemPickup
         ItemPickupSO item = itemPickupQueue.Dequeue();
 
         // pseudocode: add item to inventory
-
-        Destroy(item.promptUIObj);
         Destroy(item.itemShowcaseUIObj);
 
     }

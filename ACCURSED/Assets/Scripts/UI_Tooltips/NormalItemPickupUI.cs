@@ -16,6 +16,7 @@ public class NormalItemPickupUI : MonoBehaviour
     {
         imgUI.GetComponent<Image>().sprite = item.itemSpr;
         nameUI.GetComponent<TextMeshProUGUI>().text = item.itemName;
+
         quantityUI.GetComponent<TextMeshProUGUI>().text = (item.itemQuantity != 0) ? "x" + item.itemQuantity : "x1";
 
     }

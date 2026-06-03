@@ -7,8 +7,8 @@ public class ItemPickupSO : ScriptableObject
     public string itemName;
     public string itemDesc;
     public bool isSpecialItem;
-    public int itemQuantity; // if isSpecialItem == true, this has cannot be greater than 1
+    public int itemQuantity = 1; // WIP: to be implemented to be assigned from TooltipManager, not manually
 
-    public GameObject promptUIObj;
+    //public GameObject promptUIObj;
     public GameObject itemShowcaseUIObj;
 }

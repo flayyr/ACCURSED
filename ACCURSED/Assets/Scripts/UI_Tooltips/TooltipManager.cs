@@ -13,6 +13,7 @@ public class ToolTipManager : MonoBehaviour
     [SerializeField] GameObject toolTipPrefab;
 
     public List<ItemPickupSO> debugList; //debug
+    public ItemPickupSO debugItem; //debug
 
     private Queue<ItemPickupSO> items = new Queue<ItemPickupSO>();
 
@@ -21,8 +22,7 @@ public class ToolTipManager : MonoBehaviour
 
 
     private Action currentAction;
-
-    //private float basePopUpYPos = -144f; // y pos of normal item pickup ui popup
+    private GameObject currentPrompt;
 
     void Awake()
     {
@@ -30,23 +30,36 @@ public class ToolTipManager : MonoBehaviour
     }
     public void PromptAppear()
     {
+        if (promptOpen) { return; }
+
         promptOpen = true;
-        GameObject promptIns = Instantiate(UIPromptPrefab);
+        currentPrompt = Instantiate(UIPromptPrefab);
+
+        PromptUI ui = currentPrompt.GetComponent<PromptUI>();
+        ui.SetText(promptText);
     }
 
-    public void PromptDisappear() 
+    public void PromptDisappear()
     {
         promptOpen = false;
-        UIPromptPrefab.SetActive(false);
+
+        if (currentPrompt != null)
+        {
+            Destroy(currentPrompt);
+            currentPrompt = null;
+        }
     }
 
     private void CheckPromptTrigger()
     {
         if (promptOpen && Input.GetKeyDown(KeyCode.X))
         {
+            if (GetComponent<NormalItemPickup>().itemPickupQueue.Count < 1)
+            {
+                PromptDisappear();
+            }
             currentAction?.Invoke();
             currentAction = null;
-            PromptDisappear();
         }
     }
 
@@ -54,42 +67,54 @@ public class ToolTipManager : MonoBehaviour
     public void Prompt(string promptText)
     {
         this.promptText = promptText;
+        PromptAppear();
 
         currentAction = () =>
         {
-            Debug.Log("Interacted");
+            // Depends on interactable type
         };
     }
 
-    // Multiple item pickup (can only be used for normal items)
-    public void Prompt(string PromptText, List<ItemPickupSO> items)
+    // Multiple item pickup (can only be used for normal items). Uses dictionary for item stacking (see StackItems)
+    public void Prompt(string promptText, List<ItemPickupSO> items)
     {
-        promptText = PromptText;
+        this.promptText = promptText;
+        PromptAppear();
 
         currentAction = () =>
         {
-            foreach (ItemPickupSO item in items)
+            var stackedItems = StackItems(items);
+
+            foreach (var entry in stackedItems)
             {
-                UINormalItemPrefab.GetComponent<NormalItemPickup>().AddItem(item);
+                string itemName = entry.Key;
+                int totalQuantity = entry.Value;
+
+                ItemPickupSO newItem = ScriptableObject.CreateInstance<ItemPickupSO>();
+
+                newItem.itemName = itemName;
+                newItem.itemQuantity = totalQuantity;
+
+                GetComponent<NormalItemPickup>().AddItem(newItem);
             }
         };
-        
     }
 
     // Singular item pickup, normal or special item
     public void Prompt(string PromptText, ItemPickupSO item) 
     {
         promptText = PromptText;
+        PromptAppear();
 
         currentAction = () =>
         {
             if (item.isSpecialItem)
             {
-                UISpecialItemPrefab.GetComponent<SpecialItemPickup>().AddItem(item);
+                GetComponent<SpecialItemPickup>().AddItem(item);
             }
             else
             {
-                UINormalItemPrefab.GetComponent<NormalItemPickup>().AddItem(item);
+                GetComponent<NormalItemPickup>().AddItem(item);
             }
         };
     }
@@ -99,13 +124,45 @@ public class ToolTipManager : MonoBehaviour
     {
         CheckPromptTrigger();
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) // debug command, normally triggered by if you approach a point too close
+        /* debug commands, normally triggered by if you approach a point too close. 
+         * 1 = regular interactable tooltip
+         * 2 = to loot multiple normal items
+         * 3 = to loot a singular special item */
+
+        if (Input.GetKeyDown(KeyCode.Alpha1)) 
         {
-            PromptAppear();
+            Prompt("Rest");
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
             Prompt("Loot", debugList);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Prompt("Loot", debugItem);
         }
 
         // if (too far away) { PromptDisappear }
+    }
+
+    // Used for stacking multiple normal items for cleaner UI
+    private Dictionary<string, int> StackItems(List<ItemPickupSO> items)
+    {
+        Dictionary<string, int> stacked = new Dictionary<string, int>();
+
+        foreach (ItemPickupSO item in items)
+        {
+            if (stacked.ContainsKey(item.itemName))
+            {
+                stacked[item.itemName] += item.itemQuantity;
+            }
+            else
+            {
+                stacked[item.itemName] = item.itemQuantity;
+            }
+        }
+
+        return stacked;
     }
 
 

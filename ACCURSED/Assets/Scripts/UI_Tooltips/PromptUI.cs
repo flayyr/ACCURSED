@@ -3,20 +3,10 @@ using TMPro;
 
 public class PromptUI : MonoBehaviour
 {
-    [SerializeField] GameObject promptTextUI;
-    [SerializeField] NormalItemPickup normalItemPickup;
+    [SerializeField] private TextMeshProUGUI promptTextUI;
 
-    public string promptText;
-
-    void Awake()
+    public void SetText(string text)
     {
-
-    }
-
-
-    void Update()
-    {
-        promptTextUI.GetComponent<TextMeshProUGUI>().text = "[X] " + promptText;
-
+        promptTextUI.text = "[X] " + text;
     }
 }
