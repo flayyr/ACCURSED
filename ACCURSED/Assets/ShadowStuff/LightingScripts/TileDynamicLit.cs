@@ -22,6 +22,7 @@ public class TileDynamicLit : MonoBehaviour
 
     private void Update()
     {
+        //assigns the currently loaded lights into the material
         affectingLights = LightManager.instance.GetLoadedLights();
 
         for (int i = 0; i < 16; i++)

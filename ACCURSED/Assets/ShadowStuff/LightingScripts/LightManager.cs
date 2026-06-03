@@ -46,6 +46,7 @@ public class LightManager : MonoBehaviour
             return;
         }
 
+        //only run rest of script every cullInterval seconds
         if (cullTimer > 0)
         {
             cullTimer-=Time.deltaTime;
@@ -53,12 +54,16 @@ public class LightManager : MonoBehaviour
         }
         cullTimer = cullInterval;
 
+        //calculate camera bounding box
         boundsBotLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, cam.nearClipPlane));
         boundsTopRight = cam.ViewportToWorldPoint(new Vector3(1, 1, cam.nearClipPlane));
 
         boundsBotLeft -= Vector2.one * lightCullBuffer;
         boundsTopRight += Vector2.one * lightCullBuffer;
 
+
+
+        //badly written code that disables/enables light based on camera bounds
         Queue<LightBehavior> addToUsed = new Queue<LightBehavior>();
 
         foreach (LightBehavior lightBehavior in unusedLightBehaviors)
@@ -86,6 +91,7 @@ public class LightManager : MonoBehaviour
         while (addToUsed.Count > 0)
         {
             LightBehavior curr = addToUsed.Dequeue();
+            curr.enabled = true;
             lightBehaviors.Add(curr);
             unusedLightBehaviors.Remove(curr);
 
@@ -93,6 +99,7 @@ public class LightManager : MonoBehaviour
         while (addToUnused.Count > 0)
         {
             LightBehavior curr = addToUnused.Dequeue();
+            curr.enabled = false;
             unusedLightBehaviors.Add(curr);
             lightBehaviors.Remove(curr);
         }
@@ -103,7 +110,7 @@ public class LightManager : MonoBehaviour
         OnAmbientUpdate?.Invoke(this);
     }
 
-    //V3 SHADER SCRIPT
+    //For Lit objects
     public Light[] FindAffectingLights(Vector3 minBound, Vector3 maxBound)
     {
         Light[] output = new Light[4];
@@ -129,16 +136,17 @@ public class LightManager : MonoBehaviour
             }
         }
 
+        //fill the array with empty lights if there are less than 4 affecting lights
         Light newLight = new Light();
         
         for(int i = count; i<4; i++)
         {
             output[i] = newLight;
         }
-
         return output;
     }
 
+    //For tilemap, returns all loaded lights (up to 16)
     public Light[] GetLoadedLights()
     {
         Light[] output = new Light[16];

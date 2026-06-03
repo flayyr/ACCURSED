@@ -48,6 +48,7 @@ public class CustomDynamicLit : MonoBehaviour
 
     private void Start()
     {
+        //in Start because LightManager instance is assigned in Awake
         UpdateAmbientLight(LightManager.instance);
     }
 
@@ -92,7 +93,7 @@ public class CustomDynamicLit : MonoBehaviour
 
                 if (useAdditionalShadow)
                 {
-                    Material currShadowMat = shadowRenderers[i+1].material;
+                    Material currShadowMat = shadowRenderers[i+1].material; //i+1 because 0 is used for ambient light
                     currShadowMat.SetVector("_LightDirection", (Vector2)(transform.position - affectingLights[i].lightPosition));
                     currShadowMat.SetFloat("_LightIntensity", affectingLights[i].lightIntensity);
                     currShadowMat.SetFloat("_LightRadius", affectingLights[i].lightRadius);

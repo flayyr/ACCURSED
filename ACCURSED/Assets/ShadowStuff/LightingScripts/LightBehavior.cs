@@ -18,6 +18,7 @@ public class LightBehavior : MonoBehaviour
 
     void Update()
     {
+        //update depth value, may consider moving this out of update
         if (parentRenderer == null)
         {
             lightData.lightPosition = new Vector3(transform.position.x, transform.position.y, transform.position.y);
