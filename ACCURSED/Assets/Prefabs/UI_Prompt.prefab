@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4961611133796176426}
   - component: {fileID: 6455812271230661614}
   - component: {fileID: 8570766711226526751}
+  - component: {fileID: 7213793671834106396}
   m_Layer: 0
   m_Name: UI_Prompt
   m_TagString: Untagged
@@ -103,6 +104,22 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &7213793671834106396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867375199657645726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b46d66789227ca449640a660c1fc9eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PromptUI
+  promptTextUI: {fileID: 2632024948950155211}
+  normalItemPickup: {fileID: 0}
+  curScenario: 0
+  promptText: 
 --- !u!1 &2282493413224549234
 GameObject:
   m_ObjectHideFlags: 0

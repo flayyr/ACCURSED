@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UI;
-using TMPro;
+using System;
 using static UnityEditor.Progress;
 
 // This class manages the overall Item Pickup UI System 
@@ -17,52 +16,96 @@ public class ToolTipManager : MonoBehaviour
 
     private Queue<ItemPickupSO> items = new Queue<ItemPickupSO>();
 
-    private float basePopUpYPos = -144f; // y pos of normal item pickup ui popup
+    private bool promptOpen;
+    private string promptText;
 
-    public void ManagePickupUI()
+
+    private Action currentAction;
+
+    //private float basePopUpYPos = -144f; // y pos of normal item pickup ui popup
+
+    void Awake()
     {
-        
+        promptOpen = false;
+    }
+    public void PromptAppear()
+    {
+        promptOpen = true;
+        GameObject promptIns = Instantiate(UIPromptPrefab);
+    }
+
+    public void PromptDisappear() 
+    {
+        promptOpen = false;
+        UIPromptPrefab.SetActive(false);
+    }
+
+    private void CheckPromptTrigger()
+    {
+        if (promptOpen && Input.GetKeyDown(KeyCode.X))
+        {
+            currentAction?.Invoke();
+            currentAction = null;
+            PromptDisappear();
+        }
     }
 
     // Normal interaction tooltip
-    public void Prompt(string promptText) 
+    public void Prompt(string promptText)
     {
+        this.promptText = promptText;
 
+        currentAction = () =>
+        {
+            Debug.Log("Interacted");
+        };
     }
 
     // Multiple item pickup (can only be used for normal items)
     public void Prompt(string PromptText, List<ItemPickupSO> items)
     {
-        foreach (ItemPickupSO item in items)
-        {
-            UINormalItemPrefab.GetComponent<NormalItemPickup>().AddItem(item);
-        }
+        promptText = PromptText;
 
+        currentAction = () =>
+        {
+            foreach (ItemPickupSO item in items)
+            {
+                UINormalItemPrefab.GetComponent<NormalItemPickup>().AddItem(item);
+            }
+        };
+        
     }
 
     // Singular item pickup, normal or special item
     public void Prompt(string PromptText, ItemPickupSO item) 
     {
-        if (item.isSpecialItem)
+        promptText = PromptText;
+
+        currentAction = () =>
         {
-            UISpecialItemPrefab.GetComponent<SpecialItemPickup>().AddItem(item);
-        }
-        else
-        {
-            UISpecialItemPrefab.GetComponent<SpecialItemPickup>().AddItem(item);
-        }
+            if (item.isSpecialItem)
+            {
+                UISpecialItemPrefab.GetComponent<SpecialItemPickup>().AddItem(item);
+            }
+            else
+            {
+                UINormalItemPrefab.GetComponent<NormalItemPickup>().AddItem(item);
+            }
+        };
     }
+
 
     public void Update()
     {
-        //ManagePickupUI();
+        CheckPromptTrigger();
 
-
-
-        if (Input.GetKeyDown(KeyCode.Alpha1)) // debug command
+        if (Input.GetKeyDown(KeyCode.Alpha1)) // debug command, normally triggered by if you approach a point too close
         {
+            PromptAppear();
             Prompt("Loot", debugList);
         }
+
+        // if (too far away) { PromptDisappear }
     }
 
 
