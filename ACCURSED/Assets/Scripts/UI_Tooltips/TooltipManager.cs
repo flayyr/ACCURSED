@@ -87,13 +87,14 @@ public class ToolTipManager : MonoBehaviour
 
             foreach (var entry in stackedItems)
             {
-                string itemName = entry.Key;
-                int totalQuantity = entry.Value;
+                StackedItem stackedItem = entry.Value;
 
-                ItemPickupSO newItem = ScriptableObject.CreateInstance<ItemPickupSO>();
+                ItemPickupSO newItem =
+                    ScriptableObject.CreateInstance<ItemPickupSO>();
 
-                newItem.itemName = itemName;
-                newItem.itemQuantity = totalQuantity;
+                newItem.itemName = stackedItem.itemName;
+                newItem.itemQuantity = stackedItem.itemQuantity;
+                newItem.itemSpr = stackedItem.itemSpr;
 
                 GetComponent<NormalItemPickup>().AddItem(newItem);
             }
@@ -146,19 +147,24 @@ public class ToolTipManager : MonoBehaviour
     }
 
     // Used for stacking multiple normal items for cleaner UI
-    private Dictionary<string, int> StackItems(List<ItemPickupSO> items)
+    private Dictionary<string, StackedItem> StackItems(List<ItemPickupSO> items)
     {
-        Dictionary<string, int> stacked = new Dictionary<string, int>();
+        Dictionary<string, StackedItem> stacked = new();
 
         foreach (ItemPickupSO item in items)
         {
             if (stacked.ContainsKey(item.itemName))
             {
-                stacked[item.itemName] += item.itemQuantity;
+                stacked[item.itemName].itemQuantity += item.itemQuantity;
             }
             else
             {
-                stacked[item.itemName] = item.itemQuantity;
+                stacked[item.itemName] = new StackedItem
+                {
+                    itemName = item.itemName,
+                    itemQuantity = item.itemQuantity,
+                    itemSpr = item.itemSpr
+                };
             }
         }
 

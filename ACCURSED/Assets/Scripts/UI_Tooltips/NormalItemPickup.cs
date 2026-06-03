@@ -5,6 +5,7 @@ public class NormalItemPickup : ItemPickup
 {
     [SerializeField] GameObject UIPromptPrefab;
     [SerializeField] GameObject UINormalItemPickup;
+    [SerializeField] private Transform container;
 
     public Queue<ItemPickupSO> itemPickupQueue = new Queue<ItemPickupSO>();
     void Awake()
@@ -27,10 +28,16 @@ public class NormalItemPickup : ItemPickup
         GetComponent<ToolTipManager>().Prompt("OK");
 
         // instantiate normal item showcase
-        GameObject itemShowcase = Instantiate(UINormalItemPickup);
+
+        GameObject itemShowcase = Instantiate(UINormalItemPickup, container, false);
+        itemShowcase.transform.SetAsFirstSibling();
+
+        NormalItemPickupUI ui = itemShowcase.GetComponent<NormalItemPickupUI>();
+        ui.Initialize(item);
+
 
         // assign to item
-        item.itemShowcaseUIObj = itemShowcase; ;
+        item.itemShowcaseUIObj = itemShowcase;
 
     }
 

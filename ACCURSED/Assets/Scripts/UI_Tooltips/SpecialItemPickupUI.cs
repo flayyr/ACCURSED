@@ -12,6 +12,13 @@ public class SpecialItemPickupUI : MonoBehaviour
     [SerializeField] GameObject nameUI;
     [SerializeField] GameObject descUI;
 
+    /*public SpecialItemPickupUI(ItemPickupSO item)
+    {
+        imgUI.GetComponent<Image>().sprite = item.itemSpr;
+        nameUI.GetComponent<TextMeshProUGUI>().text = item.itemName;
+        descUI.GetComponent<TextMeshProUGUI>().text = item.itemDesc;
+    }*/
+
     private void Awake()
     {
         imgUI.GetComponent<Image>().sprite = item.itemSpr;

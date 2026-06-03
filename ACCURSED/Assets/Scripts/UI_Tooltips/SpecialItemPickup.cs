@@ -6,6 +6,7 @@ public class SpecialItemPickup : ItemPickup
 {
     [SerializeField] GameObject UIPromptPrefab;
     [SerializeField] GameObject UISpecialItemPickup;
+    [SerializeField] private Transform container;
 
     public Queue<ItemPickupSO> itemPickupQueue;
 
@@ -28,8 +29,8 @@ public class SpecialItemPickup : ItemPickup
         GetComponent<ToolTipManager>().Prompt("OK");
 
         // instantiate normal item showcase
-        GameObject itemShowcase = Instantiate(UISpecialItemPickup);
-        NormalItemPickupUI normalItemShowcaseProperties = itemShowcase.GetComponent<NormalItemPickupUI>();
+        GameObject itemShowcase = Instantiate(UISpecialItemPickup, container, false);
+        NormalItemPickupUI normalItemShowcaseProperties = itemShowcase.GetComponent<NormalItemPickupUI>(); // this line might be useless but keeping here for security
 
         // assign to item
         specialItem = item;
