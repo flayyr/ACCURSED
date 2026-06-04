@@ -19,14 +19,10 @@ public class LightBehavior : MonoBehaviour
     void Update()
     {
         //update depth value, may consider moving this out of update
-        if (parentRenderer == null)
-        {
-            lightData.lightPosition = new Vector3(transform.position.x, transform.position.y, transform.position.y);
-        }
-        else
-        {
-            lightData.lightPosition = new Vector3(transform.position.x, transform.position.y, parentRenderer.sortingOrder);
-        }
+        float depth = (parentRenderer == null) ? transform.position.y : parentRenderer.sortingOrder;
+        depth *= -100f;
+
+        lightData.lightPosition = new Vector3(transform.position.x, transform.position.y, depth);
     }
 
     private void OnValidate()
