@@ -16,7 +16,7 @@ public class CustomDynamicLit : MonoBehaviour
 
     Material mat;
 
-    Light[] affectingLights;
+    CustomLight[] affectingLights;
 
     float depth;
 

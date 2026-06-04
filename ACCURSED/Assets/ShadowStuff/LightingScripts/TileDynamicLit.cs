@@ -9,7 +9,7 @@ public class TileDynamicLit : MonoBehaviour
 
     TilemapRenderer tilemapRenderer;
 
-    Light[] affectingLights;
+    CustomLight[] affectingLights;
 
     Material mat;
 

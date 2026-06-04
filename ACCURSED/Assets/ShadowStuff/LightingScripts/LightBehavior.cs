@@ -9,11 +9,11 @@ public class LightBehavior : MonoBehaviour
     [Header("Parent")]
     [SerializeField] SpriteRenderer parentRenderer;
 
-    [HideInInspector] public Light lightData;
+    [HideInInspector] public CustomLight lightData;
 
     private void Awake()
     {
-        lightData = new Light(lightRadius, lightIntensity, lightColor, lightPosition, parentRenderer);
+        lightData = new CustomLight(lightRadius, lightIntensity, lightColor, lightPosition, parentRenderer);
     }
 
     void Update()
@@ -31,20 +31,20 @@ public class LightBehavior : MonoBehaviour
 
     private void OnValidate()
     {
-        lightData = new Light(lightRadius, lightIntensity, lightColor, lightPosition, parentRenderer);
+        lightData = new CustomLight(lightRadius, lightIntensity, lightColor, lightPosition, parentRenderer);
     }
 
 
 }
 
-public class Light
+public class CustomLight
 {
     public float lightRadius;
     public float lightIntensity;
     public Color lightColor;
     [HideInInspector] public Vector3 lightPosition;
 
-    public Light(float lightRadius, float lightIntensity, Color lightColor, Vector3 lightPosition, SpriteRenderer parentRenderer)
+    public CustomLight(float lightRadius, float lightIntensity, Color lightColor, Vector3 lightPosition, SpriteRenderer parentRenderer)
     {
         this.lightRadius = lightRadius;
         this.lightIntensity = lightIntensity;
@@ -52,7 +52,7 @@ public class Light
         this.lightPosition = lightPosition;
     }
 
-    public Light()
+    public CustomLight()
     {
         lightRadius = 0;
         lightIntensity = 0;
