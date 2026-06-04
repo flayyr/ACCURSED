@@ -8,6 +8,8 @@ public class NormalItemPickup : ItemPickup
     [SerializeField] private Transform container;
 
     public Queue<ItemPickupSO> itemPickupQueue = new Queue<ItemPickupSO>();
+    bool addedNewObjectThisUpdate = false;
+
     void Awake()
     {
         
@@ -15,9 +17,16 @@ public class NormalItemPickup : ItemPickup
 
     public void Update()
     {
-        if (itemPickupQueue.Count > 0 && Input.GetKeyDown(KeyCode.X))
+        if (itemPickupQueue.Count > 0 && Input.GetKeyDown(KeyCode.X) && !addedNewObjectThisUpdate)
         {
             ConfirmItem();
+        }
+
+
+        //keep this at the bottom of update, it stops the new object from getting deleted the same frame it's added
+        if (addedNewObjectThisUpdate)
+        {
+            addedNewObjectThisUpdate = false;
         }
     }
     public override void AddItem(ItemPickupSO item)
@@ -31,6 +40,8 @@ public class NormalItemPickup : ItemPickup
 
         GameObject itemShowcase = Instantiate(UINormalItemPickup, container, false);
         itemShowcase.transform.SetAsFirstSibling();
+        addedNewObjectThisUpdate = true;
+
 
         NormalItemPickupUI ui = itemShowcase.GetComponent<NormalItemPickupUI>();
         ui.Initialize(item);

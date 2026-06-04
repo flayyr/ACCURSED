@@ -6,6 +6,7 @@ using static UnityEditor.Progress;
 // This class manages the overall Item Pickup UI System 
 public class ToolTipManager : MonoBehaviour
 {
+    [SerializeField] Transform parentCanvas;
     [SerializeField] GameObject UIPromptPrefab;
     [SerializeField] GameObject UINormalItemPrefab;
     [SerializeField] GameObject UISpecialItemPrefab;
@@ -33,7 +34,7 @@ public class ToolTipManager : MonoBehaviour
         if (promptOpen) { return; }
 
         promptOpen = true;
-        currentPrompt = Instantiate(UIPromptPrefab);
+        currentPrompt = Instantiate(UIPromptPrefab, parentCanvas);
 
         PromptUI ui = currentPrompt.GetComponent<PromptUI>();
         ui.SetText(promptText);
