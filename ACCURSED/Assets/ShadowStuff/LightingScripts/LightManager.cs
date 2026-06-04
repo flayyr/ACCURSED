@@ -111,14 +111,14 @@ public class LightManager : MonoBehaviour
     }
 
     //For Lit objects
-    public Light[] FindAffectingLights(Vector3 minBound, Vector3 maxBound)
+    public CustomLight[] FindAffectingLights(Vector3 minBound, Vector3 maxBound)
     {
-        Light[] output = new Light[4];
+        CustomLight[] output = new CustomLight[4];
         int count = 0;
 
         foreach (LightBehavior lightBehavior in lightBehaviors)
         {
-            Light light = lightBehavior.lightData;
+            CustomLight light = lightBehavior.lightData;
 
             float closestX = Mathf.Max(minBound.x, Mathf.Min( light.lightPosition.x, maxBound.x));
             float closestY = Mathf.Max(minBound.y, Mathf.Min(light.lightPosition.y, maxBound.y));
@@ -137,7 +137,7 @@ public class LightManager : MonoBehaviour
         }
 
         //fill the array with empty lights if there are less than 4 affecting lights
-        Light newLight = new Light();
+        CustomLight newLight = new CustomLight();
         
         for(int i = count; i<4; i++)
         {
@@ -147,10 +147,10 @@ public class LightManager : MonoBehaviour
     }
 
     //For tilemap, returns all loaded lights (up to 16)
-    public Light[] GetLoadedLights()
+    public CustomLight[] GetLoadedLights()
     {
-        Light[] output = new Light[16];
-        Light newLight = new Light();
+        CustomLight[] output = new CustomLight[16];
+        CustomLight newLight = new CustomLight();
         for (int i = 0; i<16; i++)
         {
             if (i < lightBehaviors.Count)
@@ -159,7 +159,7 @@ public class LightManager : MonoBehaviour
             }
             else
             {
-                output[i] = new Light();
+                output[i] = new CustomLight();
             }
         }
         return output;
