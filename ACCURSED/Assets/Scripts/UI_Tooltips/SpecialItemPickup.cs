@@ -19,7 +19,7 @@ public class SpecialItemPickup : ItemPickup
 
     public void Update()
     {
-        if (specialItem != null && Input.GetKeyDown(KeyCode.X))
+        if (specialItem != null && Input.GetKeyDown(KeyCode.X) && !addedNewObjectThisUpdate)
         {
             ConfirmItem();
         }
@@ -39,8 +39,9 @@ public class SpecialItemPickup : ItemPickup
         GameObject itemShowcase = Instantiate(UISpecialItemPickup, container, false);
         NormalItemPickupUI normalItemShowcaseProperties = itemShowcase.GetComponent<NormalItemPickupUI>(); // this line might be useless but keeping here for security
         
-        itemShowcase.transform.SetAsFirstSibling();
         addedNewObjectThisUpdate = true;
+
+        itemShowcase.GetComponent<SpecialItemPickupUI>().Initialize(item);
 
         // assign to item
         specialItem = item;

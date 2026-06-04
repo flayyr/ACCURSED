@@ -85,7 +85,6 @@ public class ToolTipManager : MonoBehaviour
         currentAction = () =>
         {
             var stackedItems = StackItems(items);
-
             foreach (var entry in stackedItems)
             {
                 StackedItem stackedItem = entry.Value;

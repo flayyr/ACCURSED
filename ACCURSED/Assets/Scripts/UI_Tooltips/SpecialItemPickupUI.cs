@@ -26,4 +26,10 @@ public class SpecialItemPickupUI : MonoBehaviour
         descUI.GetComponent<TextMeshProUGUI>().text = item.itemDesc;
     }
 
+    public void Initialize(ItemPickupSO item)
+    {
+        this.item = item;
+        Awake();
+    }
+
 }
