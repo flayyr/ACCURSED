@@ -1,5 +1,6 @@
 using UnityEditor.Rendering;
 using UnityEngine;
+using System.Collections.Generic;
 
 //[ExecuteAlways]
 public class CustomDynamicLit : MonoBehaviour
@@ -24,7 +25,15 @@ public class CustomDynamicLit : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.material = Resources.Load<Material>("CustomLitMat");
+
+        Material[] mats = spriteRenderer.materials;
+        List<Material> matlist = new List<Material>();
+        for(int i=0; i<mats.Length; i++)
+        {
+            matlist.Add(mats[i]);
+        }
+        matlist.Add(Resources.Load<Material>("CustomLitMat"));
+        spriteRenderer.SetMaterials(matlist);
 
         depth = transform.position.y;
         spriteRenderer.sortingOrder = (int)depth;
@@ -32,6 +41,11 @@ public class CustomDynamicLit : MonoBehaviour
         spriteRenderer.material.SetTexture("_NormalMap", normalMap.texture);
 
         mat = spriteRenderer.material;
+
+        if(shadowMat == null)
+        {
+            return;
+        }
 
         shadowRenderers = new SpriteRenderer[5];
         GameObject shadowPrefab = Resources.Load<GameObject>("ShadowPrefab");
@@ -82,6 +96,11 @@ public class CustomDynamicLit : MonoBehaviour
         spriteRenderer.sortingOrder = (int)depth;
         mat.SetFloat("_Depth", depth);
 
+        if (shadowMat == null)
+        {
+            return;
+        }
+
         for (int i = 0; i < 4; i++)
         {
             if (affectingLights[i] != null)
@@ -107,9 +126,12 @@ public class CustomDynamicLit : MonoBehaviour
     private void SetVisibility(bool visible)
     {
         spriteRenderer.enabled = visible;
-        for (int i = 0; i < shadowRenderers.Length; i++)
+        if (shadowMat != null)
         {
-            shadowRenderers[i].enabled = visible;
+            for (int i = 0; i < shadowRenderers.Length; i++)
+            {
+                shadowRenderers[i].enabled = visible;
+            }
         }
     }
 
@@ -128,9 +150,12 @@ public class CustomDynamicLit : MonoBehaviour
         mat.SetFloat("_AmbientLightIntensity", lightManager.ambientLightIntensity);
         mat.SetColor("_AmbientLightColor", lightManager.ambientLightColor);
 
-        Material ambientShadowMat = shadowRenderers[0].material;
-        ambientShadowMat.SetVector("_LightDirection", lightManager.ambientLightDirection.normalized);
-        ambientShadowMat.SetFloat("_LightRadius", ambientShadowStrength+1);
-        ambientShadowMat.SetFloat("_LightIntensity", lightManager.ambientLightIntensity);
+        if (shadowMat != null)
+        {
+            Material ambientShadowMat = shadowRenderers[0].material;
+            ambientShadowMat.SetVector("_LightDirection", lightManager.ambientLightDirection.normalized);
+            ambientShadowMat.SetFloat("_LightRadius", ambientShadowStrength + 1);
+            ambientShadowMat.SetFloat("_LightIntensity", lightManager.ambientLightIntensity);
+        }
     }
 }
