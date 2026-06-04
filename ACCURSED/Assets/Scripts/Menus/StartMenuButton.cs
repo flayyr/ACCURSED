@@ -131,6 +131,10 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
         if (currentScene != startScreenName)
         {
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            PlayerPrefs.SetString("LastScene", currentSceneName);
+            PlayerPrefs.Save();
+
             SceneManager.LoadScene(startScreenName);
             return;
         }
@@ -159,6 +163,10 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 break;
 
             case ButtonType.Settings:
+                string currentSceneName = SceneManager.GetActiveScene().name;
+                PlayerPrefs.SetString("LastScene", currentSceneName);
+                PlayerPrefs.Save();
+
                 SceneManager.LoadScene(settingName);
                 break;
 

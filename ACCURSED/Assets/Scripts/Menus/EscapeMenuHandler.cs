@@ -22,9 +22,17 @@ public class EscapeMenuHandler : MonoBehaviour
 
         if (currentScene != startScreenName)
         {
-            SceneManager.LoadScene(startScreenName);
-            return;
+            if (PlayerPrefs.HasKey("LastScene"))
+            {
+                string previousScene = PlayerPrefs.GetString("LastScene");
+                SceneManager.LoadScene(previousScene);
+                return;
+            }
+            else
+            {
+                SceneManager.LoadScene(startScreenName);
+                return;
+            }
         }
     }
-
 }
