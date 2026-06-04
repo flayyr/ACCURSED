@@ -9,6 +9,7 @@ public class SpecialItemPickup : ItemPickup
     [SerializeField] private Transform container;
 
     public Queue<ItemPickupSO> itemPickupQueue;
+    bool addedNewObjectThisUpdate = false;
 
     private ItemPickupSO specialItem;
     void Awake()
@@ -18,9 +19,15 @@ public class SpecialItemPickup : ItemPickup
 
     public void Update()
     {
-        if (specialItem != null && Input.GetKeyDown(KeyCode.X))
+        if (specialItem != null && Input.GetKeyDown(KeyCode.X) && !addedNewObjectThisUpdate)
         {
             ConfirmItem();
+        }
+
+        //keep this at the bottom of update, it stops the new object from getting deleted the same frame it's added
+        if (addedNewObjectThisUpdate)
+        {
+            addedNewObjectThisUpdate = false;
         }
     }
 
@@ -31,6 +38,10 @@ public class SpecialItemPickup : ItemPickup
         // instantiate normal item showcase
         GameObject itemShowcase = Instantiate(UISpecialItemPickup, container, false);
         NormalItemPickupUI normalItemShowcaseProperties = itemShowcase.GetComponent<NormalItemPickupUI>(); // this line might be useless but keeping here for security
+        
+        addedNewObjectThisUpdate = true;
+
+        itemShowcase.GetComponent<SpecialItemPickupUI>().Initialize(item);
 
         // assign to item
         specialItem = item;
