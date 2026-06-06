@@ -57,7 +57,10 @@ public class NormalItemPickup : ItemPickup
         ItemPickupSO item = itemPickupQueue.Dequeue();
 
         // pseudocode: add item to inventory
-        Destroy(item.itemShowcaseUIObj);
+
+        // transition and destroy
+        NormalItemPickupUI ui = item.itemShowcaseUIObj.GetComponent<NormalItemPickupUI>();
+        ui.Confirmed();
 
     }
 }
