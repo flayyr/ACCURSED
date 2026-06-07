@@ -55,7 +55,7 @@ public class ToolTipManager : MonoBehaviour
     {
         if (promptOpen && Input.GetKeyDown(KeyCode.X))
         {
-            if (GetComponent<NormalItemPickup>().itemPickupQueue.Count < 1)
+            if (GetComponent<NormalItemPickup>().itemPickupQueue.Count < 2)
             {
                 PromptDisappear();
             }
