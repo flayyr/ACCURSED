@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-//[ExecuteAlways]
 public class LightManager : MonoBehaviour
 {
     public static LightManager instance;
@@ -37,6 +36,7 @@ public class LightManager : MonoBehaviour
         LightBehavior[] lightBehaviorsArray =  FindObjectsByType<LightBehavior>(FindObjectsSortMode.None);
         lightBehaviors = new List<LightBehavior>(lightBehaviorsArray);
         cullTimer = 0;
+        OnAmbientUpdate?.Invoke(this);
     }
 
     private void Update()
