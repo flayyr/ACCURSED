@@ -44,7 +44,7 @@ public class NormalItemPickupUI : MonoBehaviour
     private IEnumerator ConfirmedRoutine()
     {
         Debug.Log("ConfirmedRoutine");
-        yield return StartCoroutine(UITransitions.Instance.FadeTransformYTransition(canvas, 1f, 0f, 0f, -80f, 0.3f));
+        yield return StartCoroutine(UITransitions.Instance.FadeTransformYTransition(canvas, 1f, 0f, 0f, -160f, 0.3f));
         Destroy(gameObject);
     }
 

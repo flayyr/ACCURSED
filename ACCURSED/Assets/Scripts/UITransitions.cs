@@ -3,7 +3,9 @@ using System.Collections;
 
 public class UITransitions : MonoBehaviour
 {
-    // GLOBAL METHODS USED FOR TRANSITIONS
+    /* GLOBAL METHODS USED FOR TRANSITIONS
+    * feel free to overload for more scenarios!!
+    */
     public static UITransitions Instance { get; private set; }
 
     private void Awake()
@@ -34,6 +36,7 @@ public class UITransitions : MonoBehaviour
 
         canvas.alpha = endAlp;
     }
+
     // transform horizontally AND fade
     public IEnumerator FadeTransformXTransition(CanvasGroup canvas, float startAlp, float endAlp, float startX, float endX, float dur)
     {
