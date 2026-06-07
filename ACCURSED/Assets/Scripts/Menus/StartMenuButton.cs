@@ -24,6 +24,10 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public string settingName = "SettingScene";
     public string creditName = "CreditScene";
 
+    [Header("Settings Prefab")]
+    public GameObject settingsPrefab;
+    public bool enableSettings = false;
+
     [Header("Selection Visualization")]
     public float selectedScale = 1.2f;
     public float scaleSpeed = 12f;
@@ -127,14 +131,16 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (!Input.GetKeyDown(KeyCode.Escape))
             return;
 
+        if (enableSettings)
+        {
+            enableSettings = false;
+            return;
+        }
+
         string currentScene = SceneManager.GetActiveScene().name;
 
         if (currentScene != startScreenName)
         {
-            string currentSceneName = SceneManager.GetActiveScene().name;
-            PlayerPrefs.SetString("LastScene", currentSceneName);
-            PlayerPrefs.Save();
-
             SceneManager.LoadScene(startScreenName);
             return;
         }
@@ -163,11 +169,7 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 break;
 
             case ButtonType.Settings:
-                string currentSceneName = SceneManager.GetActiveScene().name;
-                PlayerPrefs.SetString("LastScene", currentSceneName);
-                PlayerPrefs.Save();
-
-                SceneManager.LoadScene(settingName);
+                ToggleSettings();
                 break;
 
             case ButtonType.Credits:
@@ -330,6 +332,22 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         {
             Destroy(rightArrowInstance);
             rightArrowInstance = null;
+        }
+    }
+
+    public void ToggleSettings()
+    {
+        if (!enableSettings)
+        {
+            enableSettings = true;
+            settingsPrefab.SetActive(true);
+            return;
+        }
+        else
+        {
+            enableSettings = false;
+            settingsPrefab.SetActive(true);
+            return;
         }
     }
 
