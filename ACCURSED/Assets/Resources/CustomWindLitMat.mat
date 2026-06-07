@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4978110939873222884
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  version: 10
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CustomWindLitMat
+  m_Shader: {fileID: -6465566751694194690, guid: 7077cd2556965ce40a0e3a6ec41455dc, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _USEWIND
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 23e697eb522359b4ba2fe77f54091c8c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AmbientLightIntensity: 0.29
+    - _BackLitDimmingStrength: 4
+    - _BackLitFadeDistance: 1
+    - _Depth: 0
+    - _LightIntensity: 0.7
+    - _LightIntensity0: 0.7
+    - _LightIntensity1: 0.7
+    - _LightIntensity2: 0.7
+    - _LightIntensity3: 0
+    - _LightRadius: 4
+    - _LightRadius0: 4
+    - _LightRadius1: 4
+    - _LightRadius2: 4
+    - _LightRadius3: 0
+    - _NormalMapStrength: 0.4
+    - _USEWIND: 1
+    - _WindSpeed: 0.3
+    - _WindStrength: 0.007
+    m_Colors:
+    - White: {r: 1, g: 1, b: 1, a: 1}
+    - _AmbientLightColor: {r: 1, g: 0.84435576, b: 0.5330188, a: 1}
+    - _LightColor: {r: 1, g: 1, b: 1, a: 0}
+    - _LightColor0: {r: 1, g: 1, b: 1, a: 0}
+    - _LightColor1: {r: 1, g: 1, b: 1, a: 0}
+    - _LightColor2: {r: 1, g: 1, b: 1, a: 0}
+    - _LightColor3: {r: 1, g: 1, b: 1, a: 0}
+    - _LightHue0: {r: 1, g: 0, b: 0, a: 0}
+    - _LightHue1: {r: 1, g: 1, b: 1, a: 0}
+    - _LightHue2: {r: 1, g: 1, b: 1, a: 0}
+    - _LightHue3: {r: 0, g: 0, b: 0, a: 1}
+    - _LightPosition: {r: 4.38, g: 1.14, b: 1.14, a: 0}
+    - _LightPosition0: {r: -0.15, g: -2.5, b: -2.5, a: 0}
+    - _LightPosition1: {r: 5.24, g: -2.44, b: -2.44, a: 0}
+    - _LightPosition2: {r: 6.47, g: 2.52, b: 2.52, a: 0}
+    - _LightPosition3: {r: 0, g: 0, b: 0, a: 0}
+    - _Light_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

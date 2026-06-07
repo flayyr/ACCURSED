@@ -10,6 +10,7 @@ public class CustomDynamicLit : MonoBehaviour
     [SerializeField] Material shadowMat;
     [SerializeField] Sprite ShadowSprite;
     [SerializeField] float ambientShadowStrength;
+    [SerializeField] bool useWind;
 
     SpriteRenderer spriteRenderer;
     SpriteRenderer[] shadowRenderers;
@@ -25,22 +26,20 @@ public class CustomDynamicLit : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        Material[] mats = spriteRenderer.materials;
-        List<Material> matlist = new List<Material>();
-        for(int i=0; i<mats.Length; i++)
+        if(useWind)
         {
-            matlist.Add(mats[i]);
+            spriteRenderer.material = Resources.Load<Material>("CustomWindLitMat");
         }
-        matlist.Add(Resources.Load<Material>("CustomLitMat"));
-        spriteRenderer.SetMaterials(matlist);
+        else
+        {
+            spriteRenderer.material = Resources.Load<Material>("CustomLitMat");
+        }
+        mat = spriteRenderer.material;
 
-        depth = transform.position.y;
+        depth = transform.position.y * -100;
         spriteRenderer.sortingOrder = (int)depth;
 
         spriteRenderer.material.SetTexture("_NormalMap", normalMap.texture);
-
-        mat = spriteRenderer.material;
 
         if(shadowMat == null)
         {
@@ -92,14 +91,9 @@ public class CustomDynamicLit : MonoBehaviour
         //passing light information
         affectingLights = LightManager.instance.FindAffectingLights(spriteRenderer.bounds.min, spriteRenderer.bounds.max);
 
-        depth = transform.position.y;
+        depth = transform.position.y * -100;
         spriteRenderer.sortingOrder = (int)depth;
         mat.SetFloat("_Depth", depth);
-
-        if (shadowMat == null)
-        {
-            return;
-        }
 
         for (int i = 0; i < 4; i++)
         {
@@ -110,7 +104,7 @@ public class CustomDynamicLit : MonoBehaviour
                 mat.SetFloat("_LightRadius" + i, affectingLights[i].lightRadius);
                 mat.SetFloat("_LightIntensity" + i, affectingLights[i].lightIntensity);
 
-                if (useAdditionalShadow)
+                if (useAdditionalShadow && shadowMat != null)
                 {
                     Material currShadowMat = shadowRenderers[i+1].material; //i+1 because 0 is used for ambient light
                     currShadowMat.SetVector("_LightDirection", (Vector2)(transform.position - affectingLights[i].lightPosition));
