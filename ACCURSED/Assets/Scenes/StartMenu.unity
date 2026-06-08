@@ -547,7 +547,7 @@ MonoBehaviour:
   settingName: SettingsMenu
   creditName: Credits
   settingsPrefab: {fileID: 2827718799540979125, guid: 0376f8abcfb15a34cb10232159ee8ded, type: 3}
-  enableSettings: 0
+  SettingsMenuManager: {fileID: 949309643}
   selectedScale: 1.2
   scaleSpeed: 12
   leftArrowPrefab: {fileID: 2851211850485231575, guid: e4f6cbb86a93f064181e5c0b1b29ecf9, type: 3}
@@ -751,6 +751,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 949309643}
+        m_TargetAssemblyTypeName: SettingsTransitionHandler, Assembly-CSharp
+        m_MethodName: ToggleSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!212 &302649810
 SpriteRenderer:
   serializedVersion: 2
@@ -837,7 +849,7 @@ MonoBehaviour:
   settingName: SettingsMenu
   creditName: Credits
   settingsPrefab: {fileID: 2827718799540979125, guid: 0376f8abcfb15a34cb10232159ee8ded, type: 3}
-  enableSettings: 0
+  SettingsMenuManager: {fileID: 949309643}
   selectedScale: 1.2
   scaleSpeed: 12
   leftArrowPrefab: {fileID: 2851211850485231575, guid: e4f6cbb86a93f064181e5c0b1b29ecf9, type: 3}
@@ -1105,7 +1117,7 @@ MonoBehaviour:
   settingName: SettingsMenu
   creditName: Credits
   settingsPrefab: {fileID: 2827718799540979125, guid: 0376f8abcfb15a34cb10232159ee8ded, type: 3}
-  enableSettings: 0
+  SettingsMenuManager: {fileID: 949309643}
   selectedScale: 1.2
   scaleSpeed: 12
   leftArrowPrefab: {fileID: 2851211850485231575, guid: e4f6cbb86a93f064181e5c0b1b29ecf9, type: 3}
@@ -1597,7 +1609,7 @@ MonoBehaviour:
   settingName: Settings
   creditName: Credits
   settingsPrefab: {fileID: 0}
-  enableSettings: 0
+  SettingsMenuManager: {fileID: 0}
   selectedScale: 1.2
   scaleSpeed: 12
   leftArrowPrefab: {fileID: 7718246392797191534, guid: 48ede69f6a9bc4940915ee7f852d7144, type: 3}
@@ -1880,6 +1892,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 778304640}
   m_CullTransparentMesh: 1
+--- !u!114 &949309643 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2569469052288822755, guid: dde3daf538957e64cb6dd2ddc013b792, type: 3}
+  m_PrefabInstance: {fileID: 2045349863}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8940c90abb40ef4783e94e484a54b12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingsTransitionHandler
 --- !u!1 &1012604511
 GameObject:
   m_ObjectHideFlags: 0
@@ -2488,7 +2511,7 @@ MonoBehaviour:
   settingName: SettingsMenu
   creditName: Credits
   settingsPrefab: {fileID: 2827718799540979125, guid: 0376f8abcfb15a34cb10232159ee8ded, type: 3}
-  enableSettings: 0
+  SettingsMenuManager: {fileID: 949309643}
   selectedScale: 1.2
   scaleSpeed: 12
   leftArrowPrefab: {fileID: 2851211850485231575, guid: e4f6cbb86a93f064181e5c0b1b29ecf9, type: 3}
@@ -2756,7 +2779,7 @@ MonoBehaviour:
   settingName: SettingsMenu
   creditName: Credits
   settingsPrefab: {fileID: 2827718799540979125, guid: 0376f8abcfb15a34cb10232159ee8ded, type: 3}
-  enableSettings: 0
+  SettingsMenuManager: {fileID: 949309643}
   selectedScale: 1.2
   scaleSpeed: 12
   leftArrowPrefab: {fileID: 2851211850485231575, guid: e4f6cbb86a93f064181e5c0b1b29ecf9, type: 3}

@@ -26,7 +26,7 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     [Header("Settings Prefab")]
     public GameObject settingsPrefab;
-    public bool enableSettings = false;
+    public SettingsTransitionHandler SettingsMenuManager;
 
     [Header("Selection Visualization")]
     public float selectedScale = 1.2f;
@@ -131,9 +131,8 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (!Input.GetKeyDown(KeyCode.Escape))
             return;
 
-        if (enableSettings)
+        if (SettingsMenuManager.enableSettings)
         {
-            enableSettings = false;
             return;
         }
 
@@ -143,16 +142,6 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         {
             SceneManager.LoadScene(startScreenName);
             return;
-        }
-
-        if (allowEscapeToQuit)
-        {
-            StartMenuButton quitButton = buttons.Find(b => b.buttonType == ButtonType.Quit);
-
-            if (quitButton != null)
-            {
-                quitButton.ActivateButton();
-            }
         }
     }
 
@@ -169,7 +158,7 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 break;
 
             case ButtonType.Settings:
-                ToggleSettings();
+                //ToggleSettings();
                 break;
 
             case ButtonType.Credits:
@@ -334,22 +323,23 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
             rightArrowInstance = null;
         }
     }
-
+    /*
     public void ToggleSettings()
     {
-        if (!enableSettings)
+        if (!SettingsMenuManager.enableSettings)
         {
-            enableSettings = true;
+            SettingsMenuManager.enableSettings = true;
             settingsPrefab.SetActive(true);
             return;
         }
         else
         {
-            enableSettings = false;
+            SettingsMenuManager.enableSettings = false;
             settingsPrefab.SetActive(true);
             return;
         }
     }
+    */
 
     private static void SortButtons()
     {
