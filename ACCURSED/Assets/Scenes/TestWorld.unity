@@ -1861,6 +1861,71 @@ MonoBehaviour:
   lightIntensity: 0.7
   lightColor: {r: 1, g: 1, b: 1, a: 0}
   parentRenderer: {fileID: 0}
+--- !u!1001 &72976881
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4075869142477289356, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_Name
+      value: SettingsSpawner(OpenSettingsButton on the button)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152261006257933646, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: targetCanvas
+      value: 
+      objectReference: {fileID: 197604222}
+    - target: {fileID: 7152261006257933646, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: 'objectsToDisableWhileOpen.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2030146477}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
 --- !u!1 &84425849
 GameObject:
   m_ObjectHideFlags: 0
@@ -3496,18 +3561,18 @@ PrefabInstance:
     - target: {fileID: 5125378825629746704, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 709447090}
+      objectReference: {fileID: 709447086}
     - target: {fileID: 5125378825629746704, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5125378825629746704, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ChangeScene
+      value: OpenSettings
       objectReference: {fileID: 0}
     - target: {fileID: 5125378825629746704, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SceneTransiitionHandler, Assembly-CSharp
+      value: OpenSettingsButton, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5125378825629746704, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -3598,8 +3663,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2956134908485953364, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
-      insertIndex: 4
-      addedObject: {fileID: 709447090}
+      insertIndex: -1
+      addedObject: {fileID: 709447086}
   m_SourcePrefab: {fileID: 100100000, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
 --- !u!224 &198177964 stripped
 RectTransform:
@@ -3714,6 +3779,17 @@ MonoBehaviour:
   lightIntensity: 0.7
   lightColor: {r: 1, g: 1, b: 1, a: 0}
   parentRenderer: {fileID: 0}
+--- !u!114 &222209667 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7152261006257933646, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+  m_PrefabInstance: {fileID: 72976881}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f502be98e929a20439dc27ca781b41bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingsPrefabSpawner
 --- !u!1 &223290532
 GameObject:
   m_ObjectHideFlags: 0
@@ -12019,7 +12095,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2956134908485953364, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
   m_PrefabInstance: {fileID: 198177963}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &709447090
+--- !u!114 &709447086
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12028,10 +12104,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 709447085}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 358c96bc95e299742bc85a8a39ccd944, type: 3}
+  m_Script: {fileID: 11500000, guid: 09dc02c276d98984b826c5d9c776e53a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneTransiitionHandler
-  startScreenName: SettingsMenu
+  m_EditorClassIdentifier: Assembly-CSharp::OpenSettingsButton
+  settingsSpawner: {fileID: 222209667}
 --- !u!1 &711427353
 GameObject:
   m_ObjectHideFlags: 0
@@ -137284,6 +137360,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 619394802}
   - {fileID: 1316358430}
+  - {fileID: 72976881}
   - {fileID: 2030146482}
   - {fileID: 1193449211}
   - {fileID: 1643145921}

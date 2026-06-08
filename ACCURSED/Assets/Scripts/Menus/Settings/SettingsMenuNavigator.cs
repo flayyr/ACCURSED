@@ -388,6 +388,29 @@ public class SettingsMenuNavigator : MonoBehaviour
         Canvas.ForceUpdateCanvases();
     }
 
+    public void ResetNavigation()
+    {
+        StopSliderAdjustMode();
+
+        RegisterAllSelectables();
+
+        selectedTabIndex = 0;
+        selectedOptionIndex = 0;
+        currentArea = NavigationArea.Tabs;
+
+        if (tabs.Count > 0)
+        {
+            SelectTab(0, true);
+            UseScrollViewFromTab(tabs[selectedTabIndex]);
+
+            if (scrollRect != null)
+            {
+                Canvas.ForceUpdateCanvases();
+                scrollRect.verticalNormalizedPosition = 1f;
+            }
+        }
+    }
+
     private void UseScrollViewFromTab(SettingsTabButton tab)
     {
         if (tab == null)
