@@ -11,6 +11,7 @@ public class CustomDynamicLit : MonoBehaviour
     [SerializeField] Sprite ShadowSprite;
     [SerializeField] float ambientShadowStrength;
     [SerializeField] bool useWind;
+    [SerializeField] bool windApplyToTopMore;
 
     SpriteRenderer spriteRenderer;
     SpriteRenderer[] shadowRenderers;
@@ -26,13 +27,23 @@ public class CustomDynamicLit : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        if(useWind)
+        //if(useWind)
+        //{
+        //    spriteRenderer.material = Resources.Load<Material>("CustomWindLitMat");
+        //}
+        //else
+        //{
+        //    spriteRenderer.material = Resources.Load<Material>("CustomLitMat");
+        //}
+        spriteRenderer.material = Resources.Load<Material>("CustomLitMat");
+        if (useWind)
         {
-            spriteRenderer.material = Resources.Load<Material>("CustomWindLitMat");
-        }
-        else
-        {
-            spriteRenderer.material = Resources.Load<Material>("CustomLitMat");
+            spriteRenderer.material.EnableKeyword("_USEWIND");
+            if (windApplyToTopMore)
+            {
+                spriteRenderer.material.EnableKeyword("_WINDAPPLYMORETOTOP");
+            }
+
         }
         mat = spriteRenderer.material;
 
