@@ -3,10 +3,14 @@ using UnityEngine.InputSystem.XR;
 using static UnityEditor.Progress;
 
 public class TutorialController : MonoBehaviour
+
 {
+    public static TutorialController Instance { get; private set; }
+
     [SerializeField] public GameObject ui;
 
     [SerializeField] public TutorialSO debugPopup; //debug
+
 
     private GameObject currentTutUI;
 
@@ -15,6 +19,15 @@ public class TutorialController : MonoBehaviour
     void Awake()
     {
         isOpen = false;
+
+        // Singleton check
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
     }
 
     public bool CheckIfOpen()
@@ -57,7 +70,7 @@ public class TutorialController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T) && !isOpen)
         {
-            ShowTutorial(debugPopup);
+            TutorialController.Instance.ShowTutorial(debugPopup);
         }
 
      

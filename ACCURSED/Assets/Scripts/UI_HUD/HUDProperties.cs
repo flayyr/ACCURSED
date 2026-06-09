@@ -3,14 +3,25 @@ using System.Collections;
 
 public class HUDProperties : MonoBehaviour
 {
+    public static HUDProperties Instance { get; private set; }
+
     [SerializeField] private CanvasGroup hudCanvas;
 
     private Coroutine HUDAppear;
     private bool isShowing;
+
     void Awake()
     {
         hudCanvas.alpha = 0f;
         isShowing = false;
+
+        // Singleton check
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
     }
 
     void Update()
