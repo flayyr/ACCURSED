@@ -25,7 +25,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _WINDMODE_APPLYEQUALLY
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -74,8 +75,11 @@ Material:
     - _LightRadius3: 0
     - _NormalMapStrength: 1
     - _USEWIND: 0
+    - _WINDAPPLYMORETOTOP: 0
+    - _WINDMODE: 0
+    - _WindModeStrength: 2
     - _WindSpeed: 0.3
-    - _WindStrength: 0.05
+    - _WindStrength: 0.007
     m_Colors:
     - White: {r: 1, g: 1, b: 1, a: 1}
     - _AmbientLightColor: {r: 1, g: 0.84435576, b: 0.5330188, a: 1}
