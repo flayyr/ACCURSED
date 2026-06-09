@@ -40,7 +40,7 @@ public class EscMenuController : MonoBehaviour
         isOpen = !isOpen;
         escMenu.SetActive(isOpen);
 
-        Time.timeScale = isOpen? 0f:1f;
+        //Time.timeScale = isOpen? 0f:1f;
     }
 
     public void OpenMenu()
@@ -48,7 +48,7 @@ public class EscMenuController : MonoBehaviour
         isOpen = true;
         escMenu.SetActive(true);
 
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
     }
 
     public void CloseMenu()
@@ -56,12 +56,12 @@ public class EscMenuController : MonoBehaviour
         isOpen = false;
         escMenu.SetActive(false);
 
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
     }
 
     private void OnDestroy()
     {
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
     }
 
     public void OpenStatus()
