@@ -47,7 +47,7 @@ public class TutorialController : MonoBehaviour
         ui.GetComponent<TutorialUI>().Initialize(popup);
 
         isOpen = true;
-        Time.timeScale = 0f;
+        GamePauseController.Instance.PauseGame();
     }
 
     private void HideTutorial()
@@ -55,7 +55,7 @@ public class TutorialController : MonoBehaviour
         Destroy(currentTutUI);
 
         isOpen = false;
-        Time.timeScale = 1f;
+        GamePauseController.Instance.ResumeGame();
     }
     
     private void CheckIfClosed()

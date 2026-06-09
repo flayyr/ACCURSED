@@ -134,7 +134,7 @@ public class ToolTipManager : MonoBehaviour
     public void Update()
     {
         CheckPromptTrigger();
-        ToolTipDebug();
+        ToolTipDebug(); //DEBUG
 
         // if (too far away) { PromptDisappear }
     }
