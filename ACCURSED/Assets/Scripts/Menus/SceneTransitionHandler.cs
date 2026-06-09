@@ -14,10 +14,6 @@ public class SceneTransitionHandler : MonoBehaviour
 
         if (currentScene != startScreenName)
         {
-            string currentSceneName = SceneManager.GetActiveScene().name;
-            PlayerPrefs.SetString("LastScene", currentSceneName);
-            PlayerPrefs.Save();
-
             SceneManager.LoadScene(startScreenName);
             return;
         }
