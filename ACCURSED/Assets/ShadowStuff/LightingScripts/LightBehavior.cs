@@ -50,7 +50,7 @@ public class CustomLight
 
     public CustomLight()
     {
-        lightRadius = 0;
+        lightRadius = 0.01f;
         lightIntensity = 0;
         lightColor = Color.black;
         lightPosition = Vector3.zero;
