@@ -47,6 +47,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: FallingLeavesParticleSystem Down
       objectReference: {fileID: 0}
+    - target: {fileID: 4865801552922949794, guid: 984a33e921ab0494d817858846ee7cdb, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 125
+      objectReference: {fileID: 0}
+    - target: {fileID: 4865801552922949794, guid: 984a33e921ab0494d817858846ee7cdb, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5860663535007551537, guid: 984a33e921ab0494d817858846ee7cdb, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.553463
@@ -115,7 +123,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4865801552922949794, guid: c43753b86cd909147b28b3d75764f09d, type: 3}
       propertyPath: InitialModule.maxNumParticles
-      value: 150
+      value: 125
+      objectReference: {fileID: 0}
+    - target: {fileID: 4865801552922949794, guid: c43753b86cd909147b28b3d75764f09d, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5860663535007551537, guid: c43753b86cd909147b28b3d75764f09d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -181,15 +193,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4865801552922949794, guid: 0acd654eef62e9343b07da46a52da049, type: 3}
       propertyPath: InitialModule.maxNumParticles
-      value: 200
+      value: 175
       objectReference: {fileID: 0}
     - target: {fileID: 4865801552922949794, guid: 0acd654eef62e9343b07da46a52da049, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
-      value: 25
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4865801552922949794, guid: 0acd654eef62e9343b07da46a52da049, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4865801552922949794, guid: 0acd654eef62e9343b07da46a52da049, type: 3}
       propertyPath: InitialModule.gravityModifier.scalar
       value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4865801552922949794, guid: 0acd654eef62e9343b07da46a52da049, type: 3}
+      propertyPath: EmissionModule.rateOverTime.minScalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4865801552922949794, guid: 0acd654eef62e9343b07da46a52da049, type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5860663535007551537, guid: 0acd654eef62e9343b07da46a52da049, type: 3}
       propertyPath: m_LocalPosition.x
@@ -259,7 +283,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4865801552922949794, guid: f716723a31e57c7449a5bca5b8ba0e8d, type: 3}
       propertyPath: InitialModule.maxNumParticles
-      value: 150
+      value: 125
+      objectReference: {fileID: 0}
+    - target: {fileID: 4865801552922949794, guid: f716723a31e57c7449a5bca5b8ba0e8d, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5860663535007551537, guid: f716723a31e57c7449a5bca5b8ba0e8d, type: 3}
       propertyPath: m_LocalPosition.x
