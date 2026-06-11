@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5860663535007551537}
-  - component: {fileID: 6315122666608769001}
+  - component: {fileID: 3416429811523321225}
   - component: {fileID: 4865801552922949794}
   - component: {fileID: 4393837047372805898}
   m_Layer: 0
-  m_Name: FallingLeavesParticleSystem
+  m_Name: FallingLeavesParticleSystem Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,13 +28,13 @@ Transform:
   m_GameObject: {fileID: 2025063425636788254}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 36.16, y: 26.1, z: 0}
+  m_LocalPosition: {x: -0.553463, y: 2.3449173, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!114 &6315122666608769001
+--- !u!114 &3416429811523321225
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,20 +43,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2025063425636788254}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccf1a638cb6a768408c9572dfeff4f02, type: 3}
+  m_Script: {fileID: 11500000, guid: 39543849088c13645b2158fb5746cf2f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FallingLeavesScreenFitter
-  targetCamera: {fileID: 0}
-  yOffsetAboveScreen: 5
-  zPosition: 0
-  baseExtraWidth: 40
-  emitterHeight: 1
-  useSpeedBasedBuffer: 1
-  speedBufferMultiplier: 2
-  maxExtraSpeedWidth: 40
-  burstWhenCameraMovesTooFar: 1
-  burstMoveThreshold: 5
-  burstAmount: 80
+  m_EditorClassIdentifier: Assembly-CSharp::FollowCameraWithOffset
+  cameraTransform: {fileID: 0}
+  xOffset: 0
+  yOffset: 15
+  followX: 1
+  followY: 1
+  keepOriginalZ: 1
 --- !u!198 &4865801552922949794
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -140,8 +135,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 20
-      minScalar: 5
+      scalar: 15
+      minScalar: 10
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -193,7 +188,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: -2.5
+      scalar: -3
       minScalar: -1.5
       maxCurve:
         serializedVersion: 2
@@ -628,7 +623,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 100
+    maxNumParticles: 150
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -696,7 +691,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 5, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 75, y: 1, z: 1}
+    m_Scale: {x: 35, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -894,8 +889,8 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 20
-      minScalar: 10
+      scalar: 25
+      minScalar: 15
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1349,7 +1344,7 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 12593
+        atime1: 8995
         atime2: 51657
         atime3: 65535
         atime4: 0
@@ -4827,7 +4822,7 @@ ParticleSystemRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1032049669
   m_SortingLayer: -2
-  m_SortingOrder: 1
+  m_SortingOrder: 40
   m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
