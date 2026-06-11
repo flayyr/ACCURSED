@@ -8,11 +8,14 @@ public class CustomDynamicLit : MonoBehaviour
 {
     [Header("Normal Map")]
     [SerializeField] Sprite normalMap;
-    [Header("Shadow")]
+    [Header("Ambient Shadow")]
+    [SerializeField] bool useAmbientShadow = true;
+    [SerializeField] Sprite ambientShadowSprite;
+    [SerializeField] float ambientShadowLength = 0.5f;
+    [Header("Additional Shadow")]
     [SerializeField] bool useAdditionalShadow;
     [SerializeField] Material shadowMat;
     [SerializeField] Sprite ShadowSprite;
-    [SerializeField] float ambientShadowStrength;
     [SerializeField] Vector2 shadowSize = Vector2.one;
     [Header("Wind")]
     [SerializeField] bool useWind;
@@ -21,6 +24,7 @@ public class CustomDynamicLit : MonoBehaviour
 
     SpriteRenderer spriteRenderer;
     SpriteRenderer[] shadowRenderers;
+    SpriteRenderer ambientShadowRenderer;
 
     Material mat;
 
@@ -42,10 +46,11 @@ public class CustomDynamicLit : MonoBehaviour
         {
             spriteRenderer.material.EnableKeyword("_TOPSWAY");
             spriteRenderer.material.SetFloat("_TopSwayStrength", topSwayStrength);
+            spriteRenderer.material.SetFloat("_SwayOffset", transform.position.y*transform.position.y + transform.position.x);
         }
         mat = spriteRenderer.material;
 
-        depth = transform.position.y * -100;
+        depth = transform.position.y * -10;
         spriteRenderer.sortingOrder = (int)depth;
 
         spriteRenderer.material.SetTexture("_NormalMap", normalMap.texture);
@@ -62,17 +67,33 @@ public class CustomDynamicLit : MonoBehaviour
             return;
         }
 
-        shadowRenderers = new SpriteRenderer[5];
+        shadowRenderers = new SpriteRenderer[4];
         GameObject shadowPrefab = Resources.Load<GameObject>("ShadowPrefab");
-        for (int i = 0; i < 1 || useAdditionalShadow && i<5; i++)
+        if (useAmbientShadow)
         {
             GameObject shadowObj = Instantiate(shadowPrefab, transform);
             shadowObj.transform.localPosition = Vector3.zero;
-            SpriteRenderer shadowRenderer = shadowObj.GetComponent<SpriteRenderer>();
-            shadowRenderer.material = shadowMat;
-            shadowRenderer.sprite = ShadowSprite;
-            shadowRenderer.material.SetVector("_ShadowScale", shadowSize);
-            shadowRenderers[i] = shadowRenderer;
+            ambientShadowRenderer = shadowObj.GetComponent<SpriteRenderer>();
+            ambientShadowRenderer.material = Resources.Load<Material>("SkewShadowMat");
+            ambientShadowRenderer.material.SetFloat("_ShadowLength", ambientShadowLength);
+            ambientShadowRenderer.sprite = ambientShadowSprite != null ? ambientShadowSprite : spriteRenderer.sprite;
+            ambientShadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
+        }
+
+
+        if (useAdditionalShadow)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                GameObject shadowObj = Instantiate(shadowPrefab, transform);
+                shadowObj.transform.localPosition = Vector3.zero;
+                SpriteRenderer shadowRenderer = shadowObj.GetComponent<SpriteRenderer>();
+                shadowRenderer.material = shadowMat;
+                shadowRenderer.sprite = ShadowSprite;
+                shadowRenderer.material.SetVector("_ShadowScale", shadowSize);
+                shadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
+                shadowRenderers[i] = shadowRenderer;
+            }
         }
     }
 
@@ -108,9 +129,14 @@ public class CustomDynamicLit : MonoBehaviour
         //passing light information
         affectingLights = LightManager.instance.FindAffectingLights(spriteRenderer.bounds.min, spriteRenderer.bounds.max);
 
-        depth = transform.position.y * -100;
+        depth = transform.position.y * -10;
         spriteRenderer.sortingOrder = (int)depth;
         mat.SetFloat("_Depth", depth);
+
+        if (useAmbientShadow && shadowMat!=null)
+        {
+            ambientShadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
+        }
 
         for (int i = 0; i < 4; i++)
         {
@@ -123,7 +149,8 @@ public class CustomDynamicLit : MonoBehaviour
 
                 if (useAdditionalShadow && shadowMat != null)
                 {
-                    Material currShadowMat = shadowRenderers[i+1].material; //i+1 because 0 is used for ambient light
+                    shadowRenderers[i].sortingOrder = spriteRenderer.sortingOrder;
+                    Material currShadowMat = shadowRenderers[i].material;
                     currShadowMat.SetVector("_LightDirection", (Vector2)(transform.position - affectingLights[i].lightPosition));
                     currShadowMat.SetFloat("_LightIntensity", affectingLights[i].lightIntensity);
                     currShadowMat.SetFloat("_LightRadius", affectingLights[i].lightRadius);
@@ -163,10 +190,10 @@ public class CustomDynamicLit : MonoBehaviour
 
         if (shadowMat != null)
         {
-            Material ambientShadowMat = shadowRenderers[0].material;
-            ambientShadowMat.SetVector("_LightDirection", lightManager.ambientLightDirection.normalized);
-            ambientShadowMat.SetFloat("_LightRadius", ambientShadowStrength + 1);
-            ambientShadowMat.SetFloat("_LightIntensity", lightManager.ambientLightIntensity);
+            Material ambientShadowMat = ambientShadowRenderer.material;
+            ambientShadowMat.SetFloat("_SkewAmount", lightManager.ambientLightDirection.y);
+            ambientShadowMat.SetFloat("_ShadowStrength", lightManager.ambientShadowStrength);
+            //ambientShadowMat.SetFloat("_LightIntensity", lightManager.ambientLightIntensity);
         }
     }
 }
