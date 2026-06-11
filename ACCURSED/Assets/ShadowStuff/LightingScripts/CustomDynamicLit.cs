@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
-using System.Collections.Generic;
+using UnityEngine.U2D;
 
 //[ExecuteAlways]
 public class CustomDynamicLit : MonoBehaviour
@@ -11,6 +12,7 @@ public class CustomDynamicLit : MonoBehaviour
     [SerializeField] Sprite ShadowSprite;
     [SerializeField] float ambientShadowStrength;
     [SerializeField] bool useWind;
+    [SerializeField] bool windApplyToTopMore;
 
     SpriteRenderer spriteRenderer;
     SpriteRenderer[] shadowRenderers;
@@ -26,13 +28,14 @@ public class CustomDynamicLit : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        if(useWind)
+        spriteRenderer.material = Resources.Load<Material>("CustomLitMat");
+        if (useWind)
         {
-            spriteRenderer.material = Resources.Load<Material>("CustomWindLitMat");
+            spriteRenderer.material.EnableKeyword("_USEWIND");
         }
-        else
+        if (windApplyToTopMore)
         {
-            spriteRenderer.material = Resources.Load<Material>("CustomLitMat");
+            spriteRenderer.material.EnableKeyword("_TOPSWAY");
         }
         mat = spriteRenderer.material;
 
@@ -41,7 +44,14 @@ public class CustomDynamicLit : MonoBehaviour
 
         spriteRenderer.material.SetTexture("_NormalMap", normalMap.texture);
 
-        if(shadowMat == null)
+        Sprite sprite = spriteRenderer.sprite;
+        float baseSpriteHeight = sprite.textureRect.yMin / sprite.texture.height;
+        float totalSpriteHeight = (sprite.textureRect.yMax / sprite.texture.height)-baseSpriteHeight;
+        spriteRenderer.material.SetFloat("_SpriteStartHeight", baseSpriteHeight);
+        spriteRenderer.material.SetFloat("_SpriteTotalHeight", totalSpriteHeight);
+        spriteRenderer.material.SetFloat("_TextureSize", 0.0001f*Mathf.Sqrt(sprite.texture.height* sprite.texture.height + sprite.texture.width* sprite.texture.width));
+
+        if (shadowMat == null)
         {
             return;
         }
