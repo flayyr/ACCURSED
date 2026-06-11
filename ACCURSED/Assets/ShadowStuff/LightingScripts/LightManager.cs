@@ -15,6 +15,7 @@ public class LightManager : MonoBehaviour
     [SerializeField, Range(0,1)] public float ambientLightIntensity;
     [SerializeField] public Color ambientLightColor;
     [SerializeField] public Vector2 ambientLightDirection;
+    [SerializeField] public float ambientShadowStrength=3f;
 
     [HideInInspector] public Vector2 boundsBotLeft;
     [HideInInspector] public Vector2 boundsTopRight;

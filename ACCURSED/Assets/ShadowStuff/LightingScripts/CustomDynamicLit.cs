@@ -12,7 +12,6 @@ public class CustomDynamicLit : MonoBehaviour
     [SerializeField] bool useAdditionalShadow;
     [SerializeField] Material shadowMat;
     [SerializeField] Sprite ShadowSprite;
-    [SerializeField] float ambientShadowStrength;
     [SerializeField] Vector2 shadowSize = Vector2.one;
     [Header("Wind")]
     [SerializeField] bool useWind;
@@ -165,7 +164,7 @@ public class CustomDynamicLit : MonoBehaviour
         {
             Material ambientShadowMat = shadowRenderers[0].material;
             ambientShadowMat.SetVector("_LightDirection", lightManager.ambientLightDirection.normalized);
-            ambientShadowMat.SetFloat("_LightRadius", ambientShadowStrength + 1);
+            ambientShadowMat.SetFloat("_LightRadius", lightManager.ambientShadowStrength + 1);
             ambientShadowMat.SetFloat("_LightIntensity", lightManager.ambientLightIntensity);
         }
     }
