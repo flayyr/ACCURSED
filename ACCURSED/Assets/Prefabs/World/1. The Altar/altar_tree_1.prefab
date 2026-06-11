@@ -110,8 +110,10 @@ MonoBehaviour:
   shadowMat: {fileID: 2100000, guid: c5b635af3f7cbea469ac4f536e906a00, type: 2}
   ShadowSprite: {fileID: 3444342355623820395, guid: c01f938b1fd363f40ae820390b56eff8, type: 3}
   ambientShadowStrength: 3
+  shadowSize: {x: 1, y: 1}
   useWind: 0
-  windApplyToTopMore: 1
+  topSway: 1
+  topSwayStrength: 0.1
 --- !u!1 &7304161620382037873
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,5 +223,7 @@ MonoBehaviour:
   shadowMat: {fileID: 0}
   ShadowSprite: {fileID: 0}
   ambientShadowStrength: 3
+  shadowSize: {x: 1, y: 1}
   useWind: 1
-  windApplyToTopMore: 1
+  topSway: 1
+  topSwayStrength: 0.1
