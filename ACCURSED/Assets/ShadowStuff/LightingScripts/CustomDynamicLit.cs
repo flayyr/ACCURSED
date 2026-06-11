@@ -6,13 +6,18 @@ using UnityEngine.U2D;
 //[ExecuteAlways]
 public class CustomDynamicLit : MonoBehaviour
 {
+    [Header("Normal Map")]
     [SerializeField] Sprite normalMap;
+    [Header("Shadow")]
     [SerializeField] bool useAdditionalShadow;
     [SerializeField] Material shadowMat;
     [SerializeField] Sprite ShadowSprite;
     [SerializeField] float ambientShadowStrength;
+    [SerializeField] Vector2 shadowSize = Vector2.one;
+    [Header("Wind")]
     [SerializeField] bool useWind;
-    [SerializeField] bool windApplyToTopMore;
+    [SerializeField] bool topSway;
+    [SerializeField] float topSwayStrength = 0.1f;
 
     SpriteRenderer spriteRenderer;
     SpriteRenderer[] shadowRenderers;
@@ -33,9 +38,10 @@ public class CustomDynamicLit : MonoBehaviour
         {
             spriteRenderer.material.EnableKeyword("_USEWIND");
         }
-        if (windApplyToTopMore)
+        if (topSway)
         {
             spriteRenderer.material.EnableKeyword("_TOPSWAY");
+            spriteRenderer.material.SetFloat("_TopSwayStrength", topSwayStrength);
         }
         mat = spriteRenderer.material;
 
@@ -65,6 +71,7 @@ public class CustomDynamicLit : MonoBehaviour
             SpriteRenderer shadowRenderer = shadowObj.GetComponent<SpriteRenderer>();
             shadowRenderer.material = shadowMat;
             shadowRenderer.sprite = ShadowSprite;
+            shadowRenderer.material.SetVector("_ShadowScale", shadowSize);
             shadowRenderers[i] = shadowRenderer;
         }
     }
