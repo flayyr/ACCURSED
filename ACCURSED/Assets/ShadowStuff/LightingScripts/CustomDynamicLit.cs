@@ -8,6 +8,8 @@ public class CustomDynamicLit : MonoBehaviour
 {
     [Header("Normal Map")]
     [SerializeField] Sprite normalMap;
+    [Header("Ordering")]
+    [SerializeField] int sortOrderOffset;
     [Header("Ambient Shadow")]
     [SerializeField] bool useAmbientShadow = true;
     [SerializeField] Sprite ambientShadowSprite;
@@ -50,8 +52,7 @@ public class CustomDynamicLit : MonoBehaviour
         }
         mat = spriteRenderer.material;
 
-        depth = transform.position.y * -10;
-        spriteRenderer.sortingOrder = (int)depth;
+        UpdateSortOrder();
 
         spriteRenderer.material.SetTexture("_NormalMap", normalMap.texture);
 
@@ -105,6 +106,7 @@ public class CustomDynamicLit : MonoBehaviour
 
     private void Update()
     {
+
         //Hide and unhide based on camera position
         Vector2 position = transform.position;
         Vector2 boundsBotLeft = LightManager.instance.boundsBotLeft;
@@ -129,8 +131,7 @@ public class CustomDynamicLit : MonoBehaviour
         //passing light information
         affectingLights = LightManager.instance.FindAffectingLights(spriteRenderer.bounds.min, spriteRenderer.bounds.max);
 
-        depth = transform.position.y * -10;
-        spriteRenderer.sortingOrder = (int)depth;
+        UpdateSortOrder();
         mat.SetFloat("_Depth", depth);
 
         if (useAmbientShadow && shadowMat!=null)
@@ -159,6 +160,20 @@ public class CustomDynamicLit : MonoBehaviour
         }
 
 
+    }
+
+    private void OnValidate()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        UpdateSortOrder();
+    }
+
+    [ContextMenu("Execute Function")]
+    [ExecuteAlways]
+    private void UpdateSortOrder()
+    {
+        depth = transform.position.y * -10;
+        spriteRenderer.sortingOrder = Mathf.RoundToInt(depth) + sortOrderOffset;
     }
 
     private void SetVisibility(bool visible)
