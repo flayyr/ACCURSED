@@ -21,6 +21,7 @@ public class CustomDynamicLit : MonoBehaviour
     [SerializeField] Vector2 shadowSize = Vector2.one;
     [Header("Wind")]
     [SerializeField] bool useWind;
+    [SerializeField, Range(0f, 0.05f)] float windStrength = 0.006f;
     [SerializeField] bool topSway;
     [SerializeField] float topSwayStrength = 0.1f;
 
@@ -43,6 +44,7 @@ public class CustomDynamicLit : MonoBehaviour
         if (useWind)
         {
             spriteRenderer.material.EnableKeyword("_USEWIND");
+            spriteRenderer.material.SetFloat("_WindStrength", windStrength);
         }
         if (topSway)
         {
