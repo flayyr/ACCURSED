@@ -81,6 +81,16 @@ public class CustomDynamicLit : MonoBehaviour
             ambientShadowRenderer.material.SetFloat("_ShadowLength", ambientShadowLength);
             ambientShadowRenderer.sprite = ambientShadowSprite != null ? ambientShadowSprite : spriteRenderer.sprite;
             ambientShadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
+            if (topSway)
+            {
+                ambientShadowRenderer.material.EnableKeyword("_TOPSWAY");
+                ambientShadowRenderer.material.SetFloat("_TopSwayStrength", topSwayStrength);
+                ambientShadowRenderer.material.SetFloat("_SwayOffset", transform.position.y * transform.position.y + transform.position.x);
+                ambientShadowRenderer.material.SetFloat("_SpriteStartHeight", baseSpriteHeight);
+                ambientShadowRenderer.material.SetFloat("_SpriteTotalHeight", totalSpriteHeight);
+                ambientShadowRenderer.material.SetFloat("_TopSwayFallOff", spriteRenderer.material.GetFloat("_TopSwayFallOff"));
+                ambientShadowRenderer.material.SetFloat("_TopSwaySpeed", spriteRenderer.material.GetFloat("_TopSwaySpeed"));
+            }
         }
 
 
@@ -208,9 +218,9 @@ public class CustomDynamicLit : MonoBehaviour
         if (shadowMat != null)
         {
             Material ambientShadowMat = ambientShadowRenderer.material;
-            ambientShadowMat.SetFloat("_SkewAmount", lightManager.ambientLightDirection.y);
+            ambientShadowMat.SetFloat("_SkewAmount", lightManager.ambientShadowSkew);
             ambientShadowMat.SetFloat("_ShadowStrength", lightManager.ambientShadowStrength);
-            //ambientShadowMat.SetFloat("_LightIntensity", lightManager.ambientLightIntensity);
+            ambientShadowMat.SetFloat("_FlipY", lightManager.ambientShadowFlipY?1f:0f);
         }
     }
 }
