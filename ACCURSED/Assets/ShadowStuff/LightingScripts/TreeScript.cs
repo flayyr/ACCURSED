@@ -9,16 +9,17 @@ public class TreeScript: MonoBehaviour
 
     CustomDynamicLit treeDynamicLit;
 
-    private void Start()
+    private void Awake()
     {
         treeDynamicLit = GetComponent<CustomDynamicLit>();
         GameObject leavesPrefab = Resources.Load<GameObject>("LeavesPrefab");
 
-        leavesDynamicLit = leavesPrefab.GetComponent<CustomDynamicLit>();
-        leavesDynamicLit.CopyValues(treeDynamicLit);
-        leavesDynamicLit.useWind = true;
-        leavesDynamicLit.gameObject.GetComponent<SpriteRenderer>().sprite = leafSprite;
-        Instantiate(leavesPrefab, transform).transform.localPosition = Vector3.zero;
-        //leavesDynamicLit.SetUp();
+        CustomDynamicLit prefabDynamicLit = leavesPrefab.GetComponent<CustomDynamicLit>();
+        prefabDynamicLit.CopyValues(treeDynamicLit);
+        prefabDynamicLit.useWind = true;
+        prefabDynamicLit.gameObject.GetComponent<SpriteRenderer>().sprite = leafSprite;
+
+        leavesDynamicLit = Instantiate(leavesPrefab, transform).GetComponent<CustomDynamicLit>();
+        leavesDynamicLit.transform.localPosition = Vector3.zero;
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(CustomDynamicLit))]
 public class ShakeInteract : MonoBehaviour
@@ -11,13 +12,27 @@ public class ShakeInteract : MonoBehaviour
     float shakeAmt;
 
     CustomDynamicLit litScript;
-    SpriteRenderer spriteRenderer;
+    List<SpriteRenderer> spriteRenderers;
     private void Start()
     {
         litScript = GetComponent<CustomDynamicLit>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
 
-        spriteRenderer.material.EnableKeyword("_SHAKEINTERACT");
+        spriteRenderers = new List<SpriteRenderer>();
+
+        if(TryGetComponent(out TreeScript treeScript)){
+            spriteRenderers.Add(treeScript.leavesDynamicLit.gameObject.GetComponent<SpriteRenderer>());
+            if (treeScript.leavesDynamicLit != null)
+            {
+                Debug.Log("leavesLit" );
+            }
+        }
+
+        spriteRenderers.Add( GetComponent<SpriteRenderer>());
+
+        foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+        {
+            spriteRenderer.material.EnableKeyword("_SHAKEINTERACT");
+        }
     }
 
     private void Update()
@@ -41,9 +56,15 @@ public class ShakeInteract : MonoBehaviour
         {
             timer+=Time.deltaTime;
             shakeAmt = shakeMagnitude * (shakeDuration-timer)/shakeDuration * Mathf.Sin(timer * shakeFrequency);
-            spriteRenderer.material.SetFloat("_ShakeAmount", shakeAmt);
+            foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+            {
+                spriteRenderer.material.SetFloat("_ShakeAmount", shakeAmt);
+            }
             yield return new WaitForEndOfFrame();
         }
-        spriteRenderer.material.SetFloat("_ShakeAmount", 0f);
+        foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+        {
+            spriteRenderer.material.SetFloat("_ShakeAmount", 0f);
+        }
     }
 }
