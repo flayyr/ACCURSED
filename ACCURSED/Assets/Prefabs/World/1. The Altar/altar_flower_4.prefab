@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5212946421755575948}
   - component: {fileID: 4396899919872817980}
   - component: {fileID: 7277778168143923362}
+  - component: {fileID: 5041484424832762313}
   m_Layer: 0
   m_Name: altar_flower_4
   m_TagString: Untagged
@@ -80,7 +81,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 48
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8881737607169834739, guid: e39c9f5c19f4b344c88ff9e838b19f39, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -105,11 +106,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   normalMap: {fileID: -2197359250157334493, guid: 64fb19783aa572947b90c9b3d4f499f4, type: 3}
+  sortOrderOffset: 0
+  useAmbientShadow: 1
+  ambientShadowSprite: {fileID: 0}
+  ambientShadowLength: 0.5
   useAdditionalShadow: 1
   shadowMat: {fileID: 2100000, guid: c5b635af3f7cbea469ac4f536e906a00, type: 2}
   ShadowSprite: {fileID: 3444342355623820395, guid: c01f938b1fd363f40ae820390b56eff8, type: 3}
-  ambientShadowStrength: 3
   shadowSize: {x: 0.2, y: 0.2}
   useWind: 0
+  windStrength: 0.006
   topSway: 1
   topSwayStrength: 0.01
+--- !u!114 &5041484424832762313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175996583886140032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3d02ab71616734cb7a20bc3612cf5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteract
+  shakeDuration: 0.5
+  shakeMagnitude: 1
+  shakeFrequency: 10
