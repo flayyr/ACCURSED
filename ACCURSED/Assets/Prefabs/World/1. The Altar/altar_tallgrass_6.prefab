@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4586696758980641604}
   - component: {fileID: 3539301410858014436}
   - component: {fileID: 1574404913583761713}
+  - component: {fileID: 1600960826545239087}
   m_Layer: 0
   m_Name: altar_tallgrass_6
   m_TagString: Untagged
@@ -80,7 +81,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 23
   m_MaskInteraction: 0
   m_Sprite: {fileID: 842554339434415949, guid: 6bec1146af59dfc4796a484d54c27fdb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -105,6 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   normalMap: {fileID: -2197359250157334493, guid: 64fb19783aa572947b90c9b3d4f499f4, type: 3}
+  sortOrderOffset: 0
   useAmbientShadow: 1
   ambientShadowSprite: {fileID: 0}
   ambientShadowLength: 0.5
@@ -113,5 +115,21 @@ MonoBehaviour:
   ShadowSprite: {fileID: 3444342355623820395, guid: c01f938b1fd363f40ae820390b56eff8, type: 3}
   shadowSize: {x: 0.3, y: 0.2}
   useWind: 0
+  windStrength: 0.006
   topSway: 1
   topSwayStrength: 0.02
+--- !u!114 &1600960826545239087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2884377666826467502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3d02ab71616734cb7a20bc3612cf5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteract
+  shakeDuration: 0.5
+  shakeMagnitude: 1
+  shakeFrequency: 10

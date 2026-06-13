@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6701935353124590486}
   - component: {fileID: 8933779523981784356}
   - component: {fileID: 1850238932674702593}
+  - component: {fileID: -6520591794187419490}
   m_Layer: 0
   m_Name: altar_flower_1
   m_TagString: Untagged
@@ -114,5 +115,21 @@ MonoBehaviour:
   ShadowSprite: {fileID: 3444342355623820395, guid: c01f938b1fd363f40ae820390b56eff8, type: 3}
   shadowSize: {x: 0.2, y: 0.2}
   useWind: 0
+  windStrength: 0.006
   topSway: 1
   topSwayStrength: 0.01
+--- !u!114 &-6520591794187419490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2451344291122264255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3d02ab71616734cb7a20bc3612cf5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteract
+  shakeDuration: 0.5
+  shakeMagnitude: 1
+  shakeFrequency: 10

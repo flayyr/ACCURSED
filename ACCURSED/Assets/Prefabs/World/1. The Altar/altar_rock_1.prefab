@@ -80,7 +80,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 44
   m_MaskInteraction: 0
   m_Sprite: {fileID: 3773945629064817073, guid: 97d9d9613c1d74345ac29c062f240dbf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -105,11 +105,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   normalMap: {fileID: -2197359250157334493, guid: 64fb19783aa572947b90c9b3d4f499f4, type: 3}
+  sortOrderOffset: 0
+  useAmbientShadow: 1
+  ambientShadowSprite: {fileID: 0}
+  ambientShadowLength: 0.5
   useAdditionalShadow: 1
   shadowMat: {fileID: 2100000, guid: c5b635af3f7cbea469ac4f536e906a00, type: 2}
   ShadowSprite: {fileID: 3444342355623820395, guid: c01f938b1fd363f40ae820390b56eff8, type: 3}
-  ambientShadowStrength: 3
   shadowSize: {x: 1.5, y: 0.3}
   useWind: 0
+  windStrength: 0.006
   topSway: 0
   topSwayStrength: 0.05

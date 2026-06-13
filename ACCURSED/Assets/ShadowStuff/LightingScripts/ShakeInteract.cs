@@ -43,7 +43,6 @@ public class ShakeInteract : MonoBehaviour
         }
     }
 
-    [ContextMenu("Shake")]
     public void Shake()
     {
         StartCoroutine(ShakeCoroutine());
@@ -52,10 +51,11 @@ public class ShakeInteract : MonoBehaviour
     private IEnumerator ShakeCoroutine()
     {
         float timer = 0;
+        float direction = Random.Range(0, 2)==0 ? 1f:-1f;
         while (timer < shakeDuration)
         {
             timer+=Time.deltaTime;
-            shakeAmt = shakeMagnitude * (shakeDuration-timer)/shakeDuration * Mathf.Sin(timer * shakeFrequency);
+            shakeAmt = direction * shakeMagnitude * (shakeDuration-timer)/shakeDuration * Mathf.Sin(timer * shakeFrequency);
             foreach (SpriteRenderer spriteRenderer in spriteRenderers)
             {
                 spriteRenderer.material.SetFloat("_ShakeAmount", shakeAmt);
@@ -66,5 +66,10 @@ public class ShakeInteract : MonoBehaviour
         {
             spriteRenderer.material.SetFloat("_ShakeAmount", 0f);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Shake();
     }
 }

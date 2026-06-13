@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2792355911803431360}
   - component: {fileID: 7473996414634703624}
   - component: {fileID: 2277954935580053755}
+  - component: {fileID: -4368306008637717214}
   m_Layer: 0
   m_Name: altar_bush_2
   m_TagString: Untagged
@@ -132,3 +133,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TreeScript
   leafSprite: {fileID: 3466003830500027591, guid: 09dbc8a10621b2c4db8893c5b3f0b18f, type: 3}
   leavesDynamicLit: {fileID: 0}
+--- !u!114 &-4368306008637717214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8560258382395372379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3d02ab71616734cb7a20bc3612cf5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteract
+  shakeDuration: 0.5
+  shakeMagnitude: 1
+  shakeFrequency: 10
