@@ -3,11 +3,23 @@ using UnityEngine.Tilemaps;
 
 public class DirtTrailParticles : MonoBehaviour
 {
+    [System.Serializable]
+    public class TilemapTriggerLayer
+    {
+        public Tilemap tilemap;
+
+        [Tooltip("If true, this tilemap can trigger dirt particles when it is the top visible tile.")]
+        public bool triggersDirtParticles;
+    }
+
     [Header("References")]
     [SerializeField] private Transform player;
     [SerializeField] private Rigidbody2D playerRb;
-    [SerializeField] private Tilemap pathTilemap;
     [SerializeField] private ParticleSystem dirtParticles;
+
+    [Header("Tilemap Layers")]
+    [Tooltip("Put tilemaps here from TOP layer to BOTTOM layer.")]
+    [SerializeField] private TilemapTriggerLayer[] tilemapLayers;
 
     [Header("Camera To Follow")]
     [SerializeField] private Transform cameraTransform;
@@ -62,23 +74,23 @@ public class DirtTrailParticles : MonoBehaviour
 
     private void Update()
     {
-        if (player == null || playerRb == null || pathTilemap == null || dirtParticles == null)
+        if (player == null || playerRb == null || dirtParticles == null)
             return;
 
         Vector2 velocity = playerRb.linearVelocity;
 
         float speed = velocity.magnitude;
         bool isMoving = speed > minMoveSpeed;
-        bool isOnPathTile = IsPlayerOnPathTile();
+        bool isOnTriggerTile = IsPlayerOnTopTriggerTile();
 
-        if (isMoving && isOnPathTile)
+        if (isMoving && isOnTriggerTile)
         {
             Vector2 moveDirection = velocity.normalized;
             Vector2 oppositeDirection = -moveDirection;
 
             transform.rotation = Quaternion.identity;
 
-            UpdateParticleDirection(oppositeDirection);
+            UpdateParticleDirection(opositeDirection: oppositeDirection);
             UpdateParticleGravity(velocity);
 
             emission.enabled = true;
@@ -105,30 +117,22 @@ public class DirtTrailParticles : MonoBehaviour
         Vector3 newPosition = transform.position;
 
         if (followX)
-        {
             newPosition.x = cameraTransform.position.x + xOffset;
-        }
 
         if (followY)
-        {
             newPosition.y = cameraTransform.position.y + yOffset;
-        }
 
         if (keepOriginalZ)
-        {
             newPosition.z = originalZ;
-        }
         else
-        {
             newPosition.z = cameraTransform.position.z;
-        }
 
         transform.position = newPosition;
     }
 
-    private void UpdateParticleDirection(Vector2 oppositeDirection)
+    private void UpdateParticleDirection(Vector2 opositeDirection)
     {
-        Vector2 particleVelocity = oppositeDirection * backwardPushStrength;
+        Vector2 particleVelocity = opositeDirection * backwardPushStrength;
 
         velocityOverLifetime.x = new ParticleSystem.MinMaxCurve(particleVelocity.x);
         velocityOverLifetime.y = new ParticleSystem.MinMaxCurve(particleVelocity.y);
@@ -149,11 +153,27 @@ public class DirtTrailParticles : MonoBehaviour
         }
     }
 
-    private bool IsPlayerOnPathTile()
+    private bool IsPlayerOnTopTriggerTile()
     {
-        Vector3Int cellPosition = pathTilemap.WorldToCell(player.position);
-        TileBase tile = pathTilemap.GetTile(cellPosition);
+        if (tilemapLayers == null || tilemapLayers.Length == 0)
+            return false;
 
-        return tile != null;
+        foreach (TilemapTriggerLayer layer in tilemapLayers)
+        {
+            if (layer == null || layer.tilemap == null)
+                continue;
+
+            Vector3Int cellPosition = layer.tilemap.WorldToCell(player.position);
+            TileBase tile = layer.tilemap.GetTile(cellPosition);
+
+            // This is the topmost tile found under the player.
+            // It decides whether dirt particles should play.
+            if (tile != null)
+            {
+                return layer.triggersDirtParticles;
+            }
+        }
+
+        return false;
     }
 }
