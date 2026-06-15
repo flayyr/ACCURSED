@@ -21,10 +21,6 @@ public class ShakeInteract : MonoBehaviour
 
         if(TryGetComponent(out TreeScript treeScript)){
             spriteRenderers.Add(treeScript.leavesDynamicLit.gameObject.GetComponent<SpriteRenderer>());
-            if (treeScript.leavesDynamicLit != null)
-            {
-                Debug.Log("leavesLit" );
-            }
         }
 
         spriteRenderers.Add( GetComponent<SpriteRenderer>());
