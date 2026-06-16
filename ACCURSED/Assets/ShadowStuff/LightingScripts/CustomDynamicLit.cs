@@ -85,6 +85,7 @@ public class CustomDynamicLit : MonoBehaviour
             ambientShadowRenderer.material = Resources.Load<Material>("SkewShadowMat");
             ambientShadowRenderer.material.SetFloat("_ShadowLength", ambientShadowLength);
             ambientShadowRenderer.sprite = ambientShadowSprite != null ? ambientShadowSprite : spriteRenderer.sprite;
+            ambientShadowRenderer.sortingLayerName = "AmbientShadow";
             ambientShadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
             if (topSway)
             {
@@ -195,7 +196,7 @@ public class CustomDynamicLit : MonoBehaviour
 
     private void SetVisibility(bool visible)
     {
-        spriteRenderer.enabled = visible;
+        //spriteRenderer.enabled = visible;
         if (shadowMat != null)
         {
             for (int i = 0; i < shadowRenderers.Length; i++)
@@ -203,6 +204,8 @@ public class CustomDynamicLit : MonoBehaviour
                 shadowRenderers[i].enabled = visible;
             }
         }
+        //if(ambientShadowRenderer!=null)
+        //ambientShadowRenderer.enabled = visible;
     }
 
     private void OnEnable()
@@ -219,6 +222,7 @@ public class CustomDynamicLit : MonoBehaviour
     {
         mat.SetFloat("_AmbientLightIntensity", lightManager.ambientLightIntensity);
         mat.SetColor("_AmbientLightColor", lightManager.ambientLightColor);
+        mat.SetColor("_AmbientShadowColor", lightManager.ambientShadowColor);
 
         if (shadowMat != null)
         {
