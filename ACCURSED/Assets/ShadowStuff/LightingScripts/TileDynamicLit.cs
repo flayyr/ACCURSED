@@ -52,5 +52,6 @@ public class TileDynamicLit : MonoBehaviour
     {
         mat.SetFloat("_AmbientLightIntensity", lightManager.ambientLightIntensity);
         mat.SetColor("_AmbientLightColor", lightManager.ambientLightColor);
+        mat.SetColor("_AmbientShadowColor", lightManager.ambientShadowColor);
     }
 }

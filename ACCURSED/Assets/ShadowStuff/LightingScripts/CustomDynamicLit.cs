@@ -1,18 +1,33 @@
+using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
-using System.Collections.Generic;
+using UnityEngine.U2D;
 
 //[ExecuteAlways]
 public class CustomDynamicLit : MonoBehaviour
 {
+    [Header("Normal Map")]
     [SerializeField] Sprite normalMap;
+    [Header("Ordering")]
+    [SerializeField] int sortOrderOffset;
+    [Header("Ambient Shadow")]
+    [SerializeField] bool useAmbientShadow = true;
+    [SerializeField] Sprite ambientShadowSprite;
+    [SerializeField] float ambientShadowLength = 0.5f;
+    [Header("Additional Shadow")]
     [SerializeField] bool useAdditionalShadow;
     [SerializeField] Material shadowMat;
     [SerializeField] Sprite ShadowSprite;
-    [SerializeField] float ambientShadowStrength;
+    [SerializeField] Vector2 shadowSize = Vector2.one;
+    [Header("Wind")]
+    [SerializeField] public bool useWind;
+    [SerializeField, Range(0f, 0.05f)] float windStrength = 0.006f;
+    [SerializeField] bool topSway;
+    [SerializeField] float topSwayStrength = 0.1f;
 
     SpriteRenderer spriteRenderer;
     SpriteRenderer[] shadowRenderers;
+    SpriteRenderer ambientShadowRenderer;
 
     Material mat;
 
@@ -24,39 +39,80 @@ public class CustomDynamicLit : MonoBehaviour
 
     private void Awake()
     {
+        SetUp();
+    }
+
+    public void SetUp()
+    {
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        Material[] mats = spriteRenderer.materials;
-        List<Material> matlist = new List<Material>();
-        for(int i=0; i<mats.Length; i++)
+        spriteRenderer.material = Resources.Load<Material>("CustomLitMat");
+        if (useWind)
         {
-            matlist.Add(mats[i]);
+            spriteRenderer.material.EnableKeyword("_USEWIND");
+            spriteRenderer.material.SetFloat("_WindStrength", windStrength);
         }
-        matlist.Add(Resources.Load<Material>("CustomLitMat"));
-        spriteRenderer.SetMaterials(matlist);
+        if (topSway)
+        {
+            spriteRenderer.material.EnableKeyword("_TOPSWAY");
+            spriteRenderer.material.SetFloat("_TopSwayStrength", topSwayStrength);
+            spriteRenderer.material.SetFloat("_SwayOffset", transform.position.y * transform.position.y + transform.position.x);
+        }
+        mat = spriteRenderer.material;
 
-        depth = transform.position.y;
-        spriteRenderer.sortingOrder = (int)depth;
+        UpdateSortOrder();
 
         spriteRenderer.material.SetTexture("_NormalMap", normalMap.texture);
 
-        mat = spriteRenderer.material;
+        Sprite sprite = spriteRenderer.sprite;
+        float baseSpriteHeight = sprite.textureRect.yMin / sprite.texture.height;
+        float totalSpriteHeight = (sprite.textureRect.yMax / sprite.texture.height) - baseSpriteHeight;
+        spriteRenderer.material.SetFloat("_SpriteStartHeight", baseSpriteHeight);
+        spriteRenderer.material.SetFloat("_SpriteTotalHeight", totalSpriteHeight);
+        spriteRenderer.material.SetFloat("_TextureSize", 0.0001f * Mathf.Sqrt(sprite.texture.height * sprite.texture.height + sprite.texture.width * sprite.texture.width));
 
-        if(shadowMat == null)
+        if (shadowMat == null)
         {
             return;
         }
 
-        shadowRenderers = new SpriteRenderer[5];
+        shadowRenderers = new SpriteRenderer[4];
         GameObject shadowPrefab = Resources.Load<GameObject>("ShadowPrefab");
-        for (int i = 0; i < 1 || useAdditionalShadow && i<5; i++)
+        if (useAmbientShadow)
         {
             GameObject shadowObj = Instantiate(shadowPrefab, transform);
             shadowObj.transform.localPosition = Vector3.zero;
-            SpriteRenderer shadowRenderer = shadowObj.GetComponent<SpriteRenderer>();
-            shadowRenderer.material = shadowMat;
-            shadowRenderer.sprite = ShadowSprite;
-            shadowRenderers[i] = shadowRenderer;
+            ambientShadowRenderer = shadowObj.GetComponent<SpriteRenderer>();
+            ambientShadowRenderer.material = Resources.Load<Material>("SkewShadowMat");
+            ambientShadowRenderer.material.SetFloat("_ShadowLength", ambientShadowLength);
+            ambientShadowRenderer.sprite = ambientShadowSprite != null ? ambientShadowSprite : spriteRenderer.sprite;
+            ambientShadowRenderer.sortingLayerName = "AmbientShadow";
+            ambientShadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
+            if (topSway)
+            {
+                ambientShadowRenderer.material.EnableKeyword("_TOPSWAY");
+                ambientShadowRenderer.material.SetFloat("_TopSwayStrength", topSwayStrength);
+                ambientShadowRenderer.material.SetFloat("_SwayOffset", transform.position.y * transform.position.y + transform.position.x);
+                ambientShadowRenderer.material.SetFloat("_SpriteStartHeight", baseSpriteHeight);
+                ambientShadowRenderer.material.SetFloat("_SpriteTotalHeight", totalSpriteHeight);
+                ambientShadowRenderer.material.SetFloat("_TopSwayFallOff", spriteRenderer.material.GetFloat("_TopSwayFallOff"));
+                ambientShadowRenderer.material.SetFloat("_TopSwaySpeed", spriteRenderer.material.GetFloat("_TopSwaySpeed"));
+            }
+        }
+
+
+        if (useAdditionalShadow)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                GameObject shadowObj = Instantiate(shadowPrefab, transform);
+                shadowObj.transform.localPosition = Vector3.zero;
+                SpriteRenderer shadowRenderer = shadowObj.GetComponent<SpriteRenderer>();
+                shadowRenderer.material = shadowMat;
+                shadowRenderer.sprite = ShadowSprite;
+                shadowRenderer.material.SetVector("_ShadowScale", shadowSize);
+                shadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
+                shadowRenderers[i] = shadowRenderer;
+            }
         }
     }
 
@@ -68,6 +124,7 @@ public class CustomDynamicLit : MonoBehaviour
 
     private void Update()
     {
+
         //Hide and unhide based on camera position
         Vector2 position = transform.position;
         Vector2 boundsBotLeft = LightManager.instance.boundsBotLeft;
@@ -92,13 +149,12 @@ public class CustomDynamicLit : MonoBehaviour
         //passing light information
         affectingLights = LightManager.instance.FindAffectingLights(spriteRenderer.bounds.min, spriteRenderer.bounds.max);
 
-        depth = transform.position.y;
-        spriteRenderer.sortingOrder = (int)depth;
+        UpdateSortOrder();
         mat.SetFloat("_Depth", depth);
 
-        if (shadowMat == null)
+        if (useAmbientShadow && shadowMat!=null)
         {
-            return;
+            ambientShadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
         }
 
         for (int i = 0; i < 4; i++)
@@ -110,9 +166,10 @@ public class CustomDynamicLit : MonoBehaviour
                 mat.SetFloat("_LightRadius" + i, affectingLights[i].lightRadius);
                 mat.SetFloat("_LightIntensity" + i, affectingLights[i].lightIntensity);
 
-                if (useAdditionalShadow)
+                if (useAdditionalShadow && shadowMat != null)
                 {
-                    Material currShadowMat = shadowRenderers[i+1].material; //i+1 because 0 is used for ambient light
+                    shadowRenderers[i].sortingOrder = spriteRenderer.sortingOrder;
+                    Material currShadowMat = shadowRenderers[i].material;
                     currShadowMat.SetVector("_LightDirection", (Vector2)(transform.position - affectingLights[i].lightPosition));
                     currShadowMat.SetFloat("_LightIntensity", affectingLights[i].lightIntensity);
                     currShadowMat.SetFloat("_LightRadius", affectingLights[i].lightRadius);
@@ -123,9 +180,23 @@ public class CustomDynamicLit : MonoBehaviour
 
     }
 
+    private void OnValidate()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        UpdateSortOrder();
+    }
+
+    [ContextMenu("Execute Function")]
+    [ExecuteAlways]
+    private void UpdateSortOrder()
+    {
+        depth = transform.position.y * -10;
+        spriteRenderer.sortingOrder = Mathf.RoundToInt(depth) + sortOrderOffset;
+    }
+
     private void SetVisibility(bool visible)
     {
-        spriteRenderer.enabled = visible;
+        //spriteRenderer.enabled = visible;
         if (shadowMat != null)
         {
             for (int i = 0; i < shadowRenderers.Length; i++)
@@ -133,6 +204,8 @@ public class CustomDynamicLit : MonoBehaviour
                 shadowRenderers[i].enabled = visible;
             }
         }
+        //if(ambientShadowRenderer!=null)
+        //ambientShadowRenderer.enabled = visible;
     }
 
     private void OnEnable()
@@ -149,13 +222,26 @@ public class CustomDynamicLit : MonoBehaviour
     {
         mat.SetFloat("_AmbientLightIntensity", lightManager.ambientLightIntensity);
         mat.SetColor("_AmbientLightColor", lightManager.ambientLightColor);
+        mat.SetColor("_AmbientShadowColor", lightManager.ambientShadowColor);
 
         if (shadowMat != null)
         {
-            Material ambientShadowMat = shadowRenderers[0].material;
-            ambientShadowMat.SetVector("_LightDirection", lightManager.ambientLightDirection.normalized);
-            ambientShadowMat.SetFloat("_LightRadius", ambientShadowStrength + 1);
-            ambientShadowMat.SetFloat("_LightIntensity", lightManager.ambientLightIntensity);
+            Material ambientShadowMat = ambientShadowRenderer.material;
+            ambientShadowMat.SetFloat("_SkewAmount", lightManager.ambientShadowSkew);
+            ambientShadowMat.SetFloat("_ShadowStrength", lightManager.ambientShadowStrength);
+            ambientShadowMat.SetFloat("_FlipY", lightManager.ambientShadowFlipY?1f:0f);
         }
+    }
+
+    public void CopyValues(CustomDynamicLit other)
+    {
+        ambientShadowLength = other.ambientShadowLength;
+        //shadowMat;
+        //ShadowSprite;
+        shadowSize = other.shadowSize;
+        useWind = other.useWind;
+        windStrength = other.windStrength;
+        topSway = other.topSway;
+        topSwayStrength = other.topSwayStrength;
     }
 }

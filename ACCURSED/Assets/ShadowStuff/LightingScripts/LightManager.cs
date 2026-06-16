@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-//[ExecuteAlways]
 public class LightManager : MonoBehaviour
 {
     public static LightManager instance;
@@ -15,7 +14,10 @@ public class LightManager : MonoBehaviour
     [Header("Ambient Light")]
     [SerializeField, Range(0,1)] public float ambientLightIntensity;
     [SerializeField] public Color ambientLightColor;
-    [SerializeField] public Vector2 ambientLightDirection;
+    [SerializeField] public Color ambientShadowColor;
+    [SerializeField] public float ambientShadowSkew;
+    [SerializeField] public bool ambientShadowFlipY;
+    [SerializeField, Range(0,1)] public float ambientShadowStrength=0.1f;
 
     [HideInInspector] public Vector2 boundsBotLeft;
     [HideInInspector] public Vector2 boundsTopRight;
@@ -37,6 +39,7 @@ public class LightManager : MonoBehaviour
         LightBehavior[] lightBehaviorsArray =  FindObjectsByType<LightBehavior>(FindObjectsSortMode.None);
         lightBehaviors = new List<LightBehavior>(lightBehaviorsArray);
         cullTimer = 0;
+        OnAmbientUpdate?.Invoke(this);
     }
 
     private void Update()

@@ -24,8 +24,10 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 7077cd2556965ce40a0e3a6ec41455dc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_ValidKeywords:
+  - _SHAKEINTERACT
+  m_InvalidKeywords:
+  - _WINDMODE_APPLYEQUALLY
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -58,9 +60,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AmbientLightIntensity: 0.29
+    - _AmbientLightIntensity: 1
     - _BackLitDimmingStrength: 4
     - _BackLitFadeDistance: 1
+    - _DOWNWARDSHADOW: 0
     - _Depth: 0
     - _LightIntensity: 0.7
     - _LightIntensity0: 0.7
@@ -73,9 +76,28 @@ Material:
     - _LightRadius2: 4
     - _LightRadius3: 0
     - _NormalMapStrength: 1
+    - _SHAKEINTERACT: 1
+    - _ShadowFadeInRate: 1
+    - _ShakeAmount: 0
+    - _SpriteStartHeight: 0
+    - _SpriteTotalHeight: 1
+    - _SwayOffset: 0
+    - _TOPSWAY: 0
+    - _TextureHeight: 1
+    - _TextureSize: 1
+    - _TopSwayFallOff: 3
+    - _TopSwaySpeed: 0.76
+    - _TopSwayStrength: 0.03
+    - _USEWIND: 0
+    - _WINDAPPLYMORETOTOP: 0
+    - _WINDMODE: 0
+    - _WindModeStrength: 2
+    - _WindSpeed: 0.3
+    - _WindStrength: 0.006
     m_Colors:
     - White: {r: 1, g: 1, b: 1, a: 1}
-    - _AmbientLightColor: {r: 1, g: 0.84435576, b: 0.5330188, a: 1}
+    - _AmbientLightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _AmbientShadowColor: {r: 0.6509804, g: 0.454902, b: 0.39607847, a: 1}
     - _LightColor: {r: 1, g: 1, b: 1, a: 0}
     - _LightColor0: {r: 1, g: 1, b: 1, a: 0}
     - _LightColor1: {r: 1, g: 1, b: 1, a: 0}
