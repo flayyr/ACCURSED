@@ -222,6 +222,7 @@ public class CustomDynamicLit : MonoBehaviour
     {
         mat.SetFloat("_AmbientLightIntensity", lightManager.ambientLightIntensity);
         mat.SetColor("_AmbientLightColor", lightManager.ambientLightColor);
+        mat.SetColor("_AmbientShadowColor", lightManager.ambientShadowColor);
 
         if (shadowMat != null)
         {

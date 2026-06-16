@@ -14,6 +14,7 @@ public class LightManager : MonoBehaviour
     [Header("Ambient Light")]
     [SerializeField, Range(0,1)] public float ambientLightIntensity;
     [SerializeField] public Color ambientLightColor;
+    [SerializeField] public Color ambientShadowColor;
     [SerializeField] public float ambientShadowSkew;
     [SerializeField] public bool ambientShadowFlipY;
     [SerializeField, Range(0,1)] public float ambientShadowStrength=0.1f;
