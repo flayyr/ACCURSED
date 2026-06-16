@@ -137,10 +137,14 @@ PrefabInstance:
     - target: {fileID: 4393837047372805898, guid: f716723a31e57c7449a5bca5b8ba0e8d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 12ccdba7d0f9788449fc02d51718fa6c, type: 2}
+      objectReference: {fileID: 2100000, guid: 33b81b5a14e470e41a3a2cbf9b4d7fcc, type: 2}
     - target: {fileID: 4865801552922949794, guid: f716723a31e57c7449a5bca5b8ba0e8d, type: 3}
       propertyPath: UVModule.tilesX
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4865801552922949794, guid: f716723a31e57c7449a5bca5b8ba0e8d, type: 3}
+      propertyPath: UVModule.tilesY
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4865801552922949794, guid: f716723a31e57c7449a5bca5b8ba0e8d, type: 3}
       propertyPath: UVModule.enabled
@@ -399,10 +403,14 @@ PrefabInstance:
     - target: {fileID: 4393837047372805898, guid: c43753b86cd909147b28b3d75764f09d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 12ccdba7d0f9788449fc02d51718fa6c, type: 2}
+      objectReference: {fileID: 2100000, guid: 33b81b5a14e470e41a3a2cbf9b4d7fcc, type: 2}
     - target: {fileID: 4865801552922949794, guid: c43753b86cd909147b28b3d75764f09d, type: 3}
       propertyPath: UVModule.tilesX
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4865801552922949794, guid: c43753b86cd909147b28b3d75764f09d, type: 3}
+      propertyPath: UVModule.tilesY
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4865801552922949794, guid: c43753b86cd909147b28b3d75764f09d, type: 3}
       propertyPath: UVModule.enabled
@@ -634,9 +642,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5250541592027013680}
     m_Modifications:
+    - target: {fileID: 2341821180202322976, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5b28cf3cc30192b4394272a8ee3994a4, type: 2}
     - target: {fileID: 4972329507209540218, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: m_Name
       value: SceneSparkleParticleSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.74509805
       objectReference: {fileID: 0}
     - target: {fileID: 6996062603809501972, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: m_LocalPosition.x
@@ -696,6 +724,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5250541592027013680}
     m_Modifications:
+    - target: {fileID: 2341821180202322976, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5b28cf3cc30192b4394272a8ee3994a4, type: 2}
     - target: {fileID: 4972329507209540218, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: m_Name
       value: SceneSparkleParticleSystem (2)
@@ -722,7 +754,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 0.25
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
@@ -730,7 +762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: InitialModule.startSize.minScalar
-      value: 0.15
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: NoiseModule.positionAmount.scalar
@@ -747,6 +779,14 @@ PrefabInstance:
     - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: InitialModule.startSpeed.minScalar
       value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.74509805
       objectReference: {fileID: 0}
     - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: InitialModule.startLifetime.minScalar
@@ -869,10 +909,14 @@ PrefabInstance:
     - target: {fileID: 4393837047372805898, guid: 0acd654eef62e9343b07da46a52da049, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 12ccdba7d0f9788449fc02d51718fa6c, type: 2}
+      objectReference: {fileID: 2100000, guid: 33b81b5a14e470e41a3a2cbf9b4d7fcc, type: 2}
     - target: {fileID: 4865801552922949794, guid: 0acd654eef62e9343b07da46a52da049, type: 3}
       propertyPath: UVModule.tilesX
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4865801552922949794, guid: 0acd654eef62e9343b07da46a52da049, type: 3}
+      propertyPath: UVModule.tilesY
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4865801552922949794, guid: 0acd654eef62e9343b07da46a52da049, type: 3}
       propertyPath: UVModule.enabled
@@ -1100,6 +1144,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5250541592027013680}
     m_Modifications:
+    - target: {fileID: 2341821180202322976, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5b28cf3cc30192b4394272a8ee3994a4, type: 2}
     - target: {fileID: 4972329507209540218, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: m_Name
       value: SceneSparkleParticleSystem (1)
@@ -1126,7 +1174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 0.25
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
@@ -1134,7 +1182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: InitialModule.startSize.minScalar
-      value: 0.15
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: NoiseModule.positionAmount.scalar
@@ -1151,6 +1199,14 @@ PrefabInstance:
     - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: InitialModule.startSpeed.minScalar
       value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.74509805
       objectReference: {fileID: 0}
     - target: {fileID: 5246820073939043347, guid: a3a28931b3c620045b2b40b2af627617, type: 3}
       propertyPath: InitialModule.startLifetime.minScalar
@@ -1273,10 +1329,14 @@ PrefabInstance:
     - target: {fileID: 4393837047372805898, guid: 984a33e921ab0494d817858846ee7cdb, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 12ccdba7d0f9788449fc02d51718fa6c, type: 2}
+      objectReference: {fileID: 2100000, guid: 33b81b5a14e470e41a3a2cbf9b4d7fcc, type: 2}
     - target: {fileID: 4865801552922949794, guid: 984a33e921ab0494d817858846ee7cdb, type: 3}
       propertyPath: UVModule.tilesX
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4865801552922949794, guid: 984a33e921ab0494d817858846ee7cdb, type: 3}
+      propertyPath: UVModule.tilesY
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4865801552922949794, guid: 984a33e921ab0494d817858846ee7cdb, type: 3}
       propertyPath: UVModule.enabled
