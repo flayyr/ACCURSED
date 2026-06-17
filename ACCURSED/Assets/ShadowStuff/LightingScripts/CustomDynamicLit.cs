@@ -190,7 +190,7 @@ public class CustomDynamicLit : MonoBehaviour
     [ExecuteAlways]
     private void UpdateSortOrder()
     {
-        depth = transform.position.y * -10;
+        depth = transform.position.y * -10f;
         spriteRenderer.sortingOrder = Mathf.RoundToInt(depth) + sortOrderOffset;
     }
 
