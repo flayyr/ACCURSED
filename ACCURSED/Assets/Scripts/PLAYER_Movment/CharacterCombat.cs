@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,8 @@ public class Combo
 public class Attack
 {
     [SerializeField] public string name;
+    [SerializeField] public float enemyWindMin;
+    [SerializeField] public float enemyWindMax;
 }
 
 public class CharacterCombat : MonoBehaviour
@@ -28,6 +31,7 @@ public class CharacterCombat : MonoBehaviour
     public int currentAttack = 0;
     public bool attackButton; // shows when the button is pressed
     public bool attacking;
+    public bool releasing;
     public bool attackCue;
     #endregion
 
@@ -66,12 +70,14 @@ public class CharacterCombat : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
             attacking = true;
             winding = true;
+            releasing = false;
             Wind();
         }
         else if (!attackButton && winding)
         {
             attacking = true;
             winding = false;
+            releasing = true;
             Attack();
         }
         else if (attackButton && attacking)
@@ -118,6 +124,7 @@ public class CharacterCombat : MonoBehaviour
             attackCue = false;
             attacking = true;
             winding = true;
+            releasing = false;
             Wind();
         }
         else if (attackCue)
@@ -126,11 +133,13 @@ public class CharacterCombat : MonoBehaviour
             attackCue = false;
             attacking = true;
             winding = false;
+            releasing = true;
             Attack();
         }
         else
         {
             attacking = false;
+            releasing = false;
             currentAttack = 0;
             cMovement.movementState = CharacterMovement.MovementState.normal;
         }
