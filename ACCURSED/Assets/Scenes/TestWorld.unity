@@ -351727,6 +351727,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EscMenuController
   escMenu: {fileID: 69483679}
+  inventoryUI: {fileID: 0}
+  statusUI: {fileID: 0}
 --- !u!1 &310157686
 GameObject:
   m_ObjectHideFlags: 0
@@ -351922,6 +351924,14 @@ PrefabInstance:
     - target: {fileID: 352467813699495987, guid: 90a6a5190a6d1294cb6e20fab0ef8a2f, type: 3}
       propertyPath: m_Name
       value: altar_tree_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 862681674822158737, guid: 90a6a5190a6d1294cb6e20fab0ef8a2f, type: 3}
+      propertyPath: particleOffset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 862681674822158737, guid: 90a6a5190a6d1294cb6e20fab0ef8a2f, type: 3}
+      propertyPath: particleOffset.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1902291903921817611, guid: 90a6a5190a6d1294cb6e20fab0ef8a2f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -467954,6 +467964,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5557778889659816787, guid: 90a6a5190a6d1294cb6e20fab0ef8a2f, type: 3}
+      propertyPath: m_SortingOrder
+      value: -385
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -468203,13 +468217,20 @@ MonoBehaviour:
   - name: Test Combo
     attacks:
     - name: Attack1
+      enemyWindMin: 0
+      enemyWindMax: 0
     - name: Attack2
+      enemyWindMin: 0
+      enemyWindMax: 0
     - name: Attack3
+      enemyWindMin: 0
+      enemyWindMax: 0
   winding: 0
   currentCombo: 0
   currentAttack: 0
   attackButton: 0
   attacking: 0
+  releasing: 0
   attackCue: 0
 --- !u!114 &1131957932
 MonoBehaviour:
@@ -727982,6 +728003,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar_tree_3
       objectReference: {fileID: 0}
+    - target: {fileID: 6421082885318541606, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
+      propertyPath: m_SortingOrder
+      value: -169
+      objectReference: {fileID: 0}
     - target: {fileID: 6731670464589008799, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.2967796
@@ -735757,6 +735782,10 @@ PrefabInstance:
     - target: {fileID: 5267891088191196220, guid: 41bff062f7185cf4d9f2baa85032654d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6643949309771850276, guid: 41bff062f7185cf4d9f2baa85032654d, type: 3}
+      propertyPath: m_SortingOrder
+      value: -244
       objectReference: {fileID: 0}
     - target: {fileID: 8650559784950143176, guid: 41bff062f7185cf4d9f2baa85032654d, type: 3}
       propertyPath: m_Name
@@ -746424,6 +746453,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 27388803}
     m_Modifications:
+    - target: {fileID: 739402143170034246, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
+      propertyPath: particleOffset.y
+      value: 3.25
+      objectReference: {fileID: 0}
     - target: {fileID: 3763304914917054391, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
       propertyPath: m_Name
       value: altar_tree_3
@@ -746471,6 +746504,18 @@ PrefabInstance:
     - target: {fileID: 6731670464589008799, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904171315820443524, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
+      propertyPath: particleOffset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904171315820443524, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
+      propertyPath: burstMaxParticles
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904171315820443524, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
+      propertyPath: hitboxLayer.m_Bits
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 9167713703553086328, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
       propertyPath: m_SortingOrder
@@ -750630,13 +750675,20 @@ MonoBehaviour:
   - name: Test Combo
     attacks:
     - name: Attack1
+      enemyWindMin: 0
+      enemyWindMax: 0
     - name: Attack2
+      enemyWindMin: 0
+      enemyWindMax: 0
     - name: Attack3
+      enemyWindMin: 0
+      enemyWindMax: 0
   winding: 0
   currentCombo: 0
   currentAttack: 0
   attackButton: 0
   attacking: 0
+  releasing: 0
   attackCue: 0
 --- !u!114 &1973735562
 MonoBehaviour:

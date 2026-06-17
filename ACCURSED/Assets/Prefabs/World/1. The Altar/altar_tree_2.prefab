@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 8863899776730893363}
   - component: {fileID: 4765500825686550233}
   - component: {fileID: 3623816604750632323}
+  - component: {fileID: 8400686413905753815}
+  - component: {fileID: 2827141007473528463}
   m_Layer: 0
   m_Name: altar_tree_2
   m_TagString: Untagged
@@ -133,6 +135,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TreeScript
   leafSprite: {fileID: -8410739447840845725, guid: 4f2b987b349ddff498596eaf80e2da38, type: 3}
   leavesDynamicLit: {fileID: 0}
+--- !u!50 &8400686413905753815
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3891360805445586631}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &2827141007473528463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3891360805445586631}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c705f07d0ffed784292f58f4dfbcbb26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TreeHitParticleBurst
+  hitboxLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  treeHitCollider: {fileID: 0}
+  hitCooldown: 0.1
+  hitParticles: {fileID: 5502849485854733194}
+  burstAmount: 5
+  burstMaxParticles: 50
+  maxParticleResetDelay: 0.5
+  burstAtHitPoint: 0
+  particleOffset: {x: 0, y: 0, z: 0}
 --- !u!1001 &2268110410272800231
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -197,5 +249,10 @@ PrefabInstance:
 --- !u!4 &3301424439644658008 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3650438458653861055, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
+  m_PrefabInstance: {fileID: 2268110410272800231}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5502849485854733194 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5992037195578543725, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
   m_PrefabInstance: {fileID: 2268110410272800231}
   m_PrefabAsset: {fileID: 0}
