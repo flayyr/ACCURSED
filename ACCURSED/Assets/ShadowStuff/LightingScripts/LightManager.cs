@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -18,6 +19,8 @@ public class LightManager : MonoBehaviour
     [SerializeField] public float ambientShadowSkew;
     [SerializeField] public bool ambientShadowFlipY;
     [SerializeField, Range(0,1)] public float ambientShadowStrength=0.1f;
+
+    //[SerializeField] Material[] materialRefs;
 
     [HideInInspector] public Vector2 boundsBotLeft;
     [HideInInspector] public Vector2 boundsTopRight;
@@ -167,6 +170,25 @@ public class LightManager : MonoBehaviour
         }
         return output;
     }
+
+    //[ContextMenu("Update Materials")]
+    //public void UpdateLightInMaterial()
+    //{
+    //    for (int i = 0; i < materialRefs.Length; i++)
+    //    {
+    //        materialRefs[i].SetColor("AmbientLightColor", ambientLightColor);
+    //        materialRefs[i].SetColor("AmbientShadowColor", ambientShadowColor);
+    //        materialRefs[i].SetFloat("AmbientLightIntensity", ambientLightIntensity);
+    //        EditorUtility.SetDirty(materialRefs[i]);
+    //        AssetDatabase.SaveAssetIfDirty(materialRefs[i]);
+    //    }
+    //    Material mat = Resources.Load<Material>("TileDynamicLitMat");
+    //    mat.SetColor("AmbientLightColor", ambientLightColor);
+    //    mat.SetColor("AmbientShadowColor", ambientShadowColor);
+    //    mat.SetFloat("AmbientLightIntensity", ambientLightIntensity);
+    //    EditorUtility.SetDirty(mat);
+    //    AssetDatabase.SaveAssetIfDirty(mat);
+    //}
 
 
 }
