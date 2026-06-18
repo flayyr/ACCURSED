@@ -3,14 +3,25 @@ using System.Collections;
 
 public class HUDProperties : MonoBehaviour
 {
+    public static HUDProperties Instance { get; private set; }
+
     [SerializeField] private CanvasGroup hudCanvas;
 
     private Coroutine HUDAppear;
     private bool isShowing;
+
     void Awake()
     {
         hudCanvas.alpha = 0f;
         isShowing = false;
+
+        // Singleton check
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
     }
 
     void Update()
@@ -34,28 +45,9 @@ public class HUDProperties : MonoBehaviour
 
     private IEnumerator HUDCoroutine()
     {
-        yield return FadeTransition(0f, 1f, 0.4f);
+        yield return UITransitions.Instance.FadeTransition(hudCanvas, 0f, 1f, 0.3f);
         yield return new WaitForSeconds(7); // change this value to increase time before fade out
-        yield return FadeTransition(1f, 0f, 0.8f);
+        yield return UITransitions.Instance.FadeTransition(hudCanvas, 1f, 0f, 0.4f);
         isShowing = false;
-    }
-
-    /* To Fade In: FadeTransition(0f, 1f, X), To Fade Out: FadeTransition(1f, 0f, X)
-     * Lower fadeDur = faster fade transition, higher = slower fade trnasition
-     */
-    private IEnumerator FadeTransition(float startAlp, float endAlp, float fadeDur)
-    {
-        float elapsed = 0f;
-
-        while (elapsed < fadeDur)
-        {
-            elapsed += Time.deltaTime;
-
-            hudCanvas.alpha = Mathf.Lerp(startAlp, endAlp, elapsed / fadeDur);
-
-            yield return null;
-        }
-
-        hudCanvas.alpha = endAlp;
     }
 }
