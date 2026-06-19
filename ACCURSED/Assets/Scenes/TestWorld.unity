@@ -191,6 +191,7 @@ GameObject:
   - component: {fileID: 3384572}
   - component: {fileID: 3384574}
   - component: {fileID: 3384573}
+  - component: {fileID: 3384575}
   m_Layer: 0
   m_Name: Trees_0 (60)
   m_TagString: Untagged
@@ -297,6 +298,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &3384575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3384571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &3834137
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -419,6 +433,10 @@ PrefabInstance:
       propertyPath: topSwayStrength
       value: 0.04
       objectReference: {fileID: 0}
+    - target: {fileID: 5944240748657274235, guid: 5e898db04c9f3424ea788653c2b4a3bd, type: 3}
+      propertyPath: m_SortingOrder
+      value: -179
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -480,6 +498,10 @@ PrefabInstance:
     - target: {fileID: 7958751987382932465, guid: 52dece72aa292c14183fae85bf16628e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7974953106165566927, guid: 52dece72aa292c14183fae85bf16628e, type: 3}
+      propertyPath: m_SortingOrder
+      value: -400
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -605,6 +627,7 @@ GameObject:
   - component: {fileID: 26371774}
   - component: {fileID: 26371776}
   - component: {fileID: 26371775}
+  - component: {fileID: 26371777}
   m_Layer: 0
   m_Name: Trees_0 (29)
   m_TagString: Untagged
@@ -711,6 +734,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &26371777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26371773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &27371410
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,6 +758,7 @@ GameObject:
   - component: {fileID: 27371411}
   - component: {fileID: 27371413}
   - component: {fileID: 27371412}
+  - component: {fileID: 27371414}
   m_Layer: 0
   m_Name: Trees_0 (20)
   m_TagString: Untagged
@@ -828,6 +865,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &27371414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27371410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &27388802
 GameObject:
   m_ObjectHideFlags: 0
@@ -1403,6 +1453,7 @@ GameObject:
   - component: {fileID: 33166113}
   - component: {fileID: 33166115}
   - component: {fileID: 33166114}
+  - component: {fileID: 33166116}
   m_Layer: 0
   m_Name: Trees_0 (37)
   m_TagString: Untagged
@@ -1509,6 +1560,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &33166116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33166112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!4 &34987278 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4586696758980641604, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
@@ -1525,6 +1589,7 @@ GameObject:
   - component: {fileID: 37424128}
   - component: {fileID: 37424130}
   - component: {fileID: 37424129}
+  - component: {fileID: 37424131}
   m_Layer: 0
   m_Name: Trees_0 (23)
   m_TagString: Untagged
@@ -1631,6 +1696,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &37424131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37424127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &45377676
 GameObject:
   m_ObjectHideFlags: 0
@@ -1864,6 +1942,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar_tallgrass_6
       objectReference: {fileID: 0}
+    - target: {fileID: 3539301410858014436, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
+      propertyPath: m_SortingOrder
+      value: -255
+      objectReference: {fileID: 0}
     - target: {fileID: 4586696758980641604, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.7050285
@@ -2028,6 +2110,7 @@ GameObject:
   - component: {fileID: 56552334}
   - component: {fileID: 56552336}
   - component: {fileID: 56552335}
+  - component: {fileID: 56552337}
   m_Layer: 0
   m_Name: Trees_0 (88)
   m_TagString: Untagged
@@ -2134,6 +2217,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &56552337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56552333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &57753005
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2712,6 +2808,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5503700572686585439, guid: 0fa908aa35371a84dbf985b81c2d3e25, type: 3}
+      propertyPath: m_SortingOrder
+      value: -336
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2728,6 +2828,7 @@ GameObject:
   - component: {fileID: 84425850}
   - component: {fileID: 84425852}
   - component: {fileID: 84425851}
+  - component: {fileID: 84425853}
   m_Layer: 0
   m_Name: Trees_0 (44)
   m_TagString: Untagged
@@ -2834,6 +2935,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &84425853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84425849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!4 &85774293 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2474034808088653829, guid: 9a356a7b4fab1d341b92e17470a630b9, type: 3}
@@ -3663,6 +3777,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7927572949827037393, guid: 690e28b9376804642848366a24aff682, type: 3}
+      propertyPath: m_SortingOrder
+      value: -109
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3901,6 +4019,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 856774685}
     m_Modifications:
+    - target: {fileID: 3376295927196021220, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
+      propertyPath: m_SortingOrder
+      value: -216
+      objectReference: {fileID: 0}
     - target: {fileID: 3633840132661566084, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_8 (2)
@@ -3971,6 +4093,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar_tallgrass_3 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7763667024357722240, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
+      propertyPath: m_SortingOrder
+      value: -226
+      objectReference: {fileID: 0}
     - target: {fileID: 7999518630563461482, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.906845
@@ -4027,6 +4153,7 @@ GameObject:
   - component: {fileID: 172831418}
   - component: {fileID: 172831420}
   - component: {fileID: 172831419}
+  - component: {fileID: 172831421}
   m_Layer: 0
   m_Name: Trees_0 (54)
   m_TagString: Untagged
@@ -4133,6 +4260,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &172831421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172831417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &177899413
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4345,6 +4485,7 @@ GameObject:
   - component: {fileID: 182494541}
   - component: {fileID: 182494543}
   - component: {fileID: 182494542}
+  - component: {fileID: 182494544}
   m_Layer: 0
   m_Name: Trees_0 (15)
   m_TagString: Untagged
@@ -4451,11 +4592,152 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &182494544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182494540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!4 &184166988 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6731670464589008799, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
   m_PrefabInstance: {fileID: 1615666037}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &191396375
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 191396376}
+  - component: {fileID: 191396378}
+  - component: {fileID: 191396377}
+  m_Layer: 0
+  m_Name: ReflectionTextureCaptureCamera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &191396376
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191396375}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 519420032}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &191396377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191396375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
+--- !u!20 &191396378
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191396375}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 34
+  orthographic: 1
+  orthographic size: 6
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 512
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 8400000, guid: d0094efac8f2c7e4fb3a16d81537b417, type: 2}
+  m_TargetDisplay: 0
+  m_TargetEye: 0
+  m_HDR: 1
+  m_AllowMSAA: 0
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 0
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1001 &192526125
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4503,6 +4785,10 @@ PrefabInstance:
     - target: {fileID: 2292607131871731595, guid: d2dcb71936f981e46b6f6d6b76406fc7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3369757406932514545, guid: d2dcb71936f981e46b6f6d6b76406fc7, type: 3}
+      propertyPath: m_SortingOrder
+      value: -112
       objectReference: {fileID: 0}
     - target: {fileID: 8984482194199159130, guid: d2dcb71936f981e46b6f6d6b76406fc7, type: 3}
       propertyPath: m_Name
@@ -5475,6 +5761,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar_tallgrass_4 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5847741706449444685, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
+      propertyPath: m_SortingOrder
+      value: -192
+      objectReference: {fileID: 0}
     - target: {fileID: 7158672462816268937, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
       propertyPath: topSwayStrength
       value: 0.04
@@ -5658,6 +5948,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar_tallgrass_3
       objectReference: {fileID: 0}
+    - target: {fileID: 7763667024357722240, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
+      propertyPath: m_SortingOrder
+      value: -295
+      objectReference: {fileID: 0}
     - target: {fileID: 7999518630563461482, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.2286034
@@ -5759,6 +6053,10 @@ PrefabInstance:
     - target: {fileID: 8206727374385728105, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586153981947168847, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
+      propertyPath: m_SortingOrder
+      value: -246
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5884,6 +6182,7 @@ GameObject:
   - component: {fileID: 254428993}
   - component: {fileID: 254428995}
   - component: {fileID: 254428994}
+  - component: {fileID: 254428996}
   m_Layer: 0
   m_Name: Trees_0 (34)
   m_TagString: Untagged
@@ -5990,6 +6289,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &254428996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254428992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &254626084
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6132,6 +6444,7 @@ GameObject:
   - component: {fileID: 256745820}
   - component: {fileID: 256745822}
   - component: {fileID: 256745821}
+  - component: {fileID: 256745823}
   m_Layer: 0
   m_Name: Trees_0 (63)
   m_TagString: Untagged
@@ -6238,6 +6551,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &256745823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256745819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &259962719
 GameObject:
   m_ObjectHideFlags: 0
@@ -6249,6 +6575,7 @@ GameObject:
   - component: {fileID: 259962720}
   - component: {fileID: 259962722}
   - component: {fileID: 259962721}
+  - component: {fileID: 259962723}
   m_Layer: 0
   m_Name: Trees_0 (64)
   m_TagString: Untagged
@@ -6355,6 +6682,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &259962723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259962719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &264540630
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6406,6 +6746,10 @@ PrefabInstance:
     - target: {fileID: 3301797614970422870, guid: 5e898db04c9f3424ea788653c2b4a3bd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5944240748657274235, guid: 5e898db04c9f3424ea788653c2b4a3bd, type: 3}
+      propertyPath: m_SortingOrder
+      value: -397
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6637,6 +6981,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar_tallgrass_4 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5847741706449444685, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
+      propertyPath: m_SortingOrder
+      value: -264
+      objectReference: {fileID: 0}
     - target: {fileID: 8398948954218928701, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.41
@@ -6756,6 +7104,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 856774685}
     m_Modifications:
+    - target: {fileID: 3376295927196021220, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
+      propertyPath: m_SortingOrder
+      value: -168
+      objectReference: {fileID: 0}
     - target: {fileID: 3633840132661566084, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_8
@@ -351435,6 +351787,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar_tallgrass_4
       objectReference: {fileID: 0}
+    - target: {fileID: 5847741706449444685, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
+      propertyPath: m_SortingOrder
+      value: -246
+      objectReference: {fileID: 0}
     - target: {fileID: 8398948954218928701, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.1205063
@@ -351488,6 +351844,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 856774685}
     m_Modifications:
+    - target: {fileID: 3376295927196021220, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
+      propertyPath: m_SortingOrder
+      value: -302
+      objectReference: {fileID: 0}
     - target: {fileID: 3633840132661566084, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_8
@@ -352047,6 +352407,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8586153981947168847, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
+      propertyPath: m_SortingOrder
+      value: -296
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -352185,6 +352549,10 @@ PrefabInstance:
     - target: {fileID: 2884377666826467502, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_6 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3539301410858014436, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
+      propertyPath: m_SortingOrder
+      value: -175
       objectReference: {fileID: 0}
     - target: {fileID: 4586696758980641604, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -352642,6 +353010,7 @@ GameObject:
   - component: {fileID: 373881630}
   - component: {fileID: 373881632}
   - component: {fileID: 373881631}
+  - component: {fileID: 373881633}
   m_Layer: 0
   m_Name: Trees_0 (31)
   m_TagString: Untagged
@@ -352748,6 +353117,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &373881633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373881629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!4 &374490467 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4586696758980641604, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
@@ -352764,6 +353146,7 @@ GameObject:
   - component: {fileID: 380629333}
   - component: {fileID: 380629335}
   - component: {fileID: 380629334}
+  - component: {fileID: 380629336}
   m_Layer: 0
   m_Name: Trees_0 (14)
   m_TagString: Untagged
@@ -352870,6 +353253,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &380629336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380629332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &382899241
 GameObject:
   m_ObjectHideFlags: 0
@@ -352881,6 +353277,7 @@ GameObject:
   - component: {fileID: 382899242}
   - component: {fileID: 382899244}
   - component: {fileID: 382899243}
+  - component: {fileID: 382899245}
   m_Layer: 0
   m_Name: Trees_0 (84)
   m_TagString: Untagged
@@ -352987,6 +353384,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &382899245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382899241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &385672167
 GameObject:
   m_ObjectHideFlags: 0
@@ -353146,6 +353556,10 @@ PrefabInstance:
     - target: {fileID: 8206727374385728105, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586153981947168847, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
+      propertyPath: m_SortingOrder
+      value: -170
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -353312,6 +353726,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8586153981947168847, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
+      propertyPath: m_SortingOrder
+      value: -245
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -353435,6 +353853,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5944240748657274235, guid: 5e898db04c9f3424ea788653c2b4a3bd, type: 3}
+      propertyPath: m_SortingOrder
+      value: -257
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -353495,6 +353917,10 @@ PrefabInstance:
     - target: {fileID: 7872011395165629141, guid: 690e28b9376804642848366a24aff682, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927572949827037393, guid: 690e28b9376804642848366a24aff682, type: 3}
+      propertyPath: m_SortingOrder
+      value: -194
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -353777,6 +354203,10 @@ PrefabInstance:
     - target: {fileID: 8206727374385728105, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586153981947168847, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
+      propertyPath: m_SortingOrder
+      value: -323
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -354081,6 +354511,7 @@ GameObject:
   - component: {fileID: 413082831}
   - component: {fileID: 413082830}
   - component: {fileID: 413082829}
+  - component: {fileID: 413082832}
   m_Layer: 0
   m_Name: Trees_0 (3)
   m_TagString: Untagged
@@ -354187,6 +354618,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 267774850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &413082832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413082828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &420092826
 GameObject:
   m_ObjectHideFlags: 0
@@ -354447,6 +354891,7 @@ GameObject:
   - component: {fileID: 423631099}
   - component: {fileID: 423631101}
   - component: {fileID: 423631100}
+  - component: {fileID: 423631102}
   m_Layer: 0
   m_Name: Trees_0 (62)
   m_TagString: Untagged
@@ -354553,6 +354998,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &423631102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423631098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &423988856
 GameObject:
   m_ObjectHideFlags: 0
@@ -355004,6 +355462,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5503700572686585439, guid: 0fa908aa35371a84dbf985b81c2d3e25, type: 3}
+      propertyPath: m_SortingOrder
+      value: -296
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -355025,6 +355487,7 @@ GameObject:
   - component: {fileID: 446321829}
   - component: {fileID: 446321831}
   - component: {fileID: 446321830}
+  - component: {fileID: 446321832}
   m_Layer: 0
   m_Name: Trees_0 (59)
   m_TagString: Untagged
@@ -355131,6 +355594,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &446321832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446321828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!4 &452145713 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7999518630563461482, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
@@ -355585,6 +356061,10 @@ PrefabInstance:
     - target: {fileID: 7872011395165629141, guid: 690e28b9376804642848366a24aff682, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927572949827037393, guid: 690e28b9376804642848366a24aff682, type: 3}
+      propertyPath: m_SortingOrder
+      value: -299
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -363019,6 +363499,7 @@ GameObject:
   - component: {fileID: 472435857}
   - component: {fileID: 472435859}
   - component: {fileID: 472435858}
+  - component: {fileID: 472435860}
   m_Layer: 0
   m_Name: Trees_0 (30)
   m_TagString: Untagged
@@ -363125,6 +363606,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &472435860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472435856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &478324338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -363247,6 +363741,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7927572949827037393, guid: 690e28b9376804642848366a24aff682, type: 3}
+      propertyPath: m_SortingOrder
+      value: -178
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -363265,6 +363763,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 856774685}
     m_Modifications:
+    - target: {fileID: 3376295927196021220, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
+      propertyPath: m_SortingOrder
+      value: -202
+      objectReference: {fileID: 0}
     - target: {fileID: 3633840132661566084, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_8 (3)
@@ -363882,6 +364384,7 @@ GameObject:
   - component: {fileID: 509831868}
   - component: {fileID: 509831870}
   - component: {fileID: 509831869}
+  - component: {fileID: 509831871}
   m_Layer: 0
   m_Name: Trees_0 (25)
   m_TagString: Untagged
@@ -363988,6 +364491,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &509831871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509831867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &510097513
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -364364,10 +364880,11 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 42.54, y: 22.76, z: -10}
+  m_LocalPosition: {x: 34.2, y: -67.7, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 191396376}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &519420033
@@ -364395,6 +364912,7 @@ GameObject:
   - component: {fileID: 524833133}
   - component: {fileID: 524833135}
   - component: {fileID: 524833134}
+  - component: {fileID: 524833136}
   m_Layer: 0
   m_Name: Trees_0 (11)
   m_TagString: Untagged
@@ -364501,6 +365019,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &524833136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524833132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &528521545
 GameObject:
   m_ObjectHideFlags: 0
@@ -364885,6 +365416,7 @@ GameObject:
   - component: {fileID: 537402558}
   - component: {fileID: 537402560}
   - component: {fileID: 537402559}
+  - component: {fileID: 537402561}
   m_Layer: 0
   m_Name: Trees_0 (67)
   m_TagString: Untagged
@@ -364991,6 +365523,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &537402561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537402557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &539286903
 GameObject:
   m_ObjectHideFlags: 0
@@ -365002,6 +365547,7 @@ GameObject:
   - component: {fileID: 539286904}
   - component: {fileID: 539286906}
   - component: {fileID: 539286905}
+  - component: {fileID: 539286907}
   m_Layer: 0
   m_Name: Trees_0 (41)
   m_TagString: Untagged
@@ -365108,6 +365654,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &539286907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539286903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &543587639
 GameObject:
   m_ObjectHideFlags: 0
@@ -365293,6 +365852,7 @@ GameObject:
   - component: {fileID: 549121696}
   - component: {fileID: 549121698}
   - component: {fileID: 549121697}
+  - component: {fileID: 549121699}
   m_Layer: 0
   m_Name: Trees_0 (50)
   m_TagString: Untagged
@@ -365399,6 +365959,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &549121699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549121695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &551621114
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -365410,6 +365983,10 @@ PrefabInstance:
     - target: {fileID: 5580886912982624593, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_4 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847741706449444685, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
+      propertyPath: m_SortingOrder
+      value: -297
       objectReference: {fileID: 0}
     - target: {fileID: 7158672462816268937, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
       propertyPath: topSwayStrength
@@ -365476,6 +366053,7 @@ GameObject:
   - component: {fileID: 553526817}
   - component: {fileID: 553526819}
   - component: {fileID: 553526818}
+  - component: {fileID: 553526820}
   m_Layer: 0
   m_Name: Trees_0 (66)
   m_TagString: Untagged
@@ -365582,6 +366160,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &553526820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553526816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!4 &553805976 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7999518630563461482, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
@@ -365744,6 +366335,7 @@ GameObject:
   - component: {fileID: 566904518}
   - component: {fileID: 566904517}
   - component: {fileID: 566904516}
+  - component: {fileID: 566904519}
   m_Layer: 0
   m_Name: Trees_0 (4)
   m_TagString: Untagged
@@ -365850,6 +366442,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 267774850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &566904519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566904515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &580422900
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -365906,6 +366511,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5503700572686585439, guid: 0fa908aa35371a84dbf985b81c2d3e25, type: 3}
+      propertyPath: m_SortingOrder
+      value: -217
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -365931,6 +366540,10 @@ PrefabInstance:
     - target: {fileID: 2660617951348390547, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_3 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7763667024357722240, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
+      propertyPath: m_SortingOrder
+      value: -322
       objectReference: {fileID: 0}
     - target: {fileID: 7999518630563461482, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -366177,6 +366790,7 @@ GameObject:
   - component: {fileID: 587780605}
   - component: {fileID: 587780604}
   - component: {fileID: 587780603}
+  - component: {fileID: 587780606}
   m_Layer: 0
   m_Name: Trees_0 (2)
   m_TagString: Untagged
@@ -366283,6 +366897,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 267774850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &587780606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587780602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &589089119
 GameObject:
   m_ObjectHideFlags: 0
@@ -366437,6 +367064,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 856774685}
     m_Modifications:
+    - target: {fileID: 3376295927196021220, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
+      propertyPath: m_SortingOrder
+      value: -152
+      objectReference: {fileID: 0}
     - target: {fileID: 3633840132661566084, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_8
@@ -366523,7 +367154,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 0000000005d4833dad135e76976b91587dff04a3ad32f41b
+  m_ApplyToSortingLayers: 0000000005d4833dad135e76976b91587dff04a3ad32f41bdfdb9f53
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -367589,6 +368220,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 32102613}
     m_Modifications:
+    - target: {fileID: 715415747335192894, guid: 4bbfd8f12054d1745a2ae6f1e32ffb64, type: 3}
+      propertyPath: m_SortingOrder
+      value: -198
+      objectReference: {fileID: 0}
     - target: {fileID: 2238517336242638031, guid: 4bbfd8f12054d1745a2ae6f1e32ffb64, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.930706
@@ -367916,6 +368551,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8586153981947168847, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
+      propertyPath: m_SortingOrder
+      value: -154
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -368068,6 +368707,7 @@ GameObject:
   - component: {fileID: 680445762}
   - component: {fileID: 680445764}
   - component: {fileID: 680445763}
+  - component: {fileID: 680445765}
   m_Layer: 0
   m_Name: Trees_0 (21)
   m_TagString: Untagged
@@ -368174,6 +368814,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &680445765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680445761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &680833719
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -368297,11 +368950,106 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5503700572686585439, guid: 0fa908aa35371a84dbf985b81c2d3e25, type: 3}
+      propertyPath: m_SortingOrder
+      value: -238
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fa908aa35371a84dbf985b81c2d3e25, type: 3}
+--- !u!1 &694849416
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 694849417}
+  - component: {fileID: 694849418}
+  m_Layer: 0
+  m_Name: ReflectionBackground
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &694849417
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694849416}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 862755164}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &694849418
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694849416}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 468988589
+  m_SortingLayer: -4
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 1, g: 0, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
 --- !u!1001 &696244277
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -368673,6 +369421,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8586153981947168847, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
+      propertyPath: m_SortingOrder
+      value: -189
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -368694,6 +369446,10 @@ PrefabInstance:
     - target: {fileID: 2660617951348390547, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7763667024357722240, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
+      propertyPath: m_SortingOrder
+      value: -190
       objectReference: {fileID: 0}
     - target: {fileID: 7999518630563461482, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -368792,6 +369548,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5944240748657274235, guid: 5e898db04c9f3424ea788653c2b4a3bd, type: 3}
+      propertyPath: m_SortingOrder
+      value: -240
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -368842,6 +369602,7 @@ GameObject:
   - component: {fileID: 727945823}
   - component: {fileID: 727945825}
   - component: {fileID: 727945824}
+  - component: {fileID: 727945826}
   m_Layer: 0
   m_Name: Trees_0 (51)
   m_TagString: Untagged
@@ -368948,6 +369709,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &727945826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727945822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &740435865
 GameObject:
   m_ObjectHideFlags: 0
@@ -369096,6 +369870,7 @@ GameObject:
   - component: {fileID: 747041759}
   - component: {fileID: 747041758}
   - component: {fileID: 747041757}
+  - component: {fileID: 747041760}
   m_Layer: 0
   m_Name: Trees_0 (1)
   m_TagString: Untagged
@@ -369202,6 +369977,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 267774850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &747041760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747041756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!4 &756062992 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2474034808088653829, guid: 9a356a7b4fab1d341b92e17470a630b9, type: 3}
@@ -369283,6 +370071,10 @@ PrefabInstance:
     - target: {fileID: 5580886912982624593, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847741706449444685, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
+      propertyPath: m_SortingOrder
+      value: -385
       objectReference: {fileID: 0}
     - target: {fileID: 8398948954218928701, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -369403,6 +370195,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 32102613}
     m_Modifications:
+    - target: {fileID: 715415747335192894, guid: 4bbfd8f12054d1745a2ae6f1e32ffb64, type: 3}
+      propertyPath: m_SortingOrder
+      value: -258
+      objectReference: {fileID: 0}
     - target: {fileID: 2238517336242638031, guid: 4bbfd8f12054d1745a2ae6f1e32ffb64, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.241581
@@ -369472,6 +370268,10 @@ PrefabInstance:
     - target: {fileID: 2660617951348390547, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_3 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7763667024357722240, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
+      propertyPath: m_SortingOrder
+      value: -197
       objectReference: {fileID: 0}
     - target: {fileID: 7999518630563461482, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -369725,15 +370525,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6421082885318541606, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
       propertyPath: m_SortingOrder
-      value: 497
+      value: 671
       objectReference: {fileID: 0}
     - target: {fileID: 6731670464589008799, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.809204
+      value: 9.14
       objectReference: {fileID: 0}
     - target: {fileID: 6731670464589008799, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -76.16788
+      value: -93.48
       objectReference: {fileID: 0}
     - target: {fileID: 6731670464589008799, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
       propertyPath: m_LocalPosition.z
@@ -369788,6 +370588,7 @@ GameObject:
   - component: {fileID: 801408724}
   - component: {fileID: 801408726}
   - component: {fileID: 801408725}
+  - component: {fileID: 801408727}
   m_Layer: 0
   m_Name: Trees_0 (17)
   m_TagString: Untagged
@@ -369894,6 +370695,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &801408727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801408723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &805901892
 GameObject:
   m_ObjectHideFlags: 0
@@ -370063,7 +370877,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3376745178c2a45b7b67cd3a93406ffa, type: 2}
+  - {fileID: 2100000, guid: 41ab11c7a61a8b447a84700b6d69c13a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -371027,6 +371841,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar_tallgrass_4 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5847741706449444685, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
+      propertyPath: m_SortingOrder
+      value: -196
+      objectReference: {fileID: 0}
     - target: {fileID: 7158672462816268937, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
       propertyPath: topSwayStrength
       value: 0.04
@@ -371092,6 +371910,7 @@ GameObject:
   - component: {fileID: 821768314}
   - component: {fileID: 821768316}
   - component: {fileID: 821768315}
+  - component: {fileID: 821768317}
   m_Layer: 0
   m_Name: Trees_0 (26)
   m_TagString: Untagged
@@ -371198,6 +372017,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &821768317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821768313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &830371985
 GameObject:
   m_ObjectHideFlags: 0
@@ -371425,6 +372257,10 @@ PrefabInstance:
     - target: {fileID: 2884377666826467502, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3539301410858014436, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
+      propertyPath: m_SortingOrder
+      value: -219
       objectReference: {fileID: 0}
     - target: {fileID: 4586696758980641604, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -371931,6 +372767,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 856774685}
     m_Modifications:
+    - target: {fileID: 3376295927196021220, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
+      propertyPath: m_SortingOrder
+      value: -343
+      objectReference: {fileID: 0}
     - target: {fileID: 3633840132661566084, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_8 (1)
@@ -459263,7 +460103,7 @@ GameObject:
   - component: {fileID: 862755164}
   - component: {fileID: 862755163}
   m_Layer: 0
-  m_Name: Background
+  m_Name: ShadowBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -459315,7 +460155,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 468988589
-  m_SortingLayer: -3
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
@@ -459340,7 +460180,8 @@ Transform:
   m_LocalPosition: {x: -0.6944, y: -10.1, z: 0}
   m_LocalScale: {x: 273.6997, y: 216.50626, z: 247.68}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 694849417}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &863727570
@@ -459917,6 +460758,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7927572949827037393, guid: 690e28b9376804642848366a24aff682, type: 3}
+      propertyPath: m_SortingOrder
+      value: -153
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -460038,6 +460883,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 856774685}
     m_Modifications:
+    - target: {fileID: 3376295927196021220, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
+      propertyPath: m_SortingOrder
+      value: -391
+      objectReference: {fileID: 0}
     - target: {fileID: 3633840132661566084, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_8
@@ -460206,6 +461055,7 @@ GameObject:
   - component: {fileID: 886972571}
   - component: {fileID: 886972573}
   - component: {fileID: 886972572}
+  - component: {fileID: 886972574}
   m_Layer: 0
   m_Name: Trees_0 (81)
   m_TagString: Untagged
@@ -460312,6 +461162,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &886972574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886972570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &889084717
 GameObject:
   m_ObjectHideFlags: 0
@@ -460431,6 +461294,7 @@ GameObject:
   - component: {fileID: 892027900}
   - component: {fileID: 892027902}
   - component: {fileID: 892027901}
+  - component: {fileID: 892027903}
   m_Layer: 0
   m_Name: Trees_0 (43)
   m_TagString: Untagged
@@ -460537,6 +461401,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &892027903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892027899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &893789467
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -460548,6 +461425,10 @@ PrefabInstance:
     - target: {fileID: 5580886912982624593, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847741706449444685, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
+      propertyPath: m_SortingOrder
+      value: -258
       objectReference: {fileID: 0}
     - target: {fileID: 8398948954218928701, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -460614,6 +461495,10 @@ PrefabInstance:
     - target: {fileID: 2660617951348390547, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_3 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7763667024357722240, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
+      propertyPath: m_SortingOrder
+      value: -220
       objectReference: {fileID: 0}
     - target: {fileID: 7999518630563461482, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -461276,6 +462161,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 32102613}
     m_Modifications:
+    - target: {fileID: 3860883906198302030, guid: 267d2eaffb968124ba8786768107c9b7, type: 3}
+      propertyPath: m_SortingOrder
+      value: -324
+      objectReference: {fileID: 0}
     - target: {fileID: 5293323025717685444, guid: 267d2eaffb968124ba8786768107c9b7, type: 3}
       propertyPath: m_Name
       value: altar_rock_3 (1)
@@ -461578,6 +462467,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1210953091}
     m_Modifications:
+    - target: {fileID: 2792355911803431360, guid: d053c6170ce7a5c4480a07469ad30844, type: 3}
+      propertyPath: m_SortingOrder
+      value: -380
+      objectReference: {fileID: 0}
     - target: {fileID: 7775938464456280678, guid: d053c6170ce7a5c4480a07469ad30844, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.3638268
@@ -462023,6 +462916,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5944240748657274235, guid: 5e898db04c9f3424ea788653c2b4a3bd, type: 3}
+      propertyPath: m_SortingOrder
+      value: -143
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -462329,6 +463226,7 @@ GameObject:
   - component: {fileID: 976306407}
   - component: {fileID: 976306406}
   - component: {fileID: 976306405}
+  - component: {fileID: 976306408}
   m_Layer: 0
   m_Name: Trees_0 (10)
   m_TagString: Untagged
@@ -462435,6 +463333,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 267774850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &976306408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976306404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &982230078
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -462803,6 +463714,7 @@ GameObject:
   - component: {fileID: 995712011}
   - component: {fileID: 995712013}
   - component: {fileID: 995712012}
+  - component: {fileID: 995712014}
   m_Layer: 0
   m_Name: Trees_0 (65)
   m_TagString: Untagged
@@ -462909,6 +463821,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &995712014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995712010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &1000935744
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -463091,6 +464016,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 856774685}
     m_Modifications:
+    - target: {fileID: 3376295927196021220, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
+      propertyPath: m_SortingOrder
+      value: -183
+      objectReference: {fileID: 0}
     - target: {fileID: 3633840132661566084, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_8 (4)
@@ -463205,6 +464134,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5503700572686585439, guid: 0fa908aa35371a84dbf985b81c2d3e25, type: 3}
+      propertyPath: m_SortingOrder
+      value: -240
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -463296,6 +464229,7 @@ GameObject:
   - component: {fileID: 1008311893}
   - component: {fileID: 1008311895}
   - component: {fileID: 1008311894}
+  - component: {fileID: 1008311896}
   m_Layer: 0
   m_Name: Trees_0 (28)
   m_TagString: Untagged
@@ -463402,6 +464336,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1008311896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008311892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!4 &1008618156 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7872011395165629141, guid: 690e28b9376804642848366a24aff682, type: 3}
@@ -463644,6 +464591,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar_tallgrass_6
       objectReference: {fileID: 0}
+    - target: {fileID: 3539301410858014436, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
+      propertyPath: m_SortingOrder
+      value: -289
+      objectReference: {fileID: 0}
     - target: {fileID: 4586696758980641604, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.4337387
@@ -463873,6 +464824,10 @@ PrefabInstance:
       propertyPath: topSwayStrength
       value: 0.04
       objectReference: {fileID: 0}
+    - target: {fileID: 5944240748657274235, guid: 5e898db04c9f3424ea788653c2b4a3bd, type: 3}
+      propertyPath: m_SortingOrder
+      value: -322
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -463891,6 +464846,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 32102613}
     m_Modifications:
+    - target: {fileID: 3860883906198302030, guid: 267d2eaffb968124ba8786768107c9b7, type: 3}
+      propertyPath: m_SortingOrder
+      value: -155
+      objectReference: {fileID: 0}
     - target: {fileID: 5293323025717685444, guid: 267d2eaffb968124ba8786768107c9b7, type: 3}
       propertyPath: m_Name
       value: altar_rock_3 (2)
@@ -463961,6 +464920,7 @@ GameObject:
   - component: {fileID: 1056349148}
   - component: {fileID: 1056349150}
   - component: {fileID: 1056349149}
+  - component: {fileID: 1056349151}
   m_Layer: 0
   m_Name: Trees_0 (74)
   m_TagString: Untagged
@@ -464067,6 +465027,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1056349151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056349147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1056385965
 GameObject:
   m_ObjectHideFlags: 0
@@ -464404,6 +465377,10 @@ PrefabInstance:
     - target: {fileID: 3767325238032032625, guid: 5e898db04c9f3424ea788653c2b4a3bd, type: 3}
       propertyPath: topSwayStrength
       value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 5944240748657274235, guid: 5e898db04c9f3424ea788653c2b4a3bd, type: 3}
+      propertyPath: m_SortingOrder
+      value: -227
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -464777,6 +465754,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8586153981947168847, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
+      propertyPath: m_SortingOrder
+      value: -353
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -464793,6 +465774,7 @@ GameObject:
   - component: {fileID: 1073943973}
   - component: {fileID: 1073943975}
   - component: {fileID: 1073943974}
+  - component: {fileID: 1073943976}
   m_Layer: 0
   m_Name: Trees_0 (70)
   m_TagString: Untagged
@@ -464899,6 +465881,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1073943976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073943972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &1081631357
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -464975,6 +465970,7 @@ GameObject:
   - component: {fileID: 1082940522}
   - component: {fileID: 1082940524}
   - component: {fileID: 1082940523}
+  - component: {fileID: 1082940525}
   m_Layer: 0
   m_Name: Trees_0 (69)
   m_TagString: Untagged
@@ -465081,6 +466077,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1082940525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082940521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1085819135
 GameObject:
   m_ObjectHideFlags: 0
@@ -465092,6 +466101,7 @@ GameObject:
   - component: {fileID: 1085819136}
   - component: {fileID: 1085819138}
   - component: {fileID: 1085819137}
+  - component: {fileID: 1085819139}
   m_Layer: 0
   m_Name: Trees_0 (38)
   m_TagString: Untagged
@@ -465198,6 +466208,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1085819139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085819135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &1086094955
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -465275,6 +466298,7 @@ GameObject:
   - component: {fileID: 1091426685}
   - component: {fileID: 1091426687}
   - component: {fileID: 1091426686}
+  - component: {fileID: 1091426688}
   m_Layer: 0
   m_Name: Trees_0 (90)
   m_TagString: Untagged
@@ -465381,6 +466405,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1091426688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091426684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1097967843
 GameObject:
   m_ObjectHideFlags: 0
@@ -468236,6 +469273,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 32102613}
     m_Modifications:
+    - target: {fileID: 3860883906198302030, guid: 267d2eaffb968124ba8786768107c9b7, type: 3}
+      propertyPath: m_SortingOrder
+      value: -73
+      objectReference: {fileID: 0}
     - target: {fileID: 5293323025717685444, guid: 267d2eaffb968124ba8786768107c9b7, type: 3}
       propertyPath: m_Name
       value: altar_rock_3 (1)
@@ -468547,7 +469588,7 @@ Transform:
   m_GameObject: {fileID: 1131957928}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 42.43, y: 22.85, z: 0}
+  m_LocalPosition: {x: 34.7, y: -68.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -486567,6 +487608,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 856774685}
     m_Modifications:
+    - target: {fileID: 3376295927196021220, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
+      propertyPath: m_SortingOrder
+      value: -142
+      objectReference: {fileID: 0}
     - target: {fileID: 3633840132661566084, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_8 (1)
@@ -486735,6 +487780,7 @@ GameObject:
   - component: {fileID: 1140759775}
   - component: {fileID: 1140759777}
   - component: {fileID: 1140759776}
+  - component: {fileID: 1140759778}
   m_Layer: 0
   m_Name: Trees_0 (52)
   m_TagString: Untagged
@@ -486841,6 +487887,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1140759778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140759774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &1146049686
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -487022,6 +488081,7 @@ GameObject:
   - component: {fileID: 1147031435}
   - component: {fileID: 1147031437}
   - component: {fileID: 1147031436}
+  - component: {fileID: 1147031438}
   m_Layer: 0
   m_Name: Trees_0 (40)
   m_TagString: Untagged
@@ -487128,6 +488188,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1147031438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147031434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &1148022899
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -487270,6 +488343,10 @@ PrefabInstance:
     - target: {fileID: 2884377666826467502, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_6 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3539301410858014436, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
+      propertyPath: m_SortingOrder
+      value: -110
       objectReference: {fileID: 0}
     - target: {fileID: 4586696758980641604, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -488961,6 +490038,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8586153981947168847, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
+      propertyPath: m_SortingOrder
+      value: -285
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -489410,6 +490491,7 @@ GameObject:
   - component: {fileID: 1228003709}
   - component: {fileID: 1228003711}
   - component: {fileID: 1228003710}
+  - component: {fileID: 1228003712}
   m_Layer: 0
   m_Name: Trees_0 (58)
   m_TagString: Untagged
@@ -489516,6 +490598,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1228003712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228003708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1231367519
 GameObject:
   m_ObjectHideFlags: 0
@@ -489527,6 +490622,7 @@ GameObject:
   - component: {fileID: 1231367520}
   - component: {fileID: 1231367522}
   - component: {fileID: 1231367521}
+  - component: {fileID: 1231367523}
   m_Layer: 0
   m_Name: Trees_0 (19)
   m_TagString: Untagged
@@ -489633,6 +490729,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1231367523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231367519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1235247948
 GameObject:
   m_ObjectHideFlags: 0
@@ -490130,7 +491239,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3376745178c2a45b7b67cd3a93406ffa, type: 2}
+  - {fileID: 2100000, guid: 41ab11c7a61a8b447a84700b6d69c13a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -731684,6 +732793,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3369757406932514545, guid: d2dcb71936f981e46b6f6d6b76406fc7, type: 3}
+      propertyPath: m_SortingOrder
+      value: -255
+      objectReference: {fileID: 0}
     - target: {fileID: 8984482194199159130, guid: d2dcb71936f981e46b6f6d6b76406fc7, type: 3}
       propertyPath: m_Name
       value: altar_rock_2
@@ -731737,6 +732850,7 @@ GameObject:
   - component: {fileID: 1292530446}
   - component: {fileID: 1292530448}
   - component: {fileID: 1292530447}
+  - component: {fileID: 1292530449}
   m_Layer: 0
   m_Name: Trees_0 (5)
   m_TagString: Untagged
@@ -731843,6 +732957,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1292530449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292530445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &1298128706
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -732714,15 +733841,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6421082885318541606, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
       propertyPath: m_SortingOrder
-      value: 520
+      value: 669
       objectReference: {fileID: 0}
     - target: {fileID: 6731670464589008799, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.4510536
+      value: -3.54
       objectReference: {fileID: 0}
     - target: {fileID: 6731670464589008799, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -78.385376
+      value: -93.28
       objectReference: {fileID: 0}
     - target: {fileID: 6731670464589008799, guid: db50a3aeac5e80242aebafc5fdde2d56, type: 3}
       propertyPath: m_LocalPosition.z
@@ -733190,6 +734317,7 @@ GameObject:
   - component: {fileID: 1343479255}
   - component: {fileID: 1343479257}
   - component: {fileID: 1343479256}
+  - component: {fileID: 1343479258}
   m_Layer: 0
   m_Name: Trees_0 (57)
   m_TagString: Untagged
@@ -733296,6 +734424,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1343479258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343479254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &1350142910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -733304,6 +734445,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 32102613}
     m_Modifications:
+    - target: {fileID: 715415747335192894, guid: 4bbfd8f12054d1745a2ae6f1e32ffb64, type: 3}
+      propertyPath: m_SortingOrder
+      value: -67
+      objectReference: {fileID: 0}
     - target: {fileID: 2238517336242638031, guid: 4bbfd8f12054d1745a2ae6f1e32ffb64, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.3717422
@@ -733781,6 +734926,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5503700572686585439, guid: 0fa908aa35371a84dbf985b81c2d3e25, type: 3}
+      propertyPath: m_SortingOrder
+      value: -323
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -733963,6 +735112,7 @@ GameObject:
   - component: {fileID: 1380081434}
   - component: {fileID: 1380081436}
   - component: {fileID: 1380081435}
+  - component: {fileID: 1380081437}
   m_Layer: 0
   m_Name: Trees_0 (87)
   m_TagString: Untagged
@@ -734069,6 +735219,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1380081437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1380081433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!4 &1380977056 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3301797614970422870, guid: 5e898db04c9f3424ea788653c2b4a3bd, type: 3}
@@ -734259,6 +735422,7 @@ GameObject:
   - component: {fileID: 1388895201}
   - component: {fileID: 1388895203}
   - component: {fileID: 1388895202}
+  - component: {fileID: 1388895204}
   m_Layer: 0
   m_Name: Trees_0 (55)
   m_TagString: Untagged
@@ -734365,6 +735529,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1388895204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388895200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1396435938
 GameObject:
   m_ObjectHideFlags: 0
@@ -734661,6 +735838,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar_tallgrass_6
       objectReference: {fileID: 0}
+    - target: {fileID: 3539301410858014436, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
+      propertyPath: m_SortingOrder
+      value: -348
+      objectReference: {fileID: 0}
     - target: {fileID: 4586696758980641604, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.9073753
@@ -734933,6 +736114,7 @@ GameObject:
   - component: {fileID: 1439448519}
   - component: {fileID: 1439448521}
   - component: {fileID: 1439448520}
+  - component: {fileID: 1439448522}
   m_Layer: 0
   m_Name: Trees_0 (45)
   m_TagString: Untagged
@@ -735039,6 +736221,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1439448522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439448518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1442817504
 GameObject:
   m_ObjectHideFlags: 0
@@ -735158,6 +736353,7 @@ GameObject:
   - component: {fileID: 1445505918}
   - component: {fileID: 1445505920}
   - component: {fileID: 1445505919}
+  - component: {fileID: 1445505921}
   m_Layer: 0
   m_Name: Trees_0 (83)
   m_TagString: Untagged
@@ -735264,6 +736460,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1445505921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445505917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1447216970
 GameObject:
   m_ObjectHideFlags: 0
@@ -735384,6 +736593,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar_tallgrass_4
       objectReference: {fileID: 0}
+    - target: {fileID: 5847741706449444685, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
+      propertyPath: m_SortingOrder
+      value: -294
+      objectReference: {fileID: 0}
     - target: {fileID: 7158672462816268937, guid: 7dc553cd31cfe01449663bb96ff158b0, type: 3}
       propertyPath: topSwayStrength
       value: 0.04
@@ -735486,6 +736699,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7185754531416169748, guid: d08a8b599170b2647aaeda924cba95c7, type: 3}
+      propertyPath: m_SortingOrder
+      value: -257
+      objectReference: {fileID: 0}
     - target: {fileID: 8926334851533242686, guid: d08a8b599170b2647aaeda924cba95c7, type: 3}
       propertyPath: m_Name
       value: altar_bush_1
@@ -735550,6 +736767,10 @@ PrefabInstance:
     - target: {fileID: 8206727374385728105, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586153981947168847, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
+      propertyPath: m_SortingOrder
+      value: -261
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -737347,6 +738568,7 @@ GameObject:
   - component: {fileID: 1527049008}
   - component: {fileID: 1527049010}
   - component: {fileID: 1527049009}
+  - component: {fileID: 1527049011}
   m_Layer: 0
   m_Name: Trees_0 (68)
   m_TagString: Untagged
@@ -737453,6 +738675,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1527049011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527049007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1532712157
 GameObject:
   m_ObjectHideFlags: 0
@@ -737685,6 +738920,7 @@ GameObject:
   - component: {fileID: 1550265459}
   - component: {fileID: 1550265461}
   - component: {fileID: 1550265460}
+  - component: {fileID: 1550265462}
   m_Layer: 0
   m_Name: Trees_0 (53)
   m_TagString: Untagged
@@ -737791,6 +739027,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1550265462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550265458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1551597312
 GameObject:
   m_ObjectHideFlags: 0
@@ -737802,6 +739051,7 @@ GameObject:
   - component: {fileID: 1551597313}
   - component: {fileID: 1551597315}
   - component: {fileID: 1551597314}
+  - component: {fileID: 1551597316}
   m_Layer: 0
   m_Name: Trees_0 (16)
   m_TagString: Untagged
@@ -737908,6 +739158,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1551597316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551597312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1562178069
 GameObject:
   m_ObjectHideFlags: 0
@@ -738024,6 +739287,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 856774685}
     m_Modifications:
+    - target: {fileID: 3376295927196021220, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
+      propertyPath: m_SortingOrder
+      value: -277
+      objectReference: {fileID: 0}
     - target: {fileID: 3633840132661566084, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_8 (1)
@@ -738133,6 +739400,10 @@ PrefabInstance:
     - target: {fileID: 3301797614970422870, guid: 5e898db04c9f3424ea788653c2b4a3bd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5944240748657274235, guid: 5e898db04c9f3424ea788653c2b4a3bd, type: 3}
+      propertyPath: m_SortingOrder
+      value: -341
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -738475,6 +739746,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar_tallgrass_3
       objectReference: {fileID: 0}
+    - target: {fileID: 7763667024357722240, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
+      propertyPath: m_SortingOrder
+      value: -214
+      objectReference: {fileID: 0}
     - target: {fileID: 7999518630563461482, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.4580727
@@ -738597,6 +739872,7 @@ GameObject:
   - component: {fileID: 1597677252}
   - component: {fileID: 1597677254}
   - component: {fileID: 1597677253}
+  - component: {fileID: 1597677255}
   m_Layer: 0
   m_Name: Trees_0 (12)
   m_TagString: Untagged
@@ -738703,6 +739979,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1597677255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597677251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1599475833
 GameObject:
   m_ObjectHideFlags: 0
@@ -738995,6 +740284,7 @@ GameObject:
   - component: {fileID: 1612593631}
   - component: {fileID: 1612593633}
   - component: {fileID: 1612593632}
+  - component: {fileID: 1612593634}
   m_Layer: 0
   m_Name: Trees_0 (33)
   m_TagString: Untagged
@@ -739101,6 +740391,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1612593634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612593630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &1613560612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -739453,6 +740756,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5503700572686585439, guid: 0fa908aa35371a84dbf985b81c2d3e25, type: 3}
+      propertyPath: m_SortingOrder
+      value: -223
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -739643,6 +740950,7 @@ GameObject:
   - component: {fileID: 1634063700}
   - component: {fileID: 1634063702}
   - component: {fileID: 1634063701}
+  - component: {fileID: 1634063703}
   m_Layer: 0
   m_Name: Trees_0 (36)
   m_TagString: Untagged
@@ -739749,6 +741057,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1634063703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634063699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &1638475933
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -740115,6 +741436,7 @@ GameObject:
   - component: {fileID: 1643584087}
   - component: {fileID: 1643584089}
   - component: {fileID: 1643584088}
+  - component: {fileID: 1643584090}
   m_Layer: 0
   m_Name: Trees_0 (27)
   m_TagString: Untagged
@@ -740221,6 +741543,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1643584090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643584086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &1647737664
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -740472,6 +741807,7 @@ GameObject:
   - component: {fileID: 1654917492}
   - component: {fileID: 1654917494}
   - component: {fileID: 1654917493}
+  - component: {fileID: 1654917495}
   m_Layer: 0
   m_Name: Trees_0 (85)
   m_TagString: Untagged
@@ -740578,6 +741914,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1654917495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654917491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!4 &1660024290 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 184274234111287569, guid: 44cb5ffc78137ba4fbda6e44d7f5f8f1, type: 3}
@@ -740837,11 +742186,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1590951303768804740, guid: 346660a7dae84d94db7cb57bbca6d479, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.1443405
+      value: -11.42
       objectReference: {fileID: 0}
     - target: {fileID: 1590951303768804740, guid: 346660a7dae84d94db7cb57bbca6d479, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -83.77394
+      value: -96.74
       objectReference: {fileID: 0}
     - target: {fileID: 1590951303768804740, guid: 346660a7dae84d94db7cb57bbca6d479, type: 3}
       propertyPath: m_LocalPosition.z
@@ -740877,7 +742226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8156973040943897811, guid: 346660a7dae84d94db7cb57bbca6d479, type: 3}
       propertyPath: m_SortingOrder
-      value: 574
+      value: 703
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -740962,6 +742311,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1210953091}
     m_Modifications:
+    - target: {fileID: 2792355911803431360, guid: d053c6170ce7a5c4480a07469ad30844, type: 3}
+      propertyPath: m_SortingOrder
+      value: -285
+      objectReference: {fileID: 0}
     - target: {fileID: 7775938464456280678, guid: d053c6170ce7a5c4480a07469ad30844, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.627232
@@ -741913,6 +743266,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5944240748657274235, guid: 5e898db04c9f3424ea788653c2b4a3bd, type: 3}
+      propertyPath: m_SortingOrder
+      value: -190
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -742283,6 +743640,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 32102613}
     m_Modifications:
+    - target: {fileID: 3860883906198302030, guid: 267d2eaffb968124ba8786768107c9b7, type: 3}
+      propertyPath: m_SortingOrder
+      value: -242
+      objectReference: {fileID: 0}
     - target: {fileID: 5293323025717685444, guid: 267d2eaffb968124ba8786768107c9b7, type: 3}
       propertyPath: m_Name
       value: altar_rock_3
@@ -751294,6 +752655,7 @@ GameObject:
   - component: {fileID: 1742386039}
   - component: {fileID: 1742386041}
   - component: {fileID: 1742386040}
+  - component: {fileID: 1742386042}
   m_Layer: 0
   m_Name: Trees_0 (13)
   m_TagString: Untagged
@@ -751400,6 +752762,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1742386042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742386038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1745019261
 GameObject:
   m_ObjectHideFlags: 0
@@ -751668,6 +753043,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7927572949827037393, guid: 690e28b9376804642848366a24aff682, type: 3}
+      propertyPath: m_SortingOrder
+      value: -379
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -751688,6 +753067,10 @@ PrefabInstance:
     - target: {fileID: 2884377666826467502, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_6 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3539301410858014436, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
+      propertyPath: m_SortingOrder
+      value: -190
       objectReference: {fileID: 0}
     - target: {fileID: 4586696758980641604, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -751868,6 +753251,7 @@ GameObject:
   - component: {fileID: 1754658660}
   - component: {fileID: 1754658662}
   - component: {fileID: 1754658661}
+  - component: {fileID: 1754658663}
   m_Layer: 0
   m_Name: Trees_0 (22)
   m_TagString: Untagged
@@ -751974,6 +753358,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1754658663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754658659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1754701111
 GameObject:
   m_ObjectHideFlags: 0
@@ -752461,6 +753858,7 @@ GameObject:
   - component: {fileID: 1766247860}
   - component: {fileID: 1766247859}
   - component: {fileID: 1766247858}
+  - component: {fileID: 1766247861}
   m_Layer: 0
   m_Name: Trees_0 (8)
   m_TagString: Untagged
@@ -752567,6 +753965,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 267774850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1766247861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766247857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1768382328
 GameObject:
   m_ObjectHideFlags: 0
@@ -752805,6 +754216,10 @@ PrefabInstance:
     - target: {fileID: 8206727374385728105, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586153981947168847, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
+      propertyPath: m_SortingOrder
+      value: -200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -753139,6 +754554,7 @@ GameObject:
   - component: {fileID: 1799020795}
   - component: {fileID: 1799020794}
   - component: {fileID: 1799020793}
+  - component: {fileID: 1799020796}
   m_Layer: 0
   m_Name: Trees_0 (9)
   m_TagString: Untagged
@@ -753245,6 +754661,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 267774850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1799020796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799020792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1805540542
 GameObject:
   m_ObjectHideFlags: 0
@@ -753474,6 +754903,7 @@ GameObject:
   - component: {fileID: 1812618836}
   - component: {fileID: 1812618838}
   - component: {fileID: 1812618837}
+  - component: {fileID: 1812618839}
   m_Layer: 0
   m_Name: Trees_0 (61)
   m_TagString: Untagged
@@ -753580,6 +755010,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1812618839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812618835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1812977756
 GameObject:
   m_ObjectHideFlags: 0
@@ -753880,6 +755323,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 32102613}
     m_Modifications:
+    - target: {fileID: 715415747335192894, guid: 4bbfd8f12054d1745a2ae6f1e32ffb64, type: 3}
+      propertyPath: m_SortingOrder
+      value: -372
+      objectReference: {fileID: 0}
     - target: {fileID: 2238517336242638031, guid: 4bbfd8f12054d1745a2ae6f1e32ffb64, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.771099
@@ -754682,6 +756129,7 @@ GameObject:
   - component: {fileID: 1865138777}
   - component: {fileID: 1865138779}
   - component: {fileID: 1865138778}
+  - component: {fileID: 1865138780}
   m_Layer: 0
   m_Name: Trees_0 (35)
   m_TagString: Untagged
@@ -754788,6 +756236,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1865138780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865138776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &1866153376
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -754994,6 +756455,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 32102613}
     m_Modifications:
+    - target: {fileID: 715415747335192894, guid: 4bbfd8f12054d1745a2ae6f1e32ffb64, type: 3}
+      propertyPath: m_SortingOrder
+      value: -156
+      objectReference: {fileID: 0}
     - target: {fileID: 2238517336242638031, guid: 4bbfd8f12054d1745a2ae6f1e32ffb64, type: 3}
       propertyPath: m_LocalPosition.x
       value: -18.178017
@@ -755054,6 +756519,10 @@ PrefabInstance:
     - target: {fileID: 2660617951348390547, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7763667024357722240, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
+      propertyPath: m_SortingOrder
+      value: -389
       objectReference: {fileID: 0}
     - target: {fileID: 7999518630563461482, guid: 2034a2e5dfcf3054ab15f6119f9892a9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -755395,6 +756864,7 @@ GameObject:
   - component: {fileID: 1905120981}
   - component: {fileID: 1905120983}
   - component: {fileID: 1905120982}
+  - component: {fileID: 1905120984}
   m_Layer: 0
   m_Name: Trees_0 (42)
   m_TagString: Untagged
@@ -755501,6 +756971,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1905120984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905120980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &1905165521
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -755549,6 +757032,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3369757406932514545, guid: d2dcb71936f981e46b6f6d6b76406fc7, type: 3}
+      propertyPath: m_SortingOrder
+      value: -303
+      objectReference: {fileID: 0}
     - target: {fileID: 8984482194199159130, guid: d2dcb71936f981e46b6f6d6b76406fc7, type: 3}
       propertyPath: m_Name
       value: altar_rock_2 (1)
@@ -755574,6 +757061,7 @@ GameObject:
   - component: {fileID: 1909213227}
   - component: {fileID: 1909213229}
   - component: {fileID: 1909213228}
+  - component: {fileID: 1909213230}
   m_Layer: 0
   m_Name: Trees_0 (76)
   m_TagString: Untagged
@@ -755680,6 +757168,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1909213230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1909213226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &1910749661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -755865,6 +757366,7 @@ GameObject:
   - component: {fileID: 1920687663}
   - component: {fileID: 1920687665}
   - component: {fileID: 1920687664}
+  - component: {fileID: 1920687666}
   m_Layer: 0
   m_Name: Trees_0 (46)
   m_TagString: Untagged
@@ -755971,6 +757473,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1920687666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920687662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1923464107
 GameObject:
   m_ObjectHideFlags: 0
@@ -756221,6 +757736,7 @@ GameObject:
   - component: {fileID: 1924754111}
   - component: {fileID: 1924754110}
   - component: {fileID: 1924754109}
+  - component: {fileID: 1924754112}
   m_Layer: 0
   m_Name: Trees_0 (7)
   m_TagString: Untagged
@@ -756327,6 +757843,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 267774850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1924754112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924754108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1935491165
 GameObject:
   m_ObjectHideFlags: 0
@@ -756683,6 +758212,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 32102613}
     m_Modifications:
+    - target: {fileID: 3860883906198302030, guid: 267d2eaffb968124ba8786768107c9b7, type: 3}
+      propertyPath: m_SortingOrder
+      value: -176
+      objectReference: {fileID: 0}
     - target: {fileID: 5293323025717685444, guid: 267d2eaffb968124ba8786768107c9b7, type: 3}
       propertyPath: m_Name
       value: altar_rock_3
@@ -756846,6 +758379,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7185754531416169748, guid: d08a8b599170b2647aaeda924cba95c7, type: 3}
+      propertyPath: m_SortingOrder
+      value: -167
+      objectReference: {fileID: 0}
     - target: {fileID: 8926334851533242686, guid: d08a8b599170b2647aaeda924cba95c7, type: 3}
       propertyPath: m_Name
       value: altar_bush_1 (1)
@@ -756866,6 +758403,10 @@ PrefabInstance:
     - target: {fileID: 2884377666826467502, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3539301410858014436, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
+      propertyPath: m_SortingOrder
+      value: -242
       objectReference: {fileID: 0}
     - target: {fileID: 4586696758980641604, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -756920,6 +758461,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 856774685}
     m_Modifications:
+    - target: {fileID: 3376295927196021220, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
+      propertyPath: m_SortingOrder
+      value: -217
+      objectReference: {fileID: 0}
     - target: {fileID: 3633840132661566084, guid: cf28e0a6355976842bc1503a69a47b14, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_8
@@ -756985,6 +758530,7 @@ GameObject:
   - component: {fileID: 1964301750}
   - component: {fileID: 1964301752}
   - component: {fileID: 1964301751}
+  - component: {fileID: 1964301753}
   m_Layer: 0
   m_Name: Trees_0 (24)
   m_TagString: Untagged
@@ -757091,6 +758637,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1964301753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964301749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &1973627129
 GameObject:
   m_ObjectHideFlags: 0
@@ -757442,6 +759001,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 32102613}
     m_Modifications:
+    - target: {fileID: 715415747335192894, guid: 4bbfd8f12054d1745a2ae6f1e32ffb64, type: 3}
+      propertyPath: m_SortingOrder
+      value: -171
+      objectReference: {fileID: 0}
     - target: {fileID: 2238517336242638031, guid: 4bbfd8f12054d1745a2ae6f1e32ffb64, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.105675
@@ -757664,6 +759227,10 @@ PrefabInstance:
     - target: {fileID: 3767325238032032625, guid: 5e898db04c9f3424ea788653c2b4a3bd, type: 3}
       propertyPath: topSwayStrength
       value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 5944240748657274235, guid: 5e898db04c9f3424ea788653c2b4a3bd, type: 3}
+      propertyPath: m_SortingOrder
+      value: -275
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -757947,6 +759514,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8586153981947168847, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
+      propertyPath: m_SortingOrder
+      value: -322
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -758008,6 +759579,10 @@ PrefabInstance:
     - target: {fileID: 8206727374385728105, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586153981947168847, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
+      propertyPath: m_SortingOrder
+      value: -380
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -758377,6 +759952,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3369757406932514545, guid: d2dcb71936f981e46b6f6d6b76406fc7, type: 3}
+      propertyPath: m_SortingOrder
+      value: -100
+      objectReference: {fileID: 0}
     - target: {fileID: 8984482194199159130, guid: d2dcb71936f981e46b6f6d6b76406fc7, type: 3}
       propertyPath: m_Name
       value: altar_rock_2 (2)
@@ -758655,6 +760234,7 @@ GameObject:
   - component: {fileID: 2030222788}
   - component: {fileID: 2030222790}
   - component: {fileID: 2030222789}
+  - component: {fileID: 2030222791}
   m_Layer: 0
   m_Name: Trees_0 (56)
   m_TagString: Untagged
@@ -758761,6 +760341,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &2030222791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030222787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &2032594703
 GameObject:
   m_ObjectHideFlags: 0
@@ -759206,6 +760799,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7927572949827037393, guid: 690e28b9376804642848366a24aff682, type: 3}
+      propertyPath: m_SortingOrder
+      value: -324
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -759337,6 +760934,10 @@ PrefabInstance:
     - target: {fileID: 5256189653929620955, guid: 0fa908aa35371a84dbf985b81c2d3e25, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5503700572686585439, guid: 0fa908aa35371a84dbf985b81c2d3e25, type: 3}
+      propertyPath: m_SortingOrder
+      value: -310
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -759640,11 +761241,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2474034808088653829, guid: 9a356a7b4fab1d341b92e17470a630b9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.374538
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2474034808088653829, guid: 9a356a7b4fab1d341b92e17470a630b9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -78.5011
+      value: -94.12
       objectReference: {fileID: 0}
     - target: {fileID: 2474034808088653829, guid: 9a356a7b4fab1d341b92e17470a630b9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -759684,7 +761285,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8863899776730893363, guid: 9a356a7b4fab1d341b92e17470a630b9, type: 3}
       propertyPath: m_SortingOrder
-      value: 521
+      value: 677
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -759921,6 +761522,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7927572949827037393, guid: 690e28b9376804642848366a24aff682, type: 3}
+      propertyPath: m_SortingOrder
+      value: -174
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -760003,6 +761608,7 @@ GameObject:
   - component: {fileID: 2065980051}
   - component: {fileID: 2065980053}
   - component: {fileID: 2065980052}
+  - component: {fileID: 2065980054}
   m_Layer: 0
   m_Name: Trees_0 (18)
   m_TagString: Untagged
@@ -760109,6 +761715,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &2065980054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065980050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &2066393005
 GameObject:
   m_ObjectHideFlags: 0
@@ -760233,6 +761852,10 @@ PrefabInstance:
     - target: {fileID: 2884377666826467502, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
       propertyPath: m_Name
       value: altar_tallgrass_6 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3539301410858014436, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
+      propertyPath: m_SortingOrder
+      value: -171
       objectReference: {fileID: 0}
     - target: {fileID: 4586696758980641604, guid: 43a6c1193c2276e448a4ce4b42c4f7e3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -761107,6 +762730,7 @@ GameObject:
   - component: {fileID: 2108402197}
   - component: {fileID: 2108402199}
   - component: {fileID: 2108402198}
+  - component: {fileID: 2108402200}
   m_Layer: 0
   m_Name: Trees_0 (86)
   m_TagString: Untagged
@@ -761213,6 +762837,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &2108402200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108402196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &2115322457
 GameObject:
   m_ObjectHideFlags: 0
@@ -761376,6 +763013,10 @@ PrefabInstance:
     - target: {fileID: 7872011395165629141, guid: 690e28b9376804642848366a24aff682, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927572949827037393, guid: 690e28b9376804642848366a24aff682, type: 3}
+      propertyPath: m_SortingOrder
+      value: -303
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -762216,6 +763857,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8206727374385728105, guid: 280eb31a173a4434c9afda3c96aa7e17, type: 3}
   m_PrefabInstance: {fileID: 390100179}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2048312500278494560
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3559192923784115410, guid: 12da1bcd8d6be6e469bc2252cc2d44c2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559192923784115410, guid: 12da1bcd8d6be6e469bc2252cc2d44c2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559192923784115410, guid: 12da1bcd8d6be6e469bc2252cc2d44c2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559192923784115410, guid: 12da1bcd8d6be6e469bc2252cc2d44c2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559192923784115410, guid: 12da1bcd8d6be6e469bc2252cc2d44c2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559192923784115410, guid: 12da1bcd8d6be6e469bc2252cc2d44c2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559192923784115410, guid: 12da1bcd8d6be6e469bc2252cc2d44c2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559192923784115410, guid: 12da1bcd8d6be6e469bc2252cc2d44c2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559192923784115410, guid: 12da1bcd8d6be6e469bc2252cc2d44c2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559192923784115410, guid: 12da1bcd8d6be6e469bc2252cc2d44c2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253979128674639105, guid: 12da1bcd8d6be6e469bc2252cc2d44c2, type: 3}
+      propertyPath: m_Name
+      value: ReflectionsPrefab
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 12da1bcd8d6be6e469bc2252cc2d44c2, type: 3}
 --- !u!4 &6028592667188449269 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3927523313429880147, guid: de89ace7a32b89f45a81ab1e8b0b2156, type: 3}
@@ -762470,3 +764168,4 @@ SceneRoots:
   - {fileID: 267774850}
   - {fileID: 862755164}
   - {fileID: 805901894}
+  - {fileID: 2048312500278494560}

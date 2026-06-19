@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.U2D;
 
 //[ExecuteAlways]
+[RequireComponent(typeof(ReflectionSprite))]
 public class CustomDynamicLit : MonoBehaviour
 {
     [Header("Normal Map")]
