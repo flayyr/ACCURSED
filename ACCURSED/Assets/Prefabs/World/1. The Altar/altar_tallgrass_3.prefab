@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7763667024357722240}
   - component: {fileID: 1534881265258599498}
   - component: {fileID: 5047039206388830776}
+  - component: {fileID: 4305919771100253372}
   m_Layer: 0
   m_Name: altar_tallgrass_3
   m_TagString: Untagged
@@ -133,3 +134,40 @@ MonoBehaviour:
   shakeDuration: 0.5
   shakeMagnitude: 1
   shakeFrequency: 10
+--- !u!70 &4305919771100253372
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2660617951348390547}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.040096283, y: 0.23494244}
+  m_Size: {x: 0.56722736, y: 0.64826775}
+  m_Direction: 0

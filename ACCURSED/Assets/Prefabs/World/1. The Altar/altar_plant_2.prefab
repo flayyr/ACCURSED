@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6695706590886189747}
   - component: {fileID: 3538020814886703476}
   - component: {fileID: 7728494598916689692}
+  - component: {fileID: 4929583900452309466}
   m_Layer: 0
   m_Name: altar_plant_2
   m_TagString: Untagged
@@ -133,3 +134,40 @@ MonoBehaviour:
   shakeDuration: 0.5
   shakeMagnitude: 1
   shakeFrequency: 10
+--- !u!70 &4929583900452309466
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4574890596493432523}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.016495349, y: -0.00091373734}
+  m_Size: {x: 1.1526867, y: 0.64328766}
+  m_Direction: 1
