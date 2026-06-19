@@ -459,20 +459,6 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
-                    "m_Id": "1c4dcfab91fd4f21989fb2857b9ad261"
-                },
-                "m_SlotId": 0
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "a6513638ace2430b8334685b1fa0fe6b"
-                },
-                "m_SlotId": -2100963675
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
                     "m_Id": "1f69c7719fd24a72a63fd51ae58adad4"
                 },
                 "m_SlotId": 0
@@ -1701,8 +1687,8 @@
     "m_ObjectId": "09bad07baacd4d63b2185487d394041f",
     "m_Title": "Get edges from main texture",
     "m_Position": {
-        "x": -225.00006103515626,
-        "y": 35.999942779541019
+        "x": -225.0,
+        "y": 35.99988555908203
     }
 }
 
@@ -3812,8 +3798,8 @@
     "m_ObjectId": "4a22f8c9201c45eb8f2c065d09f40ba4",
     "m_Title": "Get final alpha value",
     "m_Position": {
-        "x": -1321.0,
-        "y": 203.99998474121095
+        "x": -1320.9998779296875,
+        "y": 203.9998779296875
     }
 }
 
@@ -5481,7 +5467,7 @@
     "m_Title": "Get depth colour to replace MainColour (you need a height map for this to work)",
     "m_Position": {
         "x": -3130.0,
-        "y": 286.99993896484377
+        "y": 286.9998779296875
     }
 }
 
@@ -5677,9 +5663,9 @@
     "m_Value": {
         "serializedVersion": "2",
         "key0": {
-            "r": 0.2587219476699829,
-            "g": 0.2923968732357025,
-            "b": 0.3207547068595886,
+            "r": 0.17688681185245515,
+            "g": 0.21005308628082276,
+            "b": 0.23584908246994019,
             "a": 1.0
         },
         "key1": {
@@ -6276,9 +6262,6 @@
     "m_Slots": [
         {
             "m_Id": "9e524bccf45f42b280ffbc86ffb181e0"
-        },
-        {
-            "m_Id": "f660fb959abc474c8f68c2e4ea0f7b0c"
         },
         {
             "m_Id": "019e981e00e841dbb4393f4c4d29e3ad"
@@ -7888,7 +7871,7 @@
     "m_PerRendererData": false,
     "m_customAttributes": [],
     "m_Value": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"100f8072b9640364c9379f7233a7d0b1\",\"type\":3}}",
+        "m_SerializedTexture": "",
         "m_Guid": ""
     },
     "isMainTexture": false,
@@ -8200,22 +8183,6 @@
     "m_ShaderOutputName": "_SquashAmount",
     "m_StageCapability": 2,
     "m_Value": 1.6799999475479127,
-    "m_DefaultValue": 0.0,
-    "m_Labels": [],
-    "m_LiteralMode": false
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "f660fb959abc474c8f68c2e4ea0f7b0c",
-    "m_Id": -2100963675,
-    "m_DisplayName": "Pixelization",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "_Pixelization",
-    "m_StageCapability": 3,
-    "m_Value": 16.0,
     "m_DefaultValue": 0.0,
     "m_Labels": [],
     "m_LiteralMode": false
