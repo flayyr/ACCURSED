@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6626921673051531797}
   - component: {fileID: 6279199927607663467}
   - component: {fileID: 3701475360780870239}
+  - component: {fileID: 5080976851904483920}
   m_Layer: 0
   m_Name: altar_bush_2
   m_TagString: Untagged
@@ -151,8 +152,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShakeInteract
   shakeDuration: 0.5
-  shakeMagnitude: 0.75
-  shakeFrequency: 10
+  shakeMagnitude: 0.5
+  shakeFrequency: 7
 --- !u!70 &1021220844307226408
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -277,6 +278,19 @@ CapsuleCollider2D:
   m_Offset: {x: -0.22122729, y: 0.26762488}
   m_Size: {x: 1.4488536, y: 0.90360683}
   m_Direction: 1
+--- !u!114 &5080976851904483920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8560258382395372379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1001 &5840909659279968526
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -351,7 +365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5992037195578543725, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: ShapeModule.m_Scale.x
-      value: 1.75
+      value: 2.25
       objectReference: {fileID: 0}
     - target: {fileID: 5992037195578543725, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: ShapeModule.m_Scale.y
