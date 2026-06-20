@@ -128,7 +128,9 @@ GameObject:
   - component: {fileID: 2647888342283746964}
   - component: {fileID: 1716938511360216737}
   - component: {fileID: 4535596674813642087}
+  - component: {fileID: 7735815104290757104}
   - component: {fileID: 6904171315820443524}
+  - component: {fileID: 3359853802107650957}
   m_Layer: 0
   m_Name: altar_tree_3
   m_TagString: Untagged
@@ -280,6 +282,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &7735815104290757104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3763304914917054391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3d02ab71616734cb7a20bc3612cf5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteract
+  shakeDuration: 0.35
+  shakeMagnitude: 0.1
+  shakeFrequency: 1
 --- !u!114 &6904171315820443524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,6 +320,19 @@ MonoBehaviour:
   maxParticleResetDelay: 0.2
   burstAtHitPoint: 0
   particleOffset: {x: -1, y: 0, z: 0}
+--- !u!114 &3359853802107650957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3763304914917054391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &5432075912902143395
 GameObject:
   m_ObjectHideFlags: 0
