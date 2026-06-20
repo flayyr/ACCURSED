@@ -5,6 +5,9 @@ public class EscMenuController : MonoBehaviour
     public static EscMenuController Instance { get; private set; }
 
     [SerializeField] private GameObject escMenu;
+    [SerializeField] private GameObject inventoryUI;
+    [SerializeField] private GameObject statusUI;
+
     private bool isOpen = false;
     private void Awake()
     {
@@ -24,7 +27,11 @@ public class EscMenuController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ToggleEscMenu();
+            // if other menus are not open
+            if (!inventoryUI.activeSelf && !statusUI.activeSelf)
+            {
+                ToggleEscMenu();
+            }
         }
     }
 
@@ -33,7 +40,6 @@ public class EscMenuController : MonoBehaviour
         isOpen = !isOpen;
         escMenu.SetActive(isOpen);
 
-        Time.timeScale = isOpen? 0f:1f;
     }
 
     public void OpenMenu()
@@ -41,7 +47,7 @@ public class EscMenuController : MonoBehaviour
         isOpen = true;
         escMenu.SetActive(true);
 
-        Time.timeScale = 0f;
+        //GamePauseController.Instance.PauseGame();
     }
 
     public void CloseMenu()
@@ -49,12 +55,22 @@ public class EscMenuController : MonoBehaviour
         isOpen = false;
         escMenu.SetActive(false);
 
-        Time.timeScale = 1f;
+        //GamePauseController.Instance.ResumeGame();
     }
 
     private void OnDestroy()
     {
-        Time.timeScale = 1f;
+        //GamePauseController.Instance.ResumeGame();
+    }
+
+    public void OpenStatus()
+    {
+        statusUI.SetActive(true);
+    }
+    
+    public void OpenInventory()
+    {
+        inventoryUI.SetActive(true);
     }
 
 }

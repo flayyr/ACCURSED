@@ -6,6 +6,8 @@ using static UnityEditor.Progress;
 // This class manages the overall Item Pickup UI System 
 public class ToolTipManager : MonoBehaviour
 {
+    public static ToolTipManager Instance { get; private set; }
+
     [SerializeField] Transform parentCanvas;
     [SerializeField] GameObject UIPromptPrefab;
     [SerializeField] GameObject UINormalItemPrefab;
@@ -28,6 +30,14 @@ public class ToolTipManager : MonoBehaviour
     void Awake()
     {
         promptOpen = false;
+
+        // Singleton check
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
     }
     public void PromptAppear()
     {
@@ -64,15 +74,31 @@ public class ToolTipManager : MonoBehaviour
         }
     }
 
-    // Normal interaction tooltip
+    public void ManuallyRemovePrompt() // if prompt interaction goes out of bounds
+    {
+        if (promptOpen)
+        {
+            PromptDisappear();
+        }
+        currentAction = null;
+    }
+
+    // prompt popup, no action
     public void Prompt(string promptText)
+    {
+        this.promptText = promptText;
+        PromptAppear();
+    }
+
+    // Normal interaction tooltip
+    public void Prompt(string promptText, InteractableItemSO obj)
     {
         this.promptText = promptText;
         PromptAppear();
 
         currentAction = () =>
         {
-            // Depends on interactable type
+            obj.Interact();
         };
     }
 
@@ -124,26 +150,31 @@ public class ToolTipManager : MonoBehaviour
     public void Update()
     {
         CheckPromptTrigger();
+        ToolTipDebug(); //DEBUG
 
+        // if (too far away) { PromptDisappear }
+    }
+
+    private void ToolTipDebug() 
+    {
+       
         /* debug commands, normally triggered by if you approach a point too close. 
          * 1 = regular interactable tooltip
          * 2 = to loot multiple normal items
          * 3 = to loot a singular special item */
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) 
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Prompt("Rest");
+            ToolTipManager.Instance.Prompt("Confirm");
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Prompt("Loot", debugList);
+            ToolTipManager.Instance.Prompt("Loot", debugList);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            Prompt("Loot", debugItem);
+            ToolTipManager.Instance.Prompt("Loot", debugItem);
         }
-
-        // if (too far away) { PromptDisappear }
     }
 
     // Used for stacking multiple normal items for cleaner UI

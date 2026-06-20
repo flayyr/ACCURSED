@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7156644665662544364, guid: 09dbc8a10621b2c4db8893c5b3f0b18f, type: 3}
+  m_Sprite: {fileID: -7152565661727304310, guid: 4f2b987b349ddff498596eaf80e2da38, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -113,11 +113,11 @@ MonoBehaviour:
   useAdditionalShadow: 0
   shadowMat: {fileID: 0}
   ShadowSprite: {fileID: 0}
-  shadowSize: {x: 1.5, y: 0.5}
+  shadowSize: {x: 1, y: 1}
   useWind: 1
-  windStrength: 0.015
+  windStrength: 0.006
   topSway: 1
-  topSwayStrength: 0.05
+  topSwayStrength: 0.03
 --- !u!114 &1427614187524979075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,3 +130,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7

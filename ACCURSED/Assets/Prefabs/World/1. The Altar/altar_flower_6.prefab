@@ -12,6 +12,10 @@ GameObject:
   - component: {fileID: 2861457005772258155}
   - component: {fileID: 2657638729916004327}
   - component: {fileID: 5412865250919853564}
+  - component: {fileID: 1997195588889089494}
+  - component: {fileID: 725543262818330753}
+  - component: {fileID: 173224270375367598}
+  - component: {fileID: 7384496258426775641}
   m_Layer: 0
   m_Name: altar_flower_6
   m_TagString: Untagged
@@ -131,5 +135,109 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShakeInteract
   shakeDuration: 0.5
-  shakeMagnitude: 1
-  shakeFrequency: 10
+  shakeMagnitude: 0.5
+  shakeFrequency: 7
+--- !u!114 &1997195588889089494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146001551993266377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0650363228fc9c94db6b38ece7aed85c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModifiedShakeInteract
+  shakeDuration: 0.5
+  shakeMagnitude: 0.5
+  shakeFrequency: 7
+  shakeOnTriggerEnter: 1
+  shakeTriggerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  allowKeyboardTest: 0
+  testKey: 116
+  invertShakeDirection: 0
+--- !u!114 &725543262818330753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146001551993266377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9fe9bc0246130d4eb64ca39f9adcf8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TallGrassBendInteract
+  visualTarget: {fileID: 0}
+  playerBodyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  usePlayerTagIfMaskEmpty: 1
+  playerTag: Player
+  callShakeWhenHitboxEnters: 0
+  playerHitboxLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  shakeCooldown: 0.1
+  maxBendAngle: 25
+  bendSpeed: 100
+  recoverSpeed: 90
+  fullBendXDistance: 0.6
+  sideDeadZone: 0.03
+  minimumBendStrength: 0.55
+  splayAmount: 0.15
+  squashAmount: 0.05
+  scaleSmoothSpeed: 10
+--- !u!70 &173224270375367598
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146001551993266377}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.030938148, y: 0.1849288}
+  m_Size: {x: 0.39333335, y: 0.43880576}
+  m_Direction: 0
+--- !u!114 &7384496258426775641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146001551993266377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7

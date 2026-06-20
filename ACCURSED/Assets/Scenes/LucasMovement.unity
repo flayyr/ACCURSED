@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 349351168}
   - component: {fileID: 349351166}
   - component: {fileID: 349351167}
+  - component: {fileID: 349351174}
   m_Layer: 0
   m_Name: Test enemy
   m_TagString: Untagged
@@ -283,8 +284,14 @@ MonoBehaviour:
   - name: Test Combo
     attacks:
     - name: Attack1
+      enemyWindMin: 0.2
+      enemyWindMax: 0.3
     - name: Attack2
+      enemyWindMin: 0.1
+      enemyWindMax: 0.2
     - name: Attack3
+      enemyWindMin: 0.1
+      enemyWindMax: 0.15
   winding: 0
   currentCombo: 0
   currentAttack: 0
@@ -438,6 +445,30 @@ Transform:
   - {fileID: 1737551598}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &349351174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 349351165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 399a3c40cc00c204687ab4662242b30c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyController
+  enemyState: 0
+  patrolRadius: 5
+  waypointTolerance: 0.1
+  patrolWaitMin: 0.1
+  patrolWaitMax: 5
+  patrolWaitTimer: 0
+  detectionRadius: 5
+  attackRange: 3
+  loseSightRadius: 10
+  windUpTimer: 0
+  comboContinueChance: 1
+  playerTransform: {fileID: 1443194428}
 --- !u!1 &594246621
 GameObject:
   m_ObjectHideFlags: 0
@@ -1273,8 +1304,14 @@ MonoBehaviour:
   - name: Test Combo
     attacks:
     - name: Attack1
+      enemyWindMin: 0
+      enemyWindMax: 0
     - name: Attack2
+      enemyWindMin: 0
+      enemyWindMax: 0
     - name: Attack3
+      enemyWindMin: 0
+      enemyWindMax: 0
   winding: 0
   currentCombo: 0
   currentAttack: 0

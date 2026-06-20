@@ -108,15 +108,18 @@ public class CharacterMovement : MonoBehaviour
         {
             if (movementInput == Vector2.zero) // not moving
             {
-                idleTime -= Time.deltaTime;
+                idleTime -= Time.deltaTime; // timer for when the play the special idle animation
 
-                if (idleTime < 0)
+                if (idleTime < 0) // time to play the special idle animation
                 {
-                    idleTime = timeTillSpecialIdle;
-                    anim.Play(idles[UnityEngine.Random.Range(1, idles.Count)]);
+                    idleTime = timeTillSpecialIdle; // reset timer
+                    anim.Play(idles[UnityEngine.Random.Range(1, idles.Count)]); // play special animation
                 }
-                else if (!anim.GetCurrentAnimatorStateInfo(0).IsName(idles[0]))
+                else if (!anim.GetCurrentAnimatorStateInfo(0).IsName(idles[0])) // if the animation if currently not the normal idle animation
                 {
+                    // PROBLEM HERE
+                    // has to check if the current animation if finished to play normal idle animation so that it doesnt interfere with the special animation
+                    // work for now, but should be refactored later
                     if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
                         anim.Play(idles[0]);
                 }
