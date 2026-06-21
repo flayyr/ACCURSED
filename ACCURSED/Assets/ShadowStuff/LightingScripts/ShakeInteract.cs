@@ -8,6 +8,7 @@ public class ShakeInteract : MonoBehaviour
     [SerializeField] float shakeDuration=0.5f;
     [SerializeField] float shakeMagnitude=1f;
     [SerializeField] float shakeFrequency=10f;
+    [SerializeField] bool AllowKeyboardTest;
 
     float shakeAmt;
 
@@ -33,9 +34,12 @@ public class ShakeInteract : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.T))
+        if (AllowKeyboardTest)
         {
-            Shake();
+            if (Input.GetKey(KeyCode.T))
+            {
+                Shake();
+            }
         }
     }
 
