@@ -74,15 +74,31 @@ public class ToolTipManager : MonoBehaviour
         }
     }
 
-    // Normal interaction tooltip
+    public void ManuallyRemovePrompt() // if prompt interaction goes out of bounds
+    {
+        if (promptOpen)
+        {
+            PromptDisappear();
+        }
+        currentAction = null;
+    }
+
+    // prompt popup, no action
     public void Prompt(string promptText)
+    {
+        this.promptText = promptText;
+        PromptAppear();
+    }
+
+    // Normal interaction tooltip
+    public void Prompt(string promptText, InteractableItemSO obj)
     {
         this.promptText = promptText;
         PromptAppear();
 
         currentAction = () =>
         {
-            // Depends on interactable type
+            obj.Interact();
         };
     }
 
@@ -149,7 +165,7 @@ public class ToolTipManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            ToolTipManager.Instance.Prompt("Rest");
+            ToolTipManager.Instance.Prompt("Confirm");
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {

@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading;
 
 [RequireComponent(typeof(CustomDynamicLit))]
 public class ShakeInteract : MonoBehaviour
@@ -8,9 +9,15 @@ public class ShakeInteract : MonoBehaviour
     [SerializeField] float shakeDuration=0.5f;
     [SerializeField] float shakeMagnitude=1f;
     [SerializeField] float shakeFrequency=10f;
-    [SerializeField] bool AllowKeyboardTest;
+    [Header("Bend Offset")]
+    [SerializeField] bool grassBend = false;
+    [SerializeField] float bendAmountMax = 0f;
+    [SerializeField] float bendLerpDuration = 0.1f;
 
     float shakeAmt;
+
+    float bendOffset = 0f;
+    float bendTarget = 0f;
 
     CustomDynamicLit litScript;
     List<SpriteRenderer> spriteRenderers;
@@ -32,17 +39,6 @@ public class ShakeInteract : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (AllowKeyboardTest)
-        {
-            if (Input.GetKey(KeyCode.T))
-            {
-                Shake();
-            }
-        }
-    }
-
     public void Shake()
     {
         StartCoroutine(ShakeCoroutine());
@@ -56,12 +52,40 @@ public class ShakeInteract : MonoBehaviour
         {
             timer+=Time.deltaTime;
             shakeAmt = direction * shakeMagnitude * (shakeDuration-timer)/shakeDuration * Mathf.Sin(timer * shakeFrequency);
+
+            if (grassBend)
+            {
+                bendOffset = Mathf.Lerp(bendOffset, bendTarget, timer/bendLerpDuration);
+            }
+
             foreach (SpriteRenderer spriteRenderer in spriteRenderers)
             {
-                spriteRenderer.material.SetFloat("_ShakeAmount", shakeAmt);
+                spriteRenderer.material.SetFloat("_ShakeAmount", shakeAmt + bendOffset);
             }
             yield return new WaitForEndOfFrame();
         }
+        foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+        {
+            spriteRenderer.material.SetFloat("_ShakeAmount", 0f + bendOffset);
+        }
+    }
+
+    private IEnumerator ResetBend()
+    {
+        float timer = 0f;
+        bendTarget = 0f;
+        while(timer < bendLerpDuration)
+        {
+            timer += Time.deltaTime;
+            bendOffset = Mathf.Lerp(bendOffset, bendTarget, timer / bendLerpDuration);
+            foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+            {
+                spriteRenderer.material.SetFloat("_ShakeAmount", shakeAmt + bendOffset);
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+        bendOffset = 0f;
         foreach (SpriteRenderer spriteRenderer in spriteRenderers)
         {
             spriteRenderer.material.SetFloat("_ShakeAmount", 0f);
@@ -70,6 +94,21 @@ public class ShakeInteract : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Shake();
+        if (collision.gameObject.tag == "Player")
+        {
+            if (grassBend)
+            {
+                bendTarget = Mathf.Sign(collision.transform.position.x - transform.position.x) * bendAmountMax;
+            }
+            Shake();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (grassBend && collision.gameObject.tag == "Player")
+        {
+            StartCoroutine(ResetBend());
+        }
     }
 }
