@@ -351727,6 +351727,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EscMenuController
   escMenu: {fileID: 69483679}
+  inventoryUI: {fileID: 0}
+  statusUI: {fileID: 0}
 --- !u!1 &310157686
 GameObject:
   m_ObjectHideFlags: 0
@@ -761297,6 +761299,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2120486118}
   - component: {fileID: 2120486117}
+  - component: {fileID: 2120486120}
+  - component: {fileID: 2120486119}
   m_Layer: 0
   m_Name: Aspect (placeholder)
   m_TagString: Untagged
@@ -761378,6 +761382,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2120486119
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120486116}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.088676214, y: -1.4815607}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.02, y: 3.26}
+    newSize: {x: 1.02, y: 3.26}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3.0102892, y: 2.2819457}
+  m_EdgeRadius: 0
+--- !u!114 &2120486120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120486116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49cc80316fdbb0f4c8c03386666ef500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableObjectManager
+  obj: {fileID: 11400000, guid: 9a2262dec900af04cb4f6c8002703f59, type: 2}
+  player: {fileID: 1131957928}
+  promptText: Aspect
 --- !u!1001 &2124590253
 PrefabInstance:
   m_ObjectHideFlags: 0
