@@ -10,6 +10,7 @@ public class NormalItemPickup : ItemPickup
     public Queue<ItemPickupSO> itemPickupQueue = new Queue<ItemPickupSO>();
     bool addedNewObjectThisUpdate = false;
 
+
     void Awake()
     {
         
@@ -45,6 +46,8 @@ public class NormalItemPickup : ItemPickup
 
         NormalItemPickupUI ui = itemShowcase.GetComponent<NormalItemPickupUI>();
         ui.Initialize(item);
+        //ui.item = item;
+        ui.manager = this;
 
 
         // assign to item
@@ -57,7 +60,11 @@ public class NormalItemPickup : ItemPickup
         ItemPickupSO item = itemPickupQueue.Dequeue();
 
         // pseudocode: add item to inventory
-        Destroy(item.itemShowcaseUIObj);
+
+        // transition and destroy
+        NormalItemPickupUI ui = item.itemShowcaseUIObj.GetComponent<NormalItemPickupUI>();
+        ui.Confirmed();
+        ui.inQueue = false;
 
     }
 }

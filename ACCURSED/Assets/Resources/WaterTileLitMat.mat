@@ -1,0 +1,187 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2258788704952163666
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  version: 10
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WaterTileLitMat
+  m_Shader: {fileID: -6465566751694194690, guid: 31baa88abc31c3c4aba941663214be7b, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _ISWATER
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _CausticSubGraph_8638912e134d40c890bdb91aa26b6302_CausticHighlightTexture_187322138_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CausticTexture:
+        m_Texture: {fileID: 2800000, guid: 0e4a6f91797fafe44ac481c51ec48d5c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FoamTexture:
+        m_Texture: {fileID: 2800000, guid: 0e4a6f91797fafe44ac481c51ec48d5c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HeightMap:
+        m_Texture: {fileID: 2800000, guid: 7a884c7bc95af004ba754d4e95358c7a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 64fb19783aa572947b90c9b3d4f499f4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionSubGraph_33e29c94ab024a579cc41f1b9b0707ab_CausticHighlightTexture_187322138_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionTexture:
+        m_Texture: {fileID: 8400000, guid: d0094efac8f2c7e4fb3a16d81537b417, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_2c7c118d21c74e31aaf441827df4d7ca_Out_0_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaterShaderSub_57a5545a7a694523a4329567698f4dd5_ReflectionTexture_4123420838_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AmbientLightIntensity: 0.191
+    - _CausticFaderMultiplier: 0.435
+    - _CausticFaderScale: 0.84
+    - _CausticMovementAmount: 0.018
+    - _CausticMovementScale: 1.63
+    - _CausticScale: 0.155
+    - _CausticSpeed: 0.8
+    - _CausticSquashAmount: 1.32
+    - _DepthTextureScale: 0.0055
+    - _FoamBlurAmount: 0.27
+    - _FoamScale: 0.34
+    - _ISWATER: 1
+    - _LightIntensity0: 0
+    - _LightIntensity1: 0
+    - _LightIntensity10: 0
+    - _LightIntensity11: 0
+    - _LightIntensity12: 0
+    - _LightIntensity13: 0
+    - _LightIntensity14: 0
+    - _LightIntensity15: 0
+    - _LightIntensity2: 0
+    - _LightIntensity3: 0
+    - _LightIntensity4: 0
+    - _LightIntensity5: 0
+    - _LightIntensity6: 0
+    - _LightIntensity7: 0
+    - _LightIntensity8: 0
+    - _LightIntensity9: 0
+    - _LightRadius0: 4
+    - _LightRadius1: 4
+    - _LightRadius10: 4
+    - _LightRadius11: 4
+    - _LightRadius12: 4
+    - _LightRadius13: 4
+    - _LightRadius14: 4
+    - _LightRadius15: 4
+    - _LightRadius2: 4
+    - _LightRadius3: 4
+    - _LightRadius4: 4
+    - _LightRadius5: 4
+    - _LightRadius6: 4
+    - _LightRadius7: 4
+    - _LightRadius8: 4
+    - _LightRadius9: 4
+    - _NormalMapStrength: 0
+    - _ReflectionBlendAmount: 0.442
+    - _SpecularScale1: 1.65
+    - _SpecularScale2: 3.3
+    - _SpecularSpeed: 0.3
+    - _SpecularThreshold: -0.6
+    m_Colors:
+    - White: {r: 1, g: 1, b: 1, a: 1}
+    - _AmbientLightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _AmbientShadowColor: {r: 0.6509804, g: 0.45490196, b: 0.39607844, a: 1}
+    - _CausticColor: {r: 0.7137255, g: 0.854902, b: 0.9529411, a: 0.2901961}
+    - _CurrentWorldTexturePos: {r: -91.1, g: 97, b: 0, a: 0}
+    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FoamTexelSize: {r: 0, g: 0, b: 0, a: 0}
+    - _LightHue0: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue1: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue10: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue11: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue12: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue13: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue14: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue15: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue2: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue3: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue4: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue5: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue6: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue7: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue8: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue9: {r: 0, g: 0, b: 0, a: 1}
+    - _LightPosition0: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition1: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition10: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition11: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition12: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition13: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition14: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition15: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition2: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition3: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition4: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition5: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition6: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition7: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition8: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition9: {r: 0, g: 0, b: 0, a: 0}
+    - _ReflectionColor: {r: 0.6944642, g: 0.80604756, b: 0.9622642, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

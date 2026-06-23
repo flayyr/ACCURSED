@@ -1,0 +1,48 @@
+using UnityEngine;
+
+public class AspectController : MonoBehaviour
+{
+    public static AspectController Instance { get; private set; }
+
+    [SerializeField] private GameObject aspectMenu;
+
+    private bool isOpen = false;
+
+    void Awake()
+    {
+        aspectMenu.SetActive(false);
+
+        // Singleton check (makes sure there is only one escape menu instance)
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
+    }
+
+    void Update()
+    {
+        
+    }
+
+    public void OpenMenu()
+    {
+        aspectMenu.SetActive(true);
+        isOpen = true;
+    }
+
+    public void CloseMenu()
+    {
+        aspectMenu.SetActive(false);
+        isOpen = false;
+    }
+
+    public void OpenTravel()
+    {
+
+    }
+
+}
