@@ -201,6 +201,7 @@ public class CharacterMovement : MonoBehaviour
 
     public void UpdateRotation()
     {
+        /* for shaun :P
         if (movementInput.x == 0 && movementInput.y > 0) facing = 180;
         else if (movementInput.x > 0 && movementInput.y > 0) facing = 135;
         else if (movementInput.x > 0 && movementInput.y == 0) facing = 90;
@@ -209,8 +210,8 @@ public class CharacterMovement : MonoBehaviour
         else if (movementInput.x < 0 && movementInput.y < 0) facing = 315;
         else if (movementInput.x < 0 && movementInput.y == 0) facing = 270;
         else if (movementInput.x < 0 && movementInput.y > 0) facing = 225;
-
         transform.rotation = Quaternion.Euler(0, 0, facing);
+        */
     }
 
     public void AttackForwardStep()
