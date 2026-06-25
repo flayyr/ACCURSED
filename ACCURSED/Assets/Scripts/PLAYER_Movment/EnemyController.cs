@@ -54,9 +54,12 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Pathfinding
-    // goalPoint is where the enemy wants to move; MoveTowardGoal will be
-    // replaced with A* logic when that system is added
-    private Vector2 goalPoint;
+    public List<Vector3> pathVectorList = null;
+    public int currentPathIndex = 0;
+    public float pathUpdateTimer = 0f;
+    public float pathUpdateInterval = 0.1f; // Update path every 1 second
+
+    public bool PathfindingOverride = false;
     #endregion
 
     #region References
@@ -156,6 +159,7 @@ public class EnemyController : MonoBehaviour
             case EnemyState.neutral:
                 NeutralUpdate();
                 CheckForPlayer();
+                HandleMovement();
                 break;
 
             case EnemyState.pursuing:
@@ -182,8 +186,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            goalPoint = patrolTarget;
-            MoveTowardGoal();
+            SetTargetPosition(patrolTarget);
         }
     }
 
@@ -238,8 +241,8 @@ public class EnemyController : MonoBehaviour
             // Out of range: only break off if we aren't mid-combo, then close the gap.
             if (attackPhase == AttackPhase.idle)
             {
-                goalPoint = playerTransform.position;
-                MoveTowardGoal();
+                HandleMovement();
+                SetTargetPosition(playerTransform.position);
             }
         }
     }
@@ -292,10 +295,59 @@ public class EnemyController : MonoBehaviour
     #region Pathfinding
     // Drives movementInput toward goalPoint.
     // Replace the body of this method with A* steering when that system is ready.
+    /*
     void MoveTowardGoal()
     {
         Vector2 direction = (goalPoint - (Vector2)transform.position).normalized;
         cMovement.movementInput = direction;
+    }
+    */
+
+    public void HandleMovement()
+    {
+        if (pathVectorList != null && currentPathIndex < pathVectorList.Count)
+        {
+            Vector3 targetPosition = pathVectorList[currentPathIndex];
+
+            if (Vector3.Distance(transform.position, targetPosition) > 0.2f) // Smaller threshold
+            {
+                //Debug.Log("Far");
+                Vector2 moveDir = (targetPosition - transform.position);
+                //print("move");
+                cMovement.movementInput = moveDir;
+            }
+            else //if(!enemyScript.shooterEnemy)
+            {
+                //Debug.Log("Close");
+                currentPathIndex++;
+
+                // Stop if reached the end of the path
+                if (currentPathIndex >= pathVectorList.Count)
+                {
+                    //print("stopMove");
+                    StopMoving();
+                }
+
+
+            }
+        }
+    }
+
+    public void StopMoving()
+    {
+        pathVectorList = null;
+        cMovement.movementInput = Vector2.zero;
+    }
+
+    public void SetTargetPosition(Vector3 targetPosition)
+    {
+        pathVectorList = Pathfinding.Instance.FindPath(transform.position, targetPosition);
+
+        if (pathVectorList != null && pathVectorList.Count > 0)
+        {
+            currentPathIndex = 0; // Start from the first node
+            pathVectorList.RemoveAt(0); // Remove starting position
+        }
     }
     #endregion
 }
