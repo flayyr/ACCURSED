@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: -4687448175665336975}
   - component: {fileID: 8344180320982946417}
   - component: {fileID: 4320288949250819318}
+  - component: {fileID: 3532513758103876069}
   m_Layer: 0
   m_Name: altar_tree_5
   m_TagString: Untagged
@@ -414,6 +415,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
   reflectionYScale: 0.7
+--- !u!114 &3532513758103876069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8650559784950143176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0650363228fc9c94db6b38ece7aed85c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModifiedShakeInteract
+  shakeDuration: 0.35
+  shakeMagnitude: 0.1
+  shakeFrequency: 1
+  shakeOnTriggerEnter: 1
+  shakeTriggerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  allowKeyboardTest: 0
+  testKey: 0
+  invertShakeDirection: 0
 --- !u!1 &8779256125252329791
 GameObject:
   m_ObjectHideFlags: 0
