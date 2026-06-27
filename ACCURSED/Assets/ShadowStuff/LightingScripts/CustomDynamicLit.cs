@@ -167,7 +167,7 @@ public class CustomDynamicLit : MonoBehaviour
                 mat.SetFloat("_LightRadius" + i, affectingLights[i].lightRadius);
                 mat.SetFloat("_LightIntensity" + i, affectingLights[i].lightIntensity);
 
-                if (useAdditionalShadow && shadowMat != null && affectingLights[i].lightIntensity!=0f)
+                if (useAdditionalShadow && shadowMat != null /*&& affectingLights[i].lightIntensity!=0f*/)
                 {
                     shadowRenderers[i].sortingOrder = spriteRenderer.sortingOrder;
                     Material currShadowMat = shadowRenderers[i].material;
