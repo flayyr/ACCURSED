@@ -15,8 +15,6 @@ GameObject:
   - component: {fileID: 2926220433950386975}
   - component: {fileID: 2416890002193172618}
   - component: {fileID: 5656122056563500674}
-  - component: {fileID: 8581898481204922847}
-  - component: {fileID: 2176406267306485532}
   - component: {fileID: 5911344617615121252}
   m_Layer: 0
   m_Name: altar_flower_4
@@ -139,6 +137,9 @@ MonoBehaviour:
   shakeDuration: 0.5
   shakeMagnitude: 0.5
   shakeFrequency: 7
+  grassBend: 0
+  bendAmountMax: 0
+  bendLerpDuration: 0.1
 --- !u!114 &2926220433950386975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,83 +228,9 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.13297606, y: 0.2434814}
-  m_Size: {x: 0.2951746, y: 0.55091524}
+  m_Offset: {x: 0.034888744, y: 0.29643214}
+  m_Size: {x: 0.6309042, y: 0.7368057}
   m_Direction: 0
---- !u!70 &8581898481204922847
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 175996583886140032}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0.11093569, y: 0.3122046}
-  m_Size: {x: 0.28278255, y: 0.6906152}
-  m_Direction: 0
---- !u!70 &2176406267306485532
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 175996583886140032}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0.05516849, y: 0.04181859}
-  m_Size: {x: 0.66695684, y: 0.16382842}
-  m_Direction: 1
 --- !u!114 &5911344617615121252
 MonoBehaviour:
   m_ObjectHideFlags: 0
