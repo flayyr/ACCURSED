@@ -9,11 +9,15 @@ public class RoomTransitionInteractable : MonoBehaviour
     [SerializeField] private KeyCode interactKey = KeyCode.E;
     [SerializeField] private string playerTag = "Player";
 
+    [Header("Prompt UI - Local To This Script")]
+    [SerializeField] private Transform promptParentCanvas;
+    [SerializeField] private GameObject promptPrefab;
+
     [Header("Scene Transition")]
     [SerializeField] private string targetSceneName = "AltarInterior";
     [SerializeField] private string targetSpawnID = "Entrance";
 
-    [Tooltip("Use true if the player should be carried into the next scene. Useful if AltarInterior is empty.")]
+    [Tooltip("Use true if the player should be carried into the next scene.")]
     [SerializeField] private bool moveCurrentPlayerToNextScene = true;
 
     [Header("Gate Animation Placeholder")]
@@ -29,6 +33,8 @@ public class RoomTransitionInteractable : MonoBehaviour
     private bool isTransitioning;
     private Transform currentPlayer;
 
+    private GameObject currentPrompt;
+
     private void Reset()
     {
         Collider2D col = GetComponent<Collider2D>();
@@ -43,7 +49,7 @@ public class RoomTransitionInteractable : MonoBehaviour
         playerInRange = true;
         currentPlayer = collision.transform;
 
-        ToolTipManager.Instance.Prompt(promptText);
+        ShowPrompt();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -53,7 +59,7 @@ public class RoomTransitionInteractable : MonoBehaviour
         playerInRange = false;
         currentPlayer = null;
 
-        ToolTipManager.Instance.ManuallyRemovePrompt();
+        HidePrompt();
     }
 
     private void Update()
@@ -67,11 +73,51 @@ public class RoomTransitionInteractable : MonoBehaviour
         }
     }
 
+    private void ShowPrompt()
+    {
+        if (currentPrompt != null) return;
+
+        if (promptParentCanvas == null)
+        {
+            Debug.LogError($"{name}: promptParentCanvas is not assigned.");
+            return;
+        }
+
+        if (promptPrefab == null)
+        {
+            Debug.LogError($"{name}: promptPrefab is not assigned.");
+            return;
+        }
+
+        currentPrompt = Instantiate(promptPrefab, promptParentCanvas, false);
+        currentPrompt.SetActive(true);
+
+        PromptUI promptUI = currentPrompt.GetComponentInChildren<PromptUI>(true);
+
+        if (promptUI != null)
+        {
+            promptUI.SetText(promptText);
+        }
+        else
+        {
+            Debug.LogWarning($"{name}: promptPrefab does not have a PromptUI component.");
+        }
+    }
+
+    private void HidePrompt()
+    {
+        if (currentPrompt != null)
+        {
+            Destroy(currentPrompt);
+            currentPrompt = null;
+        }
+    }
+
     private IEnumerator EnterRoomRoutine()
     {
         isTransitioning = true;
 
-        ToolTipManager.Instance.ManuallyRemovePrompt();
+        HidePrompt();
 
         PlayGateOpenPlaceholder();
 
@@ -85,11 +131,7 @@ public class RoomTransitionInteractable : MonoBehaviour
 
         Transform playerToMove = moveCurrentPlayerToNextScene ? currentPlayer : null;
 
-        yield return RoomTransitionManager.Instance.TransitionToScene(
-            targetSceneName,
-            targetSpawnID,
-            playerToMove
-        );
+        RoomTransitionManager.Instance.BeginTransition(targetSceneName, targetSpawnID, playerToMove);
     }
 
     private void PlayGateOpenPlaceholder()

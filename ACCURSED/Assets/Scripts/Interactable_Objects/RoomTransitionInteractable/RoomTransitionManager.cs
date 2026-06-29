@@ -1,17 +1,20 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class RoomTransitionManager : MonoBehaviour
 {
     public static RoomTransitionManager Instance { get; private set; }
 
+    [Header("Fade Prefab")]
+    [SerializeField] private ScreenFadeOverlay fadeOverlayPrefab;
+
     [Header("Fade Settings")]
-    [SerializeField] private CanvasGroup fadeCanvasGroup;
     [SerializeField] private float fadeOutDuration = 0.25f;
-    [SerializeField] private float fadeInDuration = 0.25f;
-    [SerializeField] private int fadeCanvasSortingOrder = 9999;
+    [SerializeField] private float fadeInDuration = 0.35f;
+
+    [Header("Arrival Settings")]
+    [SerializeField] private float holdBlackAfterSceneLoad = 0.1f;
 
     private bool isTransitioning;
 
@@ -25,22 +28,28 @@ public class RoomTransitionManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
-        if (fadeCanvasGroup == null)
-        {
-            CreateFadeCanvas();
-        }
-
-        fadeCanvasGroup.alpha = 0f;
-        fadeCanvasGroup.blocksRaycasts = false;
-        fadeCanvasGroup.interactable = false;
     }
 
-    public IEnumerator TransitionToScene(string sceneName, string spawnID, Transform playerToMove)
+    public void BeginTransition(string sceneName, string spawnID, Transform playerToMove)
     {
-        if (isTransitioning) yield break;
+        if (isTransitioning) return;
 
+        StartCoroutine(TransitionRoutine(sceneName, spawnID, playerToMove));
+    }
+
+    private IEnumerator TransitionRoutine(string sceneName, string spawnID, Transform playerToMove)
+    {
         isTransitioning = true;
+
+        if (fadeOverlayPrefab == null)
+        {
+            Debug.LogError("RoomTransitionManager: fadeOverlayPrefab is not assigned.");
+            isTransitioning = false;
+            yield break;
+        }
+
+        ScreenFadeOverlay fadeOverlay = Instantiate(fadeOverlayPrefab);
+        DontDestroyOnLoad(fadeOverlay.gameObject);
 
         if (playerToMove != null)
         {
@@ -48,7 +57,7 @@ public class RoomTransitionManager : MonoBehaviour
             DontDestroyOnLoad(playerToMove.gameObject);
         }
 
-        yield return Fade(0f, 1f, fadeOutDuration);
+        yield return fadeOverlay.FadeToBlack(fadeOutDuration);
 
         AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName);
 
@@ -58,10 +67,18 @@ public class RoomTransitionManager : MonoBehaviour
         }
 
         yield return null;
+        yield return null;
 
         MovePlayerToSpawn(playerToMove, spawnID);
 
-        yield return Fade(1f, 0f, fadeInDuration);
+        if (holdBlackAfterSceneLoad > 0f)
+        {
+            yield return new WaitForSecondsRealtime(holdBlackAfterSceneLoad);
+        }
+
+        yield return fadeOverlay.FadeFromBlack(fadeInDuration);
+
+        Destroy(fadeOverlay.gameObject);
 
         isTransitioning = false;
     }
@@ -83,56 +100,5 @@ public class RoomTransitionManager : MonoBehaviour
         }
 
         Debug.LogWarning("No TransitionSpawnPoint found with SpawnID: " + spawnID);
-    }
-
-    private IEnumerator Fade(float startAlpha, float endAlpha, float duration)
-    {
-        fadeCanvasGroup.blocksRaycasts = true;
-
-        float timer = 0f;
-
-        while (timer < duration)
-        {
-            timer += Time.unscaledDeltaTime;
-
-            float t = timer / duration;
-            fadeCanvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, t);
-
-            yield return null;
-        }
-
-        fadeCanvasGroup.alpha = endAlpha;
-
-        if (endAlpha <= 0f)
-        {
-            fadeCanvasGroup.blocksRaycasts = false;
-        }
-    }
-
-    private void CreateFadeCanvas()
-    {
-        GameObject canvasObj = new GameObject("Room Transition Fade Canvas");
-        canvasObj.transform.SetParent(transform);
-
-        Canvas canvas = canvasObj.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = fadeCanvasSortingOrder;
-
-        canvasObj.AddComponent<CanvasScaler>();
-        canvasObj.AddComponent<GraphicRaycaster>();
-
-        GameObject imageObj = new GameObject("Black Fade Image");
-        imageObj.transform.SetParent(canvasObj.transform, false);
-
-        Image image = imageObj.AddComponent<Image>();
-        image.color = Color.black;
-
-        RectTransform rect = imageObj.GetComponent<RectTransform>();
-        rect.anchorMin = Vector2.zero;
-        rect.anchorMax = Vector2.one;
-        rect.offsetMin = Vector2.zero;
-        rect.offsetMax = Vector2.zero;
-
-        fadeCanvasGroup = canvasObj.AddComponent<CanvasGroup>();
     }
 }
