@@ -18,7 +18,7 @@ public class NormalItemPickup : ItemPickup
 
     public void Update()
     {
-        if (itemPickupQueue.Count > 0 && Input.GetKeyDown(KeyCode.X) && !addedNewObjectThisUpdate)
+        if (itemPickupQueue.Count > 0 && Input.GetKeyDown(KeyCode.E) && !addedNewObjectThisUpdate)
         {
             ConfirmItem();
         }

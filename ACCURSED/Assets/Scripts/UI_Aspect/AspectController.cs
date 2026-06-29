@@ -25,19 +25,20 @@ public class AspectController : MonoBehaviour
 
     void Update()
     {
-        
     }
 
     public void OpenMenu()
     {
         aspectMenu.SetActive(true);
         isOpen = true;
+        GamePauseController.Instance.PauseGame();
     }
 
     public void CloseMenu()
     {
         aspectMenu.SetActive(false);
         isOpen = false;
+        GamePauseController.Instance.ResumeGame();
     }
 
     public void OpenTravel()
