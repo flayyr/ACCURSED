@@ -21,6 +21,7 @@ public class CharacterMovement : MonoBehaviour
     #region Animations
     [SerializeField] private float idleTime;
     [SerializeField] private float timeTillSpecialIdle;
+    [SerializeField] private bool doingIdleSpecial;
     [SerializeField] public List<string> idles; //first is the normal idle the rest are the special ones that happen randomly
     [SerializeField] public List<string> movements; // 0 is walk, 1 is run, 2 is sprint (will be multiples of of this for each direction bc the animations later)
     #endregion
@@ -69,8 +70,8 @@ public class CharacterMovement : MonoBehaviour
 
     #region Refrences
     CharacterCombat cCombat;
+    CharacterAnimator cAnimator;
     Rigidbody2D rb;
-    Animator anim;
     #endregion
 
 
@@ -81,7 +82,7 @@ public class CharacterMovement : MonoBehaviour
     void GetComponents()
     {
         cCombat = GetComponent<CharacterCombat>();
-        anim = GetComponent<Animator>();
+        cAnimator = GetComponent<CharacterAnimator>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -113,26 +114,38 @@ public class CharacterMovement : MonoBehaviour
                 if (idleTime < 0) // time to play the special idle animation
                 {
                     idleTime = timeTillSpecialIdle; // reset timer
-                    anim.Play(idles[UnityEngine.Random.Range(1, idles.Count)]); // play special animation
+                    cAnimator.Play(idles[UnityEngine.Random.Range(1, idles.Count)]); // play special animation
+                    doingIdleSpecial = true;
                 }
-                else if (!anim.GetCurrentAnimatorStateInfo(0).IsName(idles[0])) // if the animation if currently not the normal idle animation
+                else if (!cAnimator.IsCurrentState(idles[0])) // if the animation if currently not the normal idle animation
                 {
-                    // PROBLEM HERE
-                    // has to check if the current animation if finished to play normal idle animation so that it doesnt interfere with the special animation
-                    // work for now, but should be refactored later
-                    if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
-                        anim.Play(idles[0]);
+                    if (doingIdleSpecial)
+                    {
+                        if (cAnimator.GetCurrentNormalizedTime() >= 1f)
+                        {
+                            cAnimator.Play(idles[0]);
+                            doingIdleSpecial = false;
+                        }
+                    }
+                    else
+                        cAnimator.Play(idles[0]);
                 }
             }
             else
             {
+                doingIdleSpecial = false;
+
                 idleTime = timeTillSpecialIdle;
 
                 string targetAnim = sprint ? movements[2] : walk ? movements[0] : movements[1];
 
-                if (!anim.GetCurrentAnimatorStateInfo(0).IsName(targetAnim))
-                    anim.Play(targetAnim);
+                if (!cAnimator.IsCurrentState(targetAnim))
+                    cAnimator.Play(targetAnim);
             }
+        }
+        else
+        {
+            doingIdleSpecial = false;
         }
     }
 
@@ -201,6 +214,8 @@ public class CharacterMovement : MonoBehaviour
 
     public void UpdateRotation()
     {
+        cAnimator.SetFacingDirection(movementInput);
+
         /* for shaun :P
         if (movementInput.x == 0 && movementInput.y > 0) facing = 180;
         else if (movementInput.x > 0 && movementInput.y > 0) facing = 135;
