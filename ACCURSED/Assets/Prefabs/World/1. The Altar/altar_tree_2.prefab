@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: -8669569824639304562}
   - component: {fileID: 2827141007473528463}
   - component: {fileID: 8921632439221991312}
+  - component: {fileID: 2883367987790966465}
   m_Layer: 0
   m_Name: altar_tree_2
   m_TagString: Untagged
@@ -295,7 +296,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!114 &-8669569824639304562
@@ -313,6 +314,9 @@ MonoBehaviour:
   shakeDuration: 0.35
   shakeMagnitude: 0.1
   shakeFrequency: 1
+  grassBend: 0
+  bendAmountMax: 0
+  bendLerpDuration: 0.1
 --- !u!114 &2827141007473528463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,7 +332,7 @@ MonoBehaviour:
   hitboxLayer:
     serializedVersion: 2
     m_Bits: 64
-  treeHitCollider: {fileID: 2741487967095172153}
+  treeHitCollider: {fileID: 4140406135448778428}
   hitCooldown: 0.05
   hitParticles: {fileID: 5502849485854733194}
   burstAmount: 7
@@ -349,6 +353,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
   reflectionYScale: 0.7
+--- !u!114 &2883367987790966465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3891360805445586631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0650363228fc9c94db6b38ece7aed85c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModifiedShakeInteract
+  shakeDuration: 0.35
+  shakeMagnitude: 0.1
+  shakeFrequency: 1
+  shakeOnTriggerEnter: 1
+  shakeTriggerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  allowKeyboardTest: 0
+  testKey: 0
+  invertShakeDirection: 0
 --- !u!1 &3901687261128779678
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,8 +441,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.014385164, y: -1.3581194}
-  m_Size: {x: 0.3702706, y: 0.62951446}
+  m_Offset: {x: 0.014385164, y: -1.5072376}
+  m_Size: {x: 0.3702706, y: 0.55971456}
   m_Direction: 0
 --- !u!1 &4968433937562910919
 GameObject:
@@ -427,7 +453,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6598624448075919996}
-  - component: {fileID: 2741487967095172153}
+  - component: {fileID: 4140406135448778428}
   m_Layer: 0
   m_Name: TreeHitColliderTrunk
   m_TagString: Untagged
@@ -450,8 +476,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2474034808088653829}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &2741487967095172153
-PolygonCollider2D:
+--- !u!70 &4140406135448778428
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -466,7 +492,7 @@ PolygonCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 951
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -484,42 +510,9 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.22787142, y: 2.1029963}
-      - {x: 0.2470038, y: 2.327336}
-      - {x: 0.41991615, y: 2.5347815}
-      - {x: 0.5868962, y: 2.7463937}
-      - {x: 0.37610078, y: 2.7881134}
-      - {x: 0.24949956, y: 2.7386587}
-      - {x: -0.16283917, y: 2.7336476}
-      - {x: -0.3556564, y: 2.7527118}
-      - {x: -0.34870946, y: 2.6651397}
-      - {x: -0.15502918, y: 2.2918136}
-      - {x: -0.19238818, y: 1.4853579}
-      - {x: -0.19495761, y: 1.4261166}
-      - {x: -0.19863248, y: 1.3721317}
-      - {x: -0.20122051, y: 1.282502}
-      - {x: -0.21338308, y: 1.0094261}
-      - {x: -0.2328363, y: 0.30220273}
-      - {x: -0.2980346, y: 0.12887967}
-      - {x: -0.15161312, y: 0.030029535}
-      - {x: 0.12829375, y: 0.049721718}
-      - {x: 0.30607712, y: 0.15968251}
-      - {x: 0.23607254, y: 0.3789611}
-      - {x: 0.19077063, y: 1.2421457}
-      - {x: 0.21979642, y: 1.9509114}
-  m_UseDelaunayMesh: 1
+  m_Offset: {x: 0, y: 1.25}
+  m_Size: {x: 0.4, y: 3}
+  m_Direction: 0
 --- !u!1001 &2268110410272800231
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,10 +12,11 @@ GameObject:
   - component: {fileID: 8156973040943897811}
   - component: {fileID: 6110253393178670502}
   - component: {fileID: 8089388839707630927}
-  - component: {fileID: 7146305421369441263}
   - component: {fileID: 2419545157613834925}
   - component: {fileID: 1588372712033991618}
   - component: {fileID: 174192022652222133}
+  - component: {fileID: -5639726158619523316}
+  - component: {fileID: -5180595775107579989}
   m_Layer: 0
   m_Name: altar_tree_1
   m_TagString: Untagged
@@ -140,33 +141,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TreeScript
   leafSprite: {fileID: -6292628951697595274, guid: 4f2b987b349ddff498596eaf80e2da38, type: 3}
   leavesDynamicLit: {fileID: 0}
---- !u!50 &7146305421369441263
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 449374706625652240}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!114 &2419545157613834925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +156,9 @@ MonoBehaviour:
   shakeDuration: 0.35
   shakeMagnitude: 0.1
   shakeFrequency: 1
+  grassBend: 0
+  bendAmountMax: 0
+  bendLerpDuration: 0.1
 --- !u!114 &1588372712033991618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,7 +174,7 @@ MonoBehaviour:
   hitboxLayer:
     serializedVersion: 2
     m_Bits: 64
-  treeHitCollider: {fileID: 6487091996727575019}
+  treeHitCollider: {fileID: 979094009076444410}
   hitCooldown: 0.05
   hitParticles: {fileID: 3621221373679662909}
   burstAmount: 7
@@ -218,6 +195,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
   reflectionYScale: 0.7
+--- !u!114 &-5639726158619523316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449374706625652240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0650363228fc9c94db6b38ece7aed85c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModifiedShakeInteract
+  shakeDuration: 0.35
+  shakeMagnitude: 0.1
+  shakeFrequency: 1
+  shakeOnTriggerEnter: 1
+  shakeTriggerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  allowKeyboardTest: 0
+  testKey: 0
+  invertShakeDirection: 0
+--- !u!50 &-5180595775107579989
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449374706625652240}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &4596477133055185359
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,8 +310,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.09110808, y: -1.3581194}
-  m_Size: {x: 0.44482946, y: 0.62951446}
+  m_Offset: {x: -0.093219995, y: -1.5643146}
+  m_Size: {x: 0.546206, y: 0.56732607}
   m_Direction: 0
 --- !u!1 &5564697529726252521
 GameObject:
@@ -296,7 +322,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5763980350726452875}
-  - component: {fileID: 6487091996727575019}
+  - component: {fileID: 979094009076444410}
   m_Layer: 0
   m_Name: TreeHitColliderTrunk
   m_TagString: Untagged
@@ -319,8 +345,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1590951303768804740}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &6487091996727575019
-PolygonCollider2D:
+--- !u!70 &979094009076444410
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -335,7 +361,7 @@ PolygonCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 951
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -353,41 +379,9 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.22953653, y: 1.9797531}
-      - {x: 0.27365112, y: 2.1408057}
-      - {x: 0.45822144, y: 2.4365199}
-      - {x: 0.73678637, y: 2.476591}
-      - {x: 0.50767136, y: 2.5849288}
-      - {x: 0.22118711, y: 2.495503}
-      - {x: -0.14118814, y: 2.4871614}
-      - {x: -0.29570007, y: 2.5412}
-      - {x: -0.3154006, y: 2.4453006}
-      - {x: -0.18334198, y: 2.2035449}
-      - {x: -0.18406105, y: 1.4720342}
-      - {x: -0.2832265, y: 1.5260434}
-      - {x: -0.35685015, y: 1.4504077}
-      - {x: -0.20122051, y: 1.282502}
-      - {x: -0.19006681, y: 0.9994334}
-      - {x: -0.2328363, y: 0.32385376}
-      - {x: -0.29675335, y: 0.28006923}
-      - {x: -0.011188507, y: 0.19519019}
-      - {x: 0.29983473, y: 0.1796267}
-      - {x: 0.37436068, y: 0.272933}
-      - {x: 0.28070498, y: 0.87241614}
-      - {x: 0.25144005, y: 1.3030522}
-  m_UseDelaunayMesh: 1
+  m_Offset: {x: 0.04, y: 1.25}
+  m_Size: {x: 0.5, y: 2.75}
+  m_Direction: 0
 --- !u!1 &7104932008662256641
 GameObject:
   m_ObjectHideFlags: 0
