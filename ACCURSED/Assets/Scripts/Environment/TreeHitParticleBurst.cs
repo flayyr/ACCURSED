@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class TreeHitParticleBurst : MonoBehaviour
 {
     [Header("Hit Detection")]
@@ -31,7 +30,6 @@ public class TreeHitParticleBurst : MonoBehaviour
 
     [SerializeField] private Vector3 particleOffset;
 
-    private Rigidbody2D rb;
     private float nextAllowedHitTime;
     private int originalMaxParticles;
     private Coroutine resetMaxParticlesCoroutine;
@@ -57,12 +55,6 @@ public class TreeHitParticleBurst : MonoBehaviour
 
     private void AutoSetup()
     {
-        rb = GetComponent<Rigidbody2D>();
-
-        rb.bodyType = RigidbodyType2D.Kinematic;
-        rb.gravityScale = 0f;
-        rb.freezeRotation = true;
-
         if (treeHitCollider == null)
             treeHitCollider = GetComponent<Collider2D>();
 

@@ -13,8 +13,7 @@ GameObject:
   - component: {fileID: 7473996414634703624}
   - component: {fileID: 2277954935580053755}
   - component: {fileID: -4368306008637717214}
-  - component: {fileID: 1021220844307226408}
-  - component: {fileID: 6626921673051531797}
+  - component: {fileID: 5023134086577436482}
   - component: {fileID: 6279199927607663467}
   - component: {fileID: 3701475360780870239}
   - component: {fileID: 5080976851904483920}
@@ -154,70 +153,31 @@ MonoBehaviour:
   shakeDuration: 0.5
   shakeMagnitude: 0.5
   shakeFrequency: 7
---- !u!70 &1021220844307226408
-CapsuleCollider2D:
+  grassBend: 0
+  bendAmountMax: 0
+  bendLerpDuration: 0.1
+--- !u!114 &5023134086577436482
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8560258382395372379}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0650363228fc9c94db6b38ece7aed85c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModifiedShakeInteract
+  shakeDuration: 0.5
+  shakeMagnitude: 0.5
+  shakeFrequency: 7
+  shakeOnTriggerEnter: 1
+  shakeTriggerLayer:
     serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0.021336565, y: 0.055748437}
-  m_Size: {x: 2.0216522, y: 0.83055735}
-  m_Direction: 1
---- !u!50 &6626921673051531797
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8560258382395372379}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
+    m_Bits: 192
+  allowKeyboardTest: 0
+  testKey: 0
+  invertShakeDirection: 0
 --- !u!114 &6279199927607663467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,7 +193,7 @@ MonoBehaviour:
   hitboxLayer:
     serializedVersion: 2
     m_Bits: 64
-  treeHitCollider: {fileID: 1021220844307226408}
+  treeHitCollider: {fileID: 0}
   hitCooldown: 0.1
   hitParticles: {fileID: 155631981649250147}
   burstAmount: 5
@@ -275,8 +235,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.22122729, y: 0.26762488}
-  m_Size: {x: 1.4488536, y: 0.90360683}
+  m_Offset: {x: 0.03594073, y: 0.14488308}
+  m_Size: {x: 1.8346249, y: 0.8977787}
   m_Direction: 1
 --- !u!114 &5080976851904483920
 MonoBehaviour:

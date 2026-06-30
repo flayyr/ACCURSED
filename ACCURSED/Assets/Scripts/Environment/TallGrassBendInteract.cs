@@ -8,7 +8,7 @@ public class TallGrassBendInteract : MonoBehaviour
     [Tooltip("Leave empty to bend this object directly. ")]
     [SerializeField] private Transform visualTarget;
 
-    private ShakeInteract shakeInteract;
+    private ModifiedShakeInteract modifiedShakeInteract;
 
     [Header("Player Detection")]
     [Tooltip("Set this to the layer used by the player's body collider.")]
@@ -67,7 +67,7 @@ public class TallGrassBendInteract : MonoBehaviour
 
     private void Awake()
     {
-        shakeInteract = GetComponent<ShakeInteract>();
+        modifiedShakeInteract = GetComponent<ModifiedShakeInteract>();
 
         if (visualTarget == null)
             visualTarget = transform;
@@ -138,10 +138,8 @@ public class TallGrassBendInteract : MonoBehaviour
 
         nextAllowedShakeTime = Time.time + shakeCooldown;
 
-        // Uses your existing base script.
-        shakeInteract.Shake();
+        modifiedShakeInteract.Shake();
 
-        // Optional extra bend away from the hit source.
         ForceBendAwayFrom(playerPosition);
     }
 
@@ -152,8 +150,7 @@ public class TallGrassBendInteract : MonoBehaviour
 
         nextAllowedShakeTime = Time.time + shakeCooldown;
 
-        // Uses your existing base script.
-        shakeInteract.Shake();
+        modifiedShakeInteract.Shake();
     }
 
     private void ForceBendAwayFrom(Vector3 sourcePosition)

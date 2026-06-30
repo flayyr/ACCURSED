@@ -129,7 +129,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 370581940368134920}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f3d02ab71616734cb7a20bc3612cf5a, type: 3}
   m_Name: 
@@ -137,6 +137,9 @@ MonoBehaviour:
   shakeDuration: 0.5
   shakeMagnitude: 0.5
   shakeFrequency: 7
+  grassBend: 0
+  bendAmountMax: 0
+  bendLerpDuration: 0.1
 --- !u!114 &3790112785234653554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,7 +160,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   allowKeyboardTest: 0
-  testKey: 116
+  testKey: 0
   invertShakeDirection: 0
 --- !u!114 &1455588755537777299
 MonoBehaviour:
@@ -225,8 +228,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0094257, y: 0.19812965}
-  m_Size: {x: 0.49156487, y: 0.49156487}
+  m_Offset: {x: -0.007955551, y: 0.19812965}
+  m_Size: {x: 0.37900162, y: 0.49156487}
   m_Direction: 0
 --- !u!114 &7996610092547217504
 MonoBehaviour:

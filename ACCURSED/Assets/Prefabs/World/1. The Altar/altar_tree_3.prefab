@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 7735815104290757104}
   - component: {fileID: 6904171315820443524}
   - component: {fileID: 3359853802107650957}
+  - component: {fileID: -852982732951172582}
   m_Layer: 0
   m_Name: altar_tree_3
   m_TagString: Untagged
@@ -297,6 +298,9 @@ MonoBehaviour:
   shakeDuration: 0.35
   shakeMagnitude: 0.1
   shakeFrequency: 1
+  grassBend: 0
+  bendAmountMax: 0
+  bendLerpDuration: 0.1
 --- !u!114 &6904171315820443524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,6 +337,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
   reflectionYScale: 0.7
+--- !u!114 &-852982732951172582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3763304914917054391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0650363228fc9c94db6b38ece7aed85c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModifiedShakeInteract
+  shakeDuration: 0.35
+  shakeMagnitude: 0.1
+  shakeFrequency: 1
+  shakeOnTriggerEnter: 1
+  shakeTriggerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  allowKeyboardTest: 0
+  testKey: 0
+  invertShakeDirection: 0
 --- !u!1 &5432075912902143395
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,8 +531,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.04721403, y: -1.2146103}
-  m_Size: {x: 0.38950062, y: 0.68484354}
+  m_Offset: {x: 0.05153644, y: -1.4220934}
+  m_Size: {x: 0.48459697, y: 0.6295147}
   m_Direction: 0
 --- !u!1001 &7250926686945677658
 PrefabInstance:
