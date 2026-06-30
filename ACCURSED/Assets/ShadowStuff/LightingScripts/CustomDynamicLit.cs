@@ -38,9 +38,26 @@ public class CustomDynamicLit : MonoBehaviour
 
     bool visible = true;
 
+    //material ids to replace strings
+    int[,] _LightIDs = new int[4,4];
+    int _Depth = Shader.PropertyToID("_Depth");
+
+
     private void Awake()
     {
+        SetUpIDs();
         SetUp();
+    }
+
+    private void SetUpIDs()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            _LightIDs[i,0] = Shader.PropertyToID("_LightPosition" + i);
+            _LightIDs[i, 1] = Shader.PropertyToID("_LightHue" + i);
+            _LightIDs[i, 2] = Shader.PropertyToID("_LightRadius" + i);
+            _LightIDs[i, 3] = Shader.PropertyToID("_LightIntensity" + i);
+        }
     }
 
     public void SetUp()
@@ -62,7 +79,14 @@ public class CustomDynamicLit : MonoBehaviour
 
         UpdateSortOrder();
 
-        spriteRenderer.material.SetTexture("_NormalMap", normalMap.texture);
+        if (normalMap == null)
+        {
+            spriteRenderer.material.SetTexture("_NormalMap", Resources.Load<Texture2D>("DefaultNormal"));
+        }
+        else
+        {
+            spriteRenderer.material.SetTexture("_NormalMap", normalMap.texture);
+        }
 
         Sprite sprite = spriteRenderer.sprite;
         float baseSpriteHeight = sprite.textureRect.yMin / sprite.texture.height;
@@ -151,7 +175,7 @@ public class CustomDynamicLit : MonoBehaviour
         affectingLights = LightManager.instance.FindAffectingLights(spriteRenderer.bounds.min, spriteRenderer.bounds.max);
 
         UpdateSortOrder();
-        mat.SetFloat("_Depth", depth);
+        mat.SetFloat(_Depth, depth);
 
         if (useAmbientShadow && shadowMat!=null)
         {
@@ -162,10 +186,10 @@ public class CustomDynamicLit : MonoBehaviour
         {
             if (affectingLights[i] != null)
             {
-                mat.SetVector("_LightPosition" + i, affectingLights[i].lightPosition);
-                mat.SetColor("_LightHue" + i, affectingLights[i].lightColor);
-                mat.SetFloat("_LightRadius" + i, affectingLights[i].lightRadius);
-                mat.SetFloat("_LightIntensity" + i, affectingLights[i].lightIntensity);
+                mat.SetVector(_LightIDs[i,0], affectingLights[i].lightPosition);
+                mat.SetColor(_LightIDs[i, 1], affectingLights[i].lightColor);
+                mat.SetFloat(_LightIDs[i, 2], affectingLights[i].lightRadius);
+                mat.SetFloat(_LightIDs[i, 3], affectingLights[i].lightIntensity);
 
                 if (useAdditionalShadow && shadowMat != null && affectingLights[i].lightIntensity!=0f)
                 {
