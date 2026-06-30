@@ -19,7 +19,7 @@ public class SpecialItemPickup : ItemPickup
 
     public void Update()
     {
-        if (specialItem != null && Input.GetKeyDown(KeyCode.X) && !addedNewObjectThisUpdate)
+        if (specialItem != null && Input.GetKeyDown(KeyCode.E) && !addedNewObjectThisUpdate)
         {
             ConfirmItem();
         }

@@ -7,6 +7,6 @@ public class PromptUI : MonoBehaviour
 
     public void SetText(string text)
     {
-        promptTextUI.text = "[X] " + text;
+        promptTextUI.text = "[E] " + text;
     }
 }
