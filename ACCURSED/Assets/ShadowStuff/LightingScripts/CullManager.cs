@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class CullManager : MonoBehaviour
 {
+    public static CullManager instance;
+
     [SerializeField] Camera cam;
-    [SerializeField] readonly Vector2 worldMinBounds;
-    [SerializeField] readonly Vector2 worldMaxBounds;
-    [SerializeField] readonly Vector2 chunkSize;
+    [SerializeField] Vector2 worldMinBounds;
+    [SerializeField] Vector2 worldMaxBounds;
+    [SerializeField] Vector2 chunkSize;
     HashSet<CustomDynamicLit>[,] litObjects;
 
     Vector2 worldSize;
@@ -19,20 +21,24 @@ public class CullManager : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
+
         worldSize = new Vector2(worldMaxBounds.x - worldMinBounds.x, worldMaxBounds.y - worldMinBounds.y);
-        rowCount = Mathf.FloorToInt( worldSize.y / chunkSize.y);
-        columnCount = Mathf.FloorToInt(worldSize.x / chunkSize.x);
 
-        //may break if chunksize is divided by the bounds exactly
-        litObjects = new HashSet<CustomDynamicLit>[columnCount+1, rowCount+1];
+        columnCount = Mathf.CeilToInt(worldSize.x / chunkSize.x);
+        rowCount = Mathf.CeilToInt( worldSize.y / chunkSize.y);
 
-        for (int i = 0; i<rowCount; i++)
+        litObjects = new HashSet<CustomDynamicLit>[columnCount, rowCount];
+
+        for (int i = 0; i<columnCount; i++)
         {
-            for(int j = 0; j < columnCount; j++)
+            for(int j = 0; j < rowCount; j++)
             {
                 litObjects[i, j] = new HashSet<CustomDynamicLit>();
             }
         }
+
+        prevCamCoord = PositionToChunkCoord(cam.transform.position);
     }
 
     private void Update()
@@ -43,14 +49,16 @@ public class CullManager : MonoBehaviour
         {
             for (int i = -1; i <= 1; i++)
             {
-                ObjectsSetEnabled(litObjects[prevCamCoord.x - difference.x, prevCamCoord.y + i], false);
+                ObjectsSetEnabledAll(litObjects[prevCamCoord.x - difference.x, prevCamCoord.y + i], false);
+                ObjectsSetEnabledAll(litObjects[camCoord.x + difference.x, prevCamCoord.y + i], true);
             }
         }
         if (difference.y != 0)
         {
             for (int i = -1; i <= 1; i++)
             {
-                ObjectsSetEnabled(litObjects[prevCamCoord.x +i, prevCamCoord.y - difference.y], false);
+                ObjectsSetEnabledAll(litObjects[prevCamCoord.x +i, prevCamCoord.y - difference.y], false);
+                ObjectsSetEnabledAll(litObjects[prevCamCoord.x + i, camCoord.y + difference.y], true);
             }
         }
         prevCamCoord = camCoord;
@@ -62,6 +70,12 @@ public class CullManager : MonoBehaviour
         if (chunkCoord.x > 0 && chunkCoord.x<columnCount && chunkCoord.y > 0 && chunkCoord.y<rowCount)
         {
             litObjects[chunkCoord.x, chunkCoord.y].Add(obj);
+
+            int2 difference = chunkCoord - prevCamCoord;
+            if(math.abs(difference.x)>1 || math.abs(difference.y) > 1)
+            {
+                ObjectSetEnabled(obj, false);
+            }
         }
     }
 
@@ -72,11 +86,18 @@ public class CullManager : MonoBehaviour
         return chunkCoord;
     }
 
-    void ObjectsSetEnabled(HashSet<CustomDynamicLit> set, bool enabled)
+    void ObjectsSetEnabledAll(HashSet<CustomDynamicLit> set, bool enabled)
     {
         foreach(CustomDynamicLit obj in set)
         {
-            obj.enabled = enabled;
+            ObjectSetEnabled(obj, enabled);
         }
+    }
+
+    void ObjectSetEnabled(CustomDynamicLit obj, bool enabled)
+    {
+        obj.SetVisibility(enabled);
+        obj.enabled = enabled;
+        obj.gameObject.SetActive(enabled);
     }
 }
