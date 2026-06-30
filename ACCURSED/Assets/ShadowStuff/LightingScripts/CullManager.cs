@@ -50,7 +50,7 @@ public class CullManager : MonoBehaviour
             for (int i = -1; i <= 1; i++)
             {
                 ObjectsSetEnabledAll(litObjects[prevCamCoord.x - difference.x, prevCamCoord.y + i], false);
-                ObjectsSetEnabledAll(litObjects[camCoord.x + difference.x, prevCamCoord.y + i], true);
+                ObjectsSetEnabledAll(litObjects[camCoord.x + difference.x, camCoord.y + i], true);
             }
         }
         if (difference.y != 0)
@@ -58,7 +58,7 @@ public class CullManager : MonoBehaviour
             for (int i = -1; i <= 1; i++)
             {
                 ObjectsSetEnabledAll(litObjects[prevCamCoord.x +i, prevCamCoord.y - difference.y], false);
-                ObjectsSetEnabledAll(litObjects[prevCamCoord.x + i, camCoord.y + difference.y], true);
+                ObjectsSetEnabledAll(litObjects[camCoord.x + i, camCoord.y + difference.y], true);
             }
         }
         prevCamCoord = camCoord;
