@@ -189,14 +189,14 @@ public class CustomDynamicLit : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            if (affectingLights[i] != null)
+            if (affectingLights[i].lightIntensity != 0f)
             {
                 litMatProperty.SetVector(_LightIDs[i,0], affectingLights[i].lightPosition);
                 litMatProperty.SetColor(_LightIDs[i, 1], affectingLights[i].lightColor);
                 litMatProperty.SetFloat(_LightIDs[i, 2], affectingLights[i].lightRadius);
                 litMatProperty.SetFloat(_LightIDs[i, 3], affectingLights[i].lightIntensity);
 
-                if (useAdditionalShadow && shadowMat != null && affectingLights[i].lightIntensity!=0f)
+                if (useAdditionalShadow && shadowMat != null)
                 {
                     shadowRenderers[i].sortingOrder = spriteRenderer.sortingOrder;
                     Material currShadowMat = shadowRenderers[i].material;
