@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 178903175735761897}
   - component: {fileID: 725161816343431112}
   - component: {fileID: 98611722331715473}
-  - component: {fileID: 7180719320902758330}
   - component: {fileID: 862681674822158737}
   - component: {fileID: 4154352082033475445}
   - component: {fileID: 2851661010090494259}
+  - component: {fileID: -5236412666952869442}
   m_Layer: 0
   m_Name: altar_tree_4
   m_TagString: Untagged
@@ -114,6 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7011d57e41589024fb444d8773c926bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
+  canMove: 0
   normalMap: {fileID: -2197359250157334493, guid: 64fb19783aa572947b90c9b3d4f499f4, type: 3}
   sortOrderOffset: 0
   useAmbientShadow: 1
@@ -168,24 +169,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &7180719320902758330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 352467813699495987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f3d02ab71616734cb7a20bc3612cf5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteract
-  shakeDuration: 0.35
-  shakeMagnitude: 0.1
-  shakeFrequency: 1
-  grassBend: 0
-  bendAmountMax: 0
-  bendLerpDuration: 0.1
 --- !u!114 &862681674822158737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +227,26 @@ MonoBehaviour:
   allowKeyboardTest: 0
   testKey: 0
   invertShakeDirection: 0
+--- !u!114 &-5236412666952869442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352467813699495987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e92a7b4aa8334841b1e72da48159b63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteractNoTag
+  shakeDuration: 0.35
+  shakeMagnitude: 0.1
+  shakeFrequency: 1
+  shakeByLayer: 0
+  shakeLayer: 0
+  grassBend: 0
+  bendAmountMax: 0
+  bendLerpDuration: 0.1
 --- !u!1 &639135742761436790
 GameObject:
   m_ObjectHideFlags: 0
