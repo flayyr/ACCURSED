@@ -16,7 +16,8 @@ public class NormalItemPickupUI : MonoBehaviour
     [SerializeField] private GameObject nameUI;
     [SerializeField] private GameObject quantityUI;
 
-    [SerializeField] public NormalItemPickup manager;
+    public NormalItemPickup manager;
+
 
     public bool inQueue = true;
 
@@ -34,6 +35,7 @@ public class NormalItemPickupUI : MonoBehaviour
         imgUI.GetComponent<Image>().sprite = item.itemSpr;
         nameUI.GetComponent<TextMeshProUGUI>().text = item.itemName;
         quantityUI.GetComponent<TextMeshProUGUI>().text = item.itemQuantity > 0 ? $"x{item.itemQuantity}" : "x1";
+        manager = ToolTipManager.Instance.GetComponent<NormalItemPickup>();
 
         this.item = item;
 
@@ -60,6 +62,7 @@ public class NormalItemPickupUI : MonoBehaviour
     {
         imgUI.GetComponent<Image>().sprite = item.itemSpr;
         nameUI.GetComponent<TextMeshProUGUI>().text = item.itemName;
+        manager = ToolTipManager.Instance.GetComponent<NormalItemPickup>();
 
         quantityUI.GetComponent<TextMeshProUGUI>().text = (item.itemQuantity != 0) ? $"x{item.itemQuantity}" : "x1";
 
@@ -73,8 +76,8 @@ public class NormalItemPickupUI : MonoBehaviour
             RectTransform rect = GetComponent<RectTransform>();
             float defY = 0f;
 
-            int queuePos = Array.IndexOf(manager.itemPickupQueue.ToArray(), item);
-            float targetY = defY + queuePos * 30f;
+            int queuePos = Array.IndexOf(ToolTipManager.Instance.GetComponent<NormalItemPickup>().itemPickupQueue.ToArray(), item);
+            float targetY = defY + queuePos * 200f;
 
             Vector2 pos = rect.anchoredPosition;
 
