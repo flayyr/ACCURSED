@@ -31,6 +31,7 @@ public class CustomDynamicLit : MonoBehaviour
     SpriteRenderer spriteRenderer;
     SpriteRenderer[] shadowRenderers;
     SpriteRenderer ambientShadowRenderer;
+    GameObject shadowPrefab;
 
     CustomLight[] affectingLights;
 
@@ -102,7 +103,7 @@ public class CustomDynamicLit : MonoBehaviour
         }
 
         shadowRenderers = new SpriteRenderer[4];
-        GameObject shadowPrefab = Resources.Load<GameObject>("ShadowPrefab");
+        shadowPrefab = Resources.Load<GameObject>("ShadowPrefab");
         if (useAmbientShadow)
         {
             GameObject shadowObj = Instantiate(shadowPrefab, transform);
@@ -125,26 +126,29 @@ public class CustomDynamicLit : MonoBehaviour
             }
         }
 
-        if (useAdditionalShadow)
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                GameObject shadowObj = Instantiate(shadowPrefab, transform);
-                shadowObj.transform.localPosition = Vector3.zero;
-                SpriteRenderer shadowRenderer = shadowObj.GetComponent<SpriteRenderer>();
-                shadowRenderer.material = shadowMat;
-                shadowRenderer.sprite = ShadowSprite;
-                shadowRenderer.material.SetVector("_ShadowScale", shadowSize);
-                shadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
-                shadowRenderers[i] = shadowRenderer;
-            }
-        }
+        //if (useAdditionalShadow)
+        //{
+        //    for (int i = 0; i < 4; i++)
+        //    {
+        //        GameObject shadowObj = Instantiate(shadowPrefab, transform);
+        //        shadowObj.transform.localPosition = Vector3.zero;
+        //        SpriteRenderer shadowRenderer = shadowObj.GetComponent<SpriteRenderer>();
+        //        shadowRenderer.material = shadowMat;
+        //        shadowRenderer.sprite = ShadowSprite;
+        //        shadowRenderer.material.SetVector("_ShadowScale", shadowSize);
+        //        shadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
+        //        shadowRenderers[i] = shadowRenderer;
+        //    }
+        //}
     }
 
     private void Start()
     {
         //in Start because instances are assigned in Awake
-        CullManager.instance.AddObject(this, transform.position);
+        if (!canMove)
+        {
+            CullManager.instance.AddObject(this, transform.position);
+        }
         
         UpdateAmbientLight(LightManager.instance);
     }
@@ -191,13 +195,15 @@ public class CustomDynamicLit : MonoBehaviour
         {
             if (affectingLights[i] != null)
             {
-                litMatProperty.SetVector(_LightIDs[i,0], affectingLights[i].lightPosition);
+                litMatProperty.SetVector(_LightIDs[i, 0], affectingLights[i].lightPosition);
                 litMatProperty.SetColor(_LightIDs[i, 1], affectingLights[i].lightColor);
                 litMatProperty.SetFloat(_LightIDs[i, 2], affectingLights[i].lightRadius);
                 litMatProperty.SetFloat(_LightIDs[i, 3], affectingLights[i].lightIntensity);
 
-                if (useAdditionalShadow && shadowMat != null && affectingLights[i].lightIntensity!=0f)
+                if (useAdditionalShadow && shadowMat != null)
                 {
+                    CastNewShadow(i);
+
                     shadowRenderers[i].sortingOrder = spriteRenderer.sortingOrder;
                     Material currShadowMat = shadowRenderers[i].material;
                     currShadowMat.SetVector("_LightDirection", (Vector2)(transform.position - affectingLights[i].lightPosition));
@@ -205,9 +211,40 @@ public class CustomDynamicLit : MonoBehaviour
                     currShadowMat.SetFloat("_LightRadius", affectingLights[i].lightRadius);
                 }
             }
+            else
+            {
+                if (useAdditionalShadow && shadowMat != null)
+                {
+                    DestroyShadow(i);
+                }
+            }
         }
 
 
+    }
+
+    void CastNewShadow(int index)
+    {
+        if (shadowRenderers[index] != null)
+        {
+            return;
+        }
+        GameObject shadowObj = Instantiate(shadowPrefab, transform);
+        shadowObj.transform.localPosition = Vector3.zero;
+        SpriteRenderer shadowRenderer = shadowObj.GetComponent<SpriteRenderer>();
+        shadowRenderer.material = shadowMat;
+        shadowRenderer.sprite = ShadowSprite;
+        shadowRenderer.material.SetVector("_ShadowScale", shadowSize);
+        shadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
+        shadowRenderers[index] = shadowRenderer;
+    }
+
+    void DestroyShadow(int index)
+    {
+        if (shadowRenderers[index] != null)
+        {
+            Destroy(shadowRenderers[index].gameObject);
+        }
     }
 
     private void OnValidate()
@@ -231,7 +268,8 @@ public class CustomDynamicLit : MonoBehaviour
         {
             for (int i = 0; i < shadowRenderers.Length; i++)
             {
-                shadowRenderers[i].enabled = visible;
+                if(shadowRenderers[i] != null)
+                    shadowRenderers[i].enabled = visible;
             }
         }
         //if(ambientShadowRenderer!=null)
