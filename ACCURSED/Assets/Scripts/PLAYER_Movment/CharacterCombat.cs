@@ -37,8 +37,8 @@ public class CharacterCombat : MonoBehaviour
 
     #region Refrences
     CharacterMovement cMovement;
+    CharacterAnimator cAnimator;
     Rigidbody2D rb;
-    Animator anim;
     #endregion
 
 
@@ -49,8 +49,8 @@ public class CharacterCombat : MonoBehaviour
     void GetComponents()
     {
         cMovement = GetComponent<CharacterMovement>();
+        cAnimator = GetComponent<CharacterAnimator>();
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -93,7 +93,7 @@ public class CharacterCombat : MonoBehaviour
 
         cMovement.movementState = CharacterMovement.MovementState.launched;
 
-        anim.Play(combos[currentCombo].attacks[currentAttack].name + "Wind");
+        cAnimator.Play(combos[currentCombo].attacks[currentAttack].name + "Wind");
     }
 
     void Attack()
@@ -103,7 +103,7 @@ public class CharacterCombat : MonoBehaviour
 
         cMovement.movementState = CharacterMovement.MovementState.launched;
 
-        anim.Play(combos[currentCombo].attacks[currentAttack].name);
+        cAnimator.Play(combos[currentCombo].attacks[currentAttack].name);
 
         if (combos[currentCombo].attacks.Count - 1 > currentAttack)
         {
