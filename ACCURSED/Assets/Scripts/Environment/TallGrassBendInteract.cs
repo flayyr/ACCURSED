@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ShakeInteract))]
+[RequireComponent(typeof(ShakeInteractNew))]
 public class TallGrassBendInteract : MonoBehaviour
 {
     [Header("References")]
     [Tooltip("Leave empty to bend this object directly. ")]
     [SerializeField] private Transform visualTarget;
 
-    private ModifiedShakeInteract modifiedShakeInteract;
+    private ShakeInteractNew shakeInteractNew;
 
     [Header("Player Detection")]
     [Tooltip("Set this to the layer used by the player's body collider.")]
@@ -67,7 +67,7 @@ public class TallGrassBendInteract : MonoBehaviour
 
     private void Awake()
     {
-        modifiedShakeInteract = GetComponent<ModifiedShakeInteract>();
+        shakeInteractNew = GetComponent<ShakeInteractNew>();
 
         if (visualTarget == null)
             visualTarget = transform;
@@ -138,7 +138,7 @@ public class TallGrassBendInteract : MonoBehaviour
 
         nextAllowedShakeTime = Time.time + shakeCooldown;
 
-        modifiedShakeInteract.Shake();
+        shakeInteractNew.Shake();
 
         ForceBendAwayFrom(playerPosition);
     }
@@ -150,7 +150,7 @@ public class TallGrassBendInteract : MonoBehaviour
 
         nextAllowedShakeTime = Time.time + shakeCooldown;
 
-        modifiedShakeInteract.Shake();
+        shakeInteractNew.Shake();
     }
 
     private void ForceBendAwayFrom(Vector3 sourcePosition)
@@ -189,7 +189,7 @@ public class TallGrassBendInteract : MonoBehaviour
         float bendStrength = Mathf.Lerp(minimumBendStrength, 1f, closeness);
 
         // Positive Z rotation leans left, negative Z rotation leans right.
-        // So we invert the sign to make the grass bend away from the player.
+        // So invert the sign to make the grass bend away from the player.
         return -bendSign * maxBendAngle * bendStrength;
     }
 

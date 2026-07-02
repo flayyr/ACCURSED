@@ -12,12 +12,11 @@ GameObject:
   - component: {fileID: 8156973040943897811}
   - component: {fileID: 6110253393178670502}
   - component: {fileID: 8089388839707630927}
-  - component: {fileID: 2419545157613834925}
+  - component: {fileID: 7069425551754991112}
   - component: {fileID: 1588372712033991618}
   - component: {fileID: 174192022652222133}
-  - component: {fileID: -5639726158619523316}
   - component: {fileID: -5180595775107579989}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: altar_tree_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,6 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7011d57e41589024fb444d8773c926bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
+  canMove: 0
   normalMap: {fileID: -2197359250157334493, guid: 64fb19783aa572947b90c9b3d4f499f4, type: 3}
   sortOrderOffset: 0
   useAmbientShadow: 1
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TreeScript
   leafSprite: {fileID: -6292628951697595274, guid: 4f2b987b349ddff498596eaf80e2da38, type: 3}
   leavesDynamicLit: {fileID: 0}
---- !u!114 &2419545157613834925
+--- !u!114 &7069425551754991112
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,15 +150,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 449374706625652240}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f3d02ab71616734cb7a20bc3612cf5a, type: 3}
+  m_Script: {fileID: 11500000, guid: 22e04467385db3f4abd424b7b04ae1bb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteract
+  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteractNew
   shakeDuration: 0.35
   shakeMagnitude: 0.1
   shakeFrequency: 1
+  shakeOnTriggerEnter: 1
+  TagsToInteract: []
+  interactionLayers:
+    serializedVersion: 2
+    m_Bits: 64
   grassBend: 0
   bendAmountMax: 0
   bendLerpDuration: 0.1
+  allowKeyboardTest: 0
+  testKey: 0
+  invertShakeDirection: 0
 --- !u!114 &1588372712033991618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,28 +203,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
   reflectionYScale: 0.7
---- !u!114 &-5639726158619523316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 449374706625652240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0650363228fc9c94db6b38ece7aed85c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModifiedShakeInteract
-  shakeDuration: 0.35
-  shakeMagnitude: 0.1
-  shakeFrequency: 1
-  shakeOnTriggerEnter: 1
-  shakeTriggerLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  allowKeyboardTest: 0
-  testKey: 0
-  invertShakeDirection: 0
 --- !u!50 &-5180595775107579989
 Rigidbody2D:
   serializedVersion: 5
@@ -254,7 +240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5619906703399897049}
   - component: {fileID: 2365964481045797613}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TreeBlockCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +309,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5763980350726452875}
   - component: {fileID: 979094009076444410}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TreeHitColliderTrunk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -392,7 +378,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7902330377601216992}
   - component: {fileID: 168840835338989143}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TreeHitColliderFull
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -525,6 +511,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TreeParticles
       objectReference: {fileID: 0}
+    - target: {fileID: 2407902881460183060, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3650438458653861055, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.12742996
@@ -564,6 +554,10 @@ PrefabInstance:
     - target: {fileID: 3650438458653861055, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4740356543358023209, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5992037195578543725, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: InitialModule.maxNumParticles

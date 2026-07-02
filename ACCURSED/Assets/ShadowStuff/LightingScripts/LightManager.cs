@@ -143,11 +143,11 @@ public class LightManager : MonoBehaviour
         }
 
         //fill the array with empty lights if there are less than 4 affecting lights
-        CustomLight newLight = new CustomLight();
+        //CustomLight newLight = new CustomLight();
         
         for(int i = count; i<4; i++)
         {
-            output[i] = newLight;
+            output[i] = null;
         }
         return output;
     }

@@ -12,12 +12,11 @@ GameObject:
   - component: {fileID: 5557778889659816787}
   - component: {fileID: 178903175735761897}
   - component: {fileID: 725161816343431112}
+  - component: {fileID: 7598945199282808214}
   - component: {fileID: 98611722331715473}
-  - component: {fileID: 7180719320902758330}
   - component: {fileID: 862681674822158737}
   - component: {fileID: 4154352082033475445}
-  - component: {fileID: 2851661010090494259}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: altar_tree_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,6 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7011d57e41589024fb444d8773c926bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
+  canMove: 0
   normalMap: {fileID: -2197359250157334493, guid: 64fb19783aa572947b90c9b3d4f499f4, type: 3}
   sortOrderOffset: 0
   useAmbientShadow: 1
@@ -141,6 +141,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TreeScript
   leafSprite: {fileID: -7421322282894965246, guid: 4f2b987b349ddff498596eaf80e2da38, type: 3}
   leavesDynamicLit: {fileID: 0}
+--- !u!114 &7598945199282808214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352467813699495987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22e04467385db3f4abd424b7b04ae1bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteractNew
+  shakeDuration: 0.35
+  shakeMagnitude: 0.1
+  shakeFrequency: 1
+  shakeOnTriggerEnter: 1
+  TagsToInteract: []
+  interactionLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  grassBend: 0
+  bendAmountMax: 0
+  bendLerpDuration: 0.1
+  allowKeyboardTest: 0
+  testKey: 0
+  invertShakeDirection: 0
 --- !u!50 &98611722331715473
 Rigidbody2D:
   serializedVersion: 5
@@ -168,24 +194,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &7180719320902758330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 352467813699495987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f3d02ab71616734cb7a20bc3612cf5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteract
-  shakeDuration: 0.35
-  shakeMagnitude: 0.1
-  shakeFrequency: 1
-  grassBend: 0
-  bendAmountMax: 0
-  bendLerpDuration: 0.1
 --- !u!114 &862681674822158737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,28 +230,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
   reflectionYScale: 0.7
---- !u!114 &2851661010090494259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 352467813699495987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0650363228fc9c94db6b38ece7aed85c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModifiedShakeInteract
-  shakeDuration: 0.35
-  shakeMagnitude: 0.1
-  shakeFrequency: 1
-  shakeOnTriggerEnter: 1
-  shakeTriggerLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  allowKeyboardTest: 0
-  testKey: 0
-  invertShakeDirection: 0
 --- !u!1 &639135742761436790
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2283271487279014096}
   - component: {fileID: 8681973446817908502}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TreeBlockCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,8 +296,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.050534964, y: -1.5104741}
-  m_Size: {x: 0.44979715, y: 0.53015256}
+  m_Offset: {x: -0.050534964, y: -1.5308335}
+  m_Size: {x: 0.44979715, y: 0.48943377}
   m_Direction: 0
 --- !u!1 &1744571971598045092
 GameObject:
@@ -323,7 +309,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8049790468145969557}
   - component: {fileID: 6829494292461176872}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TreeHitColliderFull
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,7 +410,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3967163518816016956}
   - component: {fileID: 7055225611678338942}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TreeHitColliderTrunk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -495,6 +481,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TreeParticles
       objectReference: {fileID: 0}
+    - target: {fileID: 2407902881460183060, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3650438458653861055, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.12
@@ -538,6 +528,10 @@ PrefabInstance:
     - target: {fileID: 3772096188213716880, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4740356543358023209, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5992037195578543725, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: ShapeModule.m_Scale.x
