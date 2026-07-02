@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4272695085405957341}
   - component: {fileID: 42919647450847572}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TreeHitColliderFull
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 8400686413905753815}
   - component: {fileID: 2827141007473528463}
   - component: {fileID: 8921632439221991312}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: altar_tree_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,6 +288,7 @@ MonoBehaviour:
   shakeMagnitude: 0.1
   shakeFrequency: 1
   shakeOnTriggerEnter: 1
+  TagsToInteract: []
   interactionLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -370,7 +371,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7203861099162420452}
   - component: {fileID: 1798306147167652606}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TreeBlockCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -439,7 +440,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6598624448075919996}
   - component: {fileID: 4140406135448778428}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TreeHitColliderTrunk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -510,6 +511,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TreeParticles
       objectReference: {fileID: 0}
+    - target: {fileID: 2407902881460183060, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3650438458653861055, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.24881291
@@ -549,6 +554,10 @@ PrefabInstance:
     - target: {fileID: 3650438458653861055, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4740356543358023209, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5992037195578543725, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: InitialModule.maxNumParticles

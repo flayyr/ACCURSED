@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static DirtTrailParticles;
 
 [RequireComponent(typeof(CustomDynamicLit))]
 public class ShakeInteractNew : MonoBehaviour
@@ -13,6 +14,9 @@ public class ShakeInteractNew : MonoBehaviour
     [Header("Layer Interaction")]
     [Tooltip("Turn this ON if this object should shake automatically when something enters its trigger.")]
     [SerializeField] private bool shakeOnTriggerEnter = false;
+
+    [Header("Tag Interaction")]
+    [SerializeField] private List<string> TagsToInteract = new List<string>();
 
     [Tooltip("Only objects on these layers can trigger shake/bend/reset.")]
     [SerializeField] private LayerMask interactionLayers;
@@ -200,6 +204,14 @@ public class ShakeInteractNew : MonoBehaviour
 
         if (!IsInLayerMask(collision.gameObject.layer, interactionLayers))
             return;
+
+        foreach (string tag in TagsToInteract)
+        {
+            if (!collision.gameObject.CompareTag(tag))
+            {
+                return;
+            }
+        }
 
         if (grassBend)
         {

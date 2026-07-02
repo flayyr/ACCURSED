@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5674230250799998821}
   - component: {fileID: 4426046601899903352}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TreeBlockCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6459495010035284908}
   - component: {fileID: 7269709155841413449}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TreeHitColliderFull
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 4342156553121915326}
   - component: {fileID: 8344180320982946417}
   - component: {fileID: 4320288949250819318}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: altar_tree_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -350,6 +350,7 @@ MonoBehaviour:
   shakeMagnitude: 0.1
   shakeFrequency: 1
   shakeOnTriggerEnter: 1
+  TagsToInteract: []
   interactionLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -432,7 +433,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4433212994157231684}
   - component: {fileID: 4697306077666061897}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TreeHitColliderTrunk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -501,7 +502,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9046797387179078210}
   - component: {fileID: 4140629025011327590}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -594,6 +595,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TreeParticles
       objectReference: {fileID: 0}
+    - target: {fileID: 2407902881460183060, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3650438458653861055, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.18553257
@@ -633,6 +638,10 @@ PrefabInstance:
     - target: {fileID: 3650438458653861055, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4740356543358023209, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5992037195578543725, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: InitialModule.maxNumParticles

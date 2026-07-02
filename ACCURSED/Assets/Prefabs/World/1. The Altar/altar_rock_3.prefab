@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 5777746542321269299}
   - component: {fileID: 3860883906198302030}
   - component: {fileID: 6205378311480548128}
-  m_Layer: 0
+  - component: {fileID: 1043714277907697988}
+  m_Layer: 10
   m_Name: altar_rock_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,6 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7011d57e41589024fb444d8773c926bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
+  canMove: 0
   normalMap: {fileID: -2197359250157334493, guid: 64fb19783aa572947b90c9b3d4f499f4, type: 3}
   sortOrderOffset: 0
   useAmbientShadow: 1
@@ -118,6 +120,19 @@ MonoBehaviour:
   windStrength: 0.006
   topSway: 0
   topSwayStrength: 0.05
+--- !u!114 &1043714277907697988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5293323025717685444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
 --- !u!1 &8207836162653814309
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +144,7 @@ GameObject:
   - component: {fileID: 7023132124641291969}
   - component: {fileID: 2951655689776020110}
   - component: {fileID: 6971568032940421282}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RockBlockCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
