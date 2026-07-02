@@ -228,6 +228,28 @@ public class ShakeInteractNew : MonoBehaviour
         ShakeFromSource(collision.bounds.center);
     }
 
+    private void OnDisable()
+    {
+        // If the object is culled while bent/shaking, stop everything
+        if (shakeRoutine != null)
+        {
+            StopCoroutine(shakeRoutine);
+            shakeRoutine = null;
+        }
+
+        if (resetBendRoutine != null)
+        {
+            StopCoroutine(resetBendRoutine);
+            resetBendRoutine = null;
+        }
+
+        shakeAmt = 0f;
+        bendOffset = 0f;
+        bendTarget = 0f;
+
+        SetShakeAmount(0f);
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!grassBend)
@@ -235,6 +257,16 @@ public class ShakeInteractNew : MonoBehaviour
 
         if (!IsInLayerMask(collision.gameObject.layer, interactionLayers))
             return;
+
+        // If this object is being disabled by CullManager, do not start a coroutine
+        if (!gameObject.activeInHierarchy || !isActiveAndEnabled)
+        {
+            bendOffset = 0f;
+            bendTarget = 0f;
+            shakeAmt = 0f;
+            SetShakeAmount(0f);
+            return;
+        }
 
         if (resetBendRoutine != null)
         {
