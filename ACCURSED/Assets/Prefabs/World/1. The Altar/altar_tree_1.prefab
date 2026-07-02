@@ -12,11 +12,10 @@ GameObject:
   - component: {fileID: 8156973040943897811}
   - component: {fileID: 6110253393178670502}
   - component: {fileID: 8089388839707630927}
+  - component: {fileID: 7069425551754991112}
   - component: {fileID: 1588372712033991618}
   - component: {fileID: 174192022652222133}
-  - component: {fileID: -5639726158619523316}
   - component: {fileID: -5180595775107579989}
-  - component: {fileID: 2723533438441856530}
   m_Layer: 0
   m_Name: altar_tree_1
   m_TagString: Untagged
@@ -142,6 +141,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TreeScript
   leafSprite: {fileID: -6292628951697595274, guid: 4f2b987b349ddff498596eaf80e2da38, type: 3}
   leavesDynamicLit: {fileID: 0}
+--- !u!114 &7069425551754991112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449374706625652240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22e04467385db3f4abd424b7b04ae1bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteractNew
+  shakeDuration: 0.35
+  shakeMagnitude: 0.1
+  shakeFrequency: 1
+  shakeOnTriggerEnter: 1
+  interactionLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  grassBend: 0
+  bendAmountMax: 0
+  bendLerpDuration: 0.1
+  allowKeyboardTest: 0
+  testKey: 0
+  invertShakeDirection: 0
 --- !u!114 &1588372712033991618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,28 +202,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
   reflectionYScale: 0.7
---- !u!114 &-5639726158619523316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 449374706625652240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0650363228fc9c94db6b38ece7aed85c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModifiedShakeInteract
-  shakeDuration: 0.35
-  shakeMagnitude: 0.1
-  shakeFrequency: 1
-  shakeOnTriggerEnter: 1
-  shakeTriggerLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  allowKeyboardTest: 0
-  testKey: 0
-  invertShakeDirection: 0
 --- !u!50 &-5180595775107579989
 Rigidbody2D:
   serializedVersion: 5
@@ -227,26 +229,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2723533438441856530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 449374706625652240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e92a7b4aa8334841b1e72da48159b63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteractNoTag
-  shakeDuration: 0.35
-  shakeMagnitude: 0.1
-  shakeFrequency: 1
-  shakeByLayer: 0
-  shakeLayer: 0
-  grassBend: 0
-  bendAmountMax: 0
-  bendLerpDuration: 0.1
 --- !u!1 &4596477133055185359
 GameObject:
   m_ObjectHideFlags: 0
