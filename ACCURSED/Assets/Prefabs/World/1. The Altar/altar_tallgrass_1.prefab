@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 8206727374385728105}
   - component: {fileID: 8586153981947168847}
   - component: {fileID: 8126806966226633874}
-  - component: {fileID: 4299919095763702198}
-  - component: {fileID: 287650473525425372}
+  - component: {fileID: -475841030866639577}
   - component: {fileID: 5960482726373960504}
   - component: {fileID: 6434447959691994396}
   - component: {fileID: 5815415407729262119}
@@ -123,7 +122,7 @@ MonoBehaviour:
   windStrength: 0.006
   topSway: 1
   topSwayStrength: 0.02
---- !u!114 &4299919095763702198
+--- !u!114 &-475841030866639577
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,34 +131,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 4157387575351847020}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f3d02ab71616734cb7a20bc3612cf5a, type: 3}
+  m_Script: {fileID: 11500000, guid: 22e04467385db3f4abd424b7b04ae1bb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteract
-  shakeDuration: 0.5
-  shakeMagnitude: 1
-  shakeFrequency: 10
-  grassBend: 0
-  bendAmountMax: 0
-  bendLerpDuration: 0.1
---- !u!114 &287650473525425372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4157387575351847020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0650363228fc9c94db6b38ece7aed85c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModifiedShakeInteract
+  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteractNew
   shakeDuration: 0.5
   shakeMagnitude: 0.5
   shakeFrequency: 7
   shakeOnTriggerEnter: 1
-  shakeTriggerLayer:
+  interactionLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4294967295
+  grassBend: 1
+  bendAmountMax: 0
+  bendLerpDuration: 0.1
   allowKeyboardTest: 0
   testKey: 0
   invertShakeDirection: 0
@@ -178,10 +162,10 @@ MonoBehaviour:
   visualTarget: {fileID: 0}
   playerBodyLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 4294967295
   usePlayerTagIfMaskEmpty: 1
   playerTag: Player
-  callShakeWhenHitboxEnters: 0
+  callShakeWhenHitboxEnters: 1
   playerHitboxLayer:
     serializedVersion: 2
     m_Bits: 64
