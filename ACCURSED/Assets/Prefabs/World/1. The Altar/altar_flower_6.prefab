@@ -171,7 +171,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -221,6 +221,8 @@ MonoBehaviour:
   shakeMagnitude: 0.1
   shakeFrequency: 5
   shakeOnTriggerEnter: 1
+  TagsToInteract:
+  - Player
   interactionLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -246,6 +248,7 @@ MonoBehaviour:
   shakeMagnitude: 0.5
   shakeFrequency: 7
   shakeOnTriggerEnter: 0
+  TagsToInteract: []
   interactionLayers:
     serializedVersion: 2
     m_Bits: 0
