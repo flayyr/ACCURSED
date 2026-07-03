@@ -28,10 +28,13 @@ public class EscMenuController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             // if other menus are not open
-            if (!inventoryUI.activeSelf && !statusUI.activeSelf)
+            /*if (!inventoryUI.activeSelf && !statusUI.activeSelf)
             {
+                //Debug.Log("Toggle esc menu");
                 ToggleEscMenu();
-            }
+            }*/
+
+            ToggleEscMenu();
         }
     }
 
