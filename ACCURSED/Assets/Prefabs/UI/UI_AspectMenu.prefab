@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Aspect Name
+  m_text: Altar Outskirts
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9b5ae7e7db2fe234da9f1830dc126d84, type: 2}
   m_sharedMaterial: {fileID: -8040161496219239624, guid: 9b5ae7e7db2fe234da9f1830dc126d84, type: 2}
@@ -286,6 +286,7 @@ GameObject:
   - component: {fileID: 907148864942774278}
   - component: {fileID: 4106002004585238317}
   - component: {fileID: 2903717949657430320}
+  - component: {fileID: 445924758742103351}
   m_Layer: 5
   m_Name: UI_PlaceholderButton (2)
   m_TagString: Untagged
@@ -407,6 +408,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &445924758742103351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 749898856512082187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14e3c14ecb87a9f4fba4fe6cb9142370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Aspect_Buttons
+  isTravel: 0
+  isLeave: 0
+  travelMenu: {fileID: 0}
+  b: {fileID: 2903717949657430320}
 --- !u!1 &1754949655167849516
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,6 +573,7 @@ GameObject:
   - component: {fileID: 4758826971845745775}
   - component: {fileID: 7614836793171965617}
   - component: {fileID: 5257098548873580691}
+  - component: {fileID: 5902533406099733679}
   m_Layer: 5
   m_Name: UI_TravelButton
   m_TagString: Untagged
@@ -677,6 +695,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5902533406099733679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2290311109069172474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14e3c14ecb87a9f4fba4fe6cb9142370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Aspect_Buttons
+  isTravel: 1
+  isLeave: 0
+  travelMenu: {fileID: 0}
+  b: {fileID: 5257098548873580691}
 --- !u!1 &2292482451565537112
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,6 +798,7 @@ GameObject:
   - component: {fileID: 4704679591925139115}
   - component: {fileID: 8412059747692631323}
   - component: {fileID: 1172536007418592500}
+  - component: {fileID: 8013058809613788253}
   m_Layer: 5
   m_Name: UI_LeaveButton
   m_TagString: Untagged
@@ -885,6 +920,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8013058809613788253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3639035459264455735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14e3c14ecb87a9f4fba4fe6cb9142370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Aspect_Buttons
+  isTravel: 0
+  isLeave: 1
+  travelMenu: {fileID: 0}
+  b: {fileID: 1172536007418592500}
 --- !u!1 &3962435997700768644
 GameObject:
   m_ObjectHideFlags: 0
@@ -897,6 +948,7 @@ GameObject:
   - component: {fileID: 6311114348664933530}
   - component: {fileID: 5866518922856314884}
   - component: {fileID: 3113098916707370136}
+  - component: {fileID: 6976860830528591684}
   m_Layer: 5
   m_Name: UI_PlaceholderButton (1)
   m_TagString: Untagged
@@ -1018,6 +1070,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6976860830528591684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3962435997700768644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14e3c14ecb87a9f4fba4fe6cb9142370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Aspect_Buttons
+  isTravel: 0
+  isLeave: 0
+  travelMenu: {fileID: 0}
+  b: {fileID: 3113098916707370136}
 --- !u!1 &5309777684445279883
 GameObject:
   m_ObjectHideFlags: 0
@@ -1167,6 +1235,7 @@ GameObject:
   - component: {fileID: 645301716319811182}
   - component: {fileID: 5586301812709530557}
   - component: {fileID: 2226767163217856283}
+  - component: {fileID: 6687872178013064190}
   m_Layer: 5
   m_Name: UI_PlaceholderButton
   m_TagString: Untagged
@@ -1288,6 +1357,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6687872178013064190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5369318327389459971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14e3c14ecb87a9f4fba4fe6cb9142370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Aspect_Buttons
+  isTravel: 0
+  isLeave: 0
+  travelMenu: {fileID: 0}
+  b: {fileID: 2226767163217856283}
 --- !u!1 &6215292331431570352
 GameObject:
   m_ObjectHideFlags: 0
