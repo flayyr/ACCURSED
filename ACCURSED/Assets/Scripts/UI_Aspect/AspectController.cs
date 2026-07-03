@@ -31,14 +31,14 @@ public class AspectController : MonoBehaviour
     {
         aspectMenu.SetActive(true);
         isOpen = true;
-        GamePauseController.Instance.PauseGame();
+        //GamePauseController.Instance.PauseGame();
     }
 
     public void CloseMenu()
     {
         aspectMenu.SetActive(false);
         isOpen = false;
-        GamePauseController.Instance.ResumeGame();
+        //GamePauseController.Instance.ResumeGame();
     }
 
     public void OpenTravel()
