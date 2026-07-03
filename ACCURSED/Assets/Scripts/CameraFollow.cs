@@ -74,3 +74,22 @@ public class CameraFollow : MonoBehaviour
         return target;
     }
 }
+
+// Use this to change target from other scripts
+/*
+public class CameraTargetChanger : MonoBehaviour
+{
+    [SerializeField] private CameraFollow cameraFollow;
+    [SerializeField] private Transform newTarget;
+
+    public void MakeCameraFollowNewTarget()
+    {
+        cameraFollow.SetTarget(newTarget);
+    }
+
+    public void MakeCameraFollowPlayerAgain()
+    {
+        cameraFollow.FollowPlayer();
+    }
+}
+*/
