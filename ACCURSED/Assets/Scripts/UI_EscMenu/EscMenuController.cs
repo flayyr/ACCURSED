@@ -28,7 +28,13 @@ public class EscMenuController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             // if other menus are not open
-            if (!inventoryUI.activeSelf && !statusUI.activeSelf)
+            /*if (!inventoryUI.activeSelf && !statusUI.activeSelf)
+            {
+                //Debug.Log("Toggle esc menu");
+                ToggleEscMenu();
+            }*/
+
+            if (!otherUIOpen())
             {
                 ToggleEscMenu();
             }
@@ -71,6 +77,20 @@ public class EscMenuController : MonoBehaviour
     public void OpenInventory()
     {
         inventoryUI.SetActive(true);
+    }
+
+    private bool otherUIOpen()
+    {
+        if (AspectController.Instance.getIsOpen() 
+            || TravelMenuController.Instance.getIsOpen())
+        {
+            return true;
+        } 
+        else 
+        { 
+            return false;  
+        }
+        
     }
 
 }
