@@ -46,4 +46,9 @@ public class AspectController : MonoBehaviour
 
     }
 
+    public bool getIsOpen()
+    {
+        return isOpen;
+    }
+
 }

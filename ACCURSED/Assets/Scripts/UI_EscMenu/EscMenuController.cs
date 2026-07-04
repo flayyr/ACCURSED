@@ -34,7 +34,10 @@ public class EscMenuController : MonoBehaviour
                 ToggleEscMenu();
             }*/
 
-            ToggleEscMenu();
+            if (!otherUIOpen())
+            {
+                ToggleEscMenu();
+            }
         }
     }
 
@@ -74,6 +77,20 @@ public class EscMenuController : MonoBehaviour
     public void OpenInventory()
     {
         inventoryUI.SetActive(true);
+    }
+
+    private bool otherUIOpen()
+    {
+        if (AspectController.Instance.getIsOpen() 
+            || TravelMenuController.Instance.getIsOpen())
+        {
+            return true;
+        } 
+        else 
+        { 
+            return false;  
+        }
+        
     }
 
 }
