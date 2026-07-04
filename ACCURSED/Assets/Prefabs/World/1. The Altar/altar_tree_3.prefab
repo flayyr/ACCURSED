@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 4535596674813642087}
   - component: {fileID: 6904171315820443524}
   - component: {fileID: 3359853802107650957}
+  - component: {fileID: 2702105524066743912}
   m_Layer: 10
   m_Name: altar_tree_3
   m_TagString: Untagged
@@ -345,6 +346,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
   reflectionYScale: 0.7
+--- !u!114 &2702105524066743912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3763304914917054391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cf5f29b7fb9574c982a65643d421cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSort
+  sortRenderer: {fileID: 0}
+  useParticle: 0
+  baseTransform: {fileID: 0}
 --- !u!1 &5432075912902143395
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,6 +583,10 @@ PrefabInstance:
       propertyPath: InitialModule.startLifetime.minScalar
       value: 1.75
       objectReference: {fileID: 0}
+    - target: {fileID: 7895986980984026466, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
+      propertyPath: baseTransform
+      value: 
+      objectReference: {fileID: 6731670464589008799}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
