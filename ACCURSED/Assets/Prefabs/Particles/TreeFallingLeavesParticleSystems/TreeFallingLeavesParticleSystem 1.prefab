@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 392636989637238229}
   - component: {fileID: 7065090262920852520}
   - component: {fileID: 8177716620934496575}
+  - component: {fileID: -2540049502279200985}
   m_Layer: 0
   m_Name: TreeFallingLeavesParticleSystem 1
   m_TagString: Untagged
@@ -4801,8 +4802,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1032049669
-  m_SortingLayer: -2
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 40
   m_MaskInteraction: 0
   m_RenderMode: 0
@@ -4836,3 +4837,17 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!114 &-2540049502279200985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8134311358563437676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cf5f29b7fb9574c982a65643d421cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSort
+  sortRenderer: {fileID: 0}
+  useParticle: 1

@@ -50,4 +50,9 @@ public class TravelMenuController : MonoBehaviour
 
     }
 
+    public bool getIsOpen()
+    {
+        return isOpen;
+    }
+
 }
