@@ -9,6 +9,7 @@ public class WaterTrail : MonoBehaviour
     [SerializeField] float widthIncreaseRate=3f;
     [SerializeField] float trailDuration = 1f;
 
+
     float trailSquaredLength = 0;
     Vector3 prevPosition;
 
@@ -63,6 +64,8 @@ public class WaterTrail : MonoBehaviour
             trailSquaredLength += currDist;
             squaredDists.Enqueue(currDist);
             prevPosition = transform.position;
+
+
         }
 
 

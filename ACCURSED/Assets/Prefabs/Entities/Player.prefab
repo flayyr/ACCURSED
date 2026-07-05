@@ -193,7 +193,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -2.69, y: 0.07}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -219,6 +219,8 @@ GameObject:
   - component: {fileID: 7118605597811277928}
   - component: {fileID: 5652761700360678841}
   - component: {fileID: 1395917286790429429}
+  - component: {fileID: 3392619501589092108}
+  - component: {fileID: 4322388448675663092}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -369,6 +371,37 @@ MonoBehaviour:
   windStrength: 0.006
   topSway: 0
   topSwayStrength: 0.1
+--- !u!114 &3392619501589092108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1868879860436213657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cf5f29b7fb9574c982a65643d421cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSort
+  sortRenderer: {fileID: 0}
+  useParticle: 0
+  baseTransform: {fileID: 0}
+--- !u!114 &4322388448675663092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1868879860436213657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf36d674cb9e01e4dba3f3383cdadd34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteSinking
+  landCollider:
+    serializedVersion: 2
+    m_Bits: 2048
+  maxDist: 10
 --- !u!1 &2321458673123695232
 GameObject:
   m_ObjectHideFlags: 0
