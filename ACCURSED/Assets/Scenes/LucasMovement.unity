@@ -754,7 +754,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1133028235
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -892,7 +892,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1237279259
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1333,7 +1333,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1768351218
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1515,17 +1515,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1231015708270458287, guid: 20f6bc97f995a924795cd8be2db74f7e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 7672462270199966485, guid: c58236037ae771443af8e3c34be2494b, type: 3}
+    - target: {fileID: 1231015708270458287, guid: 20f6bc97f995a924795cd8be2db74f7e, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2321458673123695232, guid: 20f6bc97f995a924795cd8be2db74f7e, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7118605597811277928, guid: 20f6bc97f995a924795cd8be2db74f7e, type: 3}
+      propertyPath: m_labelHash
+      value: 0.00000040954276
+      objectReference: {fileID: 0}
+    - target: {fileID: 7118605597811277928, guid: 20f6bc97f995a924795cd8be2db74f7e, type: 3}
+      propertyPath: m_SpriteHash
+      value: 288431053
+      objectReference: {fileID: 0}
     - target: {fileID: 7439205806254273099, guid: 20f6bc97f995a924795cd8be2db74f7e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.69
+      value: -0.61
       objectReference: {fileID: 0}
     - target: {fileID: 7439205806254273099, guid: 20f6bc97f995a924795cd8be2db74f7e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.07
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 7439205806254273099, guid: 20f6bc97f995a924795cd8be2db74f7e, type: 3}
       propertyPath: m_LocalPosition.z
