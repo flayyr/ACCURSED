@@ -21,7 +21,7 @@ public class WaterTrail : MonoBehaviour
     float fadeBufferTime;
     float timePassed = 0;
 
-    bool inWater;
+    public bool inWater;
 
     private void Awake()
     {
