@@ -20,11 +20,15 @@ public class InteractableObjectManager : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log("prompt appear");
-        promptOpen = true;
-        ToolTipManager.Instance.Prompt(promptText, obj);
+        if (!promptOpen)
+        {
+            Debug.Log("prompt appear");
+            promptOpen = true;
+            ToolTipManager.Instance.Prompt(promptText, obj);
+        }
+       
     }
 
     private void OnTriggerExit2D(Collider2D collision)
