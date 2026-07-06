@@ -107,10 +107,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9043058935304078089}
-  - {fileID: 7962994063783561152}
-  - {fileID: 4932673444281885936}
   - {fileID: 1927851037016136053}
-  - {fileID: 3014910933300793230}
+  - {fileID: 7081484139411080462}
+  - {fileID: 9172225218504242257}
+  - {fileID: 4005323855475320795}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!1001 &1918314420469103895
+--- !u!1001 &817207727395688070
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -191,11 +191,35 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2386951381016080705, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_text
-      value: Inventory
+      value: Settings
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386951381016080705, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 2386951381016080705, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 2452498839221568785, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 2452498839221568785, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 170
       objectReference: {fileID: 0}
     - target: {fileID: 2956134908485953364, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_Name
       value: UI_EscMenuButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 4348972842422177544, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bc23010efcdd9ce41985f8797c8e31e4, type: 3}
+    - target: {fileID: 5987707375010654379, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_Name
+      value: Button_Highlight
       objectReference: {fileID: 0}
     - target: {fileID: 8366848237399505623, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_Pivot.x
@@ -263,7 +287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8366848237399505623, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 340
+      value: -125.6
       objectReference: {fileID: 0}
     - target: {fileID: 8366848237399505623, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -282,12 +306,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
---- !u!224 &7962994063783561152 stripped
+--- !u!224 &9172225218504242257 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8366848237399505623, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
-  m_PrefabInstance: {fileID: 1918314420469103895}
+  m_PrefabInstance: {fileID: 817207727395688070}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &3488429855092006439
+--- !u!1001 &1611013689516097497
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -299,6 +323,22 @@ PrefabInstance:
       propertyPath: m_text
       value: Status
       objectReference: {fileID: 0}
+    - target: {fileID: 2386951381016080705, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 2386951381016080705, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 2452498839221568785, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 2452498839221568785, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 170
+      objectReference: {fileID: 0}
     - target: {fileID: 2956134908485953364, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_Name
       value: UI_EscMenuButton
@@ -307,6 +347,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 05d297f4d169d194c8d7039d828fce02, type: 3}
+    - target: {fileID: 5987707375010654379, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_Name
+      value: Button_Highlight
+      objectReference: {fileID: 0}
     - target: {fileID: 8366848237399505623, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -392,12 +436,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
---- !u!224 &4932673444281885936 stripped
+--- !u!224 &7081484139411080462 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8366848237399505623, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
-  m_PrefabInstance: {fileID: 3488429855092006439}
+  m_PrefabInstance: {fileID: 1611013689516097497}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &6758242371698767193
+--- !u!1001 &4866351565131078924
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -409,6 +453,22 @@ PrefabInstance:
       propertyPath: m_text
       value: Quit
       objectReference: {fileID: 0}
+    - target: {fileID: 2386951381016080705, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 2386951381016080705, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 2452498839221568785, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 2452498839221568785, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 170
+      objectReference: {fileID: 0}
     - target: {fileID: 2956134908485953364, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_Name
       value: UI_EscMenuButton
@@ -417,6 +477,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 03acce0acd20e8349b03587f3615fb3e, type: 3}
+    - target: {fileID: 5987707375010654379, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_Name
+      value: Button_Highlight
+      objectReference: {fileID: 0}
     - target: {fileID: 8366848237399505623, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -502,10 +566,10 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
---- !u!224 &3014910933300793230 stripped
+--- !u!224 &4005323855475320795 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8366848237399505623, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
-  m_PrefabInstance: {fileID: 6758242371698767193}
+  m_PrefabInstance: {fileID: 4866351565131078924}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7988293278170342306
 PrefabInstance:
@@ -517,16 +581,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2386951381016080705, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_text
-      value: Settings
+      value: Inventory
+      objectReference: {fileID: 0}
+    - target: {fileID: 2452498839221568785, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 2452498839221568785, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 170
       objectReference: {fileID: 0}
     - target: {fileID: 2956134908485953364, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_Name
       value: UI_EscMenuButton
       objectReference: {fileID: 0}
-    - target: {fileID: 4348972842422177544, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: bc23010efcdd9ce41985f8797c8e31e4, type: 3}
+    - target: {fileID: 5987707375010654379, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_Name
+      value: Button_Highlight
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987707375010654379, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8366848237399505623, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -593,7 +669,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8366848237399505623, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -125.6
+      value: 340
       objectReference: {fileID: 0}
     - target: {fileID: 8366848237399505623, guid: 785085e08d90aa04abbfe871cbc3ac24, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
