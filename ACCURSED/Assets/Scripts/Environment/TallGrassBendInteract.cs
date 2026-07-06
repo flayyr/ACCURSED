@@ -195,9 +195,12 @@ public class TallGrassBendInteract : MonoBehaviour
 
     private void ApplyBendVisual()
     {
-        visualTarget.localRotation = originalLocalRotation * Quaternion.Euler(0f, 0f, currentBendAngle);
+        //visualTarget.localRotation = originalLocalRotation * Quaternion.Euler(0f, 0f, currentBendAngle);
 
         float bend01 = Mathf.InverseLerp(0f, maxBendAngle, Mathf.Abs(currentBendAngle));
+
+        //simply passes in the bend01 as bend progress to shakeinteract
+        shakeInteractNew.SetBendProgress(bend01, -Mathf.Sign(currentBendAngle));
 
         Vector3 targetScale = originalLocalScale;
         targetScale.x = originalLocalScale.x * (1f + splayAmount * bend01);

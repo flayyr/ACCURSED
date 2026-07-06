@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7138965065699133401}
   - component: {fileID: -336731664903286978}
   - component: {fileID: 4379135548221189515}
+  - component: {fileID: 4858284951335079416}
   m_Layer: 0
   m_Name: altar_flower_1
   m_TagString: Untagged
@@ -193,8 +194,8 @@ MonoBehaviour:
   interactionLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  grassBend: 0
-  bendAmountMax: 0
+  grassBend: 1
+  bendAmountMax: 0.7
   bendLerpDuration: 0.1
   allowKeyboardTest: 0
   testKey: 0
@@ -231,3 +232,18 @@ MonoBehaviour:
   splayAmount: 0.15
   squashAmount: 0.05
   scaleSmoothSpeed: 10
+--- !u!114 &4858284951335079416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2451344291122264255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cf5f29b7fb9574c982a65643d421cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSort
+  sortRenderer: {fileID: 0}
+  useParticle: 0
+  baseTransform: {fileID: 0}

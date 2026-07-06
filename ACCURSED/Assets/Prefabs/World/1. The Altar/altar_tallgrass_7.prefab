@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6503529160115010379}
   - component: {fileID: 8476411512381968176}
   - component: {fileID: 6202250474277070967}
+  - component: {fileID: 6883190089113771098}
   m_Layer: 0
   m_Name: altar_tallgrass_7
   m_TagString: Untagged
@@ -144,7 +145,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   grassBend: 1
-  bendAmountMax: 0
+  bendAmountMax: 0.7
   bendLerpDuration: 0.1
   allowKeyboardTest: 0
   testKey: 0
@@ -231,3 +232,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
   reflectionYScale: 0.7
+--- !u!114 &6883190089113771098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5326485343149885641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cf5f29b7fb9574c982a65643d421cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSort
+  sortRenderer: {fileID: 0}
+  useParticle: 0
+  baseTransform: {fileID: 0}
