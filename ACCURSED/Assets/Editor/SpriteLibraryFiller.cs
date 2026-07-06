@@ -10,6 +10,7 @@ public class SpriteLibraryFiller : EditorWindow
     private UnityEngine.Object _pickerObj;
     private string[] _categoryNames = System.Array.Empty<string>();
     private int _selectedCategory;
+    private string _lastCategoryName;
     private readonly List<Sprite> _sprites = new();
     private ReorderableList _reorderableList;
     private Vector2 _scroll;
@@ -18,6 +19,8 @@ public class SpriteLibraryFiller : EditorWindow
     static void Open() => GetWindow<SpriteLibraryFiller>("Sprite Library Filler");
 
     void OnEnable() => RebuildList();
+
+    void OnFocus() { if (!string.IsNullOrEmpty(_spriteLibPath)) RefreshCategories(); }
 
     void RebuildList()
     {
@@ -74,6 +77,7 @@ public class SpriteLibraryFiller : EditorWindow
 
         _selectedCategory = Mathf.Clamp(_selectedCategory, 0, _categoryNames.Length - 1);
         _selectedCategory = EditorGUILayout.Popup("Category to fill", _selectedCategory, _categoryNames);
+        _lastCategoryName = _categoryNames[_selectedCategory];
         EditorGUILayout.Space(6);
 
         DrawDropZone();
@@ -188,12 +192,46 @@ public class SpriteLibraryFiller : EditorWindow
         _categoryNames = System.Array.Empty<string>();
         _selectedCategory = 0;
 
-        if (!TryLoadLibrary(out _, out _, out var lib)) return;
+        if (string.IsNullOrEmpty(_spriteLibPath)) return;
 
+        // Use the runtime asset so inherited categories are included.
+        // Invoke GetCategoryNames() via reflection to stay package-version agnostic.
+        var runtimeAsset = AssetDatabase.LoadMainAssetAtPath(_spriteLibPath);
+        if (runtimeAsset != null)
+        {
+            var getNames = runtimeAsset.GetType().GetMethod(
+                "GetCategoryNames",
+                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            if (getNames != null)
+            {
+                var names = (getNames.Invoke(runtimeAsset, null) as System.Collections.IEnumerable)
+                    ?.Cast<string>().ToArray();
+                if (names != null && names.Length > 0)
+                {
+                    _categoryNames = names;
+                    RestoreSelectedCategory();
+                    return;
+                }
+            }
+        }
+
+        // Fallback: read YAML directly (local categories only)
+        if (!TryLoadLibrary(out _, out _, out var lib)) return;
         _categoryNames = new string[lib.arraySize];
         for (int i = 0; i < lib.arraySize; i++)
             _categoryNames[i] = lib.GetArrayElementAtIndex(i)
                 .FindPropertyRelative("m_Name").stringValue;
+
+        RestoreSelectedCategory();
+    }
+
+    void RestoreSelectedCategory()
+    {
+        if (!string.IsNullOrEmpty(_lastCategoryName))
+        {
+            int idx = System.Array.IndexOf(_categoryNames, _lastCategoryName);
+            _selectedCategory = idx >= 0 ? idx : 0;
+        }
     }
 
     void FillCategory()
@@ -215,8 +253,15 @@ public class SpriteLibraryFiller : EditorWindow
 
         if (category == null)
         {
-            Debug.LogError($"[SpriteLibFiller] Category '{targetCat}' not found after reload.");
-            return;
+            // Inherited category — insert a local override entry so we can write to it
+            int newIdx = lib.arraySize;
+            lib.arraySize = newIdx + 1;
+            category = lib.GetArrayElementAtIndex(newIdx);
+            category.FindPropertyRelative("m_Name").stringValue = targetCat;
+            var initEntries = category.FindPropertyRelative("m_OverrideEntries");
+            if (initEntries != null) initEntries.arraySize = 0;
+            var initCount = category.FindPropertyRelative("m_EntryOverrideCount");
+            if (initCount != null) initCount.intValue = 0;
         }
 
         var validSprites = _sprites.Where(s => s != null).ToList();
@@ -241,5 +286,8 @@ public class SpriteLibraryFiller : EditorWindow
 
         Debug.Log($"[SpriteLibFiller] Filled '{targetCat}' with {validSprites.Count} sprite(s).");
         RefreshCategories();
+        _sprites.Clear();
+        RebuildList();
+        Repaint();
     }
 }
