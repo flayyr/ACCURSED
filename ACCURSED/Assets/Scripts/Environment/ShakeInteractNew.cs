@@ -22,7 +22,7 @@ public class ShakeInteractNew : MonoBehaviour
     [SerializeField] private LayerMask interactionLayers;
 
     [Header("Bend Offset")]
-    [SerializeField] private bool grassBend = false;
+    //[SerializeField] private bool grassBend = false;
     [SerializeField] private float bendAmountMax = 0f;
     [SerializeField] private float bendLerpDuration = 0.1f;
 
@@ -35,7 +35,7 @@ public class ShakeInteractNew : MonoBehaviour
     [SerializeField] private bool invertShakeDirection = false;
 
     private float shakeAmt;
-    private float bendOffset = 0f;
+    private float currentBend = 0f;
     private float bendTarget = 0f;
 
     private readonly List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
@@ -43,8 +43,13 @@ public class ShakeInteractNew : MonoBehaviour
     private Coroutine shakeRoutine;
     private Coroutine resetBendRoutine;
 
+    int _ShakeID;
+    int _BendID;
+
     private void Awake()
     {
+        _ShakeID = Shader.PropertyToID("_ShakeAmount");
+        _BendID = Shader.PropertyToID("_BendAmount");
         SetupSpriteRenderers();
     }
 
@@ -124,7 +129,7 @@ public class ShakeInteractNew : MonoBehaviour
         if (shakeRoutine != null)
         {
             StopCoroutine(shakeRoutine);
-            SetShakeAmount(0f + bendOffset);
+            SetShakeAmount(0f);
         }
 
         shakeRoutine = StartCoroutine(ShakeCoroutine(direction));
@@ -148,43 +153,38 @@ public class ShakeInteractNew : MonoBehaviour
                 (shakeDuration - timer) / shakeDuration *
                 Mathf.Sin(timer * shakeFrequency);
 
-            if (grassBend)
-            {
-                bendOffset = Mathf.Lerp(bendOffset, bendTarget, timer / bendLerpDuration);
-            }
-
-            SetShakeAmount(shakeAmt + bendOffset);
+            SetShakeAmount(shakeAmt);
 
             yield return null;
         }
 
         shakeAmt = 0f;
-        SetShakeAmount(bendOffset);
+        SetShakeAmount(0);
 
         shakeRoutine = null;
     }
 
-    private IEnumerator ResetBend()
-    {
-        float timer = 0f;
-        bendTarget = 0f;
+    //private IEnumerator ResetBend()
+    //{
+    //    float timer = 0f;
+    //    bendTarget = 0f;
 
-        while (timer < bendLerpDuration)
-        {
-            timer += Time.deltaTime;
+    //    while (timer < bendLerpDuration)
+    //    {
+    //        timer += Time.deltaTime;
 
-            bendOffset = Mathf.Lerp(bendOffset, bendTarget, timer / bendLerpDuration);
+    //        currentBend = Mathf.Lerp(currentBend, bendTarget, timer / bendLerpDuration);
 
-            SetShakeAmount(shakeAmt + bendOffset);
+    //        SetBendAmount(currentBend);
 
-            yield return null;
-        }
+    //        yield return null;
+    //    }
 
-        bendOffset = 0f;
-        SetShakeAmount(0f);
+    //    currentBend = 0f;
+    //    SetShakeAmount(0f);
 
-        resetBendRoutine = null;
-    }
+    //    resetBendRoutine = null;
+    //}
 
     private void SetShakeAmount(float amount)
     {
@@ -192,9 +192,31 @@ public class ShakeInteractNew : MonoBehaviour
         {
             if (spriteRenderer != null && spriteRenderer.material != null)
             {
-                spriteRenderer.material.SetFloat("_ShakeAmount", amount);
+                spriteRenderer.material.SetFloat(_ShakeID, amount);
             }
         }
+    }
+
+    private void SetBendAmount(float amount)
+    {
+        foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+        {
+            if (spriteRenderer != null && spriteRenderer.material != null)
+            {
+                spriteRenderer.material.SetFloat(_BendID, amount);
+            }
+        }
+    }
+
+    public void SetBendProgress(float progress, float direction)
+    {
+        float amount = progress * direction * bendAmountMax;
+        if(currentBend != amount)
+        {
+            currentBend = amount;
+            SetBendAmount(currentBend);
+        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -213,17 +235,17 @@ public class ShakeInteractNew : MonoBehaviour
             }
         }
 
-        if (grassBend)
-        {
-            bendTarget =
-                Mathf.Sign(collision.transform.position.x - transform.position.x) *
-                bendAmountMax;
+        //if (grassBend)
+        //{
+        //    bendTarget =
+        //        Mathf.Sign(collision.transform.position.x - transform.position.x) *
+        //        bendAmountMax;
 
-            if (invertShakeDirection)
-            {
-                bendTarget *= -1f;
-            }
-        }
+        //    if (invertShakeDirection)
+        //    {
+        //        bendTarget *= -1f;
+        //    }
+        //}
 
         ShakeFromSource(collision.bounds.center);
     }
@@ -244,37 +266,37 @@ public class ShakeInteractNew : MonoBehaviour
         }
 
         shakeAmt = 0f;
-        bendOffset = 0f;
+        currentBend = 0f;
         bendTarget = 0f;
 
         SetShakeAmount(0f);
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (!grassBend)
-            return;
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    if (!grassBend)
+    //        return;
 
-        if (!IsInLayerMask(collision.gameObject.layer, interactionLayers))
-            return;
+    //    if (!IsInLayerMask(collision.gameObject.layer, interactionLayers))
+    //        return;
 
-        // If this object is being disabled by CullManager, do not start a coroutine
-        if (!gameObject.activeInHierarchy || !isActiveAndEnabled)
-        {
-            bendOffset = 0f;
-            bendTarget = 0f;
-            shakeAmt = 0f;
-            SetShakeAmount(0f);
-            return;
-        }
+    //    // If this object is being disabled by CullManager, do not start a coroutine
+    //    if (!gameObject.activeInHierarchy || !isActiveAndEnabled)
+    //    {
+    //        currentBend = 0f;
+    //        bendTarget = 0f;
+    //        shakeAmt = 0f;
+    //        SetShakeAmount(0f);
+    //        return;
+    //    }
 
-        if (resetBendRoutine != null)
-        {
-            StopCoroutine(resetBendRoutine);
-        }
+    //    if (resetBendRoutine != null)
+    //    {
+    //        StopCoroutine(resetBendRoutine);
+    //    }
 
-        resetBendRoutine = StartCoroutine(ResetBend());
-    }
+    //    resetBendRoutine = StartCoroutine(ResetBend());
+    //}
 
     private bool IsInLayerMask(int layer, LayerMask mask)
     {
