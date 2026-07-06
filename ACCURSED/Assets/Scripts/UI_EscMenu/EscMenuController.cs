@@ -81,8 +81,8 @@ public class EscMenuController : MonoBehaviour
 
     private bool otherUIOpen()
     {
-        if (AspectController.Instance.getIsOpen() 
-            || TravelMenuController.Instance.getIsOpen())
+        if (AspectController.Instance != null && AspectController.Instance.getIsOpen()  
+            || TravelMenuController.Instance != null &&  TravelMenuController.Instance.getIsOpen())
         {
             return true;
         } 
