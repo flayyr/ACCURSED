@@ -1,19 +1,30 @@
 using UnityEngine;
 
 [DefaultExecutionOrder(100)]
-public class CameraFollowWithBounds : MonoBehaviour
+public class CameraFollowWithMapEdges : MonoBehaviour
 {
     [Header("Target")]
     [SerializeField] private Transform target;
     [SerializeField] private string playerTag = "Player";
 
     [Header("Camera")]
+    [Tooltip("Assign the main gameplay camera. This can be this object or a child camera.")]
     [SerializeField] private Camera mainCamera;
+
     [SerializeField] private float zOffset = -10f;
 
-    [Header("Bounds")]
-    [Tooltip("A Collider2D that represents the area the camera is allowed to show.")]
-    [SerializeField] private Collider2D cameraBounds;
+    [Header("Map Edges")]
+    [Tooltip("The actual left edge of the map in world position.")]
+    [SerializeField] private float mapLeft = -30f;
+
+    [Tooltip("The actual right edge of the map in world position.")]
+    [SerializeField] private float mapRight = 30f;
+
+    [Tooltip("The actual bottom edge of the map in world position.")]
+    [SerializeField] private float mapBottom = -20f;
+
+    [Tooltip("The actual top edge of the map in world position.")]
+    [SerializeField] private float mapTop = 20f;
 
     [Header("Follow Settings")]
     [SerializeField] private bool followX = true;
@@ -26,7 +37,7 @@ public class CameraFollowWithBounds : MonoBehaviour
     {
         if (mainCamera == null)
         {
-            mainCamera = GetComponent<Camera>();
+            mainCamera = GetComponentInChildren<Camera>();
         }
 
         if (target == null)
@@ -45,68 +56,87 @@ public class CameraFollowWithBounds : MonoBehaviour
                 return;
         }
 
-        Vector3 currentPosition = transform.position;
+        if (mainCamera == null)
+            return;
 
-        float desiredX = followX ? target.position.x : currentPosition.x;
-        float desiredY = followY ? target.position.y : currentPosition.y;
+        Vector3 currentRigPosition = transform.position;
 
-        Vector3 desiredPosition = new Vector3(desiredX, desiredY, zOffset);
+        float desiredX = followX ? target.position.x : currentRigPosition.x;
+        float desiredY = followY ? target.position.y : currentRigPosition.y;
 
-        desiredPosition = ClampCameraToBounds(desiredPosition);
+        Vector3 desiredRigPosition = new Vector3(desiredX, desiredY, zOffset);
+
+        desiredRigPosition = ClampRigPositionToMapEdges(desiredRigPosition);
 
         if (smoothTime <= 0f)
         {
-            transform.position = desiredPosition;
+            transform.position = desiredRigPosition;
         }
         else
         {
             transform.position = Vector3.SmoothDamp(
-                currentPosition,
-                desiredPosition,
+                currentRigPosition,
+                desiredRigPosition,
                 ref velocity,
                 smoothTime
             );
         }
     }
 
-    private Vector3 ClampCameraToBounds(Vector3 desiredPosition)
+    private Vector3 ClampRigPositionToMapEdges(Vector3 desiredRigPosition)
     {
-        if (cameraBounds == null || mainCamera == null)
-            return desiredPosition;
-
-        Bounds bounds = cameraBounds.bounds;
-
         float cameraHalfHeight = mainCamera.orthographicSize;
         float cameraHalfWidth = cameraHalfHeight * mainCamera.aspect;
 
-        float minX = bounds.min.x + cameraHalfWidth;
-        float maxX = bounds.max.x - cameraHalfWidth;
+        float minCameraCenterX = mapLeft + cameraHalfWidth;
+        float maxCameraCenterX = mapRight - cameraHalfWidth;
 
-        float minY = bounds.min.y + cameraHalfHeight;
-        float maxY = bounds.max.y - cameraHalfHeight;
+        float minCameraCenterY = mapBottom + cameraHalfHeight;
+        float maxCameraCenterY = mapTop - cameraHalfHeight;
 
-        float clampedX;
-        float clampedY;
+        Vector3 cameraOffsetFromRig = mainCamera.transform.position - transform.position;
 
-        if (minX > maxX)
+        Vector3 desiredCameraCenter = desiredRigPosition + cameraOffsetFromRig;
+
+        float clampedCameraX;
+        float clampedCameraY;
+
+        if (minCameraCenterX > maxCameraCenterX)
         {
-            clampedX = bounds.center.x;
+            clampedCameraX = (mapLeft + mapRight) * 0.5f;
         }
         else
         {
-            clampedX = Mathf.Clamp(desiredPosition.x, minX, maxX);
+            clampedCameraX = Mathf.Clamp(
+                desiredCameraCenter.x,
+                minCameraCenterX,
+                maxCameraCenterX
+            );
         }
 
-        if (minY > maxY)
+        if (minCameraCenterY > maxCameraCenterY)
         {
-            clampedY = bounds.center.y;
+            clampedCameraY = (mapBottom + mapTop) * 0.5f;
         }
         else
         {
-            clampedY = Mathf.Clamp(desiredPosition.y, minY, maxY);
+            clampedCameraY = Mathf.Clamp(
+                desiredCameraCenter.y,
+                minCameraCenterY,
+                maxCameraCenterY
+            );
         }
 
-        return new Vector3(clampedX, clampedY, desiredPosition.z);
+        Vector3 clampedCameraCenter = new Vector3(
+            clampedCameraX,
+            clampedCameraY,
+            desiredCameraCenter.z
+        );
+
+        Vector3 clampedRigPosition = clampedCameraCenter - cameraOffsetFromRig;
+        clampedRigPosition.z = zOffset;
+
+        return clampedRigPosition;
     }
 
     private void FindPlayerTarget()
@@ -127,5 +157,13 @@ public class CameraFollowWithBounds : MonoBehaviour
     public void ResetTargetToPlayer()
     {
         FindPlayerTarget();
+    }
+
+    public void SetMapEdges(float left, float right, float bottom, float top)
+    {
+        mapLeft = left;
+        mapRight = right;
+        mapBottom = bottom;
+        mapTop = top;
     }
 }
