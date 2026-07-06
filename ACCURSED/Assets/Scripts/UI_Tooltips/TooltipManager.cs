@@ -44,7 +44,11 @@ public class ToolTipManager : MonoBehaviour
         if (promptOpen) { return; }
 
         promptOpen = true;
-        currentPrompt = Instantiate(UIPromptPrefab, parentCanvas);
+
+        currentPrompt = Instantiate(UIPromptPrefab, parentCanvas, false);
+        //currentPrompt.transform.SetParent(parentCanvas, false);
+        RectTransform rt = currentPrompt.GetComponent<RectTransform>();
+        rt.anchoredPosition = new Vector2(0, 280);
 
         PromptUI ui = currentPrompt.GetComponent<PromptUI>();
         ui.SetText(promptText);
