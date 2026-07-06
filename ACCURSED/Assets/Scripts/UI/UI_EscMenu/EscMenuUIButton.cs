@@ -18,12 +18,12 @@ public class EscMenuUIButton : MonoBehaviour
         uiButton = GetComponent<Button>();
 
         // set image
-        Image img = imageObj.GetComponent<Image>(); 
-        img.sprite = button.buttonImage;
+        //Image img = imageObj.GetComponent<Image>(); 
+        //img.sprite = button.buttonImage;
 
         // set text
-        TextMeshProUGUI txt = textObj.GetComponent<TextMeshProUGUI>();
-        txt.text = button.buttonText;
+        //TextMeshProUGUI txt = textObj.GetComponent<TextMeshProUGUI>();
+        //txt.text = button.buttonText;
 
         uiButton.onClick.AddListener(OnButtonClicked);
         
