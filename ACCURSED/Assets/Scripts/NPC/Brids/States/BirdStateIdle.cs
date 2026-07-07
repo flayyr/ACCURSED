@@ -5,25 +5,30 @@ public class BirdStateIdle : BirdBaseState
     public override void EnterState(BirdController bird)
     {
         // play animation first at the start
-        bird.PlayRandomIdleAnimation();
         bird.ResetIdleTimer();
+        bird.PlayRandomAnimation();
     }
 
     public override void UpdateState(BirdController bird)
     {
-        // timer for when to play animation
+        // do nothing if animation is playing
+        if (bird.playingAnimation)
+            return;
+
         bird.idleTimer -= Time.deltaTime;
 
-        if (bird.idleTimer < 0)
+        // play random animation when idle timer stops
+        if (bird.idleTimer <= 0f)
         {
-            bird.PlayRandomIdleAnimation();
             bird.ResetIdleTimer();
+            bird.PlayRandomAnimation();
         }
     }
 
     public override void ExitState(BirdController bird)
     {
-        // reset timer
+        // reset 
         bird.idleTimer = 0f;
+        bird.playingAnimation = false;
     }
 }

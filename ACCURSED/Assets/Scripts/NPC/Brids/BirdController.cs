@@ -27,13 +27,14 @@ public class BirdController : MonoBehaviour
     public float minIdleTime = 1f;
     public float maxIdleTime = 3f;
 
+    [HideInInspector] public bool playingAnimation = false;
     [HideInInspector] public int lastIdleIndex = -1;
     [HideInInspector] public float idleTimer = 0f;
 
 
     private void Awake()
     {
-        // mandatory null checking
+        // mandatory null checking 
         if (animator == null)
             animator = GetComponent<Animator>();
     }
@@ -42,6 +43,16 @@ public class BirdController : MonoBehaviour
     {
         currentState = IdleState;
         currentState.EnterState(this);
+
+        // randomly decide face direction (left, right)
+        int faceDir = Random.Range(0,2);
+
+        if (faceDir == 1)
+        {
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1;
+            transform.localScale = localScale;
+        }
     }
 
     private void Update()
@@ -59,7 +70,7 @@ public class BirdController : MonoBehaviour
         newState.EnterState(this);
     }
 
-    public void PlayRandomIdleAnimation()
+    public void PlayRandomAnimation()
     {
         // mandatory null checking
         if (animator == null)
@@ -74,18 +85,32 @@ public class BirdController : MonoBehaviour
             return;
         }
 
+        playingAnimation = true;
+
+        // choose a random animation to play
         int nextIdleIndex = Random.Range(0, idleAnimationNames.Length);
 
         lastIdleIndex = nextIdleIndex;
         
         string animationName = idleAnimationNames[nextIdleIndex];
 
-        animator.Play(animationName);
+        animator.Play(animationName, 0, 0f);
+
+        Debug.Log("playing " + animationName);
     }
 
     public void ResetIdleTimer()
     {
         idleTimer = Random.Range(minIdleTime, maxIdleTime);
+    }
+
+    public void AnimationEnd()
+    {
+        Debug.Log("AnimationEnd called on " + name);
+
+        ResetIdleTimer();
+
+        playingAnimation = false;
     }
 
     private void OnValidate()
