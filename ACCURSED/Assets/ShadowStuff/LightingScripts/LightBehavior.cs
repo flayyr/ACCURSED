@@ -11,17 +11,34 @@ public class LightBehavior : MonoBehaviour
 
     [HideInInspector] public CustomLight lightData;
 
+    SpriteRenderer spriteRenderer;
+    int _DepthID;
+
     private void Awake()
     {
         lightData = new CustomLight(lightRadius, lightIntensity, lightColor, lightPosition, parentRenderer);
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        _DepthID = Shader.PropertyToID("_Depth");
+        UpdateDepth();
     }
+
+    float prevDepth;
 
     void Update()
     {
         //update depth value, may consider moving this out of update
-        float depth = (parentRenderer == null) ? transform.position.y * -10f : parentRenderer.sortingOrder;
+        UpdateDepth();
+    }
 
-        lightData.lightPosition = new Vector3(transform.position.x, transform.position.y, depth);
+    private void UpdateDepth()
+    {
+        float depth = (parentRenderer == null) ? transform.position.y * -10f : parentRenderer.sortingOrder;
+        if (depth != prevDepth)
+        {
+            prevDepth = depth;
+            lightData.lightPosition = new Vector3(transform.position.x, transform.position.y, depth);
+            spriteRenderer.material.SetFloat(_DepthID, transform.position.y);
+        }
     }
 
     private void OnValidate()

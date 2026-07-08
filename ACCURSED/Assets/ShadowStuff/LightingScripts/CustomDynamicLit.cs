@@ -53,6 +53,8 @@ public class CustomDynamicLit : MonoBehaviour
         SetUpIDs();
         SetUpLitMat();
         SetUpSort();
+
+        affectingLights = new CustomLight[4];
     }
 
     private void SetUpIDs()
@@ -153,7 +155,7 @@ public class CustomDynamicLit : MonoBehaviour
             mat.SetFloat(_Depth, depth);
         }
 
-        if (useAmbientShadow && shadowMat!=null)
+        if (canMove && useAmbientShadow && shadowMat!=null)
         {
             ambientShadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
         }
@@ -162,10 +164,10 @@ public class CustomDynamicLit : MonoBehaviour
         {
             if (affectingLights[i] != null)
             {
-                mat.SetVector(_LightIDs[i, 0], affectingLights[i].lightPosition);
-                mat.SetColor(_LightIDs[i, 1], affectingLights[i].lightColor);
-                mat.SetFloat(_LightIDs[i, 2], affectingLights[i].lightRadius);
-                mat.SetFloat(_LightIDs[i, 3], affectingLights[i].lightIntensity);
+                //mat.SetVector(_LightIDs[i, 0], affectingLights[i].lightPosition);
+                //mat.SetColor(_LightIDs[i, 1], affectingLights[i].lightColor);
+                //mat.SetFloat(_LightIDs[i, 2], affectingLights[i].lightRadius);
+                //mat.SetFloat(_LightIDs[i, 3], affectingLights[i].lightIntensity);
 
                 if (useAdditionalShadow && shadowMat != null)
                 {
@@ -198,6 +200,7 @@ public class CustomDynamicLit : MonoBehaviour
         {
             return;
         }
+
         GameObject shadowObj = Instantiate(shadowPrefab, transform);
         shadowObj.transform.localPosition = Vector3.zero;
         SpriteRenderer shadowRenderer = shadowObj.GetComponent<SpriteRenderer>();

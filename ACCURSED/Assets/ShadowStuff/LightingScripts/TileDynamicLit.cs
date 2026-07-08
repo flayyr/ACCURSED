@@ -20,24 +20,24 @@ public class TileDynamicLit : MonoBehaviour
         mat = tilemapRenderer.material;
     }
 
-    private void Update()
-    {
-        //assigns the currently loaded lights into the material
-        affectingLights = LightManager.instance.GetLoadedLights();
+    //private void Update()
+    //{
+    //    //assigns the currently loaded lights into the material
+    //    affectingLights = LightManager.instance.GetLoadedLights();
 
-        for (int i = 0; i < 16; i++)
-        {
-            if (affectingLights[i] != null)
-            {
-                mat.SetVector("_LightPosition" + i, affectingLights[i].lightPosition);
-                mat.SetColor("_LightHue" + i, affectingLights[i].lightColor);
-                mat.SetFloat("_LightRadius" + i, affectingLights[i].lightRadius);
-                mat.SetFloat("_LightIntensity" + i, affectingLights[i].lightIntensity);
-            }
-        }
+    //    for (int i = 0; i < 16; i++)
+    //    {
+    //        if (affectingLights[i] != null)
+    //        {
+    //            mat.SetVector("_LightPosition" + i, affectingLights[i].lightPosition);
+    //            mat.SetColor("_LightHue" + i, affectingLights[i].lightColor);
+    //            mat.SetFloat("_LightRadius" + i, affectingLights[i].lightRadius);
+    //            mat.SetFloat("_LightIntensity" + i, affectingLights[i].lightIntensity);
+    //        }
+    //    }
 
 
-    }
+    //}
     private void OnEnable()
     {
         LightManager.OnAmbientUpdate += UpdateAmbientLight;
