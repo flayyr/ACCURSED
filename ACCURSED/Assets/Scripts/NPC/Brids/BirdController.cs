@@ -11,6 +11,12 @@ public class BirdController : MonoBehaviour
 
     [Header("References")]
     public Animator animator;
+    public Transform birdTransform;
+
+    [Header("Player")]
+    [SerializeField] private Transform playerTransform;
+    [SerializeField] private string playerTag = "Player";
+    [SerializeField] public float detectionDistance = 6;
 
     [Header("----------")]
 
@@ -30,6 +36,7 @@ public class BirdController : MonoBehaviour
     [HideInInspector] public bool playingAnimation = false;
     [HideInInspector] public int lastIdleIndex = -1;
     [HideInInspector] public float idleTimer = 0f;
+    [HideInInspector] public bool playerDetected = false;
 
 
     private void Awake()
@@ -37,6 +44,12 @@ public class BirdController : MonoBehaviour
         // mandatory null checking 
         if (animator == null)
             animator = GetComponent<Animator>();
+
+        // find the player
+        if (playerTransform == null)
+        {
+            FindPlayer();
+        }
     }
 
     private void Start()
@@ -58,6 +71,29 @@ public class BirdController : MonoBehaviour
     private void Update()
     {
         currentState.UpdateState(this);
+        Debug.Log(playerDetected);
+    }
+
+    private void LateUpdate()
+    {
+        if (playerTransform == null)
+        {
+            FindPlayer();
+
+            if (playerTransform == null)
+                return;
+        }
+
+        float distance = Vector2.Distance(playerTransform.position, birdTransform.position);
+
+        if (distance <= detectionDistance)
+        {
+            playerDetected = true;
+        }
+        else
+        {
+            playerDetected = false;
+        }
     }
 
     public void SwitchState(BirdBaseState newState)
@@ -113,6 +149,15 @@ public class BirdController : MonoBehaviour
         playingAnimation = false;
     }
 
+    private void FindPlayer()
+    {
+        GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
+
+        if (playerObject != null)
+        {
+            playerTransform = playerObject.transform;
+        }
+    }
     private void OnValidate()
     {
         if (minIdleTime > maxIdleTime)
