@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class DepthSort : MonoBehaviour
 {
-    [SerializeField] Renderer sortRenderer;
+    [SerializeField] int sortOrderOffset;
     [SerializeField] bool useParticle;
     [SerializeField] Transform baseTransform;
 
+    Renderer sortRenderer;
     float depth;
-    int sortOrderOffset;
+    
 
     private void Awake()
     {
@@ -18,14 +19,13 @@ public class DepthSort : MonoBehaviour
 
         if (sortRenderer!=null)
         {
-            SetUp(sortRenderer, 0);
+            SetUp(sortRenderer);
         }
     }
 
-    public void SetUp(Renderer renderer, int sortOrderOffset)
+    public void SetUp(Renderer renderer)
     {
         sortRenderer = renderer;
-        this.sortOrderOffset = sortOrderOffset;
         if (baseTransform == null)
         {
             baseTransform = transform;
