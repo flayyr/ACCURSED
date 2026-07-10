@@ -16,7 +16,6 @@ public class BirdController : MonoBehaviour
     [Header("Player")]
     [SerializeField] private Transform playerTransform;
     [SerializeField] private string playerTag = "Player";
-    [SerializeField] public float detectionDistance = 6;
 
     [Header("----------")]
 
@@ -33,17 +32,38 @@ public class BirdController : MonoBehaviour
     public float minIdleTime = 1f;
     public float maxIdleTime = 3f;
 
+    [Header("----------")]
+
+    [Header("Take Off Animations")]
+    public string takeOffAnimationName = "bird_takeoff";
+
+    [Header("----------")]
+
+    [Header("Flying Animations")]
+    public string flyAnimationName = "bird_fly";
+
+    [Header("Flying Settings")]
+    public float flySpeed = 5f;
+    public float minFlySpeed = 3.5f;
+    public float maxFlySpeed = 7f;
+    public float upwardFlyBias = 0.35f;
+    public float detectionDistance = 7.5f;
+
     [HideInInspector] public bool playingAnimation = false;
     [HideInInspector] public int lastIdleIndex = -1;
     [HideInInspector] public float idleTimer = 0f;
     [HideInInspector] public bool playerDetected = false;
-
+    [HideInInspector] public Vector2 flyDirection = Vector2.right;
+    [HideInInspector] public Vector2 direction;
 
     private void Awake()
     {
         // mandatory null checking 
         if (animator == null)
             animator = GetComponent<Animator>();
+
+        if (birdTransform == null)
+            birdTransform = transform;
 
         // find the player
         if (playerTransform == null)
@@ -66,34 +86,30 @@ public class BirdController : MonoBehaviour
             localScale.x *= -1;
             transform.localScale = localScale;
         }
+
+        // randomly select a flying speed
+        flySpeed = Random.Range(minFlySpeed, maxFlySpeed);
     }
 
     private void Update()
     {
+        UpdatePlayerDetection();
+
         currentState.UpdateState(this);
-        Debug.Log(playerDetected);
     }
 
-    private void LateUpdate()
+    private void UpdatePlayerDetection()
     {
         if (playerTransform == null)
         {
             FindPlayer();
 
-            if (playerTransform == null)
-                return;
+            playerDetected = false;
+            return;
         }
 
         float distance = Vector2.Distance(playerTransform.position, birdTransform.position);
-
-        if (distance <= detectionDistance)
-        {
-            playerDetected = true;
-        }
-        else
-        {
-            playerDetected = false;
-        }
+        playerDetected = distance <= detectionDistance;
     }
 
     public void SwitchState(BirdBaseState newState)
@@ -103,7 +119,7 @@ public class BirdController : MonoBehaviour
             currentState.ExitState(this);
 
         currentState = newState;
-        newState.EnterState(this);
+        currentState.EnterState(this);
     }
 
     public void PlayRandomAnimation()
@@ -147,6 +163,11 @@ public class BirdController : MonoBehaviour
         ResetIdleTimer();
 
         playingAnimation = false;
+
+        if (currentState != null)
+        {
+            currentState.AnimationEnd(this);
+        }
     }
 
     private void FindPlayer()
@@ -158,6 +179,29 @@ public class BirdController : MonoBehaviour
             playerTransform = playerObject.transform;
         }
     }
+
+    public void SetFlyDirection()
+    {
+        
+
+        if (playerTransform != null)
+        {
+            direction = (Vector2)(birdTransform.position - playerTransform.position);
+        }
+        else
+        {
+            direction = Random.value > 0.5f ? Vector2.right : Vector2.left;
+        }
+
+        if (direction.sqrMagnitude < 0.001f)
+        {
+            direction = Random.value > 0.5f ? Vector2.right : Vector2.left;
+        }
+
+        // Adds a slight upward force so the bird does not fly perfectly flat
+        direction.y += upwardFlyBias;
+    }
+
     private void OnValidate()
     {
         if (minIdleTime > maxIdleTime)

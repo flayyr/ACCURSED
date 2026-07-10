@@ -11,6 +11,13 @@ public class BirdStateIdle : BirdBaseState
 
     public override void UpdateState(BirdController bird)
     {
+        // take off if detects player
+        if (bird.playerDetected)
+        {
+            bird.SwitchState(bird.TakeOffState);
+            return;
+        }
+
         // do nothing if animation is playing
         if (bird.playingAnimation)
             return;
