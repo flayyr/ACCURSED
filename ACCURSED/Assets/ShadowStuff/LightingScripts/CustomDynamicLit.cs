@@ -11,8 +11,8 @@ public class CustomDynamicLit : MonoBehaviour
     [SerializeField] bool canMove = false;
     [Header("Normal Map")]
     [SerializeField] Sprite normalMap;
-    [Header("Ordering")]
-    [SerializeField] int sortOrderOffset;
+    [Header("Ref Transform")]
+    [SerializeField] Transform refTransform;
     [Header("Ambient Shadow")]
     [SerializeField] bool useAmbientShadow = true;
     [SerializeField] Sprite ambientShadowSprite;
@@ -50,9 +50,16 @@ public class CustomDynamicLit : MonoBehaviour
 
     private void Awake()
     {
+        if (refTransform == null)
+        {
+            refTransform = transform;
+        }
+
         SetUpIDs();
         SetUpLitMat();
         SetUpSort();
+
+        affectingLights = new CustomLight[4];
     }
 
     private void SetUpIDs()
@@ -85,7 +92,7 @@ public class CustomDynamicLit : MonoBehaviour
         {
             spriteRenderer.material.EnableKeyword("_TOPSWAY");
             mat.SetFloat("_TopSwayStrength", topSwayStrength);
-            mat.SetFloat("_SwayOffset", transform.position.y * transform.position.y + transform.position.x);
+            mat.SetFloat("_SwayOffset", refTransform.position.y * refTransform.position.y + refTransform.position.x);
         }
 
         spriteRenderer.material.SetTexture("_NormalMap", normalMap == null ? Resources.Load<Texture2D>("DefaultNormal") : normalMap.texture);
@@ -122,7 +129,7 @@ public class CustomDynamicLit : MonoBehaviour
             {
                 ambientShadowRenderer.material.EnableKeyword("_TOPSWAY");
                 ambientShadowRenderer.material.SetFloat("_TopSwayStrength", topSwayStrength);
-                ambientShadowRenderer.material.SetFloat("_SwayOffset", transform.position.y * transform.position.y + transform.position.x);
+                ambientShadowRenderer.material.SetFloat("_SwayOffset", refTransform.position.y * refTransform.position.y + refTransform.position.x);
                 ambientShadowRenderer.material.SetFloat("_SpriteStartHeight", baseSpriteHeight);
                 ambientShadowRenderer.material.SetFloat("_SpriteTotalHeight", totalSpriteHeight);
                 ambientShadowRenderer.material.SetFloat("_TopSwayFallOff", spriteRenderer.material.GetFloat("_TopSwayFallOff"));
@@ -136,7 +143,7 @@ public class CustomDynamicLit : MonoBehaviour
         //in Start because instances are assigned in Awake
         if (!canMove)
         {
-            CullManager.instance.AddObject(this, transform.position);
+            CullManager.instance.AddObject(this, refTransform.position);
         }
         
         UpdateAmbientLight(LightManager.instance);
@@ -153,7 +160,7 @@ public class CustomDynamicLit : MonoBehaviour
             mat.SetFloat(_Depth, depth);
         }
 
-        if (useAmbientShadow && shadowMat!=null)
+        if (canMove && useAmbientShadow && shadowMat!=null)
         {
             ambientShadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
         }
@@ -162,10 +169,10 @@ public class CustomDynamicLit : MonoBehaviour
         {
             if (affectingLights[i] != null)
             {
-                mat.SetVector(_LightIDs[i, 0], affectingLights[i].lightPosition);
-                mat.SetColor(_LightIDs[i, 1], affectingLights[i].lightColor);
-                mat.SetFloat(_LightIDs[i, 2], affectingLights[i].lightRadius);
-                mat.SetFloat(_LightIDs[i, 3], affectingLights[i].lightIntensity);
+                //mat.SetVector(_LightIDs[i, 0], affectingLights[i].lightPosition);
+                //mat.SetColor(_LightIDs[i, 1], affectingLights[i].lightColor);
+                //mat.SetFloat(_LightIDs[i, 2], affectingLights[i].lightRadius);
+                //mat.SetFloat(_LightIDs[i, 3], affectingLights[i].lightIntensity);
 
                 if (useAdditionalShadow && shadowMat != null)
                 {
@@ -173,7 +180,7 @@ public class CustomDynamicLit : MonoBehaviour
 
                     shadowRenderers[i].sortingOrder = spriteRenderer.sortingOrder;
                     Material currShadowMat = shadowRenderers[i].material;
-                    currShadowMat.SetVector("_LightDirection", (Vector2)(transform.position - affectingLights[i].lightPosition));
+                    currShadowMat.SetVector("_LightDirection", (Vector2)(refTransform.position - affectingLights[i].lightPosition));
                     currShadowMat.SetFloat("_LightIntensity", affectingLights[i].lightIntensity);
                     currShadowMat.SetFloat("_LightRadius", affectingLights[i].lightRadius);
                 }
@@ -198,6 +205,7 @@ public class CustomDynamicLit : MonoBehaviour
         {
             return;
         }
+
         GameObject shadowObj = Instantiate(shadowPrefab, transform);
         shadowObj.transform.localPosition = Vector3.zero;
         SpriteRenderer shadowRenderer = shadowObj.GetComponent<SpriteRenderer>();
@@ -227,7 +235,7 @@ public class CustomDynamicLit : MonoBehaviour
     private void SetUpSort()
     {
         depthSorter = GetComponent<DepthSort>();
-        depthSorter.SetUp(spriteRenderer, sortOrderOffset);
+        depthSorter.SetUp(spriteRenderer);
     }
 
     public void SetVisibility(bool visible)
@@ -261,7 +269,7 @@ public class CustomDynamicLit : MonoBehaviour
         mat.SetColor("_AmbientLightColor", lightManager.ambientLightColor);
         mat.SetColor("_AmbientShadowColor", lightManager.ambientShadowColor);
 
-        if (shadowMat != null)
+        if (shadowMat != null && useAmbientShadow)
         {
             Material ambientShadowMat = ambientShadowRenderer.material;
             ambientShadowMat.SetFloat("_SkewAmount", lightManager.ambientShadowSkew);

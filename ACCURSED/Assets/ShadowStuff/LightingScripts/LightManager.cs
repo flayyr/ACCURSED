@@ -9,6 +9,9 @@ public class LightManager : MonoBehaviour
     public static LightManager instance;
     public static event Action<LightManager> OnAmbientUpdate;
 
+    [SerializeField] public bool useCircleShadow;
+    [Space]
+
     [SerializeField] Camera cam;
     [SerializeField] float lightCullBuffer;
     [SerializeField] float cullInterval;
@@ -34,6 +37,14 @@ public class LightManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            instance = null;
+        }
     }
 
     private void Start()
@@ -126,12 +137,12 @@ public class LightManager : MonoBehaviour
         {
             CustomLight light = lightBehavior.lightData;
 
-            float closestX = Mathf.Max(minBound.x, Mathf.Min( light.lightPosition.x, maxBound.x));
+            float closestX = Mathf.Max(minBound.x, Mathf.Min(light.lightPosition.x, maxBound.x));
             float closestY = Mathf.Max(minBound.y, Mathf.Min(light.lightPosition.y, maxBound.y));
-            
-            float distSquared = Mathf.Pow( light.lightPosition.x-closestX,2) + Mathf.Pow(light.lightPosition.y-closestY,2);
 
-            if(distSquared< light.lightRadius * light.lightRadius)
+            float distSquared = Mathf.Pow(light.lightPosition.x - closestX, 2) + Mathf.Pow(light.lightPosition.y - closestY, 2);
+
+            if (distSquared < light.lightRadius * light.lightRadius)
             {
                 output[count] = light;
                 count++;
@@ -142,13 +153,6 @@ public class LightManager : MonoBehaviour
             }
         }
 
-        //fill the array with empty lights if there are less than 4 affecting lights
-        //CustomLight newLight = new CustomLight();
-
-        //for (int i = count; i < 4; i++)
-        //{
-        //    output[i] = null;
-        //}
         return output;
     }
 
@@ -157,17 +161,20 @@ public class LightManager : MonoBehaviour
     {
         CustomLight[] output = new CustomLight[16];
         CustomLight newLight = new CustomLight();
-        for (int i = 0; i<16; i++)
-        {
-            if (i < lightBehaviors.Count)
-            {
-                output[i] = lightBehaviors[i].lightData;
-            }
-            else
-            {
-                output[i] = new CustomLight();
-            }
-        }
+        //for (int i = 0; i<16; i++)
+        //{
+        //    output[i] = new CustomLight();
+        //    continue;
+
+        //    //if (i < lightBehaviors.Count)
+        //    //{
+        //    //    output[i] = lightBehaviors[i].lightData;
+        //    //}
+        //    //else
+        //    //{
+        //    //    output[i] = new CustomLight();
+        //    //}
+        //}
         return output;
     }
 
