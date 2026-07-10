@@ -2408,6 +2408,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1154103931}
   m_CullTransparentMesh: 1
+--- !u!1 &1173008261
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1173008263}
+  - component: {fileID: 1173008262}
+  m_Layer: 0
+  m_Name: LightManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1173008262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173008261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cb712a23ef6027448b87f94f7225760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightManager
+  useCircleShadow: 1
+  cam: {fileID: 0}
+  lightCullBuffer: 0
+  cullInterval: 0
+  ambientLightIntensity: 0
+  ambientLightColor: {r: 0, g: 0, b: 0, a: 0}
+  ambientShadowColor: {r: 0, g: 0, b: 0, a: 0}
+  ambientShadowSkew: 0
+  ambientShadowFlipY: 0
+  ambientShadowStrength: 0.1
+  boundsBotLeft: {x: 0, y: 0}
+  boundsTopRight: {x: 0, y: 0}
+--- !u!4 &1173008263
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173008261}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.20099, y: -19.21492, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1239339808
 GameObject:
   m_ObjectHideFlags: 0
@@ -4322,3 +4378,4 @@ SceneRoots:
   - {fileID: 1077883994}
   - {fileID: 219155187}
   - {fileID: 1030163644}
+  - {fileID: 1173008263}

@@ -9,6 +9,9 @@ public class LightManager : MonoBehaviour
     public static LightManager instance;
     public static event Action<LightManager> OnAmbientUpdate;
 
+    [SerializeField] public bool useCircleShadow;
+    [Space]
+
     [SerializeField] Camera cam;
     [SerializeField] float lightCullBuffer;
     [SerializeField] float cullInterval;
@@ -34,6 +37,14 @@ public class LightManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            instance = null;
+        }
     }
 
     private void Start()
