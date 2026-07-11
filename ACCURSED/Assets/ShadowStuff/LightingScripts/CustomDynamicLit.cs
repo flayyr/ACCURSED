@@ -125,6 +125,10 @@ public class CustomDynamicLit : MonoBehaviour
             ambientShadowRenderer.sprite = ambientShadowSprite != null ? ambientShadowSprite : spriteRenderer.sprite;
             ambientShadowRenderer.sortingLayerName = "AmbientShadow";
             ambientShadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
+            if (refTransform != transform)
+            {
+                shadowObj.GetComponent<ShadowScript>().SetShadowOffset(refTransform.position);
+            }
             if (topSway)
             {
                 ambientShadowRenderer.material.EnableKeyword("_TOPSWAY");
@@ -224,18 +228,14 @@ public class CustomDynamicLit : MonoBehaviour
         }
     }
 
-    //private void OnValidate()
-    //{
-    //    spriteRenderer = GetComponent<SpriteRenderer>();
-    //    depth = depthSorter.UpdateSortOrder();
-    //}
-
     [ContextMenu("Update Sorting")]
     [ExecuteAlways]
     private void SetUpSort()
     {
         depthSorter = GetComponent<DepthSort>();
-        depthSorter.SetUp(spriteRenderer);
+        depth = depthSorter.SetUp(spriteRenderer, refTransform);
+
+        mat.SetFloat(_Depth, depth);
     }
 
     public void SetVisibility(bool visible)
