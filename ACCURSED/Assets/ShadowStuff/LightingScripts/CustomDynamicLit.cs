@@ -42,7 +42,7 @@ public class CustomDynamicLit : MonoBehaviour
 
     //material ids to replace strings
     int[,] _LightIDs = new int[4,4];
-    int _Depth = Shader.PropertyToID("_Depth");
+    //int _Depth = Shader.PropertyToID("_Depth");
 
     //MaterialPropertyBlock litMatProperty;
     Material mat;
@@ -104,6 +104,12 @@ public class CustomDynamicLit : MonoBehaviour
         mat.SetFloat("_SpriteTotalHeight", totalSpriteHeight);
         mat.SetFloat("_TextureSize", 0.0001f * Mathf.Sqrt(sprite.texture.height * sprite.texture.height + sprite.texture.width * sprite.texture.width));
 
+        if (refTransform != transform)
+        {
+            Vector2 positionOffset = refTransform.position - transform.position;
+            mat.SetVector("_PositionOffset", positionOffset);
+        }
+
         //spriteRenderer.SetPropertyBlock(litMatProperty);
 
 
@@ -161,7 +167,6 @@ public class CustomDynamicLit : MonoBehaviour
         if (canMove)
         {
             depth = depthSorter.UpdateSortOrder();
-            mat.SetFloat(_Depth, depth);
         }
 
         if (canMove && useAmbientShadow && shadowMat!=null)
@@ -234,8 +239,6 @@ public class CustomDynamicLit : MonoBehaviour
     {
         depthSorter = GetComponent<DepthSort>();
         depth = depthSorter.SetUp(spriteRenderer, refTransform);
-
-        mat.SetFloat(_Depth, depth);
     }
 
     public void SetVisibility(bool visible)
