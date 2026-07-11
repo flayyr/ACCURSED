@@ -9,6 +9,13 @@ public class BirdController : MonoBehaviour
     public BirdStateTakeOff TakeOffState = new BirdStateTakeOff();
     public BirdStateFlying FlyingState = new BirdStateFlying();
 
+    [Header("Flying stats")]
+    public float flySpeed = 5f;
+    public float targetFlySpeed;
+
+    public float upwardForce = 0.35f;
+    public float targetUpwardForce;
+
     [Header("References")]
     public Animator animator;
     public Transform birdTransform;
@@ -43,18 +50,33 @@ public class BirdController : MonoBehaviour
     public string flyAnimationName = "bird_fly";
 
     [Header("Flying Settings")]
-    public float flySpeed = 5f;
-    public float minFlySpeed = 3.5f;
-    public float maxFlySpeed = 7f;
-    public float upwardFlyBias = 0.35f;
+    public float minFlySpeed = 5.5f;
+    public float maxFlySpeed = 8f;
+    
+    public float minUpwardForce = -0.75f;
+    public float maxUpwardForce = 0.75f;
+
     public float detectionDistance = 7.5f;
+
+    [Header("Flying Fluctuation")]
+    public bool useFlightFluctuation = true;
+
+    public float minFluctuationTime = 0.5f;
+    public float maxFluctuationTime = 1.5f;
+
+    public float speedChangeRate = 5f;
+    public float upwardForceChangeRate = 1f;
 
     [HideInInspector] public bool playingAnimation = false;
     [HideInInspector] public int lastIdleIndex = -1;
     [HideInInspector] public float idleTimer = 0f;
+
     [HideInInspector] public bool playerDetected = false;
+
     [HideInInspector] public Vector2 flyDirection = Vector2.right;
     [HideInInspector] public Vector2 direction;
+    
+    [HideInInspector] public float flightFluctuationTimer = 0f;
 
     private void Awake()
     {
@@ -86,9 +108,6 @@ public class BirdController : MonoBehaviour
             localScale.x *= -1;
             transform.localScale = localScale;
         }
-
-        // randomly select a flying speed
-        flySpeed = Random.Range(minFlySpeed, maxFlySpeed);
     }
 
     private void Update()
@@ -182,8 +201,6 @@ public class BirdController : MonoBehaviour
 
     public void SetFlyDirection()
     {
-        
-
         if (playerTransform != null)
         {
             direction = (Vector2)(birdTransform.position - playerTransform.position);
@@ -199,12 +216,64 @@ public class BirdController : MonoBehaviour
         }
 
         // Adds a slight upward force so the bird does not fly perfectly flat
-        direction.y += upwardFlyBias;
+        direction.y += upwardForce;
+
+        // randomize speed and upward force a little bit
+        RandomizeFlightValues();
+    }
+
+    public void RandomizeFlightValues()
+    {
+        flySpeed = Random.Range(minFlySpeed, maxFlySpeed);
+        upwardForce = Random.Range(minUpwardForce, maxUpwardForce);
+
+        targetFlySpeed = flySpeed;
+        targetUpwardForce = upwardForce;
+
+        flightFluctuationTimer = Random.Range(minFluctuationTime, maxFluctuationTime);
+    }
+
+    public void UpdateFlightFluctuation()
+    {
+        if (!useFlightFluctuation)
+            return;
+
+        flightFluctuationTimer -= Time.deltaTime;
+
+        if (flightFluctuationTimer <= 0f)
+        {
+            targetFlySpeed = Random.Range(minFlySpeed, maxFlySpeed);
+            targetUpwardForce = Random.Range(minUpwardForce, maxUpwardForce);
+            
+            flightFluctuationTimer = Random.Range(minFluctuationTime, maxFluctuationTime);
+        }
+
+        flySpeed = Mathf.MoveTowards(flySpeed, targetFlySpeed, speedChangeRate * Time.deltaTime);
+
+        upwardForce = Mathf.MoveTowards(upwardForce, targetUpwardForce, upwardForceChangeRate * Time.deltaTime);
+    }
+
+    public Vector2 GetCurrentFlyDirection()
+    {
+        Vector2 currentDir = direction;
+
+        currentDir.y += upwardForce;
+
+        return currentDir.normalized;
     }
 
     private void OnValidate()
     {
         if (minIdleTime > maxIdleTime)
             minIdleTime = maxIdleTime;
+
+        if (minFlySpeed > maxFlySpeed)
+            minFlySpeed = maxFlySpeed;
+
+        if (minUpwardForce > maxUpwardForce)
+            minUpwardForce = maxUpwardForce;
+
+        if (minFluctuationTime > maxFluctuationTime)
+            minFluctuationTime = maxFluctuationTime;
     }
 }
