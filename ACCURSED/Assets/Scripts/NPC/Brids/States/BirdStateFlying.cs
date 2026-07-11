@@ -6,7 +6,7 @@ public class BirdStateFlying : BirdBaseState
 {
     public override void EnterState(BirdController bird)
     {
-        bird.flyDirection = bird.direction.normalized;
+        bird.flyDirection = bird.GetCurrentFlyDirection();
 
         // flip the bird based on flying direction
         if (bird.flyDirection.x != 0)
@@ -28,8 +28,11 @@ public class BirdStateFlying : BirdBaseState
 
     public override void UpdateState(BirdController bird)
     {
-        bird.birdTransform.position +=
-            (Vector3)(bird.flyDirection * bird.flySpeed * Time.deltaTime);
+        bird.UpdateFlightFluctuation();
+
+        bird.flyDirection = bird.GetCurrentFlyDirection();
+
+        bird.birdTransform.position += (Vector3)(bird.flyDirection * bird.flySpeed * Time.deltaTime);
     }
 
     public override void ExitState(BirdController bird)
