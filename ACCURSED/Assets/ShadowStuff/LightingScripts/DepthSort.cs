@@ -33,7 +33,7 @@ public class DepthSort : MonoBehaviour
         }
     }
 
-    public void SetUp(Renderer renderer)
+    public float SetUp(Renderer renderer)
     {
         sortRenderer = renderer;
         if (baseTransform == null)
@@ -41,13 +41,21 @@ public class DepthSort : MonoBehaviour
             baseTransform = transform;
         }
 
-        UpdateSortOrder();
+        return UpdateSortOrder();
+    }
+
+    public float SetUp(Renderer renderer, Transform refTransform)
+    {
+        sortRenderer = renderer;
+        baseTransform = refTransform;
+
+        return UpdateSortOrder();
     }
 
     public float UpdateSortOrder()
     {
-        depth = baseTransform.position.y * -10f;
-        sortRenderer.sortingOrder = Mathf.RoundToInt(depth) + sortOrderOffset;
+        depth = baseTransform.position.y * -10f + sortOrderOffset;
+        sortRenderer.sortingOrder = Mathf.RoundToInt(depth);
         return depth;
     }
 }
