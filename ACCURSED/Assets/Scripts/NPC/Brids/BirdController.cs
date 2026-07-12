@@ -67,6 +67,20 @@ public class BirdController : MonoBehaviour
     public float speedChangeRate = 5f;
     public float upwardForceChangeRate = 1f;
 
+    [Header("Flying Fade")]
+
+    [Tooltip("How long the bird flies before it begins fading.")]
+    [Min(0f)] public float flyFadeDelay = 2f;
+
+    [Tooltip("How long the bird takes to fade completely.")]
+    [Min(0.01f)] public float flyFadeDuration = 1.5f;
+
+    [Tooltip("All SpriteRenderers that should fade")]
+    [SerializeField] private SpriteRenderer[] birdSpriteRenderers;
+
+    private float[] originalRendererAlphas;
+
+
     [HideInInspector] public bool playingAnimation = false;
     [HideInInspector] public int lastIdleIndex = -1;
     [HideInInspector] public float idleTimer = 0f;
@@ -262,6 +276,51 @@ public class BirdController : MonoBehaviour
         return currentDir.normalized;
     }
 
+    public void InitializeFade()
+    {
+        if (birdSpriteRenderers == null || birdSpriteRenderers.Length == 0)
+            birdSpriteRenderers = GetComponentsInChildren<SpriteRenderer>(true);
+
+        originalRendererAlphas = new float[birdSpriteRenderers.Length];
+
+        for (int i = 0; i < birdSpriteRenderers.Length; i++)
+        {
+            if (birdSpriteRenderers[i] == null)
+                continue;
+
+            originalRendererAlphas[i] = birdSpriteRenderers[i].color.a;
+        }
+
+        SetFlightFade(1f);
+    }
+
+    public void SetFlightFade(float FadeAmount)
+    {
+        FadeAmount = Mathf.Clamp01(FadeAmount);
+
+        if (birdSpriteRenderers == null)
+            return;
+
+        for (int i = 0; i < birdSpriteRenderers.Length; i++)
+        {
+            SpriteRenderer spriteRenderer = birdSpriteRenderers[i];
+
+            if (spriteRenderer == null) 
+                continue;
+
+            Color color = spriteRenderer.color;
+
+            float originalAlpha = 1f;
+
+            if (originalRendererAlphas != null && i < originalRendererAlphas.Length)
+                originalAlpha = originalRendererAlphas[i];
+
+            color.a = originalAlpha * FadeAmount;
+
+            spriteRenderer.color = color;
+        }
+    }
+
     private void OnValidate()
     {
         if (minIdleTime > maxIdleTime)
@@ -275,5 +334,5 @@ public class BirdController : MonoBehaviour
 
         if (minFluctuationTime > maxFluctuationTime)
             minFluctuationTime = maxFluctuationTime;
-    }
+    }           
 }
