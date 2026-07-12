@@ -1,16 +1,20 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialCloseButton : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public Button b;
+
     void Start()
     {
-        
+        b = gameObject.GetComponent<Button>();
+        b.onClick.AddListener(ClosePopUp);
+        Debug.Log("hello");
     }
 
-    // Update is called once per frame
-    void Update()
+    void ClosePopUp()
     {
-        
+        TutorialController.Instance.HideTutorial();
     }
 }

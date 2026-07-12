@@ -30,27 +30,22 @@ public class TutorialController : MonoBehaviour
         Instance = this;
     }
 
-    public bool CheckIfOpen()
-    {
-        return isOpen;
-    }
-
     void Update() 
     {
-        CheckIfClosed();
+        //CheckIfClosed();
         DebugCommand(); //debug
     }
 
-    private void ShowTutorial(TutorialSO popup)
+    public void ShowTutorial(TutorialSO popup)
     {
         currentTutUI = Instantiate(ui);
-        ui.GetComponent<TutorialUI>().Initialize(popup);
+        currentTutUI.GetComponent<TutorialUI>().Initialize(popup);
 
         isOpen = true;
         GamePauseController.Instance.PauseGame();
     }
 
-    private void HideTutorial()
+    public void HideTutorial()
     {
         Destroy(currentTutUI);
 
@@ -58,12 +53,9 @@ public class TutorialController : MonoBehaviour
         GamePauseController.Instance.ResumeGame();
     }
     
-    private void CheckIfClosed()
+    public bool CheckIfOpen()
     {
-        if (isOpen && Input.GetMouseButtonDown(0))
-        {
-            HideTutorial();
-        }
+        return isOpen;
     }
 
     void DebugCommand() // press T for debug tutorial
