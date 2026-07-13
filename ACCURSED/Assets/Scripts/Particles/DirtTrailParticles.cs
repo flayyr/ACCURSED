@@ -15,6 +15,8 @@ public class DirtTrailParticles : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform player;
     [SerializeField] private Rigidbody2D playerRb;
+    [SerializeField] private string playerTag = "Player";
+
     [SerializeField] private ParticleSystem dirtParticles;
 
     [Header("Tilemap Layers")]
@@ -52,6 +54,11 @@ public class DirtTrailParticles : MonoBehaviour
 
     private void Awake()
     {
+        if (player == null)
+        {
+            FindPlayerTarget();
+        }
+
         originalZ = transform.position.z;
 
         if (dirtParticles == null)
@@ -107,6 +114,14 @@ public class DirtTrailParticles : MonoBehaviour
     private void LateUpdate()
     {
         FollowCamera();
+
+        if (player == null)
+        {
+            FindPlayerTarget();
+
+            if (player == null)
+                return;
+        }
     }
 
     private void FollowCamera()
@@ -175,5 +190,16 @@ public class DirtTrailParticles : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void FindPlayerTarget()
+    {
+        GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
+
+        if (playerObject != null)
+        {
+            player = playerObject.transform;
+            playerRb = playerObject.GetComponent<Rigidbody2D>();
+        }
     }
 }
