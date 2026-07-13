@@ -111,8 +111,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 0
   normalMap: {fileID: -2197359250157334493, guid: 64fb19783aa572947b90c9b3d4f499f4, type: 3}
-  sortOrderOffset: 0
-  useAmbientShadow: 1
+  refTransform: {fileID: 0}
+  useAmbientShadow: 0
   ambientShadowSprite: {fileID: 0}
   ambientShadowLength: 0.5
   useAdditionalShadow: 1
@@ -226,7 +226,6 @@ MonoBehaviour:
   interactionLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  grassBend: 1
   bendAmountMax: 0.7
   bendLerpDuration: 0.1
   allowKeyboardTest: 0
@@ -245,5 +244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DepthSort
   sortRenderer: {fileID: 0}
+  sortOrderOffset: 0
   useParticle: 0
   baseTransform: {fileID: 0}
+  selfUpdate: 0
