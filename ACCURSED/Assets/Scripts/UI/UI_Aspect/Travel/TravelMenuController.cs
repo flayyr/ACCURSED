@@ -62,13 +62,13 @@ public class TravelMenuController : MonoBehaviour
     {
 
         menuCanvas.alpha = 0f;
-        yield return UITransitions.Instance.FadeTransition(menuCanvas, 0f, 1f, 0.2f);
+        yield return UITransitions.Instance.FadeTransition(menuCanvas, 0f, 1f, 0.1f);
     }
 
     private IEnumerator MenuCloseRoutine()
     {
         menuCanvas.alpha = 1f;
-        yield return UITransitions.Instance.FadeTransition(menuCanvas, 1f, 0f, 0.2f);
+        yield return UITransitions.Instance.FadeTransition(menuCanvas, 1f, 0f, 0.1f);
         travelMenu.SetActive(false);
     }
 

@@ -11,9 +11,6 @@ public class TutorialController : MonoBehaviour
 
     [SerializeField] public TutorialSO debugPopup; //debug
 
-
-    private GameObject currentTutUI;
-
     private bool isOpen;
     public static bool EscPressedThisFrame = false;
 
@@ -29,6 +26,8 @@ public class TutorialController : MonoBehaviour
         }
 
         Instance = this;
+
+        ui.SetActive(false);
     }
 
     void Update() 
@@ -49,8 +48,12 @@ public class TutorialController : MonoBehaviour
 
     public void ShowTutorial(TutorialSO popup)
     {
-        currentTutUI = Instantiate(ui);
-        currentTutUI.GetComponent<TutorialUI>().Initialize(popup);
+        //currentTutUI = Instantiate(ui);
+        //currentTutUI.GetComponent<TutorialUI>().Initialize(popup);
+
+        ui.SetActive(true);
+        ui.GetComponent<TutorialUI>().Initialize(popup);
+        
 
         isOpen = true;
         GamePauseController.Instance.PauseGame();
@@ -58,7 +61,9 @@ public class TutorialController : MonoBehaviour
 
     public void HideTutorial()
     {
-        Destroy(currentTutUI);
+        //Destroy(currentTutUI);
+
+        ui.SetActive(false);
 
         isOpen = false;
         GamePauseController.Instance.ResumeGame();
