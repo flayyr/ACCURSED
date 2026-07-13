@@ -42,6 +42,15 @@ public class BirdStateFlying : BirdBaseState
 
         bird.birdTransform.position += (Vector3)(bird.flyDirection * bird.flySpeed * Time.deltaTime);
 
+        if (bird.transform.position.x > bird.mapRight ||
+            bird.transform.position.x < bird.mapLeft ||
+            bird.transform.position.y > bird.mapTop ||
+            bird.transform.position.y < bird.mapBottom)
+        {
+            bird.DestroyBird();
+        }
+
+        /*
         flyingTimer += Time.deltaTime;
 
         // Remain fully visible until the delay has passed.
@@ -59,6 +68,7 @@ public class BirdStateFlying : BirdBaseState
 
         if (fadeAmount <= 0f)
             bird.gameObject.SetActive(false);
+        */
     }
 
     public override void ExitState(BirdController bird)

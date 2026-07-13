@@ -19,6 +19,7 @@ public class BirdController : MonoBehaviour
     [Header("References")]
     public Animator animator;
     public Transform birdTransform;
+    public GameObject birdPrefab;
 
     [Header("Player")]
     [SerializeField] private Transform playerTransform;
@@ -68,6 +69,11 @@ public class BirdController : MonoBehaviour
     public float upwardForceChangeRate = 1f;
 
     [Header("Flying Fade")]
+
+    public float mapLeft;
+    public float mapRight;
+    public float mapTop;
+    public float mapBottom;
 
     [Tooltip("How long the bird flies before it begins fading.")]
     [Min(0f)] public float flyFadeDelay = 2f;
@@ -319,6 +325,11 @@ public class BirdController : MonoBehaviour
 
             spriteRenderer.color = color;
         }
+    }
+
+    public void DestroyBird()
+    {
+        Destroy(birdPrefab);
     }
 
     private void OnValidate()

@@ -50,8 +50,9 @@ MonoBehaviour:
   targetFlySpeed: 0
   upwardForce: 0.35
   targetUpwardForce: 0
-  animator: {fileID: 0}
+  animator: {fileID: 1642342868532131354}
   birdTransform: {fileID: 6345206006678980641}
+  birdPrefab: {fileID: 7714690252745747733}
   playerTransform: {fileID: 0}
   playerTag: Player
   idleAnimationNames:
@@ -63,7 +64,7 @@ MonoBehaviour:
   maxIdleTime: 3
   takeOffAnimationName: bird_takeoff
   flyAnimationName: bird_fly
-  minFlySpeed: 0
+  minFlySpeed: 5.5
   maxFlySpeed: 8.5
   minUpwardForce: -1.5
   maxUpwardForce: 1.5
@@ -73,10 +74,14 @@ MonoBehaviour:
   maxFluctuationTime: 1
   speedChangeRate: 10
   upwardForceChangeRate: 2
+  mapLeft: -90
+  mapRight: 90
+  mapTop: 80
+  mapBottom: -90
   flyFadeDelay: 2.5
   flyFadeDuration: 2.5
   birdSpriteRenderers:
-  - {fileID: 0}
+  - {fileID: 7611409713120239290}
   playingAnimation: 0
   lastIdleIndex: -1
   idleTimer: 0
