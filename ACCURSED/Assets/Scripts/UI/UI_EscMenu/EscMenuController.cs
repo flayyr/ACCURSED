@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class EscMenuController : MonoBehaviour
 {
@@ -7,6 +8,9 @@ public class EscMenuController : MonoBehaviour
     [SerializeField] private GameObject escMenu;
     [SerializeField] private GameObject inventoryUI;
     [SerializeField] private GameObject statusUI;
+
+    [SerializeField] private CanvasGroup escMenuCanvas;
+    private Coroutine menuAppear;
 
     private bool isOpen = false;
     private void Awake()
@@ -20,7 +24,7 @@ public class EscMenuController : MonoBehaviour
             return;
         }
 
-    Instance = this;
+        Instance = this;
     }
 
     private void Update()
@@ -43,37 +47,61 @@ public class EscMenuController : MonoBehaviour
 
     public void ToggleEscMenu()
     {
-        isOpen = !isOpen;
-        escMenu.SetActive(isOpen);
+        if (isOpen)
+        {
+            CloseMenu();
+        }
+        else
+        {
+            OpenMenu();
+        }
 
     }
 
     public void OpenMenu()
     {
+        StopCurrentTransition();
         isOpen = true;
         escMenu.SetActive(true);
+        menuAppear = StartCoroutine(MenuOpenRoutine());
 
         //GamePauseController.Instance.PauseGame();
     }
 
     public void CloseMenu()
     {
+        StopCurrentTransition();
         isOpen = false;
-        escMenu.SetActive(false);
+        menuAppear = StartCoroutine(MenuCloseRoutine());
+
 
         //GamePauseController.Instance.ResumeGame();
     }
 
+    private IEnumerator MenuOpenRoutine()
+    {
+     
+        escMenuCanvas.alpha = 0f;
+        yield return UITransitions.Instance.FadeTransition(escMenuCanvas, 0f, 1f, 0.2f);
+    }
+
+    private IEnumerator MenuCloseRoutine()
+    {
+        escMenuCanvas.alpha = 1f;
+        yield return UITransitions.Instance.FadeTransition(escMenuCanvas, 1f, 0f, 0.2f);
+        escMenu.SetActive(false);
+    }
+
     private void OnDestroy()
     {
-        //GamePauseController.Instance.ResumeGame();
+        //
     }
 
     public void OpenStatus()
     {
         statusUI.SetActive(true);
     }
-    
+
     public void OpenInventory()
     {
         inventoryUI.SetActive(true);
@@ -81,8 +109,9 @@ public class EscMenuController : MonoBehaviour
 
     private bool otherUIOpen()
     {
-        if (AspectController.Instance != null && AspectController.Instance.getIsOpen()  
-            || TravelMenuController.Instance != null &&  TravelMenuController.Instance.getIsOpen())
+        if (AspectController.Instance != null && (AspectController.Instance.getIsOpen() || AspectController.EscPressedThisFrame)
+            || TravelMenuController.Instance != null && TravelMenuController.Instance.getIsOpen())
+            //|| !inventoryUI.activeSelf && !statusUI.activeSelf;
         {
             return true;
         } 
@@ -91,6 +120,20 @@ public class EscMenuController : MonoBehaviour
             return false;  
         }
         
+    }
+
+    public bool getIsOpen()
+    {
+        return isOpen;
+    }
+
+    private void StopCurrentTransition()
+    {
+        if (menuAppear != null)
+        {
+            StopCoroutine(menuAppear);
+            menuAppear = null;
+        }
     }
 
 }

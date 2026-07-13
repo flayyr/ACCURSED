@@ -1,12 +1,17 @@
 using UnityEngine;
+using System.Collections;
 
 public class TravelMenuController : MonoBehaviour
 {
     public static TravelMenuController Instance { get; private set; }
 
     [SerializeField] private GameObject travelMenu;
+    [SerializeField] private CanvasGroup menuCanvas;
 
     private bool isOpen = false;
+    public static bool EscPressedThisFrame = false;
+
+    private Coroutine menuAppear;
 
     void Awake()
     {
@@ -26,23 +31,45 @@ public class TravelMenuController : MonoBehaviour
     {
         if (isOpen && Input.GetKeyDown(KeyCode.Escape))
         {
+            EscPressedThisFrame = true;
             isOpen = false;
-            TravelMenuController.Instance.CloseMenu();
+            CloseMenu();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && EscPressedThisFrame)
+        {
+            EscPressedThisFrame = false;
         }
     }
 
     public void OpenMenu()
     {
+        StopCurrentTransition();
         travelMenu.SetActive(true);
         isOpen = true;
-        GamePauseController.Instance.PauseGame();
+
+        menuAppear = StartCoroutine(MenuOpenRoutine());
     }
 
     public void CloseMenu()
     {
-        travelMenu.SetActive(false);
+        StopCurrentTransition();
         isOpen = false;
-        GamePauseController.Instance.ResumeGame();
+
+        menuAppear = StartCoroutine(MenuCloseRoutine());
+    }
+
+    private IEnumerator MenuOpenRoutine()
+    {
+
+        menuCanvas.alpha = 0f;
+        yield return UITransitions.Instance.FadeTransition(menuCanvas, 0f, 1f, 0.2f);
+    }
+
+    private IEnumerator MenuCloseRoutine()
+    {
+        menuCanvas.alpha = 1f;
+        yield return UITransitions.Instance.FadeTransition(menuCanvas, 1f, 0f, 0.2f);
+        travelMenu.SetActive(false);
     }
 
     public void OpenTravel()
@@ -53,6 +80,14 @@ public class TravelMenuController : MonoBehaviour
     public bool getIsOpen()
     {
         return isOpen;
+    }
+    private void StopCurrentTransition()
+    {
+        if (menuAppear != null)
+        {
+            StopCoroutine(menuAppear);
+            menuAppear = null;
+        }
     }
 
 }

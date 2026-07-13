@@ -10,7 +10,7 @@ public class Aspect_Buttons : MonoBehaviour
 
     public Button b;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    void Start()
     {
         b = gameObject.GetComponent<Button>();
         b.onClick.AddListener(ExecuteTask);
