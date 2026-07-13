@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
-using static UnityEditor.Progress;
 
 public class TutorialController : MonoBehaviour
 

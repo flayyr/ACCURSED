@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using static UnityEditor.Progress;
 
 public class SpecialItemPickup : ItemPickup
 {

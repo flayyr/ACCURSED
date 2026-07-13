@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.U2D;
 
 //[ExecuteAlways]
 [RequireComponent(typeof(ReflectionSprite)), RequireComponent(typeof(DepthSort))]
@@ -161,8 +158,6 @@ public class CustomDynamicLit : MonoBehaviour
 
     private void Update()
     {
-        //passing light information
-        affectingLights = LightManager.instance.FindAffectingLights(spriteRenderer.bounds.min, spriteRenderer.bounds.max);
 
         if (canMove)
         {
@@ -174,37 +169,40 @@ public class CustomDynamicLit : MonoBehaviour
             ambientShadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
         }
 
-        for (int i = 0; i < 4; i++)
+        if (useAdditionalShadow)
         {
-            if (affectingLights[i] != null)
+            affectingLights = LightManager.instance.FindAffectingLights(spriteRenderer.bounds.min, spriteRenderer.bounds.max);
+            for (int i = 0; i < 4; i++)
             {
-                //mat.SetVector(_LightIDs[i, 0], affectingLights[i].lightPosition);
-                //mat.SetColor(_LightIDs[i, 1], affectingLights[i].lightColor);
-                //mat.SetFloat(_LightIDs[i, 2], affectingLights[i].lightRadius);
-                //mat.SetFloat(_LightIDs[i, 3], affectingLights[i].lightIntensity);
-
-                if (useAdditionalShadow && shadowMat != null)
+                if (affectingLights[i] != null)
                 {
-                    CastNewShadow(i);
+                    //mat.SetVector(_LightIDs[i, 0], affectingLights[i].lightPosition);
+                    //mat.SetColor(_LightIDs[i, 1], affectingLights[i].lightColor);
+                    //mat.SetFloat(_LightIDs[i, 2], affectingLights[i].lightRadius);
+                    //mat.SetFloat(_LightIDs[i, 3], affectingLights[i].lightIntensity);
 
-                    shadowRenderers[i].sortingOrder = spriteRenderer.sortingOrder;
-                    Material currShadowMat = shadowRenderers[i].material;
-                    currShadowMat.SetVector("_LightDirection", (Vector2)(refTransform.position - affectingLights[i].lightPosition));
-                    currShadowMat.SetFloat("_LightIntensity", affectingLights[i].lightIntensity);
-                    currShadowMat.SetFloat("_LightRadius", affectingLights[i].lightRadius);
+                    if (useAdditionalShadow && shadowMat != null)
+                    {
+                        CastNewShadow(i);
+
+                        shadowRenderers[i].sortingOrder = spriteRenderer.sortingOrder;
+                        Material currShadowMat = shadowRenderers[i].material;
+                        currShadowMat.SetVector("_LightDirection", (Vector2)(refTransform.position - affectingLights[i].lightPosition)* (1-affectingLights[i].lightIntensity));
+                        currShadowMat.SetFloat("_LightIntensity", affectingLights[i].lightIntensity);
+                        currShadowMat.SetFloat("_LightRadius", affectingLights[i].lightRadius);
+                    }
+                }
+                else
+                {
+                    if (useAdditionalShadow && shadowMat != null)
+                    {
+                        DestroyShadow(i);
+                    }
                 }
             }
-            else
-            {
-                if (useAdditionalShadow && shadowMat != null)
-                {
-                    DestroyShadow(i);
-                }
-            }
+
+            //spriteRenderer.SetPropertyBlock(litMatProperty);
         }
-
-        //spriteRenderer.SetPropertyBlock(litMatProperty);
-
 
     }
 

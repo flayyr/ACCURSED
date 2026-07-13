@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
-using static UnityEditor.Progress;
 
 // This class manages the overall Item Pickup UI System 
 public class ToolTipManager : MonoBehaviour
