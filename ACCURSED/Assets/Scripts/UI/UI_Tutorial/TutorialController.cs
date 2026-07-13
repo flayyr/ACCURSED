@@ -15,6 +15,7 @@ public class TutorialController : MonoBehaviour
     private GameObject currentTutUI;
 
     private bool isOpen;
+    public static bool EscPressedThisFrame = false;
 
     void Awake()
     {
@@ -34,6 +35,16 @@ public class TutorialController : MonoBehaviour
     {
         //CheckIfClosed();
         DebugCommand(); //debug
+
+        if (isOpen && Input.GetKeyDown(KeyCode.Escape))
+        {
+            HideTutorial();
+            EscPressedThisFrame = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && EscPressedThisFrame)
+        {
+            EscPressedThisFrame = false;
+        }
     }
 
     public void ShowTutorial(TutorialSO popup)
@@ -53,7 +64,7 @@ public class TutorialController : MonoBehaviour
         GamePauseController.Instance.ResumeGame();
     }
     
-    public bool CheckIfOpen()
+    public bool getIsOpen()
     {
         return isOpen;
     }
