@@ -82,13 +82,13 @@ public class EscMenuController : MonoBehaviour
     {
      
         escMenuCanvas.alpha = 0f;
-        yield return UITransitions.Instance.FadeTransition(escMenuCanvas, 0f, 1f, 0.2f);
+        yield return UITransitions.Instance.FadeTransition(escMenuCanvas, 0f, 1f, 0.1f);
     }
 
     private IEnumerator MenuCloseRoutine()
     {
         escMenuCanvas.alpha = 1f;
-        yield return UITransitions.Instance.FadeTransition(escMenuCanvas, 1f, 0f, 0.2f);
+        yield return UITransitions.Instance.FadeTransition(escMenuCanvas, 1f, 0f, 0.1f);
         escMenu.SetActive(false);
     }
 
