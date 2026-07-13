@@ -110,7 +110,9 @@ public class EscMenuController : MonoBehaviour
     private bool otherUIOpen()
     {
         if (AspectController.Instance != null && (AspectController.Instance.getIsOpen() || AspectController.EscPressedThisFrame)
-            || TravelMenuController.Instance != null && TravelMenuController.Instance.getIsOpen())
+            || TravelMenuController.Instance != null && (TravelMenuController.Instance.getIsOpen() || TravelMenuController.EscPressedThisFrame)
+
+            || TutorialController.Instance != null && (TutorialController.Instance.getIsOpen() || TutorialController.EscPressedThisFrame)) 
             //|| !inventoryUI.activeSelf && !statusUI.activeSelf;
         {
             return true;
