@@ -3,6 +3,7 @@ using UnityEngine;
 public class OpacityByPlayerY : MonoBehaviour
 {
     [SerializeField] Transform playerTransform;
+    [SerializeField] private string playerTag = "Player";
     [SerializeField] float minOpacity;
     [Tooltip("Y offset needed to start reducing opacity")]
     [SerializeField] float startYOffset;
@@ -16,6 +17,11 @@ public class OpacityByPlayerY : MonoBehaviour
 
     private void Update()
     {
+        if (playerTransform == null)
+        {
+            FindPlayer();
+        }
+
         float diff = playerTransform.position.y - transform.position.y;
         if (diff >= startYOffset)
         {
@@ -29,6 +35,16 @@ public class OpacityByPlayerY : MonoBehaviour
                     renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, opacity);
                 }
             }
+        }
+    }
+
+    private void FindPlayer()
+    {
+        GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
+
+        if (playerObject != null)
+        {
+            playerTransform = playerObject.transform;
         }
     }
 }

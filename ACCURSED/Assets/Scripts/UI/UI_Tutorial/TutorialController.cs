@@ -9,10 +9,8 @@ public class TutorialController : MonoBehaviour
 
     [SerializeField] public TutorialSO debugPopup; //debug
 
-
-    private GameObject currentTutUI;
-
     private bool isOpen;
+    public static bool EscPressedThisFrame = false;
 
     void Awake()
     {
@@ -26,42 +24,52 @@ public class TutorialController : MonoBehaviour
         }
 
         Instance = this;
-    }
 
-    public bool CheckIfOpen()
-    {
-        return isOpen;
+        ui.SetActive(false);
     }
 
     void Update() 
     {
-        CheckIfClosed();
+        //CheckIfClosed();
         DebugCommand(); //debug
+
+        if (isOpen && Input.GetKeyDown(KeyCode.Escape))
+        {
+            HideTutorial();
+            EscPressedThisFrame = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && EscPressedThisFrame)
+        {
+            EscPressedThisFrame = false;
+        }
     }
 
-    private void ShowTutorial(TutorialSO popup)
+    public void ShowTutorial(TutorialSO popup)
     {
-        currentTutUI = Instantiate(ui);
+        //currentTutUI = Instantiate(ui);
+        //currentTutUI.GetComponent<TutorialUI>().Initialize(popup);
+
+        ui.SetActive(true);
         ui.GetComponent<TutorialUI>().Initialize(popup);
+        
 
         isOpen = true;
         GamePauseController.Instance.PauseGame();
     }
 
-    private void HideTutorial()
+    public void HideTutorial()
     {
-        Destroy(currentTutUI);
+        //Destroy(currentTutUI);
+
+        ui.SetActive(false);
 
         isOpen = false;
         GamePauseController.Instance.ResumeGame();
     }
     
-    private void CheckIfClosed()
+    public bool getIsOpen()
     {
-        if (isOpen && Input.GetMouseButtonDown(0))
-        {
-            HideTutorial();
-        }
+        return isOpen;
     }
 
     void DebugCommand() // press T for debug tutorial

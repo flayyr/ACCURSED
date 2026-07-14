@@ -8,6 +8,7 @@ using UnityEngine.U2D.Animation;
 public class CharacterAnimator : MonoBehaviour
 {
     [SerializeField] private int direction = 5;
+    [SerializeField] private bool eightDirections;
     [SerializeField] private List<SpriteLibraryAsset> libraryAssets = new List<SpriteLibraryAsset>();
     SpriteLibrary spriteLibrary;
     Animator anim;
@@ -31,10 +32,22 @@ public class CharacterAnimator : MonoBehaviour
 
         // sector 0=E→dir3, 1=NE→dir2, 2=N→dir1, 3=NW→dir8,
         //        4=W→dir7, 5=SW→dir6, 6=S→dir5, 7=SE→dir4
-        int[] sectorToDir = { 3, 2, 1, 8, 7, 6, 5, 4 };
-        direction = sectorToDir[sector];
+        if (eightDirections)
+        {
+            int[] sectorToDir = { 3, 2, 1, 8, 7, 6, 5, 4 };
 
-        spriteLibrary.spriteLibraryAsset = libraryAssets[direction - 1];
+            direction = sectorToDir[sector];
+
+            spriteLibrary.spriteLibraryAsset = libraryAssets[direction - 1];
+        }
+        else
+        {
+            int[] sectorToDir = { 3, 3, 1, 7, 7, 7, 5, 3 };
+
+            direction = sectorToDir[sector];
+
+            spriteLibrary.spriteLibraryAsset = libraryAssets[direction - 1];
+        }
     }
 
     public void Play(string baseName)

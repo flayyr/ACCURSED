@@ -42,6 +42,8 @@ public class ToolTipManager : MonoBehaviour
     {
         if (promptOpen) { return; }
 
+        if (GlobalUIController.Instance.CheckIfOtherUIOpen()) { return; }
+
         promptOpen = true;
 
         currentPrompt = Instantiate(UIPromptPrefab, parentCanvas, false);
