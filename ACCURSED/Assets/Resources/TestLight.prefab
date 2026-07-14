@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1239207650409449501}
   - component: {fileID: 7697074166219736670}
-  m_Layer: 13
+  - component: {fileID: 3830678484899417203}
+  m_Layer: 12
   m_Name: LightData
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,6 +92,23 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &3830678484899417203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812767163653681802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cf5f29b7fb9574c982a65643d421cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSort
+  sortRenderer: {fileID: 7697074166219736670}
+  sortOrderOffset: 0
+  useParticle: 0
+  baseTransform: {fileID: 0}
+  selfUpdate: 0
 --- !u!1 &2128636474194023197
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,7 +120,7 @@ GameObject:
   - component: {fileID: 1309924815317334662}
   - component: {fileID: 3300364333158322112}
   - component: {fileID: 529614568237853315}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: TestLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +209,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 3491761774919845038, guid: 79eed48dd9e8bec4ca56b4f7fadc5ccb, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.6039216}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.3764706}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
