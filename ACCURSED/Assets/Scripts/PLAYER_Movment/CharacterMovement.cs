@@ -100,7 +100,8 @@ public class CharacterMovement : MonoBehaviour
     {
         BaseMovement();
         TimerUpdates();
-        AnimationUpdate();
+        if(cAnimator!=null)
+            AnimationUpdate();
     }
 
     void AnimationUpdate()
@@ -214,6 +215,7 @@ public class CharacterMovement : MonoBehaviour
 
     public void UpdateRotation()
     {
+        if(cAnimator != null)
         cAnimator.SetFacingDirection(movementInput);
 
         /* for shaun :P

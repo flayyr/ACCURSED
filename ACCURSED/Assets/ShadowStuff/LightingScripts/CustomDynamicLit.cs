@@ -35,7 +35,7 @@ public class CustomDynamicLit : MonoBehaviour
     DepthSort depthSorter;
     float depth;
 
-    bool visible = true;
+    //bool visible = true;
 
     //material ids to replace strings
     int[,] _LightIDs = new int[4,4];
