@@ -1,11 +1,15 @@
+using Unity.Multiplayer.PlayMode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/Settings Button")]
 public class SOExeSettings : EscMenuUIButtonSO
 {
     public override void Execute()
     {
-        // open settings
         EscMenuController.Instance.CloseMenu();
+
+        // open settings
+        RoomTransitionWithoutPlayer.Instance.BeginTransition("SettingsMenu");
     }
 }
