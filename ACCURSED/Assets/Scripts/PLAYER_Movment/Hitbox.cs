@@ -8,8 +8,10 @@ public class HitBox : MonoBehaviour
     [SerializeField] public float knockBackPower;
     [SerializeField] public Vector3 direction;
     [SerializeField] public Vector3 PostAnimDirection;
+    [Space]
+    [SerializeField] private PlayerStatistics playerStats;
 
-    public GameObject originObject;
+    [HideInInspector]public GameObject originObject;
     CircleCollider2D c_cc;
 
     private void Start()
@@ -21,6 +23,14 @@ public class HitBox : MonoBehaviour
     {
         PostAnimDirection = transform.TransformDirection(direction);
         return PostAnimDirection.normalized;
+    }
+
+    public void Hit()
+    {
+        if (playerStats != null)
+        {
+            playerStats.UpdateVitality(1);
+        }
     }
 
     private void OnDrawGizmos()

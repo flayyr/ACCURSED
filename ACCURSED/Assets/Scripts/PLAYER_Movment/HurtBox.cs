@@ -9,6 +9,7 @@ public class HurtBox : MonoBehaviour
     [SerializeField] LayerMask lm_hurtbox;
 
     [SerializeField] bool invinsible = false;
+    [SerializeField] float afterHurtInvinsibleDuration = 0.2f;
 
     [SerializeField] List<GameObject> personalHurtBoxes = new List<GameObject>();
     [SerializeField] List<GameObject> personalHitBoxes = new List<GameObject>();
@@ -32,19 +33,26 @@ public class HurtBox : MonoBehaviour
 
             if (hitBox.originObject != transform.root.gameObject)
             {
-                invinsible = true;
-                StartCoroutine("InvisibilityTime");
+                InvinsibleForSeconds(afterHurtInvinsibleDuration);
 
                 // Use Hitbox info to affect me
                 cMovement.Knockback(direction, hitBox.knockBackPower, true);
-                cStatistics.currentHealth -= hitBox.damage;
+                cStatistics.UpdateHealth( -hitBox.damage);
+
+                hitBox.Hit();
             }
         }
     }
 
-    IEnumerator InvisibilityTime()
+    public void InvinsibleForSeconds(float seconds)
     {
-        yield return new WaitForSeconds(0.1f);
+        StartCoroutine(InvisibilityTime(seconds));
+    }
+
+    IEnumerator InvisibilityTime(float duration)
+    {
+        invinsible = true;
+        yield return new WaitForSeconds(duration);
         invinsible = false;
     }
 }
