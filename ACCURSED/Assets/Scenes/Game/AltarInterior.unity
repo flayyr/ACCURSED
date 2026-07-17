@@ -1671,6 +1671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AspectController
   aspectMenu: {fileID: 238189490}
+  menuCanvas: {fileID: 0}
 --- !u!114 &966925292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1684,6 +1685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TravelMenuController
   travelMenu: {fileID: 0}
+  menuCanvas: {fileID: 0}
 --- !u!114 &966925293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1699,6 +1701,7 @@ MonoBehaviour:
   escMenu: {fileID: 1760667967}
   inventoryUI: {fileID: 0}
   statusUI: {fileID: 0}
+  escMenuCanvas: {fileID: 0}
 --- !u!1001 &969459774
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3168,6 +3171,78 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1001 &1532620687
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4075869142477289356, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_Name
+      value: SettingsSpawner(OpenSettingsButton on the button) (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.22765
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.17778
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747929772854157931, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152261006257933646, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+      propertyPath: targetCanvas
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+--- !u!114 &1532620688 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7152261006257933646, guid: 7fc957bcd73ac574cba681c9ca875f3e, type: 3}
+  m_PrefabInstance: {fileID: 1532620687}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f502be98e929a20439dc27ca781b41bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingsPrefabSpawner
 --- !u!1 &1565341716
 GameObject:
   m_ObjectHideFlags: 0
@@ -3841,13 +3916,53 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 973187644218371705, guid: 0b722256732c0eb439924a6460264a08, type: 3}
+      propertyPath: button
+      value: 
+      objectReference: {fileID: 11400000, guid: c91c5c9f03758374e811810ae9134e82, type: 2}
+    - target: {fileID: 1699252869012530854, guid: 0b722256732c0eb439924a6460264a08, type: 3}
+      propertyPath: settingsSpawner
+      value: 
+      objectReference: {fileID: 1532620688}
     - target: {fileID: 2211488820781036145, guid: 0b722256732c0eb439924a6460264a08, type: 3}
       propertyPath: m_Name
       value: UI_EscMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 3134222303643159690, guid: 0b722256732c0eb439924a6460264a08, type: 3}
+      propertyPath: button
+      value: 
+      objectReference: {fileID: 11400000, guid: f94b3002196d9b14f9b8b540da8f5708, type: 2}
     - target: {fileID: 3576473401706692730, guid: 0b722256732c0eb439924a6460264a08, type: 3}
       propertyPath: settingsSpawner
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8098550653799929784, guid: 0b722256732c0eb439924a6460264a08, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8098550653799929784, guid: 0b722256732c0eb439924a6460264a08, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8098550653799929784, guid: 0b722256732c0eb439924a6460264a08, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1760667968}
+    - target: {fileID: 8098550653799929784, guid: 0b722256732c0eb439924a6460264a08, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8098550653799929784, guid: 0b722256732c0eb439924a6460264a08, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenSettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 8098550653799929784, guid: 0b722256732c0eb439924a6460264a08, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: OpenSettingsButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8098550653799929784, guid: 0b722256732c0eb439924a6460264a08, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3864,6 +3979,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2211488820781036145, guid: 0b722256732c0eb439924a6460264a08, type: 3}
   m_PrefabInstance: {fileID: 1760667965}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1760667968 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1699252869012530854, guid: 0b722256732c0eb439924a6460264a08, type: 3}
+  m_PrefabInstance: {fileID: 1760667965}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09dc02c276d98984b826c5d9c776e53a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OpenSettingsButton
 --- !u!1 &1856965208
 GameObject:
   m_ObjectHideFlags: 0
@@ -4403,6 +4529,7 @@ SceneRoots:
   - {fileID: 1062128403}
   - {fileID: 315272554}
   - {fileID: 190934350}
+  - {fileID: 1532620687}
   - {fileID: 252257258}
   - {fileID: 2071684455}
   - {fileID: 973188955}

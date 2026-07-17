@@ -10,6 +10,6 @@ public class SOExeSettings : EscMenuUIButtonSO
         EscMenuController.Instance.CloseMenu();
 
         // open settings
-        RoomTransitionWithoutPlayer.Instance.BeginTransition("SettingsMenu");
+        
     }
 }
