@@ -1,52 +1,60 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthDisplay : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI healthText;
-    [SerializeField] TextMeshProUGUI vitalityText;
+    [SerializeField] Image hpImage;
+    [SerializeField] Sprite[] hpSprites;
+    [SerializeField] Image vitalityImage;
     [SerializeField] TextMeshProUGUI healChargeText;
 
     [SerializeField]PlayerStatistics stats;
     public void Initialize(PlayerStatistics characterStats)
     {
         stats = characterStats;
-        UpdateHealthDisplay();
+        OnEnable();
     }
 
     private void OnEnable()
     {
-        stats.OnHealthUpdate += UpdateHealthDisplay;
-        stats.OnVitalityUpdate += UpdateVitalityDisplay;
-        stats.OnHealChargeUpdate += UpdateHealChargeDisplay;
+        if (stats != null)
+        {
+            stats.OnHealthUpdate += UpdateHealthDisplay;
+            stats.OnVitalityUpdate += UpdateVitalityDisplay;
+            stats.OnHealChargeUpdate += UpdateHealChargeDisplay;
+        }
     }
 
     private void OnDisable()
     {
-        stats.OnHealthUpdate -= UpdateHealthDisplay;
-        stats.OnVitalityUpdate -= UpdateVitalityDisplay;
-        stats.OnHealChargeUpdate -= UpdateHealChargeDisplay;
+        if (stats != null)
+        {
+            stats.OnHealthUpdate -= UpdateHealthDisplay;
+            stats.OnVitalityUpdate -= UpdateVitalityDisplay;
+            stats.OnHealChargeUpdate -= UpdateHealChargeDisplay;
+        }
     }
 
     private void UpdateHealthDisplay()
     {
         if (stats.currentHealth >= 2)
         {
-            healthText.text = "Full health";
+            hpImage.sprite = hpSprites[2];
         }
         else if (stats.currentHealth >0)
         {
-            healthText.text = "Damaged";
+            hpImage.sprite = hpSprites[1];
         }
         else
         {
-            healthText.text = "Dead";
+            hpImage.sprite =hpSprites[0];
         }
     }
 
     private void UpdateVitalityDisplay()
     {
-        vitalityText.text = stats.currentVitality+"";
+        vitalityImage.fillAmount = (float)stats.currentVitality / stats.maxVitality;
     }
 
     private void UpdateHealChargeDisplay()
