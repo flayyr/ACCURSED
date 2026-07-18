@@ -16,6 +16,8 @@ public class CharacterStatistics : MonoBehaviour
         cAnimator = GetComponent<CharacterAnimator>();
         cDeath = GetComponent<CharacterDeath>();
         currentHealth = maxHealth;
+
+        OnHealthUpdate?.Invoke();
     }
 
     public float UpdateHealth(float healthChange)

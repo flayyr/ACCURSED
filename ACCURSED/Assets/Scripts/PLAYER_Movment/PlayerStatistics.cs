@@ -7,7 +7,7 @@ public class PlayerStatistics : CharacterStatistics
     public event Action OnVitalityUpdate;
 
     [SerializeField] private int maxHealCharge = 3;
-    [SerializeField] private int maxVitality = 10;
+    [SerializeField] public int maxVitality = 10;
 
     [HideInInspector]public int currentHealCharge;
     [HideInInspector]public int currentVitality;
@@ -17,6 +17,9 @@ public class PlayerStatistics : CharacterStatistics
         base.Start();
         currentHealCharge = maxHealCharge;
         currentVitality = 0;
+
+        OnHealChargeUpdate?.Invoke();
+        OnVitalityUpdate?.Invoke();
     }
 
     public bool UseHealCharge()
@@ -26,6 +29,8 @@ public class PlayerStatistics : CharacterStatistics
             UpdateHealth(1);
             currentHealCharge--;
             OnHealChargeUpdate?.Invoke();
+
+            UpdateVitality(0);
             return true;
         }
         return false;
