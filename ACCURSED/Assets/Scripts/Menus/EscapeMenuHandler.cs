@@ -24,7 +24,7 @@ public class EscapeMenuHandler : MonoBehaviour
 
         if (currentScene != startScreenName)
         {
-            SceneManager.LoadScene(startScreenName);
+            RoomTransitionWithoutPlayer.Instance.BeginTransition(startScreenName);
             return;
         }
     }
