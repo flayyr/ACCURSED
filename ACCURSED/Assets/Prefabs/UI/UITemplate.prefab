@@ -2498,6 +2498,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4968760051501146693, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -1333
+      objectReference: {fileID: 0}
     - target: {fileID: 5045065686073222075, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -2509,6 +2513,10 @@ PrefabInstance:
     - target: {fileID: 5193692721365276367, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246988182369958438, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6307979210297474111, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
       propertyPath: m_Name
@@ -2560,6 +2568,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6307979210297474111, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1549783139964115479}
+    - targetCorrespondingSourceObject: {fileID: 6307979210297474111, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5896716199955378928}
     - targetCorrespondingSourceObject: {fileID: 1751143378904854808, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2817516892544846573}
@@ -2606,9 +2617,19 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6647802086749828321}
   m_SourcePrefab: {fileID: 100100000, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
+--- !u!1 &156289324187498067 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8351227465115407527, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
+  m_PrefabInstance: {fileID: 8200709047504151284}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &656685724069451559 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8706514994435192275, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
+  m_PrefabInstance: {fileID: 8200709047504151284}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1182229833444241064 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7036551886719224924, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
   m_PrefabInstance: {fileID: 8200709047504151284}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1743578265616336828 stripped
@@ -2642,8 +2663,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   arrow: {fileID: 5926224091644380345}
-  region: The Altar5
   b: {fileID: 0}
+  reg: {fileID: 11400000, guid: 77d99597125457c40bdf5843eb754353, type: 2}
 --- !u!114 &6647802086749828321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2729,8 +2750,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   arrow: {fileID: 2699978986109575138}
-  region: The Altar3
   b: {fileID: 0}
+  reg: {fileID: 11400000, guid: 78b2648ba9df2724293f56d1e2733bad, type: 2}
 --- !u!114 &1435638977095713182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2792,6 +2813,29 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &5896716199955378928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2757527635470147275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63a0dc65a2fbf3f4a8a194c7c8a04f3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TravelMenuUI
+  title: {fileID: 156289324187498067}
+  buttons:
+  - {fileID: 6683410084793304391}
+  - {fileID: 6710937640695166245}
+  - {fileID: 3894143217781711657}
+  - {fileID: 1182229833444241064}
+  altar: {fileID: 11400000, guid: 5de1ab8b422074e418a57cf664aa00c4, type: 2}
+  vita: {fileID: 11400000, guid: 5d417795cb12e30499cca9ad0c9a104b, type: 2}
+  ritus: {fileID: 11400000, guid: 78b2648ba9df2724293f56d1e2733bad, type: 2}
+  mors: {fileID: 11400000, guid: 1ede9ae2c4fa51149bb9f7d626660e2c, type: 2}
+  nihil: {fileID: 11400000, guid: 77d99597125457c40bdf5843eb754353, type: 2}
 --- !u!224 &3178875330716725471 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6760860889966858795, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
@@ -2828,8 +2872,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   arrow: {fileID: 1695053577257885085}
-  region: The Altar2
   b: {fileID: 1835311567464160146}
+  reg: {fileID: 11400000, guid: 5d417795cb12e30499cca9ad0c9a104b, type: 2}
 --- !u!114 &1835311567464160146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2910,8 +2954,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   arrow: {fileID: 7131237972327661706}
-  region: The Altar4
   b: {fileID: 0}
+  reg: {fileID: 11400000, guid: 1ede9ae2c4fa51149bb9f7d626660e2c, type: 2}
 --- !u!114 &5542932965871138670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2956,6 +3000,11 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &3894143217781711657 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5171262610358731229, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
+  m_PrefabInstance: {fileID: 8200709047504151284}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5038558965477737183 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3756648339936387115, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
@@ -2974,6 +3023,16 @@ RectTransform:
 --- !u!224 &6329687385486486872 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2745318124225056684, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
+  m_PrefabInstance: {fileID: 8200709047504151284}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6683410084793304391 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3246808780420114355, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
+  m_PrefabInstance: {fileID: 8200709047504151284}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6710937640695166245 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3237190207254026193, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
   m_PrefabInstance: {fileID: 8200709047504151284}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7603073213177238508 stripped
@@ -3007,8 +3066,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   arrow: {fileID: 3799904097494558030}
-  region: The Altar
   b: {fileID: 0}
+  reg: {fileID: 11400000, guid: 5de1ab8b422074e418a57cf664aa00c4, type: 2}
 --- !u!114 &7948427067889584087
 MonoBehaviour:
   m_ObjectHideFlags: 0
