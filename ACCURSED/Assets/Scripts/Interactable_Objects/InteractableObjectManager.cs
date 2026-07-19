@@ -25,9 +25,9 @@ public class InteractableObjectManager : MonoBehaviour
             OpenPrompt();
         }
 
-        Debug.Log(isInsideTrigger + "POOP");
-        Debug.Log(GlobalUIController.Instance.CheckIfOtherUIOpen() + "POOOOP");
-        Debug.Log(!promptOpen + "POOOOOOOOOOOOOP");
+        //Debug.Log(isInsideTrigger + "POOP");
+        //Debug.Log(GlobalUIController.Instance.CheckIfOtherUIOpen() + "POOOOP");
+        //Debug.Log(!promptOpen + "POOOOOOOOOOOOOP");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

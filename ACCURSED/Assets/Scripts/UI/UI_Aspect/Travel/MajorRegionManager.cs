@@ -1,25 +1,21 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class MajorRegionManager : MonoBehaviour
 {
     [SerializeField] private GameObject arrow;
 
-    [SerializeField] public string region;
+    //[SerializeField] public string region;
 
     private bool isSelected;
 
-    public Button b;
+    [SerializeField] public Button b;
+
+    [SerializeField] MajorRegion reg;
 
     void Start()
     {
-        if (region == TravelMenuController.currentRegion)
-        {
-            isSelected = true;
-        }
-        else { 
-            isSelected = false; 
-        }
+        CheckSelection();
 
         arrow.SetActive(isSelected);
 
@@ -30,11 +26,26 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     void Update()
     {
-        
+        CheckSelection();
+        arrow.SetActive(isSelected);
     }
 
     void Select()
     {
-        arrow.SetActive(true);
+        //Debug.Log("aaaaaaaa");
+        TravelMenuController.currentRegion = reg;
+        TravelMenuUI.Instance.RefreshUI();
+    }
+
+    void CheckSelection()
+    {
+        if (reg == TravelMenuController.currentRegion)
+        {
+            isSelected = true;
+        }
+        else
+        {
+            isSelected = false;
+        }
     }
 }

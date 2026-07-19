@@ -13,7 +13,7 @@ public class TravelMenuController : MonoBehaviour
 
     private Coroutine menuAppear;
 
-    public static string currentRegion = "The Altar";
+    public static MajorRegion currentRegion;
 
     void Awake()
     {
@@ -26,6 +26,9 @@ public class TravelMenuController : MonoBehaviour
         }
 
         Instance = this;
+
+        //CHANGE THIS
+        //currentRegion = "The Altar";
 
     }
 
