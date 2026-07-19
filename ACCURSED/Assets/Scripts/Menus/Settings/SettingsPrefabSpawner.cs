@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class SettingsPrefabSpawner : MonoBehaviour
 {
@@ -9,6 +10,20 @@ public class SettingsPrefabSpawner : MonoBehaviour
 
     [Tooltip("Optional. If empty, this script will find the first Canvas in the scene.")]
     public Canvas targetCanvas;
+
+    [Header("Screen Scaling")]
+    [Tooltip("Automatically configure the Canvas Scaler for different screen sizes.")]
+    [SerializeField] private bool configureCanvasScaler = true;
+
+    [Tooltip("The resolution at which the settings UI was originally designed.")]
+    [SerializeField] private Vector2 referenceResolution = new Vector2(1920f, 1080f);
+
+    [Tooltip("0 matches width, 1 matches height, and 0.5 balances both.")]
+    [SerializeField, Range(0f, 1f)]
+    private float matchWidthOrHeight = 0.5f;
+
+    [Tooltip("Useful for pixel-art UI, but may not be appropriate for every project.")]
+    [SerializeField] private bool canvasPixelPerfect = false;
 
     [Header("Behavior")]
     public bool closeWithEscape = true;
@@ -19,6 +34,13 @@ public class SettingsPrefabSpawner : MonoBehaviour
 
     [Tooltip("Scripts to temporarily disable while settings is open, like StartMenuManager.")]
     public List<MonoBehaviour> scriptsToDisableWhileOpen = new List<MonoBehaviour>();
+
+    [Header("Settings Menu Size")]
+    [Tooltip("Name of the child object containing the visible settings menu.")]
+    [SerializeField] private string settingsPanelName = "SettingsPanel";
+
+    [Tooltip("Additional size multiplier for the visible settings menu.")]
+    [SerializeField, Min(0.1f)] private float settingsPanelScale = 1.25f;
 
     private GameObject settingsInstance;
     private SettingsMenuNavigator settingsNavigator;
@@ -31,10 +53,8 @@ public class SettingsPrefabSpawner : MonoBehaviour
 
     private void Awake()
     {
-        if (targetCanvas == null)
-        {
-            targetCanvas = FindFirstObjectByType<Canvas>();
-        }
+        FindTargetCanvas();
+        ConfigureCanvasScaling();
     }
 
     private void Update()
@@ -43,28 +63,28 @@ public class SettingsPrefabSpawner : MonoBehaviour
             return;
 
         if (closeWithEscape && Input.GetKeyDown(KeyCode.Escape))
-        {
             CloseSettings();
-        }
     }
 
     public void OpenSettings()
     {
         if (settingsPrefab == null)
         {
-            Debug.LogWarning("SettingsPrefabSpawner has no settings prefab assigned.");
+            Debug.LogWarning("SettingsPrefabSpawner has no settings prefab assigned.", this);
             return;
         }
 
         if (targetCanvas == null)
         {
-            targetCanvas = FindFirstObjectByType<Canvas>();
+            FindTargetCanvas();
 
             if (targetCanvas == null)
             {
-                Debug.LogWarning("No Canvas found in the scene.");
+                Debug.LogWarning("No Canvas found in the scene.", this);
                 return;
             }
+
+            ConfigureCanvasScaling();
         }
 
         if (isOpen)
@@ -73,10 +93,10 @@ public class SettingsPrefabSpawner : MonoBehaviour
         isOpen = true;
 
         DisableSceneObjects();
-
         SpawnSettingsPrefab();
 
-        EventSystem.current.SetSelectedGameObject(null);
+        if (EventSystem.current != null)
+            EventSystem.current.SetSelectedGameObject(null);
 
         if (settingsNavigator != null)
         {
@@ -84,7 +104,7 @@ public class SettingsPrefabSpawner : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Spawned settings prefab does not contain a SettingsMenuNavigator.");
+            Debug.LogWarning("Spawned settings prefab does not contain a SettingsMenuNavigator.", settingsInstance);
         }
     }
 
@@ -96,17 +116,17 @@ public class SettingsPrefabSpawner : MonoBehaviour
         isOpen = false;
 
         if (settingsNavigator != null && settingsNavigator.IsAdjustingSlider)
-        {
             settingsNavigator.StopSliderAdjustMode();
-        }
 
-        EventSystem.current.SetSelectedGameObject(null);
+        if (EventSystem.current != null)
+            EventSystem.current.SetSelectedGameObject(null);
 
         if (settingsInstance != null)
         {
             if (destroyOnClose)
             {
                 Destroy(settingsInstance);
+
                 settingsInstance = null;
                 settingsNavigator = null;
             }
@@ -131,24 +151,71 @@ public class SettingsPrefabSpawner : MonoBehaviour
         }
     }
 
+    private void FindTargetCanvas()
+    {
+        if (targetCanvas == null)
+            targetCanvas = FindFirstObjectByType<Canvas>();
+    }
+
+    private void ConfigureCanvasScaling()
+    {
+        if (!configureCanvasScaler || targetCanvas == null)
+            return;
+
+        CanvasScaler canvasScaler = targetCanvas.GetComponent<CanvasScaler>();
+
+        if (canvasScaler == null)
+            canvasScaler = targetCanvas.gameObject.AddComponent<CanvasScaler>();
+
+        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        canvasScaler.referenceResolution = referenceResolution;
+
+        canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+
+        canvasScaler.matchWidthOrHeight = matchWidthOrHeight;
+
+        targetCanvas.pixelPerfect = canvasPixelPerfect;
+    }
+
     private void SpawnSettingsPrefab()
     {
         if (settingsInstance == null)
         {
-            settingsInstance = Instantiate(settingsPrefab, targetCanvas.transform);
+            settingsInstance = Instantiate(settingsPrefab, targetCanvas.transform, false
+            );
 
-            RectTransform rect = settingsInstance.GetComponent<RectTransform>();
+            // Keep the root stretched across the entire screen.
+            RectTransform rootRect = settingsInstance.GetComponent<RectTransform>();
 
-            if (rect != null)
+            if (rootRect != null)
             {
-                rect.anchorMin = Vector2.zero;
-                rect.anchorMax = Vector2.one;
-                rect.offsetMin = Vector2.zero;
-                rect.offsetMax = Vector2.zero;
-                rect.localScale = Vector3.one;
+                rootRect.anchorMin = Vector2.zero;
+                rootRect.anchorMax = Vector2.one;
+
+                rootRect.offsetMin = Vector2.zero;
+                rootRect.offsetMax = Vector2.zero;
+
+                rootRect.anchoredPosition = Vector2.zero;
+                rootRect.localScale = Vector3.one;
+                rootRect.localRotation = Quaternion.identity;
             }
 
-            settingsNavigator = settingsInstance.GetComponentInChildren<SettingsMenuNavigator>(true);
+            // Scale the visible menu panel rather than the full-screen root.
+            Transform settingsPanel = FindChildRecursive(settingsInstance.transform, settingsPanelName);
+
+            if (settingsPanel != null)
+            {
+                settingsPanel.localScale = Vector3.one * settingsPanelScale;
+            }
+            else
+            {
+                Debug.LogWarning("Could not find a child named " + settingsPanelName + 
+                    " inside the SettingsPrefab.", settingsInstance);
+            }
+
+            settingsNavigator =
+                settingsInstance.GetComponentInChildren
+                <SettingsMenuNavigator>(true);
         }
         else
         {
@@ -171,6 +238,22 @@ public class SettingsPrefabSpawner : MonoBehaviour
             if (script != null)
                 script.enabled = false;
         }
+    }
+
+    private Transform FindChildRecursive(Transform parent, string childName)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == childName)
+                return child;
+
+            Transform result = FindChildRecursive(child, childName);
+
+            if (result != null)
+                return result;
+        }
+
+        return null;
     }
 
     private void EnableSceneObjects()
