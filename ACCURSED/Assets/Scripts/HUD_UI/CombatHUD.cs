@@ -19,6 +19,8 @@ public class CombatHUD : MonoBehaviour
 
     float currentShowingTime = 0;
 
+    Coroutine currFade;
+
     private void Start()
     {
         canvasGroup.alpha = 1f;
@@ -48,20 +50,30 @@ public class CombatHUD : MonoBehaviour
             currentShowingTime += Time.deltaTime;
             if (currentShowingTime > idleTimeBeforeFade)
             {
-                StartCoroutine(Fade(1, 0, fadeOutTime));
+                if (currFade != null)
+                    StopCoroutine(currFade);
+                currFade = StartCoroutine(Fade(1, 0, fadeOutTime));
                 showing = false;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            Show();
         }
     }
 
     public void Show()
     {
+        currentShowingTime = 0;
         if(showing)
             return;
 
         showing = true;
         currentShowingTime = 0;
-        StartCoroutine(Fade(0, 1, fadeInTime));
+        if (currFade != null)
+            StopCoroutine(currFade);
+        currFade = StartCoroutine(Fade(0, 1, fadeInTime));
     }
 
     IEnumerator Fade(float from, float to, float fadeTime)
