@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StartMenuManager : MonoBehaviour
@@ -14,6 +15,12 @@ public class StartMenuManager : MonoBehaviour
     public string playName = "PlayScene";
     public string saveName = "SavesScene";
     public string creditName = "CreditScene";
+
+    [Header("Start Button")]
+    public TextMeshProUGUI buttonText;
+    public bool gameExist = false;
+    [SerializeField] private string Continue = "Continue";
+    [SerializeField] private string NewGame = "New Game";
 
     [Header("Settings Panel")]
     public GameObject settingsPanel;
@@ -59,7 +66,7 @@ public class StartMenuManager : MonoBehaviour
             HandleSettingsInput();
             return;
         }
-
+        
         HandleMainMenuInput();
     }
 
@@ -139,11 +146,11 @@ public class StartMenuManager : MonoBehaviour
         switch (button.buttonType)
         {
             case StartMenuButton.ButtonType.Play:
-                SceneManager.LoadScene(playName);
+                RoomTransitionWithoutPlayer.Instance.BeginTransition(playName);
                 break;
 
             case StartMenuButton.ButtonType.Saves:
-                SceneManager.LoadScene(saveName);
+                RoomTransitionWithoutPlayer.Instance.BeginTransition(saveName);
                 break;
 
             case StartMenuButton.ButtonType.Settings:
@@ -151,7 +158,7 @@ public class StartMenuManager : MonoBehaviour
                 break;
 
             case StartMenuButton.ButtonType.Credits:
-                SceneManager.LoadScene(creditName);
+                RoomTransitionWithoutPlayer.Instance.BeginTransition(creditName);
                 break;
 
             case StartMenuButton.ButtonType.Quit:
@@ -213,6 +220,18 @@ public class StartMenuManager : MonoBehaviour
         else
         {
             SelectByIndex(0);
+        }
+    }
+
+    public void ChangeContinueOrNewGame()
+    {
+        if (gameExist)
+        {
+            buttonText.text = Continue;
+        }
+        else
+        {
+            buttonText.text = NewGame;
         }
     }
 

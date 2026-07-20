@@ -31,11 +31,11 @@ public class GlobalUIController : MonoBehaviour
             || TravelMenuController.Instance != null && TravelMenuController.Instance.getIsOpen())
         {
             isOtherUIOpen = true;
-            
+
             //|| !inventoryUI.activeSelf && !statusUI.activeSelf;
 
         }
-        isOtherUIOpen = false;
+        else { isOtherUIOpen = false; }
         return isOtherUIOpen;
     }
 }

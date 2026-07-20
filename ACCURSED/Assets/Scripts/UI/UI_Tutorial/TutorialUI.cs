@@ -20,7 +20,7 @@ public class TutorialUI : MonoBehaviour
     {
 
         // construct
-        Debug.Log("L");
+        //Debug.Log("L");
         popup = popUp;
         titleUI.GetComponent<TextMeshProUGUI>().text = popup.title;
         instructionsUI.GetComponent<TextMeshProUGUI>().text = popup.instructions;

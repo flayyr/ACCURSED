@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Collections;
 
 // This class manages the overall Item Pickup UI System 
 public class ToolTipManager : MonoBehaviour
@@ -19,8 +20,11 @@ public class ToolTipManager : MonoBehaviour
 
     private Queue<ItemPickupSO> items = new Queue<ItemPickupSO>();
 
-    private bool promptOpen;
+    private static bool promptOpen;
     private string promptText;
+
+    [SerializeField] private CanvasGroup promptCanvas;
+    private Coroutine menuAppear;
 
 
     private Action currentAction;
@@ -40,24 +44,44 @@ public class ToolTipManager : MonoBehaviour
     }
     public void PromptAppear()
     {
+        
         if (promptOpen) { return; }
 
         if (GlobalUIController.Instance.CheckIfOtherUIOpen()) { return; }
 
+        StopCurrentTransition();
         promptOpen = true;
 
         currentPrompt = Instantiate(UIPromptPrefab, parentCanvas, false);
-        //currentPrompt.transform.SetParent(parentCanvas, false);
         RectTransform rt = currentPrompt.GetComponent<RectTransform>();
         rt.anchoredPosition = new Vector2(0, 280);
 
         PromptUI ui = currentPrompt.GetComponent<PromptUI>();
         ui.SetText(promptText);
+
+        menuAppear = StartCoroutine(MenuOpenRoutine());
     }
 
     public void PromptDisappear()
     {
+        StopCurrentTransition();
+        InteractableObjectManager.promptOpen = false;
+
         promptOpen = false;
+        menuAppear = StartCoroutine(MenuCloseRoutine());
+    }
+
+    private IEnumerator MenuOpenRoutine()
+    {
+
+        promptCanvas.alpha = 0f;
+        yield return UITransitions.Instance.FadeTransition(promptCanvas, 0f, 1f, 0.1f);
+    }
+
+    private IEnumerator MenuCloseRoutine()
+    {
+        promptCanvas.alpha = 1f;
+        yield return UITransitions.Instance.FadeTransition(promptCanvas, 1f, 0f, 0.1f);
 
         if (currentPrompt != null)
         {
@@ -205,6 +229,15 @@ public class ToolTipManager : MonoBehaviour
         }
 
         return stacked;
+    }
+
+    private void StopCurrentTransition()
+    {
+        if (menuAppear != null)
+        {
+            StopCoroutine(menuAppear);
+            menuAppear = null;
+        }
     }
 
 
