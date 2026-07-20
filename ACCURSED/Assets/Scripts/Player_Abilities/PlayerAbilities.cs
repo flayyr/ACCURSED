@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerAbilities : MonoBehaviour
@@ -10,6 +11,8 @@ public class PlayerAbilities : MonoBehaviour
     [Space]
     [SerializeField] PlayerReference playerRef;
 
+    [HideInInspector] public event Action OnAbilityUsed;
+
     private void Start()
     {
         if(vestigeDisplay != null)
@@ -20,13 +23,15 @@ public class PlayerAbilities : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             remembranceAbility.Trigger(ref playerRef);
+            OnAbilityUsed?.Invoke();
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
             vestigeAbility.Trigger(ref playerRef);
+            OnAbilityUsed?.Invoke();
         }
     }
 }
