@@ -8,6 +8,10 @@ public class CombatHUD : MonoBehaviour
     [SerializeField] float fadeOutTime = 0.5f;
     [SerializeField] float fadeInTime = 0.1f;
     [Space]
+    [SerializeField] AbilityUIDisplay vestigeUI;
+    [SerializeField] AbilityUIDisplay remembranceUI;
+    [SerializeField] HealthDisplay healthUI;
+    [Space]
     [SerializeField] PlayerStatistics playerStatistics;
     [SerializeField] PlayerAbilities playerAbilities;
 
@@ -27,6 +31,13 @@ public class CombatHUD : MonoBehaviour
             playerStatistics.OnVitalityUpdate += Show;
 
             playerAbilities.OnAbilityUsed += Show;
+
+            healthUI.Initialize(playerStatistics);
+        }
+
+        if(playerAbilities != null)
+        {
+            playerAbilities.InitializeUI(vestigeUI, remembranceUI);
         }
     }
 

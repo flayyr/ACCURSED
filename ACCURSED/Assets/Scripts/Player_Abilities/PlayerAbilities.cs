@@ -6,19 +6,17 @@ public class PlayerAbilities : MonoBehaviour
     [SerializeField] private Ability vestigeAbility;
     [SerializeField] private Ability remembranceAbility;
     [Space]
-    [SerializeField] private AbilityUIDisplay vestigeDisplay;
-    [SerializeField] private AbilityUIDisplay remembranceDisplay;
-    [Space]
     [SerializeField] PlayerReference playerRef;
 
     [HideInInspector] public event Action OnAbilityUsed;
 
-    private void Start()
+
+    public void InitializeUI(AbilityUIDisplay vestigeDisplay, AbilityUIDisplay remembranceDisplay)
     {
         if(vestigeDisplay != null)
-            vestigeDisplay.Instanciate(vestigeAbility.abilityIcon);
+            vestigeDisplay.Initialize(vestigeAbility.abilityIcon);
         if(remembranceDisplay != null)
-            remembranceDisplay.Instanciate(remembranceAbility.abilityIcon);
+            remembranceDisplay.Initialize(remembranceAbility.abilityIcon);
     }
 
     private void Update()
