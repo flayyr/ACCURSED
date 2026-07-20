@@ -9,19 +9,52 @@ public class SettingsBindingPageDisplay : MonoBehaviour
     [System.Serializable]
     public class BindingEntry
     {
+        [Header("Entry Type")]
+        public bool isInteractiveKeybind;
+
+        [Header("Interactive Keybind")]
+        public SettingsKeybindAction keybindAction;
+
+        [Header("Static Display")]
         public string actionName;
         public string bindingText;
+
+        [Header("Optional")]
         public string statusText;
 
         public BindingEntry()
         {
         }
 
+        /// <summary>
+        /// Creates an interactive keyboard keybind entry.
+        /// The displayed name and key will come from
+        /// SettingsKeybindManager.
+        /// </summary>
+        public BindingEntry(
+            SettingsKeybindAction keybindAction,
+            string statusText = "")
+        {
+            isInteractiveKeybind = true;
+
+            this.keybindAction = keybindAction;
+            this.statusText = statusText;
+
+            actionName = "";
+            bindingText = "";
+        }
+
+        /// <summary>
+        /// Creates a non-interactive display-only entry.
+        /// This can still be used for placeholder pages.
+        /// </summary>
         public BindingEntry(
             string actionName,
             string bindingText,
             string statusText = "")
         {
+            isInteractiveKeybind = false;
+
             this.actionName = actionName;
             this.bindingText = bindingText;
             this.statusText = statusText;
@@ -104,14 +137,11 @@ public class SettingsBindingPageDisplay : MonoBehaviour
             if (section == null)
                 continue;
 
-            GameObject headerObject = Instantiate(
-                sectionHeaderPrefab,
-                contentRoot);
+            GameObject headerObject = Instantiate(sectionHeaderPrefab, contentRoot);
 
             headerObject.name = "Section - " + section.sectionTitle;
 
-            TMP_Text headerText =
-                headerObject.GetComponentInChildren<TMP_Text>(true);
+            TMP_Text headerText = headerObject.GetComponentInChildren<TMP_Text>(true);
 
             if (headerText != null)
                 headerText.text = section.sectionTitle;
@@ -124,14 +154,33 @@ public class SettingsBindingPageDisplay : MonoBehaviour
                 if (entry == null)
                     continue;
 
-                SettingsBindingDisplayRow newRow = Instantiate(
-                    rowPrefab,
-                    contentRoot);
+                SettingsBindingDisplayRow newRow = Instantiate(rowPrefab, contentRoot);
 
-                newRow.SetDisplay(
-                    entry.actionName,
-                    entry.bindingText,
-                    entry.statusText);
+                if (entry.isInteractiveKeybind)
+                {
+                    SettingsKeybindRow keybindRow =
+                        newRow.GetComponent<SettingsKeybindRow>();
+
+                    if (keybindRow != null)
+                    {
+                        keybindRow.Initialize(entry.keybindAction);
+                    }
+                    else
+                    {
+                        Debug.LogWarning(
+                            newRow.name +
+                            " is an interactive keybind row, but its prefab " +
+                            "does not contain SettingsKeybindRow.");
+                    }
+                }
+                else
+                {
+                    // Display-only row, such as a placeholder setting.
+                    newRow.SetDisplay(
+                        entry.actionName,
+                        entry.bindingText,
+                        entry.statusText);
+                }
             }
         }
 
@@ -142,6 +191,17 @@ public class SettingsBindingPageDisplay : MonoBehaviour
 
         if (scrollRect != null)
             scrollRect.verticalNormalizedPosition = 1f;
+
+        SettingsMenuNavigator navigator = GetComponentInParent<SettingsMenuNavigator>();
+
+        if (navigator != null)
+        {
+            navigator.RefreshGeneratedOptions();
+        }
+        else
+        {
+            Debug.LogWarning(name + ": No SettingsMenuNavigator was found in the parent hierarchy.");
+        }
     }
 
     [ContextMenu("Clear Display")]
@@ -206,32 +266,58 @@ public class SettingsBindingPageDisplay : MonoBehaviour
     public void LoadKeyboardDefaults()
     {
         sections = new List<BindingSection>
-        {
-            new BindingSection("Movement", new List<BindingEntry>
-                {
-                    new BindingEntry("Move Forward", "W"),
-                    new BindingEntry("Move Backward", "S"),
-                    new BindingEntry("Move Left", "A"),
-                    new BindingEntry("Move Right", "D"),
-                    new BindingEntry("Dodge", "Space"),
-                    new BindingEntry("Sprint", "Shift"),
-                    new BindingEntry("Walk", "Alt")
-                }),
+    {
+        new BindingSection(
+            "Movement",
+            new List<BindingEntry>
+            {
+                new BindingEntry(
+                    SettingsKeybindAction.MoveForwards),
 
-            new BindingSection( "Actions", new List<BindingEntry>
-                {
-                    new BindingEntry("Heal", "Q"),
-                    new BindingEntry("Use Item", "G"),
-                    new BindingEntry("Remembrance", "R"),
-                    new BindingEntry("Vestige", "E"),
-                    new BindingEntry("Interact", "F")
-                }),
+                new BindingEntry(
+                    SettingsKeybindAction.MoveBackwards),
 
-            new BindingSection("Interface", new List<BindingEntry>
-                {
-                    new BindingEntry("Menu", "Esc"),
-                    new BindingEntry("HUD", "Tab")
-                })
+                new BindingEntry(
+                    SettingsKeybindAction.MoveLeft),
+
+                new BindingEntry(
+                    SettingsKeybindAction.MoveRight),
+
+                new BindingEntry(
+                    SettingsKeybindAction.Dodge),
+
+                new BindingEntry(
+                    SettingsKeybindAction.Sprint),
+
+                new BindingEntry(
+                    SettingsKeybindAction.Walk)
+            }),
+
+        new BindingSection(
+            "Actions",
+            new List<BindingEntry>
+            {
+                new BindingEntry(
+                    SettingsKeybindAction.Heal),
+
+                new BindingEntry(
+                    SettingsKeybindAction.UseItem),
+
+                new BindingEntry(
+                    SettingsKeybindAction.Remembrance),
+
+                new BindingEntry(
+                    SettingsKeybindAction.Vestige),
+
+                new BindingEntry(
+                    SettingsKeybindAction.Interact)
+            }),
+
+        new BindingSection("Interface", new List<BindingEntry>
+            {
+                new BindingEntry(SettingsKeybindAction.Menu), 
+                new BindingEntry(SettingsKeybindAction.HUD)
+            })
         };
 
         hasBuilt = false;

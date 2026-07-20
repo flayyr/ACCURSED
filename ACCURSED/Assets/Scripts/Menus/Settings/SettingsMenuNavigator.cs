@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class SettingsMenuNavigator : MonoBehaviour
 {
@@ -33,6 +34,15 @@ public class SettingsMenuNavigator : MonoBehaviour
     private SettingsSliderSelectable activeSlider;
     private bool isAdjustingSlider;
 
+    private SettingsKeybindRow activeKeybindRow;
+    private bool isListeningForBinding;
+    private int bindingStartFrame;
+
+    public bool IsListeningForBinding
+    {
+        get { return isListeningForBinding; }
+    }
+
     public bool IsAdjustingSlider
     {
         get { return isAdjustingSlider; }
@@ -54,6 +64,12 @@ public class SettingsMenuNavigator : MonoBehaviour
 
     private void Update()
     {
+        if (isListeningForBinding)
+        {
+            HandleKeybindListeningInput();
+            return;
+        }
+
         if (isAdjustingSlider)
         {
             HandleSliderAdjustingInput();
@@ -163,6 +179,133 @@ public class SettingsMenuNavigator : MonoBehaviour
         }
     }
 
+    public void StartKeybindListen(SettingsKeybindRow row)
+    {
+        if (row == null)
+            return;
+
+        if (isListeningForBinding)
+            return;
+
+        if (isAdjustingSlider)
+            return;
+
+        activeKeybindRow = row;
+        isListeningForBinding = true;
+
+        // Prevent the Mouse0 click that opened the field
+        // from immediately becoming the new binding.
+        bindingStartFrame = Time.frameCount;
+
+        foreach (SettingsMenuSelectable option in currentOptions)
+        {
+            if (option == null)
+                continue;
+
+            bool isActiveRow = option == activeKeybindRow;
+
+            option.SetSelected(isActiveRow);
+
+            if (option is SettingsKeybindRow keybindRow)
+            {
+                keybindRow.SetInteractionLocked(!isActiveRow);
+                keybindRow.SetListening(isActiveRow);
+            }
+        }
+    }
+
+    private void HandleKeybindListeningInput()
+    {
+        if (activeKeybindRow == null)
+        {
+            CancelKeybindListen();
+            return;
+        }
+
+        // Ignore the same frame as the ValueArea click.
+        if (Time.frameCount <= bindingStartFrame)
+            return;
+
+        if (!Input.anyKeyDown)
+            return;
+
+        foreach (KeyCode key in
+                 Enum.GetValues(typeof(KeyCode)))
+        {
+            if (!IsAllowedBinding(key))
+                continue;
+
+            if (!Input.GetKeyDown(key))
+                continue;
+
+            FinishKeybindListen(key);
+            return;
+        }
+    }
+
+    private bool IsAllowedBinding(KeyCode key)
+    {
+        if (key == KeyCode.None)
+            return false;
+
+        // Controller inputs will be handled separately in the
+        // Controller tab.
+        if (key.ToString().StartsWith("Joystick"))
+            return false;
+
+        return true;
+    }
+
+    private void FinishKeybindListen(KeyCode newKey)
+    {
+        SettingsKeybindRow finishedRow =
+            activeKeybindRow;
+
+        activeKeybindRow = null;
+        isListeningForBinding = false;
+
+        if (finishedRow != null)
+        {
+            finishedRow.ApplyBinding(newKey);
+            finishedRow.SetListening(false);
+        }
+
+        UnlockKeybindRows();
+    }
+
+    public void CancelKeybindListen(
+        SettingsKeybindRow requestingRow = null)
+    {
+        if (requestingRow != null &&
+            requestingRow != activeKeybindRow)
+        {
+            return;
+        }
+
+        SettingsKeybindRow cancelledRow =
+            activeKeybindRow;
+
+        activeKeybindRow = null;
+        isListeningForBinding = false;
+
+        if (cancelledRow != null)
+            cancelledRow.SetListening(false);
+
+        UnlockKeybindRows();
+    }
+
+    private void UnlockKeybindRows()
+    {
+        foreach (SettingsMenuSelectable option in currentOptions)
+        {
+            if (option is SettingsKeybindRow keybindRow)
+            {
+                keybindRow.SetInteractionLocked(false);
+                keybindRow.SetListening(false);
+            }
+        }
+    }
+    
     public void SelectTab(int index, bool showTab)
     {
         if (tabs.Count == 0)
@@ -212,12 +355,17 @@ public class SettingsMenuNavigator : MonoBehaviour
 
     private void MoveFromTabsToOptions()
     {
-        RefreshCurrentOptions();
+        RefreshGeneratedOptions();
 
         if (currentOptions.Count == 0)
-            return;
+        {
+            Debug.LogWarning(name + ": No active SettingsMenuSelectable rows were found " + "inside the selected tab panel.");
 
-        tabs[selectedTabIndex].SetSelected(false);
+            return;
+        }
+
+        if (selectedTabIndex >= 0 && selectedTabIndex < tabs.Count && tabs[selectedTabIndex] != null)
+            tabs[selectedTabIndex].SetSelected(false);
 
         currentArea = NavigationArea.Options;
         SelectOption(0);
@@ -256,6 +404,9 @@ public class SettingsMenuNavigator : MonoBehaviour
 
     public void SelectOptionByMouse(SettingsMenuSelectable option)
     {
+        if (isListeningForBinding)
+            return;
+
         RefreshCurrentOptions();
 
         int index = currentOptions.IndexOf(option);
@@ -271,6 +422,9 @@ public class SettingsMenuNavigator : MonoBehaviour
 
     public void SelectTabByMouse(SettingsTabButton tab)
     {
+        if (isListeningForBinding)
+            return;
+
         SelectTab(tab, true);
     }
 
@@ -311,6 +465,11 @@ public class SettingsMenuNavigator : MonoBehaviour
 
             currentOptions.Add(selectable);
         }
+
+        currentOptions.Sort((a, b) =>
+        {
+            return a.transform.GetSiblingIndex().CompareTo(b.transform.GetSiblingIndex());
+        });
 
         selectedOptionIndex = 0;
     }
@@ -419,6 +578,24 @@ public class SettingsMenuNavigator : MonoBehaviour
         scrollRect = tab.tabScrollRect;
         scrollContent = tab.tabScrollContent;
         scrollViewport = tab.tabScrollViewport;
+    }
+
+    public void RefreshGeneratedOptions()
+    {
+        RefreshCurrentOptions();
+
+        foreach (SettingsMenuSelectable option in currentOptions)
+        {
+            if (option != null)
+                option.SetNavigator(this);
+        }
+
+        if (currentArea == NavigationArea.Options && currentOptions.Count > 0)
+        {
+            selectedOptionIndex = Mathf.Clamp(selectedOptionIndex, 0, currentOptions.Count - 1);
+
+            SelectOption(selectedOptionIndex);
+        }
     }
 
     private IEnumerator ScrollToSelectedOptionNextFrame()
