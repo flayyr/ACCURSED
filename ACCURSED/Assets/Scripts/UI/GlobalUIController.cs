@@ -4,6 +4,8 @@ public class GlobalUIController : MonoBehaviour
 {
     public static GlobalUIController Instance { get; private set; }
 
+    [SerializeField] public GameObject Player;
+
     private bool isOtherUIOpen;
 
     void Awake()
