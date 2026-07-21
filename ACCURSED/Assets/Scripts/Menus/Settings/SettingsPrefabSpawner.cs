@@ -59,11 +59,27 @@ public class SettingsPrefabSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (!isOpen)
-            return;
+        if (isOpen && closeWithEscape && Input.GetKeyDown(KeyCode.Escape))
+        {
+            // While rebinding, Escape is treated as the new key.
+            // It must not close the settings menu.
+            if (settingsNavigator != null &&
+                settingsNavigator.IsListeningForBinding)
+            {
+                return;
+            }
 
-        if (closeWithEscape && Input.GetKeyDown(KeyCode.Escape))
+            // During slider adjustment, Escape exits adjustment
+            // instead of closing the entire menu.
+            if (settingsNavigator != null &&
+                settingsNavigator.IsAdjustingSlider)
+            {
+                settingsNavigator.StopSliderAdjustMode();
+                return;
+            }
+
             CloseSettings();
+        }
     }
 
     public void OpenSettings()
