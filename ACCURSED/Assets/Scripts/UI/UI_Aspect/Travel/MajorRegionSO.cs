@@ -5,6 +5,6 @@ using System.Collections.Generic;
 public class MajorRegion : ScriptableObject
 {
     public string regionName;
-    public List<Aspect> locations = new List<Aspect>();
+    public List<AspectSO> locations = new List<AspectSO>();
     public Sprite regionImage;
 }

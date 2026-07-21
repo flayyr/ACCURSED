@@ -2,12 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TravelAspect_Buttons : MonoBehaviour
 {
     [SerializeField] public GameObject title;
     public Button b;
-    public Aspect asp;
+    public AspectSO asp;
 
     [SerializeField] private GameObject blackFade;
     private CanvasGroup blackFadeCanvas;
@@ -22,7 +23,8 @@ public class TravelAspect_Buttons : MonoBehaviour
 
     void Teleport()
     {
-        
+        PersistentPlayer.Instance.transform.position = asp.position;
+        SceneManager.LoadScene(asp.sceneName);
     }
     private IEnumerator TransitionBlack()
     {
@@ -41,7 +43,7 @@ public class TravelAspect_Buttons : MonoBehaviour
         
     }
 
-    public void Refresh(Aspect a)
+    public void Refresh(AspectSO a)
     {
         MajorRegion reg = TravelMenuController.currentRegion;
 
