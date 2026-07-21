@@ -24,7 +24,7 @@ public class TravelAspect_Buttons : MonoBehaviour
     void Teleport()
     {
         PersistentPlayer.Instance.transform.position = asp.position;
-        SceneManager.LoadScene(asp.sceneName);
+        RoomTransitionWithoutPlayer.Instance.BeginTransition(asp.sceneName);
     }
     private IEnumerator TransitionBlack()
     {
