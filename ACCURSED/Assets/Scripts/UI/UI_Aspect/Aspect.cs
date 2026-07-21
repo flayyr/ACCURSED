@@ -5,6 +5,17 @@ using UnityEngine.SceneManagement;
 public class Aspect : ScriptableObject
 {
     public string locationName;
-    public GameObject aspectObj;
+    public string sceneName;
+    public string spawnID;
     //public Scene scene;
+
+    public bool isEmpty()
+    {
+        if (locationName == string.Empty)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
