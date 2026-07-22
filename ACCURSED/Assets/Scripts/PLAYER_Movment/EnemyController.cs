@@ -62,7 +62,7 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region References
-    [SerializeField] private Transform playerTransform;
+    [SerializeField][ReadOnly] private Transform playerTransform;
     private CharacterStatistics cStatistics;
     private CharacterMovement cMovement;
     private CharacterCombat cCombat;
@@ -75,6 +75,7 @@ public class EnemyController : MonoBehaviour
         patrolTarget = Vector2.zero;
         GetComponents();
         patrolOrigin = transform.position;
+        playerTransform = GameObject.FindWithTag("Player").transform;
     }
 
     void GetComponents()
