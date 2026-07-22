@@ -56,16 +56,11 @@ public class SettingsPrefabSpawner : MonoBehaviour
         {
             // While rebinding, Escape is treated as the new key.
             // It must not close the settings menu.
-            if (settingsNavigator != null &&
-                settingsNavigator.IsListeningForBinding)
-            {
+            if (settingsNavigator != null && settingsNavigator.IsListeningForBinding)
                 return;
-            }
 
-            // During slider adjustment, Escape exits adjustment
-            // instead of closing the entire menu.
-            if (settingsNavigator != null &&
-                settingsNavigator.IsAdjustingSlider)
+            // During slider adjustment, Escape exits adjustment instead of closing the entire menu.
+            if (settingsNavigator != null && settingsNavigator.IsAdjustingSlider)
             {
                 settingsNavigator.StopSliderAdjustMode();
                 return;

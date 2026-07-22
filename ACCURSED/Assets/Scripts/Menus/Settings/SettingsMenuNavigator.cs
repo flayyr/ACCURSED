@@ -37,8 +37,8 @@ public class SettingsMenuNavigator : MonoBehaviour
 
     private SettingsKeybindRow activeKeybindRow;
     private bool isListeningForBinding;
-    private bool waitingForOpeningClickRelease;
     private int bindingStartFrame;
+    private int bindingEndedFrame = -1;
 
     public bool IsListeningForBinding
     {
@@ -48,6 +48,11 @@ public class SettingsMenuNavigator : MonoBehaviour
     public bool IsAdjustingSlider
     {
         get { return isAdjustingSlider; }
+    }
+
+    public bool BlocksSettingsEscape
+    {
+        get { return isListeningForBinding || Time.frameCount == bindingEndedFrame; }
     }
 
     private void Start()
@@ -264,8 +269,7 @@ public class SettingsMenuNavigator : MonoBehaviour
         return true;
     }
 
-    private void FinishKeybindListen(
-    KeyCode newKey)
+    private void FinishKeybindListen(KeyCode newKey)
     {
         SettingsKeybindRow finishedRow = activeKeybindRow;
 
@@ -308,7 +312,7 @@ public class SettingsMenuNavigator : MonoBehaviour
 
         activeKeybindRow = null;
         isListeningForBinding = false;
-        waitingForOpeningClickRelease = false;
+        bindingEndedFrame = Time.frameCount;
 
         for (int i = 0; i < currentOptions.Count; i++)
         {
@@ -646,12 +650,6 @@ public class SettingsMenuNavigator : MonoBehaviour
 
             SelectOption(selectedOptionIndex);
         }
-
-        // temp
-        Debug.Log(
-    "Settings options found: " +
-    currentOptions.Count
-);
     }
 
     private IEnumerator ScrollToSelectedOptionNextFrame()

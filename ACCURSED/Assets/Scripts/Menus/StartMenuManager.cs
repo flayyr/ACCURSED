@@ -25,6 +25,8 @@ public class StartMenuManager : MonoBehaviour
     [Header("Settings Panel")]
     public GameObject settingsPanel;
 
+    [SerializeField] private SettingsMenuNavigator settingsNavigator;
+
     [Tooltip("Optional. Assign the first settings button/slider you want selected when the panel opens.")]
     public GameObject firstSettingsSelectedObject;
 
@@ -49,6 +51,9 @@ public class StartMenuManager : MonoBehaviour
         {
             buttons[i].Initialize(this);
         }
+
+        if (settingsNavigator == null && settingsPanel != null)
+            settingsNavigator = settingsPanel.GetComponentInChildren<SettingsMenuNavigator>(true);
     }
 
     private void Start()
@@ -111,10 +116,15 @@ public class StartMenuManager : MonoBehaviour
 
     private void HandleSettingsInput()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            CloseSettingsPanel();
-        }
+        if (!Input.GetKeyDown(KeyCode.Escape))
+            return;
+
+        // Escape is currently being captured as a keybind,
+        // or it was captured earlier during this same frame.
+        if (settingsNavigator != null && settingsNavigator.BlocksSettingsEscape)
+            return;
+
+        CloseSettingsPanel();
     }
 
     private void HandleEscapeFromMainMenu()
@@ -243,6 +253,9 @@ public class StartMenuManager : MonoBehaviour
             return;
         }
 
+        if (settingsNavigator == null)
+            settingsNavigator = settingsPanel.GetComponentInChildren<SettingsMenuNavigator>(true);
+
         settingsOpen = true;
 
         ClearMainMenuSelectionVisuals();
@@ -257,10 +270,10 @@ public class StartMenuManager : MonoBehaviour
         {
             Selectable firstSelectable = settingsPanel.GetComponentInChildren<Selectable>(true);
 
+            
+
             if (firstSelectable != null)
-            {
                 objectToSelect = firstSelectable.gameObject;
-            }
         }
 
         if (objectToSelect != null)
