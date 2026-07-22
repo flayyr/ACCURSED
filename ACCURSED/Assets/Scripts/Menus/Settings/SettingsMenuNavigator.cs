@@ -394,6 +394,8 @@ public class SettingsMenuNavigator : MonoBehaviour
 
         selectedOptionIndex = index;
 
+        Debug.Log("Selected option " + selectedOptionIndex + ": " + currentOptions[selectedOptionIndex].name);
+
         for (int i = 0; i < currentOptions.Count; i++)
         {
             currentOptions[i].SetSelected(i == selectedOptionIndex);
@@ -596,6 +598,12 @@ public class SettingsMenuNavigator : MonoBehaviour
 
             SelectOption(selectedOptionIndex);
         }
+
+        // temp
+        Debug.Log(
+    "Settings options found: " +
+    currentOptions.Count
+);
     }
 
     private IEnumerator ScrollToSelectedOptionNextFrame()

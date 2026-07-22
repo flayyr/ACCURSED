@@ -29,7 +29,7 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerClic
     private Vector3 normalScale;
     private GameObject leftArrowInstance;
     private GameObject rightArrowInstance;
-    private bool isSelected;
+    private bool rowSelected;
 
     private StartMenuManager manager;
 
@@ -45,7 +45,7 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerClic
 
     private void LateUpdate()
     {
-        Vector3 targetScale = isSelected ? normalScale * selectedScale : normalScale;
+        Vector3 targetScale = rowSelected ? normalScale * selectedScale : normalScale;
         transform.localScale = Vector3.Lerp(
             transform.localScale,
             targetScale,
@@ -55,12 +55,12 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerClic
 
     public void SetSelected(bool selected)
     {
-        if (isSelected == selected)
+        if (rowSelected == selected)
             return;
 
-        isSelected = selected;
+        rowSelected = selected;
 
-        if (isSelected)
+        if (rowSelected)
         {
             SpawnArrows();
         }

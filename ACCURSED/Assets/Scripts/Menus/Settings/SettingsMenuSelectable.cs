@@ -110,7 +110,15 @@ public class SettingsMenuSelectable : MonoBehaviour, IPointerEnterHandler, IPoin
         if (navigator != null && navigator.IsAdjustingSlider)
             return;
 
+        if (navigator != null)
+            navigator.SelectOptionByMouse(this);
+
         Activate();
+    }
+
+    public virtual void OnPointerExit(PointerEventData eventData)
+    {
+
     }
 
     protected virtual void OnDisable()

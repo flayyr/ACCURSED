@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SettingsKeybindRow : SettingsMenuSelectable, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class SettingsKeybindRow : SettingsMenuSelectable
 {
 
     [Header("Text")]
@@ -42,7 +42,7 @@ public class SettingsKeybindRow : SettingsMenuSelectable, IPointerEnterHandler, 
     private CanvasGroup highlightCanvasGroup;
 
     private bool isHovered;
-    private bool isSelected;
+    private bool rowSelected;
     private bool isListening;
     private bool interactionLocked;
 
@@ -78,13 +78,15 @@ public class SettingsKeybindRow : SettingsMenuSelectable, IPointerEnterHandler, 
         RefreshHighlight();
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         if (keybindManager != null)
             keybindManager.UnregisterRow(this);
 
         if (isListening && menuNavigator != null)
             menuNavigator.CancelKeybindListen(this);
+
+        base.OnDisable();
     }
 
     private void Update()
@@ -114,6 +116,7 @@ public class SettingsKeybindRow : SettingsMenuSelectable, IPointerEnterHandler, 
             );
     }
 
+    /*
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!hasBeenInitialized)
@@ -130,24 +133,22 @@ public class SettingsKeybindRow : SettingsMenuSelectable, IPointerEnterHandler, 
 
         if (valueArea == null)
         {
-            Debug.LogWarning(
-                name + ": Value Area has not been assigned.");
+            Debug.LogWarning(name + ": Value Area has not been assigned.");
 
             return;
         }
 
-        bool clickedInsideValueArea =
-            RectTransformUtility.RectangleContainsScreenPoint(
+        bool clickedInsideValueArea = RectTransformUtility.RectangleContainsScreenPoint(
                 valueArea,
                 eventData.position,
-                eventData.pressEventCamera
-            );
+                eventData.pressEventCamera);
 
         if (!clickedInsideValueArea)
             return;
 
         BeginListeningFromValueField();
     }
+    */
 
     public void Initialize(SettingsKeybindAction assignedAction)
     {
@@ -225,16 +226,12 @@ public class SettingsKeybindRow : SettingsMenuSelectable, IPointerEnterHandler, 
         highlightInstance.SetActive(false);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public override void OnPointerEnter(PointerEventData eventData)
     {
         FindReferences();
 
-        // While any row is listening, mouse hovering cannot
-        // move selection to another row.
         if (menuNavigator != null && menuNavigator.IsListeningForBinding)
-        {
             return;
-        }
 
         if (interactionLocked)
             return;
@@ -247,7 +244,7 @@ public class SettingsKeybindRow : SettingsMenuSelectable, IPointerEnterHandler, 
         RefreshHighlight();
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public override void OnPointerExit(PointerEventData eventData)
     {
         if (isListening)
             return;
@@ -267,10 +264,15 @@ public class SettingsKeybindRow : SettingsMenuSelectable, IPointerEnterHandler, 
         FindReferences();
 
         if (menuNavigator == null)
+        {
+            Debug.LogWarning(name + ": SettingsMenuNavigator was not found.");
             return;
+        }
 
         if (menuNavigator.IsListeningForBinding)
             return;
+
+        Debug.Log("Clicked key field for: " + action);
 
         menuNavigator.SelectOptionByMouse(this);
         menuNavigator.StartKeybindListen(this);
@@ -278,7 +280,7 @@ public class SettingsKeybindRow : SettingsMenuSelectable, IPointerEnterHandler, 
 
     public override void SetSelected(bool selected)
     {
-        isSelected = selected;
+        rowSelected = selected;
         RefreshHighlight();
     }
 
@@ -297,7 +299,7 @@ public class SettingsKeybindRow : SettingsMenuSelectable, IPointerEnterHandler, 
 
         if (isListening)
         {
-            isSelected = true;
+            rowSelected = true;
 
             if (statusText != null)
                 statusText.text = "Press a key or mouse button";
@@ -318,7 +320,7 @@ public class SettingsKeybindRow : SettingsMenuSelectable, IPointerEnterHandler, 
         if (interactionLocked && !isListening)
         {
             isHovered = false;
-            isSelected = false;
+            rowSelected = false;
         }
 
         RefreshHighlight();
@@ -365,7 +367,7 @@ public class SettingsKeybindRow : SettingsMenuSelectable, IPointerEnterHandler, 
         if (highlightInstance == null)
             return;
 
-        bool shouldShow = isListening || (!interactionLocked && (isHovered || isSelected));
+        bool shouldShow = isListening || (!interactionLocked && (isHovered || rowSelected));
 
         highlightInstance.SetActive(shouldShow);
 
