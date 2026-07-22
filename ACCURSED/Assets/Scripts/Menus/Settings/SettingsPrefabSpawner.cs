@@ -35,6 +35,9 @@ public class SettingsPrefabSpawner : MonoBehaviour
     [Tooltip("Scripts to temporarily disable while settings is open, like StartMenuManager.")]
     public List<MonoBehaviour> scriptsToDisableWhileOpen = new List<MonoBehaviour>();
 
+    [Header("Start Menu Input")]
+    [SerializeField] private StartMenuManager startMenuManager;
+
     private GameObject settingsInstance;
     private SettingsMenuNavigator settingsNavigator;
     private bool isOpen;
@@ -46,12 +49,38 @@ public class SettingsPrefabSpawner : MonoBehaviour
 
     private void Awake()
     {
+        if (targetCanvas == null)
+            targetCanvas = FindFirstObjectByType<Canvas>();
+
+        if (startMenuManager == null)
+            startMenuManager = FindFirstObjectByType<StartMenuManager>();
+
         FindTargetCanvas();
         ConfigureCanvasScaling();
     }
 
     private void Update()
     {
+        if (!isOpen)
+            return;
+
+        if (!closeWithEscape)
+            return;
+
+        if (!Input.GetKeyDown(KeyCode.Escape))
+            return;
+
+        // Escape is currently being assigned as a keybind,
+        // or was assigned during this same frame.
+        if (settingsNavigator != null &&
+            settingsNavigator.BlocksSettingsEscape)
+        {
+            return;
+        }
+
+        CloseSettings();
+
+        /*
         if (isOpen && closeWithEscape && Input.GetKeyDown(KeyCode.Escape))
         {
             // While rebinding, Escape is treated as the new key.
@@ -68,6 +97,7 @@ public class SettingsPrefabSpawner : MonoBehaviour
 
             CloseSettings();
         }
+        */
     }
 
     public void OpenSettings()
@@ -96,8 +126,13 @@ public class SettingsPrefabSpawner : MonoBehaviour
 
         isOpen = true;
 
-        DisableSceneObjects();
+        if (startMenuManager != null)
+            startMenuManager.SetSettingsInputBlocked(true);
+
         SpawnSettingsPrefab();
+
+        if (settingsInstance != null)
+            settingsInstance.SetActive(true);
 
         if (EventSystem.current != null)
             EventSystem.current.SetSelectedGameObject(null);
@@ -117,28 +152,36 @@ public class SettingsPrefabSpawner : MonoBehaviour
         if (!isOpen)
             return;
 
-        isOpen = false;
+        if (settingsNavigator != null)
+        {
+            if (settingsNavigator.IsListeningForBinding)
+                settingsNavigator.CancelKeybindListen();
 
-        if (settingsNavigator != null && settingsNavigator.IsAdjustingSlider)
-            settingsNavigator.StopSliderAdjustMode();
+            if (settingsNavigator.IsAdjustingSlider)
+                settingsNavigator.StopSliderAdjustMode();
+        }
 
         if (EventSystem.current != null)
             EventSystem.current.SetSelectedGameObject(null);
 
         if (settingsInstance != null)
         {
+            // Disable immediately so the two menus cannot both
+            // receive input during the remainder of this frame.
+            settingsInstance.SetActive(false);
+
             if (destroyOnClose)
             {
                 Destroy(settingsInstance);
-
                 settingsInstance = null;
                 settingsNavigator = null;
             }
-            else
-            {
-                settingsInstance.SetActive(false);
-            }
         }
+
+        isOpen = false;
+
+        if (startMenuManager != null)
+            startMenuManager.SetSettingsInputBlocked(false);
 
         EnableSceneObjects();
     }

@@ -275,6 +275,7 @@ public class SettingsMenuNavigator : MonoBehaviour
 
         activeKeybindRow = null;
         isListeningForBinding = false;
+        bindingEndedFrame = Time.frameCount;
 
         for (int i = 0; i < currentOptions.Count; i++)
         {

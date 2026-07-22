@@ -25,6 +25,7 @@ public class StartMenuManager : MonoBehaviour
     [Header("Settings Panel")]
     public GameObject settingsPanel;
 
+    [SerializeField] private SettingsPrefabSpawner settingsSpawner;
     [SerializeField] private SettingsMenuNavigator settingsNavigator;
 
     [Tooltip("Optional. Assign the first settings button/slider you want selected when the panel opens.")]
@@ -38,19 +39,21 @@ public class StartMenuManager : MonoBehaviour
 
     private int selectedIndex = 0;
     private bool settingsOpen = false;
+    private bool inputBlockedBySettings;
 
     private void Awake()
     {
         buttons.RemoveAll(button => button == null);
 
-        buttons.Sort((a, b) =>
-            a.transform.GetSiblingIndex().CompareTo(b.transform.GetSiblingIndex())
-        );
+        buttons.Sort((a, b) => a.transform.GetSiblingIndex().CompareTo(b.transform.GetSiblingIndex()));
 
         for (int i = 0; i < buttons.Count; i++)
         {
             buttons[i].Initialize(this);
         }
+
+        if (settingsSpawner == null)
+            settingsSpawner = FindFirstObjectByType<SettingsPrefabSpawner>();
 
         if (settingsNavigator == null && settingsPanel != null)
             settingsNavigator = settingsPanel.GetComponentInChildren<SettingsMenuNavigator>(true);
@@ -66,6 +69,9 @@ public class StartMenuManager : MonoBehaviour
 
     private void Update()
     {
+        if (inputBlockedBySettings)
+            return;
+
         if (settingsOpen)
         {
             HandleSettingsInput();
@@ -164,7 +170,7 @@ public class StartMenuManager : MonoBehaviour
                 break;
 
             case StartMenuButton.ButtonType.Settings:
-                OpenSettingsPanel();
+                settingsSpawner.OpenSettings();
                 break;
 
             case StartMenuButton.ButtonType.Credits:
@@ -312,12 +318,37 @@ public class StartMenuManager : MonoBehaviour
         }
     }
 
+    public void SetSettingsInputBlocked(bool blocked)
+    {
+        if (inputBlockedBySettings == blocked)
+            return;
+
+        inputBlockedBySettings = blocked;
+
+        if (inputBlockedBySettings)
+        {
+            ClearMainMenuSelectionVisuals();
+
+            if (EventSystem.current != null)
+            {
+                GameObject selectedObject = EventSystem.current.currentSelectedGameObject;
+
+                if (selectedObject != null && selectedObject.transform.IsChildOf(transform))
+                    EventSystem.current.SetSelectedGameObject(null);
+            }
+        }
+        else
+        {
+            SelectDefaultPlayButton();
+        }
+    }
+
     private void QuitGame()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 }
