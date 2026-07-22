@@ -1,0 +1,21 @@
+using SaintsField.Editor.Playa.Renderer.BaseRenderer;
+using UnityEngine;
+
+namespace SaintsField.Editor.Playa.Renderer.EmptyFakeRenderer
+{
+    public partial class EmptyRenderer
+    {
+        public override void OnDestroyIMGUI()
+        {
+        }
+
+        protected override float GetFieldHeightIMGUI(float width, AbsRenderer.PreCheckResult preCheckResult)
+        {
+            return 0;
+        }
+
+        protected override void RenderPositionTargetIMGUI(Rect position, AbsRenderer.PreCheckResult preCheckResult)
+        {
+        }
+    }
+}

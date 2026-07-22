@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using SaintsField;
+using SaintsField.Playa;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,7 +11,7 @@ using UnityEngine.InputSystem;
 public class Combo
 {
     [SerializeField] public string name;
-    [SerializeField] public List<Attack> attacks;
+    [Table] public List<Attack> attacks;
 }
 [System.Serializable]
 public class Attack
@@ -22,17 +24,19 @@ public class Attack
 public class CharacterCombat : MonoBehaviour
 {
     #region Modifiers
+    [LayoutStart("Combos", ELayout.FoldoutBox)]
     public List<Combo> combos;
     #endregion
 
-    #region States 
-    public bool winding;
-    public int currentCombo = 0;
-    public int currentAttack = 0;
-    public bool attackButton; // shows when the button is pressed
-    public bool attacking;
-    public bool releasing;
-    public bool attackCue;
+    #region States
+    [LayoutStart("Debug", ELayout.FoldoutBox)]
+    [ReadOnly] public bool winding;
+    [ReadOnly] public int currentCombo = 0;
+    [ReadOnly] public int currentAttack = 0;
+    [ReadOnly] public bool attackButton; // shows when the button is pressed
+    [ReadOnly] public bool attacking;
+    [ReadOnly] public bool releasing;
+    [ReadOnly] public bool attackCue;
     #endregion
 
     #region Refrences

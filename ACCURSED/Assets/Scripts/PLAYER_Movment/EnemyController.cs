@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using SaintsField;
+using SaintsField.Playa;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -11,59 +13,56 @@ public class EnemyController : MonoBehaviour
     }
 
     #region State
+    [LayoutStart("State", ELayout.FoldoutBox)]
     public EnemyState enemyState;
     #endregion
 
     #region Neutral Patrol
-    [SerializeField] private float patrolRadius;         // how far from origin the enemy can wander
-    [SerializeField] private float waypointTolerance;    // how close is "close enough" to a waypoint
-    [SerializeField] private float patrolWaitMin;        // minimum seconds to idle at a waypoint
-    [SerializeField] private float patrolWaitMax;        // maximum seconds to idle at a waypoint
-    [SerializeField] private float patrolWaitTimer;      // counts down while waiting at a waypoint
-    private Vector2 patrolOrigin;                        // the spawn point, patrol is relative to this
-    private Vector2 patrolTarget;                        // current waypoint
-    private bool waitingAtWaypoint;
+    [LayoutStart("Patrolling", ELayout.FoldoutBox)]
+    [SerializeField] private float patrolRadius;
+    [SerializeField] private float waypointTolerance;
+    [SerializeField] private float patrolWaitMin;
+    [SerializeField] private float patrolWaitMax;
+    [SerializeField][ReadOnly] private float patrolWaitTimer;
+    [SerializeField][ReadOnly] private Vector2 patrolOrigin;
+    [SerializeField][ReadOnly] private Vector2 patrolTarget;
+    [SerializeField][ReadOnly] private bool waitingAtWaypoint = true;
     #endregion
 
     #region Pursuing
-    [SerializeField] private float detectionRadius;      // radius to detect player and enter pursuing
-    [SerializeField] private float attackRange;           // radius to begin attacking
-    [SerializeField] private float loseSightRadius;       // radius at which enemy gives up and returns to neutral
+    [LayoutStart("Pursuit Ranges", ELayout.FoldoutBox)]
+    [SerializeField] private float detectionRadius;
+    [SerializeField] private float attackRange;
+    [SerializeField] private float loseSightRadius;
     #endregion
 
     #region Attack Behaviour
-    // The enemy mimics a player's hold-to-wind / release-to-swing input. To chain a combo,
-    // CharacterCombat.OnAttackAnimationComplete() requires attackButton == true when the
-    // swing animation ends, so it winds the next attack instead of resetting. We therefore
-    // hold continuously and only release for a single frame to trigger each swing, as long
-    // as there are attacks left in the current combo.
-    [SerializeField] private float windUpTimer;           // counts down while winding, set from the current attack's wind range
-    [SerializeField][Range(0f, 1f)] private float comboContinueChance = 1f; // chance to chain the next attack
-
     private enum AttackPhase
     {
         idle,       // not attacking
         winding,    // button held, waiting out the wind time
         releasing,  // button let go for one frame to fire the swing
     }
-    private AttackPhase attackPhase = AttackPhase.idle;
-
-    private int comboLength;     // cached attack count for the active combo
-    private int attacksFired;    // how many swings we've released this combo
-    private bool holding;        // current state of the simulated button
+    [LayoutStart("Attacking", ELayout.FoldoutBox)]
+    [SerializeField] private AttackPhase attackPhase = AttackPhase.idle;
+    [SerializeField][Range(0f, 1f)] private float comboContinueChance = 1f;
+    [SerializeField][ReadOnly] private float windUpTimer;
+    [SerializeField][ReadOnly] private int comboLength;     // cached attack count for the active combo
+    [SerializeField][ReadOnly] private bool holding;        // current state of the simulated button
     #endregion
 
     #region Pathfinding
-    public List<Vector3> pathVectorList = null;
-    public int currentPathIndex = 0;
-    public float pathUpdateTimer = 0f;
-    public float pathUpdateInterval = 0.1f; // Update path every 1 second
+    [LayoutStart("Pathfinding", ELayout.FoldoutBox)]
+    [SerializeField][ReadOnly] public List<Vector3> pathVectorList = null;
+    [HideInInspector] public int currentPathIndex = 0;
+    [HideInInspector] public float pathUpdateTimer = 0f;
+    [HideInInspector] public float pathUpdateInterval = 0.1f; // Update path every 1 second
 
-    public bool PathfindingOverride = false;
+    [HideInInspector] public bool PathfindingOverride = false;
     #endregion
 
     #region References
-    [SerializeField] private Transform playerTransform;
+    [SerializeField][ReadOnly] private Transform playerTransform;
     private CharacterStatistics cStatistics;
     private CharacterMovement cMovement;
     private CharacterCombat cCombat;
@@ -72,9 +71,11 @@ public class EnemyController : MonoBehaviour
 
     void Start()
     {
+        waitingAtWaypoint = true;
+        patrolTarget = Vector2.zero;
         GetComponents();
         patrolOrigin = transform.position;
-        PickNewPatrolTarget();
+        playerTransform = GameObject.FindWithTag("Player").transform;
     }
 
     void GetComponents()
@@ -100,6 +101,8 @@ public class EnemyController : MonoBehaviour
     {
         if (waitingAtWaypoint)
         {
+            if (enemyState == EnemyState.neutral)
+                StopMoving();
             patrolWaitTimer -= Time.deltaTime;
             if (patrolWaitTimer <= 0)
             {
@@ -123,6 +126,7 @@ public class EnemyController : MonoBehaviour
                     if (windUpTimer <= 0)
                     {
                         attackPhase = AttackPhase.releasing;
+                        windUpTimer = 0.1f;
                     }
                 }
                 break;
@@ -130,19 +134,22 @@ public class EnemyController : MonoBehaviour
             case AttackPhase.releasing:
                 // Let go for this frame so CharacterCombat.AttackUpdate() fires the swing.
                 holding = false;
-                attacksFired++;
 
-                if (attacksFired < comboLength && PlayerInAttackRange() && Random.value <= comboContinueChance)
+                windUpTimer -= Time.deltaTime;
+                if (windUpTimer <= 0)
                 {
-                    // More attacks left: re-hold so the button is DOWN when the swing's
-                    // animation completes, which makes CharacterCombat wind the next attack.
-                    BeginWind();
-                }
-                else
-                {
-                    // Combo done (or breaking off): stay released so the swing resolves
-                    // and CharacterCombat returns to idle on its own.
-                    attackPhase = AttackPhase.idle;
+                    if (cCombat.currentAttack < comboLength && PlayerInAttackRange() && Random.value <= comboContinueChance)
+                    {
+                        // More attacks left: re-hold so the button is DOWN when the swing's
+                        // animation completes, which makes CharacterCombat wind the next attack.
+                        BeginWind();
+                    }
+                    else
+                    {
+                        // Combo done (or breaking off): stay released so the swing resolves
+                        // and CharacterCombat returns to idle on its own.
+                        attackPhase = AttackPhase.idle;
+                    }
                 }
                 break;
 
@@ -193,6 +200,11 @@ public class EnemyController : MonoBehaviour
     void PickNewPatrolTarget()
     {
         Vector2 offset = Random.insideUnitCircle * patrolRadius;
+        LayerMask layerMask = Pathfinding.Instance.Obstacles();
+        while (Physics2D.OverlapPoint(offset, layerMask))
+        {
+            offset = Random.insideUnitCircle * patrolRadius;
+        }
         patrolTarget = patrolOrigin + offset;
     }
 
@@ -251,7 +263,6 @@ public class EnemyController : MonoBehaviour
     void StartCombo()
     {
         comboLength = cCombat.combos[cCombat.currentCombo].attacks.Count;
-        attacksFired = 0;
         BeginWind();
     }
 
@@ -286,6 +297,7 @@ public class EnemyController : MonoBehaviour
             attackPhase = AttackPhase.idle;
             holding = false;
             enemyState = EnemyState.neutral;
+            StopMoving();
             PickNewPatrolTarget();
         }
     }
@@ -293,16 +305,6 @@ public class EnemyController : MonoBehaviour
 
 
     #region Pathfinding
-    // Drives movementInput toward goalPoint.
-    // Replace the body of this method with A* steering when that system is ready.
-    /*
-    void MoveTowardGoal()
-    {
-        Vector2 direction = (goalPoint - (Vector2)transform.position).normalized;
-        cMovement.movementInput = direction;
-    }
-    */
-
     public void HandleMovement()
     {
         if (pathVectorList != null && currentPathIndex < pathVectorList.Count)
@@ -350,4 +352,24 @@ public class EnemyController : MonoBehaviour
         }
     }
     #endregion
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        if (pathVectorList != null)
+        {
+            for (int i = 0; i < pathVectorList.Count - 1; i++)
+            {
+                Gizmos.DrawLine(pathVectorList[i], pathVectorList[i + 1]);
+            }
+        }
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, loseSightRadius);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(patrolOrigin, patrolRadius);
+    }
 }

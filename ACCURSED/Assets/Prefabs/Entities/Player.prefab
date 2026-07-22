@@ -26,12 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 261903483625927116}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.386, y: -1.05, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.38600016, y: -1.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5370293493160913605}
+  m_Father: {fileID: 245171784798243098}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &7847358959023918244
 CircleCollider2D:
@@ -387,7 +387,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 2
-  m_Sprite: {fileID: -1587070306, guid: 476fd8cee50366047a1c081cbcafe45c, type: 3}
+  m_Sprite: {fileID: -8930258900783495267, guid: 38fff49ec413c8f42a1a7fb60eb39ddb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
   m_Library: []
-  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 172e6fa02cd568748a33415b55278bec, type: 3}
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 56e8a91d407e5964bbad23404926fe78, type: 3}
 --- !u!114 &4894654611718757885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -730,7 +730,7 @@ GameObject:
   - component: {fileID: 3428935267664869359}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -749,7 +749,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2604615919093546776}
-  - {fileID: 270863364453543931}
+  - {fileID: 245171784798243098}
   - {fileID: 3644742843248152072}
   - {fileID: 4081923507988492700}
   - {fileID: 8007200270477320898}
@@ -871,11 +871,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae15e9ba8cf61e54581eaef66c4fae93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovement
+  movementState: 0
   walk: 0
   sprint: 0
-  idleTime: 0
-  timeTillSpecialIdle: 5
-  doingIdleSpecial: 0
+  timeTillSpecialIdle: 2
   idles:
   - IdleNorm
   - IdleSpecial1
@@ -884,24 +883,14 @@ MonoBehaviour:
   - Walk
   - Run
   - Sprint
-  canDash: 0
-  dashing: 0
   dashPower: 50
   dashLength: 0.1
-  dashLengthTimer: 0
   dashCoolDown: 0.5
-  dashCoolDownTimer: 0
-  gettingKnockBack: 0
-  knockBackLengths: 1
-  knockBackTimer: 0
-  movementSpeed: 10
   walkSpeed: 5
   runSpeed: 10
   sprintSpeed: 15
-  facing: 0
   attackStep: 5
   movementInput: {x: 0, y: 0}
-  movementState: 0
 --- !u!114 &6336535850343787009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -981,6 +970,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimator
   direction: 5
   eightDirections: 0
+  attackRotator: {fileID: 245171784798243098}
   libraryAssets:
   - {fileID: 7108339969198208228, guid: 65ce56df7a85bd44dbbd195ac3364ba3, type: 3}
   - {fileID: 7108339969198208228, guid: 7da89f5832658ae46824de8c72209fd6, type: 3}
@@ -1063,6 +1053,38 @@ MonoBehaviour:
   playerRef:
     particleSystem: {fileID: 8645542380604068033}
     spriteRenderer: {fileID: 8168863755395668422}
+--- !u!1 &3910803402329907517
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 245171784798243098}
+  m_Layer: 0
+  m_Name: HitBoxRotator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &245171784798243098
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3910803402329907517}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 270863364453543931}
+  m_Father: {fileID: 5370293493160913605}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5200210380206887313
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,45 @@
+using SaintsField.Editor.Playa.Renderer.BaseRenderer;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace SaintsField.Editor.Playa.Renderer
+{
+    // ReSharper disable once InconsistentNaming
+    public class DOTweenPlayRenderer: AbsRenderer
+    {
+        public DOTweenPlayRenderer(SerializedObject serializedObject, SaintsFieldWithInfo fieldWithInfo) : base(serializedObject, fieldWithInfo)
+        {
+        }
+
+        protected override bool AllowGuiColor => true;
+
+        public override void OnSearchField(string searchString)
+        {
+        }
+
+        public override void OnDestroyIMGUI()
+        {
+        }
+
+        protected override float GetFieldHeightIMGUI(float width, PreCheckResult preCheckResult)
+        {
+            return 0f;
+        }
+
+        protected override void RenderPositionTargetIMGUI(Rect position, PreCheckResult preCheckResult)
+        {
+        }
+
+#if UNITY_2021_3_OR_NEWER
+        public override void OnDestroyUIToolkit()
+        {
+        }
+
+        protected override (VisualElement target, bool needUpdate) CreateTargetUIToolkit(VisualElement inspectorRoot, VisualElement container)
+        {
+            return (null, false);
+        }
+#endif
+    }
+}

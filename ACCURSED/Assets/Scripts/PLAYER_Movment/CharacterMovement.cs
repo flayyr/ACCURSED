@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using SaintsField;
+using SaintsField.Playa;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,61 +14,62 @@ public class CharacterMovement : MonoBehaviour
         launched, // when player is moved by foreign object (knockback / dash) - disables basic movement
     }
 
+    #region State Control
+    [LayoutStart("State", ELayout.FoldoutBox)]
+    public MovementState movementState; // used to manage when the player should have full control vs when they are knocked back/ dashing
+
+    #endregion
 
     #region Movement Toggles (Walk/Sprint)
-    [SerializeField] public bool walk; // checks if the player toggled walk
-    [SerializeField] public bool sprint; // checks if the player is holding spring
+    [LayoutStart("Move Toggles", ELayout.FoldoutBox)]
+    [SerializeField][ReadOnly] public bool walk; // checks if the player toggled walk
+    [SerializeField][ReadOnly] public bool sprint; // checks if the player is holding spring
     #endregion
 
     #region Animations
-    [SerializeField] private float idleTime;
+    [LayoutStart("Animation Names", ELayout.FoldoutBox)]
+    private float idleTime;
     [SerializeField] private float timeTillSpecialIdle;
-    [SerializeField] private bool doingIdleSpecial;
+    private bool doingIdleSpecial;
     [SerializeField] public List<string> idles; //first is the normal idle the rest are the special ones that happen randomly
     [SerializeField] public List<string> movements; // 0 is walk, 1 is run, 2 is sprint (will be multiples of of this for each direction bc the animations later)
     #endregion
 
 
     #region Dash
-    [SerializeField] private bool canDash; // bool to check if can dash (modded by dash cooldown stuff)
-    [SerializeField] private bool dashing; // bool to check if you are dashing
+    [LayoutStart("Dash", ELayout.FoldoutBox)]
+    [ReadOnly] private bool canDash; // bool to check if can dash (modded by dash cooldown stuff)
+    [ReadOnly] private bool dashing; // bool to check if you are dashing
 
     [SerializeField] private float dashPower; // the force magnetitude
 
     [SerializeField] private float dashLength; // seconds that the dash lasts
-    [SerializeField] private float dashLengthTimer; // timer used to track the length
+    private float dashLengthTimer; // timer used to track the length
 
     [SerializeField] private float dashCoolDown; // seconds to wait after dashing to dash again
-    [SerializeField] private float dashCoolDownTimer; // timer used to track the cooldown
+    private float dashCoolDownTimer; // timer used to track the cooldown
     #endregion
 
     #region Knockback
-    [SerializeField] private bool gettingKnockBack;
-    [SerializeField] private float knockBackLengths;
-    [SerializeField] private float knockBackTimer;
+    private bool gettingKnockBack;
+    private float knockBackLengths;
+    private float knockBackTimer;
     #endregion
 
     #region Movment
-    [SerializeField] private float movementSpeed = 10; // USE THIS MOVEMENT SPEED
+    [LayoutStart("Movement Modification", ELayout.FoldoutBox)]
+    [ReadOnly] private float movementSpeed = 10; // USE THIS MOVEMENT SPEED
     [SerializeField] public float walkSpeed = 5; // changes movementSpeed to this when walking
     [SerializeField] public float runSpeed = 10; // changes movementSpeed to this when running (normal)
     [SerializeField] public float sprintSpeed = 15; // changes movementSpeed to this when sprinting
-    [SerializeField] float facing;
     [SerializeField] float attackStep;
     #endregion
 
 
     #region Input
-    public Vector2 movementInput; // input
+    [HideInInspector] public Vector2 movementInput; // input
 
     #endregion
-
-
-    #region State Control
-    public MovementState movementState; // used to manage when the player should have full control vs when they are knocked back/ dashing
-
-    #endregion
-
 
     #region Refrences
     CharacterCombat cCombat;
@@ -100,7 +103,7 @@ public class CharacterMovement : MonoBehaviour
     {
         BaseMovement();
         TimerUpdates();
-        if(cAnimator!=null)
+        if (cAnimator != null)
             AnimationUpdate();
     }
 
@@ -215,8 +218,8 @@ public class CharacterMovement : MonoBehaviour
 
     public void UpdateRotation()
     {
-        if(cAnimator != null)
-        cAnimator.SetFacingDirection(movementInput);
+        if (cAnimator != null)
+            cAnimator.SetFacingDirection(movementInput);
 
         /* for shaun :P
         if (movementInput.x == 0 && movementInput.y > 0) facing = 180;

@@ -4,6 +4,8 @@ public class GlobalUIController : MonoBehaviour
 {
     public static GlobalUIController Instance { get; private set; }
 
+    [SerializeField] public GameObject Player;
+
     private bool isOtherUIOpen;
 
     void Awake()
@@ -31,11 +33,11 @@ public class GlobalUIController : MonoBehaviour
             || TravelMenuController.Instance != null && TravelMenuController.Instance.getIsOpen())
         {
             isOtherUIOpen = true;
-            
+
             //|| !inventoryUI.activeSelf && !statusUI.activeSelf;
 
         }
-        isOtherUIOpen = false;
+        else { isOtherUIOpen = false; }
         return isOtherUIOpen;
     }
 }

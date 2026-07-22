@@ -1,0 +1,227 @@
+#if UNITY_2021_3_OR_NEWER && !SAINTSFIELD_UI_TOOLKIT_DISABLE
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using SaintsField.Editor.UIToolkitElements;
+using SaintsField.Editor.Utils;
+using SaintsField.Interfaces;
+using UnityEditor;
+using UnityEditor.UIElements;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace SaintsField.Editor.Drawers.LayerDrawer
+{
+    public partial class LayerAttributeDrawer
+    {
+        // private static string NameLayer(SerializedProperty property) => $"{property.propertyPath}__Layer";
+        // private static string NameHelpBox(SerializedProperty property) => $"{property.propertyPath}__Layer_HelpBox";
+
+        protected override VisualElement CreateFieldUIToolKit(SerializedProperty property,
+            ISaintsAttribute saintsAttribute,
+            IReadOnlyList<PropertyAttribute> allAttributes,
+            VisualElement container, FieldInfo info, object parent)
+        {
+            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+            switch (property.propertyType)
+            {
+                case SerializedPropertyType.Integer:
+                {
+                    LayerIntDropdownElement intDropdownElement = new LayerIntDropdownElement
+                    {
+                        bindingPath = property.propertyPath
+                    };
+                    IntDropdownField intDropdownField = new IntDropdownField(GetPreferredLabel(property), intDropdownElement);
+                    intDropdownField.AddToClassList(IntDropdownField.alignedFieldUssClassName);
+                    intDropdownField.AddToClassList(ClassAllowDisable);
+                    if (!string.IsNullOrEmpty(property.tooltip) && intDropdownField.labelElement != null)
+                    {
+                        intDropdownField.labelElement.tooltip = property.tooltip;
+                    }
+                    return intDropdownField;
+                }
+                case SerializedPropertyType.String:
+                {
+                    LayerStringDropdownElement layerStringStringDropdown = new LayerStringDropdownElement
+                    {
+                        bindingPath = property.propertyPath
+                    };
+                    StringDropdownField stringDropdownField = new StringDropdownField(GetPreferredLabel(property), layerStringStringDropdown);
+                    stringDropdownField.AddToClassList(IntDropdownField.alignedFieldUssClassName);
+                    stringDropdownField.AddToClassList(ClassAllowDisable);
+                    if (!string.IsNullOrEmpty(property.tooltip) && stringDropdownField.labelElement != null)
+                    {
+                        stringDropdownField.labelElement.tooltip = property.tooltip;
+                    }
+                    return stringDropdownField;
+                }
+                case SerializedPropertyType.LayerMask:
+                {
+                    LayerMaskDropdownElement layerMaskDropdownElement = new LayerMaskDropdownElement
+                        {
+                            bindingPath = property.propertyPath
+                        };
+                    LayerMaskDropdownField layerMaskDropdownField =
+                        new LayerMaskDropdownField(GetPreferredLabel(property), layerMaskDropdownElement)
+                        {
+                            bindingPath = property.propertyPath
+                        };
+                    layerMaskDropdownField.AddToClassList(LayerMaskDropdownField.alignedFieldUssClassName);
+                    layerMaskDropdownField.AddToClassList(ClassAllowDisable);
+                    if (!string.IsNullOrEmpty(property.tooltip) && layerMaskDropdownField.labelElement != null)
+                    {
+                        layerMaskDropdownField.labelElement.tooltip = property.tooltip;
+                    }
+                    // layerMaskDropdownElement.BindProperty(property);
+                    // Debug.Log($"return {layerMaskDropdownElement}");
+                    return layerMaskDropdownField;
+                }
+                default:
+                    return new VisualElement();
+            }
+            // int curSelected = property.propertyType == SerializedPropertyType.Integer
+            //     ? property.intValue
+            //     : LayerMask.NameToLayer(property.stringValue);
+            //
+            // LayerField layerField = new LayerField(GetPreferredLabel(property), curSelected)
+            // {
+            //     name = NameLayer(property),
+            // };
+            // layerField.AddToClassList(BaseField<Object>.alignedFieldUssClassName);
+            // layerField.AddToClassList(ClassAllowDisable);
+            //
+            // return layerField;
+        }
+
+        // protected override VisualElement CreateBelowUIToolkit(SerializedProperty property,
+        //     ISaintsAttribute saintsAttribute, int index,
+        //     IReadOnlyList<PropertyAttribute> allAttributes,
+        //     VisualElement container, FieldInfo info, object parent)
+        // {
+        //     return new HelpBox("", HelpBoxMessageType.Error)
+        //     {
+        //         style =
+        //         {
+        //             display = DisplayStyle.None,
+        //             flexGrow = 1,
+        //         },
+        //         name = NameHelpBox(property),
+        //     };
+        // }
+
+        protected override void OnAwakeUIToolkit(SerializedProperty property, ISaintsAttribute saintsAttribute,
+            int index, IReadOnlyList<PropertyAttribute> allAttributes, VisualElement container,
+            Action<object> onValueChangedCallback, FieldInfo info, object parent)
+        {
+            // HelpBox helpBox = container.Q<HelpBox>(NameHelpBox(property));
+            // RefreshHelpBox(property, helpBox);
+
+            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+            switch (property.propertyType)
+            {
+                case SerializedPropertyType.Integer:
+                {
+                    IntDropdownField intDropdownField = container.Q<IntDropdownField>();
+                    AddContextualMenuManipulator(intDropdownField, property, onValueChangedCallback, info, parent);
+                    LayerIntDropdownElement layerIntDropdownElement = intDropdownField.Q<LayerIntDropdownElement>();
+                    layerIntDropdownElement.BindDrop(intDropdownField);
+                    // layerIntDropdownElement.RegisterValueChangedCallback(v => onValueChangedCallback(v.newValue));
+                    intDropdownField.TrackPropertyValue(property, v => onValueChangedCallback(v.intValue));
+
+                    // intDropdownField.Button.clicked += () => MakeDropdown(property, intDropdownField, onValueChangedCallback, info, parent);
+                }
+                    break;
+                case SerializedPropertyType.String:
+                {
+                    StringDropdownField layerStringField = container.Q<StringDropdownField>();
+                    AddContextualMenuManipulator(layerStringField, property, onValueChangedCallback, info, parent);
+                    LayerStringDropdownElement layerStringDropdownElement = layerStringField.Q<LayerStringDropdownElement>();
+                    layerStringDropdownElement.BindDrop(layerStringField);
+                    // layerStringDropdownElement.RegisterValueChangedCallback(v => onValueChangedCallback(v.newValue));
+
+                    layerStringField.TrackPropertyValue(property, v => onValueChangedCallback(v.stringValue));
+                    // layerStringField.Button.clicked += () => MakeDropdown(property, layerStringField, onValueChangedCallback, info, parent);
+                }
+                    break;
+                case SerializedPropertyType.LayerMask:
+                {
+                    LayerMaskDropdownField layerMaskField = container.Q<LayerMaskDropdownField>();
+                    AddContextualMenuManipulator(layerMaskField, property, onValueChangedCallback, info, parent);
+
+                    layerMaskField.TrackPropertyValue(property, v => onValueChangedCallback(v.intValue));
+                    // layerMaskField.RegisterValueChangedCallback(v =>
+                    //     onValueChangedCallback(new LayerMask
+                    //     {
+                    //         value = v.newValue,
+                    //     }));
+                }
+                    break;
+                default:
+                    return;
+            }
+        }
+
+        private static void AddContextualMenuManipulator(VisualElement root, SerializedProperty property,
+            Action<object> onValueChangedCallback, FieldInfo info, object parent)
+        {
+            UIToolkitUtils.AddContextualMenuManipulator(root, property,
+                () => Util.PropertyChangedCallback(property, info, onValueChangedCallback));
+
+            bool isString = property.propertyType == SerializedPropertyType.String;
+            bool isMask = property.propertyType == SerializedPropertyType.LayerMask;
+            root.AddManipulator(new ContextualMenuManipulator(evt =>
+            {
+                string clipboardText = EditorGUIUtility.systemCopyBuffer;
+                if (string.IsNullOrEmpty(clipboardText))
+                {
+                    return;
+                }
+
+                bool canBeInt = int.TryParse(clipboardText, out int clipboardInt);
+
+                if (isString)
+                {
+                    foreach (LayerUtils.LayerInfo layerInfo in LayerUtils.GetAllLayers())
+                    {
+                        if (layerInfo.Name == clipboardText
+                            || canBeInt && layerInfo.Value == clipboardInt)
+                        {
+                            evt.menu.AppendAction($"Paste \"{layerInfo.Name}\"", _ =>
+                            {
+                                property.stringValue = layerInfo.Name;
+                                ReflectUtils.SetValue(property.propertyPath, property.serializedObject.targetObject, info, parent, layerInfo.Name);
+                                property.serializedObject.ApplyModifiedProperties();
+                                onValueChangedCallback.Invoke(layerInfo.Name);
+                            });
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (LayerUtils.LayerInfo layerInfo in LayerUtils.GetAllLayers())
+                    {
+                        if (layerInfo.Name == clipboardText
+                            || canBeInt && (
+                                    isMask
+                                        ? layerInfo.Mask == clipboardInt
+                                        : layerInfo.Value == clipboardInt
+                                ))
+                        {
+                            evt.menu.AppendAction($"Paste \"{layerInfo.Name}\"({layerInfo.Value})", _ =>
+                            {
+                                int targetValue = isMask ? layerInfo.Mask : layerInfo.Value;
+                                property.intValue = targetValue;
+                                ReflectUtils.SetValue(property.propertyPath, property.serializedObject.targetObject, info, parent, targetValue);
+                                property.serializedObject.ApplyModifiedProperties();
+                                onValueChangedCallback.Invoke(targetValue);
+                            });
+                            return;
+                        }
+                    }
+                }
+            }));
+        }
+    }
+}
+#endif

@@ -8,7 +8,9 @@ public class InteractableObjectManager : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private string promptText;
 
-    private bool promptOpen = false;
+    private bool isInsideTrigger;
+
+    public static bool promptOpen = false;
 
     void Awake()
     {
@@ -17,23 +19,44 @@ public class InteractableObjectManager : MonoBehaviour
 
     void Update()
     {
-        
+        if (isInsideTrigger && !GlobalUIController.Instance.CheckIfOtherUIOpen() && !promptOpen)
+        {
+            
+            OpenPrompt();
+        }
+
+        //Debug.Log(isInsideTrigger + "POOP");
+        //Debug.Log(GlobalUIController.Instance.CheckIfOtherUIOpen() + "POOOOP");
+        //Debug.Log(!promptOpen + "POOOOOOOOOOOOOP");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        isInsideTrigger = true;
+        /*if (!promptOpen)
+        {
+            OpenPrompt();
+        }*/
+       
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (!promptOpen)
-        {
-            Debug.Log("prompt appear");
-            promptOpen = true;
-            ToolTipManager.Instance.Prompt(promptText, obj);
-        }
-       
+        isInsideTrigger = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        isInsideTrigger = false;
         promptOpen = false;
         ToolTipManager.Instance.ManuallyRemovePrompt();
     }
+
+    private void OpenPrompt()
+    {
+        //Debug.Log("prompt appear");
+        promptOpen = true;
+        ToolTipManager.Instance.Prompt(promptText, obj);
+    }
+
 }

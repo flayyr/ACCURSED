@@ -1,0 +1,124 @@
+#if UNITY_2021_3_OR_NEWER
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using SaintsField.Editor.Utils;
+using SaintsField.Interfaces;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace SaintsField.Editor.Drawers.InputReadOnlyDrawer
+{
+    public partial class InputReadOnlyAttributeDrawer
+    {
+
+        private static string NameReadOnly(SerializedProperty property, int index) => $"{SerializedUtils.GetUniqueId(property)}_{index}__InputReadOnly";
+
+        private static string ClassReadOnly(SerializedProperty property) => $"{SerializedUtils.GetUniqueId(property)}__InputReadOnly";
+
+        private static string NameReadOnlyHelpBox(SerializedProperty property, int index) => $"{SerializedUtils.GetUniqueId(property)}_{index}__InputReadOnly_HelpBox";
+
+        protected override VisualElement CreateAboveUIToolkit(SerializedProperty property,
+            ISaintsAttribute saintsAttribute, int index,
+            VisualElement container, FieldInfo info, object parent)
+        {
+            VisualElement root = new VisualElement
+            {
+                name = NameReadOnly(property, index),
+                userData = (InputReadOnlyAttribute)saintsAttribute,
+            };
+            root.AddToClassList(ClassReadOnly(property));
+            return root;
+        }
+
+        protected override VisualElement CreateBelowUIToolkit(SerializedProperty property,
+            ISaintsAttribute saintsAttribute, int index,
+            IReadOnlyList<PropertyAttribute> allAttributes,
+            VisualElement container, FieldInfo info, object parent)
+        {
+            HelpBox helpBox = new HelpBox("", HelpBoxMessageType.Error)
+            {
+                name = NameReadOnlyHelpBox(property, index),
+                style =
+                {
+                    display = DisplayStyle.None,
+                },
+            };
+            helpBox.AddToClassList(ClassAllowDisable);
+            return helpBox;
+        }
+
+        protected override void OnUpdateUIToolkit(SerializedProperty property, ISaintsAttribute saintsAttribute,
+            int index, IReadOnlyList<PropertyAttribute> allAttributes, VisualElement container,
+            Action<object> onValueChangedCallback, FieldInfo info)
+        {
+            IReadOnlyList<VisualElement> visibilityElements =
+                container.Query<VisualElement>(className: ClassReadOnly(property)).ToList();
+            VisualElement topElement = visibilityElements[0];
+
+            if (topElement.name != NameReadOnly(property, index))
+            {
+                return;
+            }
+
+            VisualElement fieldTarget =
+                container.Q<VisualElement>(className: ClassFieldUIToolkit(property));
+
+            bool curReadOnly = !fieldTarget.enabledSelf;
+
+            List<string> errors = new List<string>();
+            // List<bool> nowReadOnlyResult = new List<bool>();
+            bool nowReadOnly = false;
+#if SAINTSFIELD_DEBUG && SAINTSFIELD_DEBUG_READ_ONLY
+            Debug.Log($"curReadOnly={curReadOnly}");
+#endif
+            object parent = SerializedUtils.GetFieldInfoAndDirectParent(property).parent;
+            (string error, bool readOnly) = InputReadOnlyUtils.IsDisabled(
+                visibilityElements.Select(each => (InputReadOnlyAttribute) each.userData).ToArray(),
+                property,
+                info,
+                parent);
+
+            if (error != "")
+            {
+                errors.Add(error);
+                // nowReadOnlyResult.Add(false);
+            }
+            else
+            {
+                if (readOnly)
+                {
+#if SAINTSFIELD_DEBUG && SAINTSFIELD_DEBUG_READ_ONLY
+                        Debug.Log($"nowReadOnly=true");
+#endif
+                    nowReadOnly = true;
+                }
+            }
+
+            // bool nowReadOnly = nowReadOnlyResult.Any(b => b);
+
+            // Debug.Log($"{curReadOnly}/{nowReadOnly}");
+
+            if (curReadOnly != nowReadOnly)
+            {
+#if SAINTSFIELD_DEBUG && SAINTSFIELD_DEBUG_READ_ONLY
+                Debug.Log($"setReadOnly={nowReadOnly}, count={container.Query<VisualElement>(className: ClassAllowDisable).ToList().Count()}");
+#endif
+                // container.SetEnabled(!nowReadOnly);
+                fieldTarget.SetEnabled(!nowReadOnly);
+            }
+
+            HelpBox helpBox = container.Q<HelpBox>(NameReadOnlyHelpBox(property, index));
+            string joinedError = string.Join("\n\n", errors);
+            // ReSharper disable once InvertIf
+            if (helpBox.text != joinedError)
+            {
+                helpBox.text = joinedError;
+                helpBox.style.display = joinedError == "" ? DisplayStyle.None : DisplayStyle.Flex;
+            }
+        }
+    }
+}
+#endif

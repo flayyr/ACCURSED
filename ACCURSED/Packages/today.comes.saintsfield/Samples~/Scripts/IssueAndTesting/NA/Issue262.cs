@@ -1,0 +1,35 @@
+using UnityEngine;
+
+namespace SaintsField.Samples.Scripts.IssueAndTesting.NA
+{
+    public class Issue262 : MonoBehaviour
+    {
+        [
+            SerializeField,
+            Header("Center message"),
+#if SAINTSFIELD_SAMPLE_NAUGHYTATTRIBUTES
+            NaughtyAttributes.Required,
+#else
+            FieldInfoBox("NaughtyAttributes not installed"),
+#endif
+        ]
+
+#pragma warning disable 0262
+#pragma warning disable 0414
+        // ReSharper disable once NotAccessedField.Local
+        // ReSharper disable once InconsistentNaming
+        private Canvas naCenterMessageCanvas = null;
+#pragma warning restore 0414
+#pragma warning restore 0262
+
+        // nah, SaintsField always render the error message below the field so...
+        [
+            SerializeField,
+            Header("Center message"),
+            Required,
+        ]
+        // ReSharper disable once NotAccessedField.Local
+        // ReSharper disable once InconsistentNaming
+        private Canvas centerMessageCanvas;
+    }
+}
