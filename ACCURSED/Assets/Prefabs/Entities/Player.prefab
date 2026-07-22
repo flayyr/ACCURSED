@@ -957,6 +957,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb9b9abd7c23cc47a5ce8ecfb7e8525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  disableControl: 0
 --- !u!114 &8817843868832260846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1023,6 +1024,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 802e8324263a44740a24785a84fe8c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDeath
+  respawnAspect: {fileID: 0}
+  deathWaitBeforeFadeTime: 1
 --- !u!114 &3428935267664869359
 MonoBehaviour:
   m_ObjectHideFlags: 0

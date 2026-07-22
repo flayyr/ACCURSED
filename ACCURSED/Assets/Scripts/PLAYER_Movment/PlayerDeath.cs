@@ -1,16 +1,32 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerDeath : CharacterDeath
 {
-    public override void Die()
+    [SerializeField] AspectSO respawnAspect;
+    [SerializeField] float deathWaitBeforeFadeTime;
+
+    public void SetRespawnAspect(AspectSO aspect)
     {
-        Debug.Log("Player Die");
+        respawnAspect = aspect;
     }
 
-    public void Respawn(RespawnPointSO respawnData)
+    public override void Die()
     {
-        SceneManager.LoadScene(respawnData.respawnSceneName);
-        transform.position = respawnData.respawnTransform.position;
+        GetComponent<PlayerController>().disableControl = true;
+        Invoke("StartRespawnTransition", deathWaitBeforeFadeTime);
+    }
+
+    public void StartRespawnTransition()
+    {
+        RoomTransitionWithoutPlayer.Instance.BeginTransition(respawnAspect.sceneName, ResetPlayer);
+    }
+
+    private void ResetPlayer()
+    {
+        GetComponent<PlayerController>().disableControl = false;
+        transform.position = respawnAspect.position;
+        GetComponent<PlayerStatistics>().Reset();
     }
 }
