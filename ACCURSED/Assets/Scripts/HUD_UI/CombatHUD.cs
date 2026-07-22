@@ -12,8 +12,8 @@ public class CombatHUD : MonoBehaviour
     [SerializeField] AbilityUIDisplay remembranceUI;
     [SerializeField] HealthDisplay healthUI;
     [Space]
-    [SerializeField] PlayerStatistics playerStatistics;
-    [SerializeField] PlayerAbilities playerAbilities;
+    PlayerStatistics playerStatistics;
+    PlayerAbilities playerAbilities;
 
     bool showing = true;
 
@@ -25,6 +25,9 @@ public class CombatHUD : MonoBehaviour
     {
         canvasGroup.alpha = 1f;
         currentShowingTime = 0;
+
+        playerStatistics = PersistentPlayer.Instance.gameObject.GetComponent<PlayerStatistics>();
+        playerAbilities = PersistentPlayer.Instance.gameObject.GetComponent<PlayerAbilities>();
 
         if(playerStatistics != null)
         {
