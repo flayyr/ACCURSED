@@ -108,29 +108,29 @@ public class SettingsMenuNavigator : MonoBehaviour
     {
         if (currentArea == NavigationArea.Tabs)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 SelectTab(selectedTabIndex - 1, true);
             }
 
-            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 SelectTab(selectedTabIndex + 1, true);
             }
 
-            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 MoveFromTabsToOptions();
             }
         }
         else if (currentArea == NavigationArea.Options)
         {
-            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 SelectOption(selectedOptionIndex + 1);
             }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 if (selectedOptionIndex <= 0)
                 {
@@ -175,12 +175,12 @@ public class SettingsMenuNavigator : MonoBehaviour
             return;
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             activeSlider.AdjustSlider(-sliderKeyboardSpeed * Time.unscaledDeltaTime);
         }
 
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             activeSlider.AdjustSlider(sliderKeyboardSpeed * Time.unscaledDeltaTime);
         }
