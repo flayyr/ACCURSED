@@ -684,6 +684,8 @@ MonoBehaviour:
   dashPower: 0
   dashLength: 0
   dashCoolDown: 0
+  dashInvincinbleTime: 0
+  hurtBox: {fileID: 0}
   walkSpeed: 5
   runSpeed: 10
   sprintSpeed: 15
@@ -61158,8 +61160,8 @@ MonoBehaviour:
   lm_hurtbox:
     serializedVersion: 2
     m_Bits: 128
-  invinsible: 0
-  afterHurtInvinsibleDuration: 0.2
+  invincible: 0
+  afterHurtInvincibleDuration: 0.2
   personalHurtBoxes: []
   personalHitBoxes: []
 --- !u!61 &1192276702
@@ -61412,8 +61414,8 @@ MonoBehaviour:
   lm_hurtbox:
     serializedVersion: 2
     m_Bits: 128
-  invinsible: 0
-  afterHurtInvinsibleDuration: 0.2
+  invincible: 0
+  afterHurtInvincibleDuration: 0.2
   personalHurtBoxes: []
   personalHitBoxes: []
 --- !u!61 &1228454603
@@ -62774,6 +62776,8 @@ MonoBehaviour:
   dashPower: 0
   dashLength: 0
   dashCoolDown: 0
+  dashInvincinbleTime: 0
+  hurtBox: {fileID: 0}
   walkSpeed: 5
   runSpeed: 10
   sprintSpeed: 15

@@ -8,8 +8,8 @@ public class HurtBox : MonoBehaviour
     [SerializeField] LayerMask lm_hitbox;
     [SerializeField] LayerMask lm_hurtbox;
 
-    [SerializeField] bool invinsible = false;
-    [SerializeField] float afterHurtInvinsibleDuration = 0.2f;
+    [SerializeField] bool invincible = false;
+    [SerializeField] float afterHurtInvincibleDuration = 0.2f;
 
     [SerializeField] List<GameObject> personalHurtBoxes = new List<GameObject>();
     [SerializeField] List<GameObject> personalHitBoxes = new List<GameObject>();
@@ -25,7 +25,7 @@ public class HurtBox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((lm_hitbox & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer && !personalHitBoxes.Contains(collision.gameObject) && invinsible == false)
+        if ((lm_hitbox & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer && !personalHitBoxes.Contains(collision.gameObject) && invincible == false)
         {
             // Identify Hitbox
             var hitBox = collision.gameObject.GetComponent<HitBox>();
@@ -33,7 +33,7 @@ public class HurtBox : MonoBehaviour
 
             if (hitBox.originObject != transform.root.gameObject)
             {
-                InvinsibleForSeconds(afterHurtInvinsibleDuration);
+                InvincibleForSeconds(afterHurtInvincibleDuration);
 
                 // Use Hitbox info to affect me
                 cMovement.Knockback(direction, hitBox.knockBackPower, true);
@@ -44,15 +44,15 @@ public class HurtBox : MonoBehaviour
         }
     }
 
-    public void InvinsibleForSeconds(float seconds)
+    public void InvincibleForSeconds(float seconds)
     {
         StartCoroutine(InvisibilityTime(seconds));
     }
 
     IEnumerator InvisibilityTime(float duration)
     {
-        invinsible = true;
+        invincible = true;
         yield return new WaitForSeconds(duration);
-        invinsible = false;
+        invincible = false;
     }
 }
