@@ -1,0 +1,538 @@
+#if UNITY_2021_3_OR_NEWER
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using SaintsField.Editor.Core;
+using SaintsField.Editor.Drawers.ValueButtonsDrawer;
+using SaintsField.Editor.Utils;
+using SaintsField.Editor.Utils.WaitableUtils;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UIElements;
+
+namespace SaintsField.Editor.UIToolkitElements.ValueButtons
+{
+    public abstract class AbsValueButtonsArrangeElement<T>: VisualElement, Util.ITicker
+        where T: AbsValueButton
+    {
+        private readonly AbsValueButtonsCalcElement _valueButtonsCalcElement;
+        private readonly AbsValueButtonsRow<T> _mainRow;
+        private readonly List<AbsValueButtonsRow<T>> _subRows = new List<AbsValueButtonsRow<T>>();
+        private bool _greedy = true;
+        public readonly UnityEvent<object> OnButtonClicked = new UnityEvent<object>();
+
+        protected abstract AbsValueButtonsRow<T> MakeValueButtonsRow();
+
+        protected AbsValueButtonsArrangeElement(AbsValueButtonsCalcElement valueButtonsCalcElement, AbsValueButtonsRow<T> mainRow)
+        {
+            style.position = Position.Relative;
+
+            valueButtonsCalcElement.style.position = Position.Absolute;
+            valueButtonsCalcElement.style.top = 0;
+            valueButtonsCalcElement.style.left = 0;
+
+            Add(_valueButtonsCalcElement = valueButtonsCalcElement);
+            // ReSharper disable once VirtualMemberCallInConstructor
+            Add(_mainRow = mainRow);
+            _mainRow.OnButtonClicked.AddListener(OnButtonClicked.Invoke);
+
+            RegisterCallback<GeometryChangedEvent>(OnGeometryChangedEvent);
+            _valueButtonsCalcElement.AddReadyListener(OnCalcReadyEvent);
+            // RegisterCallback<AttachToPanelEvent>(_ => CheckWidth());
+            UIToolkitUtils.OnAttachToPanelOnce(this, _ =>
+            {
+                schedule.Execute(LoopCheck).Every(150);
+            });
+        }
+
+        private void LoopCheck()
+        {
+            if (_results != null && _rearrangeDone)
+            {
+                return;
+            }
+
+            // if (_pending)
+            // {
+            //     return;
+            // }
+            // Debug.Log("Check width...");
+
+            CheckWidth();
+        }
+
+        private float _selfWidth = -1;
+        private float _subWidth = -1;
+
+        private void OnGeometryChangedEvent(GeometryChangedEvent _)
+        {
+            // Debug.Log("OnGeometryChangedEvent");
+            // if (SubContainer != null && SubContainer.style.display == DisplayStyle.None)
+            // {
+            //     return;
+            // }
+
+            CheckWidth();
+        }
+
+        private void CheckWidth()
+        {
+            bool changed = false;
+
+            if (_subContainer != null)
+            {
+                float subResolvedWidth = _subContainer.resolvedStyle.width;
+                if (!double.IsNaN(subResolvedWidth) && subResolvedWidth > 0)
+                {
+                    if (Math.Abs(_subWidth - subResolvedWidth) > float.Epsilon)
+                    {
+                        changed = true;
+                        _subWidth = subResolvedWidth;
+                    }
+                }
+            }
+            else
+            {
+                // Debug.Log("No subcontainer set, skip");
+                // return false;
+                return;
+            }
+
+            float resolvedWidth = resolvedStyle.width;
+            if (!double.IsNaN(resolvedWidth) && resolvedWidth > 0)
+            {
+                float useWidth = Mathf.Max(1, resolvedWidth - 18);  // remove the button space
+                if (Math.Abs(_selfWidth - useWidth) > float.Epsilon)
+                {
+                    changed = true;
+                    _selfWidth = useWidth;
+                }
+            }
+
+            if (changed || !_rearrangeDone)
+            {
+                _rearrangeDone = false;
+                // Debug.Log("DoReArrange");
+                DoReArrange();
+            }
+
+            // if (_selfWidth > 0 && _subWidth > 0 && changed)
+            // {
+            //     // Debug.Log($"width changed {_selfWidth}, {_subWidth}, CheckArrange");
+            //     // CheckArrange();
+            //     return true;
+            // }
+            //
+            // if (_selfWidth > 0 && _subWidth > 0 && !_pending)
+            // {
+            //     // Debug.Log($"width not pending check range, CheckArrange");
+            //     // CheckArrange();
+            //     return true;
+            // }
+            //
+            // // Debug.Log($"no width changed {_selfWidth}, {_subWidth}(null={SubContainer == null}), _pending={_pending}");
+            // return false;
+        }
+
+        private VisualElement _subContainer;
+
+        public void BindSubContainer(VisualElement target)
+        {
+            _subContainer = target;
+            // _subContainer.RegisterCallback<GeometryChangedEvent>(OnGeometryChangedEvent);
+            // Debug.Log("BindSubContainer, CheckWidth");
+            CheckWidth();
+            // Debug.Log("BindSubContainer, CheckArrange");
+            // CheckArrange();
+        }
+
+        private IReadOnlyList<ValueButtonRawInfo> _curRawOptions;
+
+        public void UpdateButtons(IReadOnlyList<ValueButtonRawInfo> options)
+        {
+            _results = null;
+            _rearrangeDone = false;
+            _curRawOptions = options;
+            _valueButtonsCalcElement.SetButtonLabels(_curRawOptions.Select(each => each.DisplayChunks));
+            // Debug.Log($"UpdateButtons {options.Count}, CheckArrange");
+            // if (!CheckWidth())
+            // {
+            //     CheckArrange();
+            // }
+        }
+
+        public void SetGreedy(bool greedy)
+        {
+            if (_greedy == greedy)
+            {
+                return;
+            }
+
+            _greedy = greedy;
+            _rearrangeDone = false;
+            DoReArrange();
+        }
+
+        // private bool _pending;
+
+        // private void CheckArrange()
+        // {
+        //     _calcArrangeDone = false;
+        //     if (_subContainer == null)
+        //     {
+        //         // Debug.Log("No SubContainer, skip");
+        //         return;
+        //     }
+        //
+        //     if (_curRawOptions == null)
+        //     {
+        //         // Debug.Log("No curRawOptions, skip");
+        //         return;
+        //     }
+        //
+        //     if (_selfWidth < 0 || _subWidth < 0)
+        //     {
+        //         // Debug.Log("No width, skip");
+        //         return;
+        //     }
+        //
+        //     _pending = true;
+        //     // Debug.Log($"Start to calc {curRawOptions.Count}, set pending={_pending}");
+        //     _valueButtonsCalcElement.SetButtonLabels(_curRawOptions.Select(each => each.DisplayChunks));
+        // }
+
+        // private readonly UnityEvent<bool> _onCalcArrangeDone = new UnityEvent<bool>();
+        // private bool _calcArrangeDone;
+        // private bool _calcArrangeDoneHasRow;
+
+        private UnityAction<bool> _onCalcArrangeDoneCallback;
+
+        public void OnCalcArrangeDoneAddListener(UnityAction<bool> callback)
+        {
+            // Debug.Log($"OnCalcArrangeDoneAddListener, {_results != null}, _rearrangeDone={_rearrangeDone}");
+            if (_results != null && _rearrangeDone)
+            {
+                callback.Invoke(_results.Count > 0);
+            }
+            // Debug.Log($"OnCalcArrangeDoneAddListener: {callback}");
+            _onCalcArrangeDoneCallback = callback;
+            // _onCalcArrangeDone.AddListener(callback);
+        }
+
+        private IReadOnlyList<(IReadOnlyList<RichTextDrawer.RichTextChunk>, float)> _results;
+        private bool _rearrangeDone;
+
+        private void OnCalcReadyEvent(IReadOnlyList<(IReadOnlyList<RichTextDrawer.RichTextChunk>, float)> results)
+        {
+            _results = results;
+            // Debug.Log("OnCalcReadyEvent");
+            // if (CheckWidth())  // width changed, skip and wait for next call
+            // {
+            //     // Debug.Log("OnCalcReadyEvent width changed, skip and wait for next call");
+            //     return;
+            // }
+            //
+            // _pending = false;
+
+            DoReArrange();
+        }
+
+        private void DoReArrange()
+        {
+            if (_results == null || _results.Count != _curRawOptions.Count)
+            {
+                // Debug.Log($"_results={_results}, count {_results?.Count}-{_curRawOptions?.Count}");
+                return;
+            }
+
+            if (_curRawOptions == null)
+            {
+                // Debug.Log("No curRawOptions || count mismatch, skip");
+                return;  // wait for the next calc
+            }
+
+            if (_selfWidth < 0 || _subWidth < 0)
+            {
+                // Debug.Log($"No width {_selfWidth}/{_subWidth}, skip");
+                return;
+            }
+
+            // Debug.Log("Start range");
+
+            List<ValueButtonRawInfo> buttonInfos = new List<ValueButtonRawInfo>(_results.Count);
+            List<float> buttonWidths = new List<float>(_results.Count);
+
+            for (int index = 0; index < _results.Count; index++)
+            {
+                (IReadOnlyList<RichTextDrawer.RichTextChunk> resultChunks, float resultWidth) = _results[index];
+                ValueButtonRawInfo valueButtonRawInfo = _curRawOptions[index];
+                if (!resultChunks.SequenceEqual(valueButtonRawInfo.DisplayChunks))
+                {
+                    return;  // mismatch, must be changed during rendering. Wait next call
+                }
+
+                buttonInfos.Add(valueButtonRawInfo);
+                buttonWidths.Add(resultWidth);
+            }
+
+            List<List<ValueButtonRawInfo>> splitRowInfos = _greedy
+                ? SplitRowsGreedy(buttonInfos, buttonWidths)
+                : SplitRowsBalanced(buttonInfos, buttonWidths);
+
+            int processedIndex = 0;
+            // bool hasSubRows = false;
+            for (int index = 0; index < splitRowInfos.Count; index++)
+            {
+                processedIndex = index;
+                List<ValueButtonRawInfo> rowInfos = splitRowInfos[index];
+                AbsValueButtonsRow<T> useRow;
+                if (index == 0)
+                {
+                    useRow = _mainRow;
+                }
+                else
+                {
+                    int subRowIndex = index - 1;
+                    if (_subRows.Count <= subRowIndex)  // need to add new rows
+                    {
+                        AbsValueButtonsRow<T> newRow = MakeValueButtonsRow();
+                        newRow.OnButtonClicked.AddListener(OnButtonClicked.Invoke);
+                        _subContainer.Add(newRow);
+                        _subRows.Add(newRow);
+                        useRow = newRow;
+                    }
+                    else
+                    {
+                        useRow = _subRows[subRowIndex];
+                    }
+                }
+
+                // Debug.Log($"Set row {index} count {rowInfos.Count}({string.Join(", ", rowInfos.Select(each => each.Value))})");
+                useRow.ResetWithButtons(rowInfos);
+            }
+
+            // Debug.Log($"processedIndex={processedIndex}, _subRows={_subRows.Count}");
+
+            foreach (AbsValueButtonsRow<T> removed in Util.ShrinkListTo(_subRows, processedIndex))
+            {
+                removed.RemoveFromHierarchy();
+            }
+
+            // _calcArrangeDone = true;
+            // CalcArrangeDoneHasRow = true;
+            _rearrangeDone = true;
+            // Debug.Log($"Invoke range {_onCalcArrangeDoneCallback}");
+            _onCalcArrangeDoneCallback?.Invoke(splitRowInfos.Count > 1);
+
+            // if (processedIndex < _subRows.Count)
+            // {
+            //     for (int toRemoveIndex = _subRows.Count - 1; toRemoveIndex >= processedIndex; toRemoveIndex--)
+            //     {
+            //         // Debug.Log($"processedIndex remove index {toRemoveIndex}");
+            //         OptionButtonsRow ele = _subRows[toRemoveIndex];
+            //         ele.RemoveFromHierarchy();
+            //         _subRows.RemoveAt(toRemoveIndex);
+            //     }
+            // }
+        }
+
+        private List<List<ValueButtonRawInfo>> SplitRowsBalanced(
+            IReadOnlyList<ValueButtonRawInfo> buttonInfos,
+            IReadOnlyList<float> buttonWidths)
+        {
+            List<List<ValueButtonRawInfo>> greedyRows = SplitRowsGreedy(buttonInfos, buttonWidths);
+            int rowCount = greedyRows.Count;
+            int buttonCount = buttonInfos.Count;
+            if (rowCount <= 1 || buttonCount <= 2)
+            {
+                return greedyRows;
+            }
+
+            float[] prefixWidths = new float[buttonCount + 1];
+            for (int index = 0; index < buttonCount; index++)
+            {
+                prefixWidths[index + 1] = prefixWidths[index] + buttonWidths[index];
+            }
+
+            float[,] costs = new float[rowCount + 1, buttonCount + 1];
+            int[,] previousBreaks = new int[rowCount + 1, buttonCount + 1];
+            for (int rowIndex = 0; rowIndex <= rowCount; rowIndex++)
+            {
+                for (int buttonIndex = 0; buttonIndex <= buttonCount; buttonIndex++)
+                {
+                    costs[rowIndex, buttonIndex] = float.PositiveInfinity;
+                    previousBreaks[rowIndex, buttonIndex] = -1;
+                }
+            }
+
+            costs[0, 0] = 0;
+            for (int rowIndex = 1; rowIndex <= rowCount; rowIndex++)
+            {
+                float rowWidth = rowIndex == 1 ? _selfWidth : _subWidth;
+                for (int buttonIndex = rowIndex; buttonIndex <= buttonCount; buttonIndex++)
+                {
+                    for (int previousBreak = rowIndex - 1; previousBreak < buttonIndex; previousBreak++)
+                    {
+                        if (float.IsPositiveInfinity(costs[rowIndex - 1, previousBreak]))
+                        {
+                            continue;
+                        }
+
+                        float segmentWidth = prefixWidths[buttonIndex] - prefixWidths[previousBreak];
+                        bool isSingleOversizedButton = buttonIndex - previousBreak == 1 && segmentWidth > rowWidth;
+                        if (segmentWidth > rowWidth && !isSingleOversizedButton)
+                        {
+                            continue;
+                        }
+
+                        float unusedWidth = Mathf.Max(0, rowWidth - segmentWidth);
+                        float candidateCost = costs[rowIndex - 1, previousBreak] + unusedWidth * unusedWidth;
+                        if (candidateCost >= costs[rowIndex, buttonIndex])
+                        {
+                            continue;
+                        }
+
+                        costs[rowIndex, buttonIndex] = candidateCost;
+                        previousBreaks[rowIndex, buttonIndex] = previousBreak;
+                    }
+                }
+            }
+
+            if (previousBreaks[rowCount, buttonCount] < 0)
+            {
+                return greedyRows;
+            }
+
+            int[] breaks = new int[rowCount + 1];
+            breaks[rowCount] = buttonCount;
+            for (int rowIndex = rowCount; rowIndex > 0; rowIndex--)
+            {
+                breaks[rowIndex - 1] = previousBreaks[rowIndex, breaks[rowIndex]];
+            }
+
+            List<List<ValueButtonRawInfo>> balancedRows = new List<List<ValueButtonRawInfo>>(rowCount);
+            for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+            {
+                List<ValueButtonRawInfo> rowInfos = new List<ValueButtonRawInfo>(breaks[rowIndex + 1] - breaks[rowIndex]);
+                for (int buttonIndex = breaks[rowIndex]; buttonIndex < breaks[rowIndex + 1]; buttonIndex++)
+                {
+                    rowInfos.Add(buttonInfos[buttonIndex]);
+                }
+
+                balancedRows.Add(rowInfos);
+            }
+
+            return balancedRows;
+        }
+
+        private List<List<ValueButtonRawInfo>> SplitRowsGreedy(
+            IReadOnlyList<ValueButtonRawInfo> buttonInfos,
+            IReadOnlyList<float> buttonWidths)
+        {
+            int rowIndex = 0;
+            float accWidth = _selfWidth;
+            List<List<ValueButtonRawInfo>> splitRowInfos = new List<List<ValueButtonRawInfo>>();
+
+            for (int index = 0; index < buttonInfos.Count; index++)
+            {
+                ValueButtonRawInfo valueButtonRawInfo = buttonInfos[index];
+                float resultWidth = buttonWidths[index];
+
+                // is it a new row?
+                if (splitRowInfos.Count <= rowIndex)
+                {
+                    List<ValueButtonRawInfo> newRow = new List<ValueButtonRawInfo>
+                    {
+                        valueButtonRawInfo,
+                    };
+                    splitRowInfos.Add(newRow);
+                    accWidth = (index == 0? _selfWidth: _subWidth) - resultWidth;
+                    // Debug.Log($"On {rowIndex} add new row with {resultWidth}, left width = {accWidth}");
+                    if (accWidth < 0)
+                    {
+                        // Debug.Log($"On {rowIndex} pump to next row");
+                        rowIndex += 1;
+                    }
+                }
+                else  // old row
+                {
+                    if (accWidth < resultWidth)  // no enough space, move to next row
+                    {
+                        List<ValueButtonRawInfo> newRow = new List<ValueButtonRawInfo>
+                        {
+                            valueButtonRawInfo,
+                        };
+                        splitRowInfos.Add(newRow);
+                        accWidth = _subWidth - resultWidth;
+                        // Debug.Log($"On {rowIndex} pump to new row with {resultWidth}, left width = {accWidth}");
+                        rowIndex += 1;
+                    }
+                    else  // add item to current row
+                    {
+                        splitRowInfos[rowIndex].Add(valueButtonRawInfo);
+                        accWidth -= resultWidth;
+                        // Debug.Log($"On {rowIndex} now count={splitRowInfos[rowIndex].Count} reduce {resultWidth}, left width {accWidth}");
+                    }
+                }
+            }
+
+            return splitRowInfos;
+        }
+
+        public void RefreshCurValue(object curValue)
+        {
+            foreach (AbsValueButtonsRow<T> valueButtonsRow in _subRows.Append(_mainRow))
+            {
+                valueButtonsRow.RefreshCurValue(curValue);
+            }
+        }
+
+        private IVisualElementScheduledItem _scheduler;
+
+        public void StartTrack(Waiter waiter, Action<object> succeedCallback)
+        {
+            _scheduler?.Pause();
+
+            _scheduler = schedule.Execute(() =>
+            {
+                waiter.Update();
+                if (!waiter.SubWaiterDone())
+                {
+                    return;
+                }
+
+                Waiter.MoveNextResult moveNext = waiter.MoveNext();
+
+                if (moveNext.Exception != null)
+                {
+                    _scheduler.Pause();
+                    return;
+                }
+
+                switch (moveNext.Status)
+                {
+                    case Waiter.MoveNextStatus.Pending:
+                    {
+                        waiter.CheckCurrentNeedWaiter();
+                    }
+                        return;
+                    case Waiter.MoveNextStatus.Completed:
+                    {
+                        succeedCallback.Invoke(moveNext.ReturnValue);
+                        _scheduler.Pause();
+                    }
+                        return;
+                    case Waiter.MoveNextStatus.Cancelled:
+                    {
+                        _scheduler.Pause();
+                    }
+                        return;
+                    case Waiter.MoveNextStatus.Faulted:
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }).Every(150);
+        }
+    }
+}
+#endif

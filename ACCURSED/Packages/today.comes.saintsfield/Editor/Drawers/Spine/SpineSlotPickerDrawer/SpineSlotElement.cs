@@ -1,0 +1,79 @@
+#if UNITY_2021_3_OR_NEWER && !SAINTSFIELD_UI_TOOLKIT_DISABLE
+using System.Collections.Generic;
+using SaintsField.Editor.Core;
+using SaintsField.Editor.UIToolkitElements;
+using SaintsField.Editor.Utils;
+
+namespace SaintsField.Editor.Drawers.Spine.SpineSlotPickerDrawer
+{
+    public class SpineSlotElement: StringDropdownElement
+    {
+        private readonly RichTextDrawer _richTextDrawer = new RichTextDrawer();
+        private IReadOnlyList<SpineSlotUtils.SlotInfo> _slotInfos;
+
+        public void BindSlotInfos(IReadOnlyList<SpineSlotUtils.SlotInfo> cachedSlotInfos)
+        {
+            _slotInfos = cachedSlotInfos;
+            RefreshDisplay();
+        }
+
+        public override void SetValueWithoutNotify(string newValue)
+        {
+            CachedValue = newValue;
+            RefreshDisplay();
+        }
+
+        private void RefreshDisplay()
+        {
+            if (_slotInfos == null)
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(CachedValue))
+            {
+                Label.Clear();
+                return;
+            }
+
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (SpineSlotUtils.SlotInfo slotInfo in _slotInfos)
+            {
+                // ReSharper disable once InvertIf
+                if (slotInfo.SlotData.Name == CachedValue)
+                {
+                    UIToolkitUtils.SetLabel(Label, new[]
+                    {
+                        new RichTextDrawer.RichTextChunk(isIcon: true, content: SpineSlotUtils.IconPath),
+                        // {
+                        //     IsIcon = true,
+                        //     Content = SpineSlotUtils.IconPath,
+                        // },
+                        new RichTextDrawer.RichTextChunk(isIcon: false, content: slotInfo.SlotData.Name),
+                        // {
+                        //     IsIcon = false,
+                        //     Content = slotInfo.SlotData.Name,
+                        // },
+                    }, _richTextDrawer);
+                    return;
+                }
+            }
+
+            UIToolkitUtils.SetLabel(Label, new[]
+            {
+                new RichTextDrawer.RichTextChunk(isIcon: false, content: "?", iconColor: "#FF0000"),
+                // {
+                //     IsIcon = false,
+                //     Content = "?",
+                //     IconColor = "#FF0000",
+                // },
+                new RichTextDrawer.RichTextChunk(isIcon: false, content: $" {CachedValue}"),
+                // {
+                //     IsIcon = false,
+                //     Content = $" {CachedValue}",
+                // },
+            }, _richTextDrawer);
+        }
+    }
+}
+#endif

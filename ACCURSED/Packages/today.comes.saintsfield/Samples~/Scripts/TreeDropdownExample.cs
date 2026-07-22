@@ -1,0 +1,169 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace SaintsField.Samples.Scripts
+{
+    public class TreeDropdownExample: MonoBehaviour
+    {
+        [Dropdown(nameof(BookDrop))] public string bookName;
+
+        private IEnumerable<string> BookDrop()
+        {
+            return new[]
+            {
+                "Hackers & Painters, Vol 1",
+                "Hackers & Painters, Vol 2",
+                "The Art of Unix Programming, Vol 1",
+                "The Art of Unix Programming, Vol 2",
+                "The Mythical Man-Month, Vol 1",
+                "The Mythical Man-Month, Vol 2",
+            };
+        }
+
+        [Dropdown(nameof(QuickDrop))] public float percent;
+
+        private AdvancedDropdownList<float> QuickDrop()
+        {
+            AdvancedDropdownList<float> result = new AdvancedDropdownList<float>
+            {
+                { "20%", 0.2f },
+                { "40%", 0.4f },
+                { "60%", 0.6f },
+            };
+            // `Add` is supported
+            result.Add("80%", 0.8f);
+            // rich tag is supported
+            result.Add($"<color={EColor.GoldenRod}>100%<icon=lightMeter/redLight/>", 1f);
+            // disable is supported
+            result.Add("120%", 1.2f, true);
+            return result;
+        }
+
+        [
+            Dropdown(nameof(AdvDropdown)),
+            // PostFieldButton(nameof(Reset), "R"),
+        ] public int selectIt;
+
+        private void Reset() => selectIt = 0;
+
+        public AdvancedDropdownList<int> AdvDropdown()
+        {
+            return new AdvancedDropdownList<int>
+            {
+                // a grouped value
+                new AdvancedDropdownList<int>("First Half")
+                {
+                    // with icon
+                    new AdvancedDropdownList<int>("Monday", 1, icon: "eye.png"),
+                    // no icon
+                    new AdvancedDropdownList<int>("Tuesday", 2),
+                },
+                new AdvancedDropdownList<int>("Second Half")
+                {
+                    new AdvancedDropdownList<int>("Wednesday")
+                    {
+                        new AdvancedDropdownList<int>("Morning", 3, icon: "star.png"),
+                        new AdvancedDropdownList<int>("Afternoon", 8),
+                    },
+                    new AdvancedDropdownList<int>("Thursday", 4, true, icon: "star.png"),
+                },
+                // direct value
+                new AdvancedDropdownList<int>("Friday", 5, true),
+                AdvancedDropdownList<int>.Separator(),
+                new AdvancedDropdownList<int>("Saturday", 6, icon: "star.png"),
+                new AdvancedDropdownList<int>("Sunday", 7, icon: "star.png"),
+            };
+        }
+
+        [Serializable]
+        public struct MyStruct
+        {
+            [PostFieldButton(nameof(ShowNewValue), "Click")]
+            [OnValueChanged(nameof(ShowNewValue))]
+            [FieldAboveText(nameof(selectIt), true)]
+            [FieldLabelText("<icon=star.png /><label />")]
+            [Dropdown(nameof(AdvDropdown))] public int selectIt;
+
+            public AdvancedDropdownList<int> AdvDropdown()
+            {
+                return new AdvancedDropdownList<int>("Days")
+                {
+                    // a grouped value
+                    new AdvancedDropdownList<int>("First Half")
+                    {
+                        // with icon
+                        new AdvancedDropdownList<int>("Monday", 1, icon: "eye.png"),
+                        // no icon
+                        new AdvancedDropdownList<int>("Tuesday", 2),
+                    },
+                    new AdvancedDropdownList<int>("Second Half")
+                    {
+                        new AdvancedDropdownList<int>("Wednesday")
+                        {
+                            new AdvancedDropdownList<int>("Morning", 3, icon: "eye.png"),
+                            new AdvancedDropdownList<int>("Afternoon", 8),
+                        },
+                        new AdvancedDropdownList<int>("Thursday", 4, true, icon: "eye.png"),
+                    },
+                    // direct value
+                    new AdvancedDropdownList<int>("Friday", 5, true),
+                    AdvancedDropdownList<int>.Separator(),
+                    new AdvancedDropdownList<int>("Saturday", 6, icon: "eye.png"),
+                    new AdvancedDropdownList<int>("Sunday", 7, icon: "eye.png"),
+                };
+            }
+
+            public void ShowNewValue()
+            {
+                Debug.Log($"dropIt new value: {selectIt}");
+            }
+        }
+
+        public MyStruct strTyp;
+
+        [Serializable]
+        public enum ListEnum
+        {
+            Zero,
+            One,
+            Two,
+            Three,
+        }
+
+        [AdvancedDropdown(nameof(ListEnumDropdown))]
+        [FieldLabelText("$" + nameof(ListEnumLabel))]
+        public ListEnum[] listEnum;
+
+        private AdvancedDropdownList<ListEnum> ListEnumDropdown()
+        {
+            return new AdvancedDropdownList<ListEnum>
+            {
+                new AdvancedDropdownList<ListEnum>("Zero", ListEnum.Zero),
+                new AdvancedDropdownList<ListEnum>("One", ListEnum.One),
+                new AdvancedDropdownList<ListEnum>("Two", ListEnum.Two),
+                new AdvancedDropdownList<ListEnum>("Three", ListEnum.Three),
+            };
+        }
+
+        private string ListEnumLabel(ListEnum value, int index) => $"{value}/{listEnum[index]}";
+
+        [Serializable, Flags]
+        public enum F
+        {
+            Zero,
+            [FieldLabelText("Opt/1")]
+            One = 1,
+            [FieldLabelText("Opt/2")]
+            Two = 1 << 1,
+            [FieldLabelText("Opt/3")]
+            Three = 1 << 2,
+            [FieldLabelText("Opt/4")]
+            Four = 1 << 3,
+            Five = 1 << 4,
+        }
+
+        [FlagsDropdown]
+        public F flags;
+    }
+}

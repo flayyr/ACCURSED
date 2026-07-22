@@ -1,0 +1,24 @@
+using SaintsField.Editor.Playa.Renderer.BaseRenderer;
+using UnityEditor;
+using UnityEngine;
+
+namespace SaintsField.Editor.Playa.Renderer.ButtonCustomContextMenuFakeRenderer
+{
+    // ReSharper disable once PartialTypeWithSinglePart
+    public partial class ButtonCustomContextMenuRenderer: AbsRenderer
+    {
+        // ReSharper disable once NotAccessedField.Local
+        private readonly CustomContextMenuAttribute _customContextMenuAttribute;
+
+        public ButtonCustomContextMenuRenderer(CustomContextMenuAttribute customContextMenuAttribute, SerializedObject serializedObject, SaintsFieldWithInfo fieldWithInfo) : base(serializedObject, fieldWithInfo)
+        {
+            _customContextMenuAttribute = customContextMenuAttribute;
+        }
+
+        protected override bool AllowGuiColor => true;
+
+        public override void OnSearchField(string searchString)
+        {
+        }
+    }
+}

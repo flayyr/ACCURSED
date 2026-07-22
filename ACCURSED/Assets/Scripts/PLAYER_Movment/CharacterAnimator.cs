@@ -9,6 +9,7 @@ public class CharacterAnimator : MonoBehaviour
 {
     [SerializeField] private int direction = 5;
     [SerializeField] private bool eightDirections;
+    [SerializeField] private Transform attackRotator;
     [SerializeField] private List<SpriteLibraryAsset> libraryAssets = new List<SpriteLibraryAsset>();
     SpriteLibrary spriteLibrary;
     Animator anim;
@@ -26,6 +27,9 @@ public class CharacterAnimator : MonoBehaviour
 
         float angle = Mathf.Atan2(input.y, input.x) * Mathf.Rad2Deg;
         if (angle < 0f) angle += 360f;
+
+        // Rotate attack rotator so that the attacks shift with a turning player
+        attackRotator.eulerAngles = new Vector3(0, 0, angle + 90);
 
         // Shift by half a sector so sector boundaries fall between the 8 directions
         int sector = Mathf.FloorToInt(((angle + 22.5f) % 360f) / 45f);

@@ -1,0 +1,162 @@
+#if UNITY_2021_3_OR_NEWER
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using SaintsField.Editor.Drawers.AdvancedDropdownDrawer;
+using SaintsField.Editor.Drawers.TreeDropdownDrawer;
+using SaintsField.Editor.UIToolkitElements;
+using SaintsField.Editor.Utils;
+using SaintsField.Interfaces;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace SaintsField.Editor.Drawers.TypeReferenceTypeDrawer
+{
+    public partial class TypeReferenceDrawer
+    {
+        protected override bool UseCreateFieldUIToolKit => true;
+
+        private static string NameTypeReferenceField(SerializedProperty property) => $"{property.propertyPath}__TypeReference_Field";
+        private static string NameHelpBox(SerializedProperty property) => $"{property.propertyPath}__TypeReference_HelpBox";
+
+        protected override VisualElement CreateFieldUIToolKit(SerializedProperty property, ISaintsAttribute saintsAttribute,
+            IReadOnlyList<PropertyAttribute> allAttributes, VisualElement container, FieldInfo info, object parent)
+        {
+            UIToolkitUtils.DropdownButtonField dropdown =
+                UIToolkitUtils.MakeDropdownButtonUIToolkit(GetPreferredLabel(property));
+            dropdown.name = NameTypeReferenceField(property);
+            if (!string.IsNullOrEmpty(property.tooltip) && dropdown.labelElement != null)
+            {
+                dropdown.labelElement.tooltip = property.tooltip;
+            }
+
+            dropdown.AddToClassList(ClassAllowDisable);
+
+            EmptyPrefabOverrideElement emptyPrefabOverrideElement = new EmptyPrefabOverrideElement(property);
+            emptyPrefabOverrideElement.Add(dropdown);
+            return emptyPrefabOverrideElement;
+        }
+
+        protected override VisualElement CreateBelowUIToolkit(SerializedProperty property, ISaintsAttribute saintsAttribute, int index,
+            IReadOnlyList<PropertyAttribute> allAttributes, VisualElement container, FieldInfo info, object parent)
+        {
+            return new HelpBox("", HelpBoxMessageType.Error)
+            {
+                name = NameHelpBox(property),
+                style =
+                {
+                    display = DisplayStyle.None,
+                },
+            };
+        }
+
+        private IReadOnlyList<Assembly> _cachedAssemblies;
+        private readonly Dictionary<Assembly, Type[]> _cachedAssembliesTypes = new Dictionary<Assembly, Type[]>();
+
+        protected override void OnAwakeUIToolkit(SerializedProperty property, ISaintsAttribute saintsAttribute, int index,
+            IReadOnlyList<PropertyAttribute> allAttributes, VisualElement container, Action<object> onValueChangedCallback, FieldInfo info, object parent)
+        {
+            UIToolkitUtils.DropdownButtonField dropdown = container.Q<UIToolkitUtils.DropdownButtonField>(NameTypeReferenceField(property));
+            UIToolkitUtils.AddContextualMenuManipulator(dropdown.labelElement, property, () => Util.PropertyChangedCallback(property, info, onValueChangedCallback));
+
+            TypeReferenceAttribute typeReferenceAttribute = GetTypeReferenceAttribute(allAttributes);
+            string preSearch = typeReferenceAttribute?.DefaultSearch;
+
+            dropdown.ButtonElement.clicked += () =>
+            {
+                (string contextError, TypeReferenceContext context) = GetTypeReferenceContext(property);
+                if (contextError != "")
+                {
+                    return;
+                }
+
+                (string error, Type type) = GetSelectedType(context);
+                if (error != "")
+                {
+                    return;
+                }
+
+                (Rect worldBound, float maxHeight) = SaintsAdvancedDropdownUIToolkit.GetProperPos(dropdown.worldBound);
+                worldBound.height = SingleLineHeight;
+
+                _cachedAssemblies ??= GetAssembly(typeReferenceAttribute, parent).ToArray();
+                FillAssembliesTypes(_cachedAssemblies, _cachedAssembliesTypes);
+                AdvancedDropdownMetaInfo metaInfo = GetDropdownMetaInfo(type, typeReferenceAttribute, _cachedAssemblies, _cachedAssembliesTypes, false, parent);
+
+                // Debug.Log(metaInfo.DropdownListValue.Count);
+                SaintsTreeDropdownUIToolkit element = new SaintsTreeDropdownUIToolkit(
+                    metaInfo,
+                    dropdown.worldBound.width,
+                    maxHeight,
+                    false,
+                    (curItem, _) =>
+                    {
+                        TypeReference r = SetValue(context, curItem as Type);
+                        onValueChangedCallback.Invoke(r);
+                        return null;
+                    }
+                );
+                UnityEditor.PopupWindow.Show(worldBound, element);
+
+                if (!string.IsNullOrEmpty(preSearch))
+                {
+                    element.SetSearch(preSearch);
+                }
+            };
+
+            UpdateLabel(container, property);
+        }
+
+        protected override void OnValueChanged(SerializedProperty property, ISaintsAttribute saintsAttribute, int index, VisualElement container,
+            FieldInfo info, object parent, Action<object> onValueChangedCallback, object newValue)
+        {
+            UpdateLabel(container, property);
+        }
+
+        private static void SetHelpBox(HelpBox helpBox, string message)
+        {
+            if (string.IsNullOrEmpty(message))
+            {
+                if (helpBox.style.display != DisplayStyle.None)
+                {
+                    helpBox.style.display = DisplayStyle.None;
+                }
+
+                return;
+            }
+
+            if (helpBox.text != message)
+            {
+                helpBox.text = message;
+            }
+            if (helpBox.style.display != DisplayStyle.Flex)
+            {
+                helpBox.style.display = DisplayStyle.Flex;
+            }
+
+        }
+
+        private static void UpdateLabel(VisualElement container, SerializedProperty property)
+        {
+            UIToolkitUtils.DropdownButtonField dropdown = container.Q<UIToolkitUtils.DropdownButtonField>(NameTypeReferenceField(property));
+            HelpBox helpBox = container.Q<HelpBox>(NameHelpBox(property));
+
+            (string contextError, TypeReferenceContext context) = GetTypeReferenceContext(property);
+            (string error, Type type) = contextError == ""
+                ? GetSelectedType(context)
+                : (contextError, null);
+            SetHelpBox(helpBox, error);
+            string dropdownLabel = type == null
+                ? "null"
+                : FormatName(type, false);
+
+            if (dropdown.ButtonLabelElement.text != dropdownLabel)
+            {
+                dropdown.ButtonLabelElement.text = dropdownLabel;
+            }
+        }
+    }
+}
+#endif

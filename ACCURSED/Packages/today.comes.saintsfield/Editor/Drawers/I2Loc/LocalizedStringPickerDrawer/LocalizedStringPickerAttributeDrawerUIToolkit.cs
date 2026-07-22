@@ -1,0 +1,133 @@
+#if UNITY_2021_3_OR_NEWER
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using SaintsField.Editor.Core;
+using SaintsField.Editor.Drawers.AdvancedDropdownDrawer;
+using SaintsField.Editor.Drawers.TreeDropdownDrawer;
+using SaintsField.Editor.Utils;
+using SaintsField.Interfaces;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace SaintsField.Editor.Drawers.I2Loc.LocalizedStringPickerDrawer
+{
+    public partial class LocalizedStringPickerAttributeDrawer
+    {
+        private static string NameSelectorButton(SerializedProperty property) => $"{property.propertyPath}__LocalizedString_SelectorButton";
+        private static string NameHelpBox(SerializedProperty property) => $"{property.propertyPath}__LocalizedString_HelpBox";
+
+        protected override VisualElement CreatePostFieldUIToolkit(SerializedProperty property, ISaintsAttribute saintsAttribute, int index,
+            VisualElement container, FieldInfo info, object parent)
+        {
+            Button selectorButton = new Button
+            {
+                // text = "�?,
+                style =
+                {
+                    backgroundImage = Util.LoadResource<Texture2D>("classic-dropdown.png"),
+                    width = SingleLineHeight,
+                    marginLeft = 0,
+                    marginRight = 0,
+#if UNITY_2022_2_OR_NEWER
+                    backgroundPositionX = new BackgroundPosition(BackgroundPositionKeyword.Center),
+                    backgroundPositionY = new BackgroundPosition(BackgroundPositionKeyword.Center),
+                    backgroundRepeat = new BackgroundRepeat(Repeat.NoRepeat, Repeat.NoRepeat),
+                    backgroundSize  = new BackgroundSize(14, 14),
+#else
+                    unityBackgroundScaleMode = ScaleMode.ScaleToFit,
+#endif
+                    flexShrink = 0,
+                    flexGrow = 0,
+                },
+                name = NameSelectorButton(property),
+            };
+            selectorButton.AddToClassList(ClassAllowDisable);
+            return selectorButton;
+        }
+
+        protected override VisualElement CreateBelowUIToolkit(SerializedProperty property,
+            ISaintsAttribute saintsAttribute, int index, IReadOnlyList<PropertyAttribute> allAttributes,
+            VisualElement container, FieldInfo info, object parent)
+        {
+            HelpBox helpBoxElement = new HelpBox("", HelpBoxMessageType.Error)
+            {
+                style =
+                {
+                    display = DisplayStyle.None,
+                    flexGrow = 1,
+                    flexShrink = 1,
+                },
+                name = NameHelpBox(property),
+            };
+            helpBoxElement.AddToClassList(ClassAllowDisable);
+            return helpBoxElement;
+        }
+
+        // private bool _mismatch;
+        // private SaintsTreeDropdownUIToolkit _dropdownUICache;
+
+        protected override void OnAwakeUIToolkit(SerializedProperty property, ISaintsAttribute saintsAttribute, int index,
+            IReadOnlyList<PropertyAttribute> allAttributes, VisualElement container, Action<object> onValueChangedCallback, FieldInfo info, object parent)
+        {
+            Button selectorButton = container.Q<Button>(NameSelectorButton(property));
+            HelpBox helpBox = container.Q<HelpBox>(NameHelpBox(property));
+
+            string mismatchError = MismatchError(property);
+            if (mismatchError != "")
+            {
+                // _mismatch = true;
+                UpdateHelpBox(helpBox, mismatchError);
+                return;
+            }
+
+            VisualElement objectField = container.Q<VisualElement>(classes: ClassLabelFieldUIToolkit);
+
+            selectorButton.clickable.clicked += () =>
+            {
+                AdvancedDropdownMetaInfo metaInfo = GetMetaInfo(GetCurrentValue(property), false);
+
+                (Rect worldBound, float maxHeight) = SaintsAdvancedDropdownUIToolkit.GetProperPos(objectField.worldBound);
+
+                UnityEditor.PopupWindow.Show(worldBound, new SaintsTreeDropdownUIToolkit(
+                    metaInfo,
+                    worldBound.width,
+                    maxHeight,
+                    false,
+                    (curItem, _) =>
+                    {
+                        ApplySelection(property, info, (string)curItem, onValueChangedCallback);
+                        return null;
+                    }
+                ));
+            };
+
+            // SaintsEditorApplicationChanged.OnAnyEvent.AddListener(CleanCache);
+            // // SaintsAssetPostprocessor.OnAnyEvent.AddListener(CleanCache);
+            // LocalizationManager.OnLocalizeEvent += CleanCache;
+            // // Debug.Log("All listener done.");
+            // selectorButton.RegisterCallback<DetachFromPanelEvent>(_ =>
+            // {
+            //     SaintsEditorApplicationChanged.OnAnyEvent.RemoveListener(CleanCache);
+            //     // SaintsAssetPostprocessor.OnAnyEvent.RemoveListener(CleanCache);
+            //     LocalizationManager.OnLocalizeEvent -= CleanCache;
+            // });
+            // return;
+            //
+            // void CleanCache() => _dropdownUICache = null;
+        }
+
+        private static void UpdateHelpBox(HelpBox helpBox, string error)
+        {
+            if (helpBox.text == error)
+            {
+                return;
+            }
+
+            helpBox.style.display = string.IsNullOrEmpty(error) ? DisplayStyle.None : DisplayStyle.Flex;
+            helpBox.text = error;
+        }
+    }
+}
+#endif

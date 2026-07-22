@@ -26,12 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 261903483625927116}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.386, y: -1.05, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.38600016, y: -1.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5370293493160913605}
+  m_Father: {fileID: 245171784798243098}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &7847358959023918244
 CircleCollider2D:
@@ -749,7 +749,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2604615919093546776}
-  - {fileID: 270863364453543931}
+  - {fileID: 245171784798243098}
   - {fileID: 3644742843248152072}
   - {fileID: 4081923507988492700}
   - {fileID: 8007200270477320898}
@@ -871,11 +871,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae15e9ba8cf61e54581eaef66c4fae93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovement
+  movementState: 0
   walk: 0
   sprint: 0
-  idleTime: 0
-  timeTillSpecialIdle: 5
-  doingIdleSpecial: 0
   idles:
   - IdleNorm
   - IdleSpecial1
@@ -884,24 +882,14 @@ MonoBehaviour:
   - Walk
   - Run
   - Sprint
-  canDash: 0
-  dashing: 0
   dashPower: 50
   dashLength: 0.1
-  dashLengthTimer: 0
   dashCoolDown: 0.5
-  dashCoolDownTimer: 0
-  gettingKnockBack: 0
-  knockBackLengths: 1
-  knockBackTimer: 0
-  movementSpeed: 10
   walkSpeed: 5
   runSpeed: 10
   sprintSpeed: 15
-  facing: 0
   attackStep: 5
   movementInput: {x: 0, y: 0}
-  movementState: 0
 --- !u!114 &6336535850343787009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -926,6 +914,7 @@ MonoBehaviour:
     - name: Attack3
       enemyWindMin: 0
       enemyWindMax: 0
+  offset: {x: 0, y: 0}
   winding: 0
   currentCombo: 0
   currentAttack: 0
@@ -1060,9 +1049,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAbilities
   vestigeAbility: {fileID: 11400000, guid: 9fa7a2b6133007849ac284fb5279e02f, type: 2}
   remembranceAbility: {fileID: 11400000, guid: 606720454bcac3449beb6b3d7ecd64fd, type: 2}
+  vestigeDisplay: {fileID: 0}
+  remembranceDisplay: {fileID: 0}
   playerRef:
     particleSystem: {fileID: 8645542380604068033}
     spriteRenderer: {fileID: 8168863755395668422}
+--- !u!1 &3910803402329907517
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 245171784798243098}
+  m_Layer: 0
+  m_Name: HitBoxRotator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &245171784798243098
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3910803402329907517}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 270863364453543931}
+  m_Father: {fileID: 5370293493160913605}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5200210380206887313
 GameObject:
   m_ObjectHideFlags: 0

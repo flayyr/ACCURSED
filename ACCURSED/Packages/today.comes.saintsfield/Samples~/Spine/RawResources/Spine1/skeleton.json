@@ -1,0 +1,118 @@
+{
+"skeleton": {
+	"hash": "YOjVYb+WYYM",
+	"spine": "4.3.17",
+	"x": -6.247354,
+	"y": 65.75924,
+	"width": 1.286578,
+	"height": 1.2865753,
+	"images": "./images/",
+	"audio": "./audio"
+},
+"bones": [
+	{ "name": "root" },
+	{
+		"name": "bone",
+		"parent": "root",
+		"length": 86.68331,
+		"rotation": -39.3824,
+		"x": 1.5,
+		"y": -1.5000343,
+		"color": "ff3f00ff",
+		"icon": "ik"
+	},
+	{ "name": "bone2", "parent": "bone", "length": 103.24727, "rotation": -96.40241, "x": 86.68331 },
+	{ "name": "bone3", "parent": "bone2", "length": 80.62256, "rotation": 89.7797, "x": 103.24727 },
+	{ "name": "target", "parent": "root", "x": -62.69642, "y": -53.10865, "color": "ff3f00ff", "icon": "ik" }
+],
+"slots": [
+	{ "name": "White1", "bone": "bone3", "attachment": "White1" },
+	{ "name": "path", "bone": "bone", "attachment": "path-const2" }
+],
+"constraints": [
+	{
+		"type": "path",
+		"name": "path-con1",
+		"slot": "path",
+		"bones": [ "bone2", "bone3" ]
+	},
+	{
+		"type": "ik",
+		"name": "bone",
+		"target": "bone",
+		"bones": [ "bone2" ]
+	},
+	{
+		"type": "path",
+		"name": "path-con2",
+		"slot": "path",
+		"bones": [ "bone3" ]
+	},
+	{
+		"type": "ik",
+		"name": "target",
+		"target": "target",
+		"bones": [ "bone3" ]
+	}
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"path": {
+				"path-const1": {
+					"type": "path",
+					"lengths": [ 98.66882, 158.5693, 197.45715, 299.8299 ],
+					"vertexCount": 12,
+					"vertices": [ -3.01, 18.66, 25.04, 27.32, 53.09, 35.99, 96.27, 61.5, 118.54, 56.22, 140.81, 50.93, 131.68, 16.08, 129.36, 2.58, 127.05, -10.93, 115.68, -23.99, 104.7, -24.5, 93.73, -25.02 ]
+				},
+				"path-const2": {
+					"type": "path",
+					"lengths": [ 121.63342, 229.24115, 274.7185, 469.0399 ],
+					"vertexCount": 12,
+					"vertices": [ -70.68, 19.57, -48.57, 47.98, -26.47, 76.38, -6.96, 132.3, 25.12, 142.66, 57.19, 153.02, 103.85, 115.45, 122.08, 103.08, 140.31, 90.71, 144.13, 76.72, 139.78, 64.86, 135.43, 52.99 ]
+				}
+			},
+			"White1": {
+				"White1": { "rotation": 46.0051, "width": 1, "height": 1 }
+			}
+		}
+	},
+	{ "name": "Basic" },
+	{ "name": "Holiday" }
+],
+"events": {
+	"Event1": {},
+	"Event2": {},
+	"Event3": {}
+},
+"animations": {
+	"Idle": {
+		"bones": {
+			"bone": {
+				"rotate": [
+					{},
+					{ "time": 0.3, "value": 11.87647 },
+					{ "time": 0.6666667 }
+				]
+			}
+		},
+		"events": [
+			{ "time": 0.2, "name": "Event1" },
+			{ "time": 0.3, "name": "Event2" },
+			{ "time": 0.6666667, "name": "Event3" }
+		]
+	},
+	"Run": {
+		"bones": {
+			"bone3": {
+				"rotate": [
+					{},
+					{ "time": 0.2666667, "value": 33.20395 },
+					{ "time": 0.3333333 }
+				]
+			}
+		}
+	}
+}
+}

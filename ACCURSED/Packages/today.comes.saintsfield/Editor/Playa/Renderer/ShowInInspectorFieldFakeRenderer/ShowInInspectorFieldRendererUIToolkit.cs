@@ -1,0 +1,478 @@
+#if UNITY_2021_3_OR_NEWER
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using SaintsField.Editor.Core;
+using SaintsField.Editor.Playa.Renderer.BaseRenderer;
+using SaintsField.Editor.Utils;
+using SaintsField.Playa;
+using SaintsField.Utils;
+using UnityEngine;
+using UnityEngine.UIElements;
+#if SAINTSFIELD_NEWTONSOFT_JSON
+using Newtonsoft.Json;
+#endif
+
+
+namespace SaintsField.Editor.Playa.Renderer.ShowInInspectorFieldFakeRenderer
+{
+    public partial class ShowInInspectorFieldRenderer
+    {
+        // private VisualElement _fieldElement;
+
+        public class NativeFieldPropertyRendererErrorField: BaseField<string>
+        {
+            private readonly HelpBox _helpBox;
+            public NativeFieldPropertyRendererErrorField(string label, VisualElement visualInput) : base(label, visualInput)
+            {
+                _helpBox = (HelpBox)visualInput;
+            }
+
+            public void SetErrorMessage(string error)
+            {
+                UIToolkitUtils.SetHelpBox(_helpBox, error);
+                UIToolkitUtils.SetDisplayStyle(this, string.IsNullOrEmpty(error)? DisplayStyle.None: DisplayStyle.Flex);
+            }
+        }
+
+        private static StyleSheet _ussClassSaintsFieldEditingDisabledHide;
+
+        protected string NameContainer() => $"saints-field--native-property-field--{GetName(FieldWithInfo)}";
+        private string NameResult() => $"saints-field--native-property-field--{GetName(FieldWithInfo)}-result";
+        private string NameErrorBox() => $"saints-field--native-property-field--{GetName(FieldWithInfo)}-error";
+
+        private class DataPayload
+        {
+            public bool HasDrawer;
+            public Action<object> Setter;
+            public object Value;
+            public bool IsGeneralCollection;
+            public IReadOnlyList<object> OldCollection;
+            public bool AlwaysCheckUpdate;
+        }
+
+        // private double _lastValueChangedTime;
+
+        private NativeFieldPropertyRendererErrorField MakeNativeFieldPropertyRendererErrorField(string error)
+        {
+            NativeFieldPropertyRendererErrorField result = new NativeFieldPropertyRendererErrorField(
+                GetFriendlyName(FieldWithInfo),
+                new HelpBox(error, HelpBoxMessageType.Error)
+            )
+            {
+                name = NameErrorBox(),
+            };
+            if (InAnyHorizontalLayout)
+            {
+                result.style.flexDirection = FlexDirection.Column;
+            }
+            else
+            {
+                result.AddToClassList(NativeFieldPropertyRendererErrorField.alignedFieldUssClassName);
+            }
+
+            result.labelElement.style.color = EColor.EditorSeparator.GetColor();
+            result.SetErrorMessage(error);
+
+            return result;
+        }
+
+        public override void OnDestroyUIToolkit()
+        {
+        }
+
+        protected override (VisualElement target, bool needUpdate) CreateTargetUIToolkit(VisualElement inspectorRoot,
+            VisualElement container1)
+        {
+            // _lastValueChangedTime = EditorApplication.timeSinceStartup;
+            if (!RenderField)
+            {
+                return (null, false);
+            }
+
+            bool isSaintsSerialized = FieldWithInfo.PlayaAttributes.Any(each => each is SaintsSerializedAttribute);
+
+            (string error, object value) = GetValue(FieldWithInfo);
+            // Debug.Log($"error={error}, value={value}");
+
+            VisualElement container = new VisualElement
+            {
+                style =
+                {
+                    borderLeftWidth = isSaintsSerialized? 0: 2,
+                    borderRightWidth = isSaintsSerialized? 0: 2,
+                    borderLeftColor = EColor.EditorEmphasized.GetColor(),
+                    borderRightColor = EColor.EditorEmphasized.GetColor(),
+                    borderTopLeftRadius = 3,
+                    borderBottomLeftRadius = 3,
+                    marginLeft = isSaintsSerialized? 0: 1,
+                    marginRight = isSaintsSerialized? 0: 1,
+                },
+                name = NameContainer(),
+            };
+
+            VisualElement resultElement = new VisualElement
+            {
+                name = NameResult(),
+            };
+            container.Add(resultElement);
+            NativeFieldPropertyRendererErrorField errorElement = MakeNativeFieldPropertyRendererErrorField("");
+            container.Add(errorElement);
+
+            // Debug.Log(NameContainer());
+            Action<object> setter = GetSetterOrNull(FieldWithInfo);
+
+            if (error != "")
+            {
+#if SAINTSFIELD_DEBUG
+                Debug.LogWarning(error);
+#endif
+                // container.Add(MakeNativeFieldPropertyRendererErrorField(error));
+                errorElement.SetErrorMessage(error);
+                container.userData = new DataPayload
+                {
+                    HasDrawer = false,
+                    Value = null,
+                    Setter = setter,
+                    IsGeneralCollection = false,
+                    OldCollection = Array.Empty<object>(),
+                    AlwaysCheckUpdate = true,
+                };
+                return (container, true);
+            }
+
+            // VisualElement result = UIToolkitLayout(value, GetNiceName(FieldWithInfo));
+
+            Type fieldType = GetFieldType(FieldWithInfo);
+            string labelName = NoLabel ? null : GetNiceName(FieldWithInfo);
+            MemberInfo memberInfo = (MemberInfo)FieldWithInfo.PropertyInfo ?? FieldWithInfo.FieldInfo;
+            // FieldWithInfo.Targets;
+            (VisualElement result, bool isNestedField) = UIToolkitEdit.UIToolkitValueEdit(
+                null,
+                labelName,
+                fieldType,
+                value,
+                null,
+                setter,
+                !isSaintsSerialized,
+                InAnyHorizontalLayout,
+                ReflectCache.GetCustomAttributes(memberInfo),
+                FieldWithInfo.Targets,
+                this,
+                $"{FieldWithInfo.Targets[0].GetHashCode()}.{memberInfo.Name}"
+            );
+
+            _onSearchFieldUIToolkit.AddListener(Search);
+            container.RegisterCallback<DetachFromPanelEvent>(_ => _onSearchFieldUIToolkit.RemoveListener(Search));
+
+            bool isCollection = !typeof(UnityEngine.Object).IsAssignableFrom(fieldType) && (fieldType.IsArray || typeof(IEnumerable).IsAssignableFrom(fieldType));
+            // Debug.Log(isCollection);
+            // Debug.Log(fieldType);
+            // Debug.Log(typeof(IList).IsAssignableFrom(fieldType));
+
+            if(result != null)
+            {
+                IReadOnlyList<object> oldCollection;
+                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+                if (!RuntimeUtil.IsNull(value) && value is IEnumerable ie)
+                {
+                    oldCollection = ie.Cast<object>().ToArray();
+                }
+                else
+                {
+                    oldCollection = Array.Empty<object>();
+                }
+
+                // result.name = NameResult();
+                // container.Add(result);
+                resultElement.Add(result);
+                container.userData = new DataPayload
+                {
+                    HasDrawer = true,
+                    Value = value,
+                    Setter = setter,
+                    IsGeneralCollection = isCollection,
+                    OldCollection = oldCollection,
+                    AlwaysCheckUpdate = isNestedField,
+                };
+            }
+            else
+            {
+                container.userData = new DataPayload
+                {
+                    HasDrawer = false,
+                    Value = null,
+                    Setter = setter,
+                    IsGeneralCollection = isCollection,
+                    OldCollection = null,
+                    AlwaysCheckUpdate = isNestedField,
+                };
+            }
+
+            container.AddManipulator(new ContextualMenuManipulator(evt =>
+            {
+                (string newValueError, object newValue) = GetValue(FieldWithInfo);
+                if (newValueError != "")
+                {
+#if SAINTSFIELD_DEBUG
+                    Debug.LogWarning(newValueError);
+#endif
+                    return;
+                }
+
+                string json = null;
+                if (newValue == null)
+                {
+                    json = "";
+                }
+                else if (newValue is bool boolValue)
+                {
+                    json = boolValue ? "true" : "false";
+                }
+                else if (newValue is Vector2 v2)
+                {
+                    json = JsonUtility.ToJson(v2);
+                }
+                else if (newValue is Vector3 v3)
+                {
+                    json = JsonUtility.ToJson(v3);
+                }
+                else if (newValue is Vector4 v4)
+                {
+                    json = JsonUtility.ToJson(v4);
+                }
+                else if (newValue is Vector2Int v2Int)
+                {
+                    json = JsonUtility.ToJson(v2Int);
+                }
+                else if (newValue is Vector3Int v3Int)
+                {
+                    json = JsonUtility.ToJson(v3Int);
+                }
+                else if (newValue is Color color)
+                {
+                    json = JsonUtility.ToJson(color);
+                }
+                // else if (newValue is Rect rect)
+                // {
+                //     json = JsonUtility.ToJson(rect);
+                // }
+                // else if (newValue is RectInt rectInt)
+                // {
+                //     json = JsonUtility.ToJson(rectInt);
+                // }
+                // else if (newValue is Bounds bounds)
+                // {
+                //     json = JsonUtility.ToJson(bounds);
+                // }
+                // else if (newValue is BoundsInt boundsInt)
+                // {
+                //     json = JsonUtility.ToJson(boundsInt);
+                // }
+                else if (newValue is UnityEngine.Object uObject)
+                {
+                    json = uObject.name;
+                }
+                else if (newValue.GetType().IsPrimitive || newValue is string || newValue.GetType().IsEnum)
+                {
+                    json = newValue.ToString();
+                }
+                else
+                {
+#if SAINTSFIELD_NEWTONSOFT_JSON
+                    try
+                    {
+                        json = JsonConvert.SerializeObject(newValue);
+                    }
+                    catch (Exception e)
+                    {
+#if SAINTSFIELD_DEBUG
+                        Debug.LogWarning(e);
+#endif
+                    }
+#endif
+                }
+
+                if (json != null)
+                {
+                    evt.menu.AppendAction("Copy", _ => GUIUtility.systemCopyBuffer = json);
+                }
+            }));
+
+            return (container, true);
+
+            void Search(string search)
+            {
+                DisplayStyle display = Util.UnityDefaultSimpleSearch(labelName, search)
+                    ? DisplayStyle.Flex
+                    : DisplayStyle.None;
+                if (container.style.display != display)
+                {
+                    container.style.display = display;
+                }
+            }
+        }
+
+        private string _preRichLabelXml = "";
+        private RichTextDrawer _richTextDrawer;
+        private Label _changeLabelTarget;
+
+        protected override PreCheckResult OnUpdateUIToolKit(VisualElement root)
+        {
+            PreCheckResult preCheckResult = base.OnUpdateUIToolKit(root);
+            // Debug.Log(preCheckResult.RichLabelXml);
+            if (!RenderField)
+            {
+                return preCheckResult;
+            }
+
+            VisualElement container = root.Q<VisualElement>(name: NameContainer());
+            Debug.Assert(container != null, $"not found: {NameContainer()}");
+
+            // Debug.Log($"_preRichLabelXml={_preRichLabelXml}, {_preRichLabelXml==null}, {_preRichLabelXml==""}, preCheckResult.RichLabelXml {preCheckResult.RichLabelXml==null}, {preCheckResult.RichLabelXml==""}");
+            // Debug.Log($"preCheckResult.HasRichLabel={preCheckResult.HasRichLabel}; _preRichLabelXml={_preRichLabelXml}; preCheckResult.RichLabelXml={preCheckResult.RichLabelXml}, notEqual={_preRichLabelXml != preCheckResult.RichLabelXml}");
+            if (preCheckResult.HasRichLabel && (_preRichLabelXml != preCheckResult.RichLabelXml ||
+                                                (preCheckResult.RichLabelXml?.Contains("<field") ?? false)))
+            {
+                _changeLabelTarget ??= UIToolkitUtils.TryFindLabel(container);
+
+                if (_changeLabelTarget != null)
+                {
+                    _preRichLabelXml = preCheckResult.RichLabelXml;
+
+                    if (preCheckResult.RichLabelXml is null)
+                    {
+                        UIToolkitUtils.SetDisplayStyle(_changeLabelTarget, DisplayStyle.None);
+                    }
+                    else
+                    {
+                        UIToolkitUtils.SetDisplayStyle(_changeLabelTarget, DisplayStyle.Flex);
+                        IEnumerable<RichTextDrawer.RichTextChunk> chunks = RichTextDrawer.ParseRichXmlWithProvider(preCheckResult.RichLabelXml, this);
+                        UIToolkitUtils.SetLabel(_changeLabelTarget, chunks, _richTextDrawer ??= new RichTextDrawer());
+                    }
+                }
+                // Debug.Log($"change {_preRichLabelXml} -> {preCheckResult.RichLabelXml}");
+                // _preRichLabelXml = preCheckResult.RichLabelXml;
+                // IEnumerable<RichTextDrawer.RichTextChunk> chunks = RichTextDrawer.ParseRichXmlWithProvider(preCheckResult.RichLabelXml, this);
+                // UIToolkitUtils.SetLabel(UIToolkitUtils.TryFindLabel(container), chunks, _richTextDrawer ??= new RichTextDrawer());
+            }
+
+            // Debug.Log(FieldWithInfo.FieldInfo?.Name);
+            // Debug.Log(FieldWithInfo.PropertyInfo?.Name);
+            (string error, object value) = GetValue(FieldWithInfo);
+            // Debug.Log($"error={error}, value={value}");
+
+            NativeFieldPropertyRendererErrorField errorContainer = container.Q<NativeFieldPropertyRendererErrorField>(NameErrorBox());
+
+            errorContainer.SetErrorMessage(error);
+
+            if (error != "")
+            {
+                return preCheckResult;
+            }
+
+            DataPayload userData = (DataPayload)container.userData;
+            bool valueIsNull = RuntimeUtil.IsNull(value);
+            bool isEqual;
+            if (userData.AlwaysCheckUpdate)
+            {
+                isEqual = false;
+            }
+            else
+            {
+                isEqual = userData.HasDrawer && Util.GetIsEqual(userData.Value, value);
+            }
+
+            if(isEqual && userData.IsGeneralCollection)
+            {
+                IReadOnlyList<object> oldCollection = userData.OldCollection;
+                if (oldCollection == null && valueIsNull)
+                {
+                }
+                else if (oldCollection != null && valueIsNull)
+                {
+                    isEqual = false;
+                }
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+                else if (oldCollection == null && !valueIsNull)
+                {
+                    isEqual = false;
+                }
+                else
+                {
+                    isEqual = oldCollection.SequenceEqual(((IEnumerable)value).Cast<object>());
+                    // Debug.Log($"sequence equal: {isEqual}");
+                }
+            }
+            // bool isEqual = userData.HasDrawer && (userData.Value == value || ReferenceEquals(userData.Value, value));
+            VisualElement resultContainer = container.Q<VisualElement>(NameResult());
+
+            VisualElement fieldElementOrNull = resultContainer.Children().FirstOrDefault();
+
+            // Debug.Log($"isEqual={isEqual}");
+
+            if (!isEqual)
+            {
+                // Debug.Log($"fieldElementOrNull={fieldElementOrNull?.name}");
+#if SAINTSFIELD_DEBUG && SAINTSFIELD_DEBUG_SAINTS_EDITOR_NATIVE_PROPERTY_RENDERER
+                Debug.Log($"native property update {userData.Value} -> {value}");
+#endif
+                userData.Value = value;
+                if (userData.IsGeneralCollection)
+                {
+                    // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+                    if (!RuntimeUtil.IsNull(value) && value is IEnumerable ie)
+                    {
+                        userData.OldCollection = ie.Cast<object>().ToArray();
+                    }
+                    else
+                    {
+                        userData.OldCollection = null;
+                    }
+                }
+
+                bool isSaintsSerialized = FieldWithInfo.PlayaAttributes.Any(each => each is SaintsSerializedAttribute);
+
+                MemberInfo memberInfo = (MemberInfo)FieldWithInfo.PropertyInfo ?? FieldWithInfo.FieldInfo;
+
+                (VisualElement result, bool _) = UIToolkitEdit.UIToolkitValueEdit(
+                    fieldElementOrNull,
+                    NoLabel? null: GetNiceName(FieldWithInfo),
+                    GetFieldType(FieldWithInfo),
+                    value,
+                    null,
+                    userData.Setter,
+                    !isSaintsSerialized,
+                    InAnyHorizontalLayout,
+                    ReflectCache.GetCustomAttributes(memberInfo),
+                    FieldWithInfo.Targets,
+                    this,
+                    $"{FieldWithInfo.Targets[0].GetHashCode()}.{memberInfo.Name}");
+                // Debug.Log($"Not equal create for value={value}: {result}/{result==null}");
+                if(result != null)
+                {
+                    resultContainer.Clear();
+                    resultContainer.Add(result);
+                    userData.HasDrawer = true;
+                    errorContainer.SetErrorMessage("");
+                }
+                else if(fieldElementOrNull == null)
+                {
+                    userData.HasDrawer = false;
+                }
+
+                // StyleEnum<DisplayStyle> displayStyle = child.style.display;
+                // fieldElement.Clear();
+                // fieldElement.userData = value;
+                // fieldElement.Add(child = UIToolkitValueEdit(GetNiceName(FieldWithInfo), GetFieldType(FieldWithInfo), value, GetSetterOrNull(FieldWithInfo)));
+                // child.style.display = displayStyle;
+            }
+
+            return preCheckResult;
+            // container.schedule.Execute(() => WatchValueChanged(fieldWithInfo, serializedObject, container, callUpdate)).Every(100);
+        }
+    }
+}
+#endif

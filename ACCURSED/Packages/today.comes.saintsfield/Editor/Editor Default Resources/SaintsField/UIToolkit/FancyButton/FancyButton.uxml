@@ -1,0 +1,13 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Packages/today.comes.saintsfield/Editor/Editor%20Default%20Resources/SaintsField/UIToolkit/FancyButton/FancyButtonStyle.uss?fileID=7433441132597879392&amp;guid=1fd67fe73f8130047b628a72e699fe49&amp;type=3#FancyButtonStyle"/>
+    <ui:VisualElement name="parameters" class="parameters"/>
+    <ui:VisualElement name="buttonArea" class="buttonArea">
+        <ui:Button name="mainButton" class="mainButton ghostButton">
+            <ui:Label name="mainLabel" class="mainLabel"/>
+            <ui:Image name="dropdownIcon" source="project://database/Packages/today.comes.saintsfield/Editor/Editor%20Default%20Resources/SaintsField/classic-dropdown-gray.png?fileID=2800000&amp;guid=63bdc84e7caf8bb4c87ce2bfbaddad14&amp;type=3#classic-dropdown-gray" class="dropdownIcon"/>
+        </ui:Button>
+        <ui:Button name="closeButton" class="closeButton ghostButton"/>
+        <SaintsField.Editor.UIToolkitElements.StatusIndicatorElement name="statusIndicatorElement" picking-mode="Ignore" class="statusIndicatorElement"/>
+    </ui:VisualElement>
+    <ui:VisualElement name="result" class="result"/>
+</ui:UXML>
