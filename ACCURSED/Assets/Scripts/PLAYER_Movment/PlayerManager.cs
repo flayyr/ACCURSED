@@ -15,7 +15,7 @@ public class PlayerManager : MonoBehaviour
     //temporarily put this here until Lucas or I find a more appropriate place for it
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             if (stats.UseHealCharge())
             {

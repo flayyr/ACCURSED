@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerAbilities : MonoBehaviour
@@ -5,28 +6,30 @@ public class PlayerAbilities : MonoBehaviour
     [SerializeField] private Ability vestigeAbility;
     [SerializeField] private Ability remembranceAbility;
     [Space]
-    [SerializeField] private AbilityUIDisplay vestigeDisplay;
-    [SerializeField] private AbilityUIDisplay remembranceDisplay;
-    [Space]
     [SerializeField] PlayerReference playerRef;
 
-    private void Start()
+    [HideInInspector] public event Action OnAbilityUsed;
+
+
+    public void InitializeUI(AbilityUIDisplay vestigeDisplay, AbilityUIDisplay remembranceDisplay)
     {
         if(vestigeDisplay != null)
-            vestigeDisplay.Instanciate(vestigeAbility.abilityIcon);
+            vestigeDisplay.Initialize(vestigeAbility.abilityIcon);
         if(remembranceDisplay != null)
-            remembranceDisplay.Instanciate(remembranceAbility.abilityIcon);
+            remembranceDisplay.Initialize(remembranceAbility.abilityIcon);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             remembranceAbility.Trigger(ref playerRef);
+            OnAbilityUsed?.Invoke();
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
             vestigeAbility.Trigger(ref playerRef);
+            OnAbilityUsed?.Invoke();
         }
     }
 }
