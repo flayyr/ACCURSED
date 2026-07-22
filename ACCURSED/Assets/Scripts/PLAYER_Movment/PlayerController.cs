@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     CharacterCombat cCombat;
     #endregion
 
+    public bool disableControl;
+
     void Start()
     {
         RefrenceRetreival();
@@ -23,20 +25,23 @@ public class PlayerController : MonoBehaviour
     #region Movement
     public void OnMove(InputValue value)
     {
-        cMovement.movementInput = value.Get<Vector2>();
+        cMovement.movementInput = disableControl ? Vector2.zero : value.Get<Vector2>();
     }
     public void OnWalk(InputValue value)
     {
+        if (disableControl) return;
         cMovement.walk = !cMovement.walk;
         cMovement.FigureOutMovementState();
     }
     public void OnSprint(InputValue value)
     {
+        if (disableControl) return;
         cMovement.sprint = !cMovement.sprint;
         cMovement.FigureOutMovementState();
     }
     public void OnDash(InputValue value)
     {
+        if (disableControl) return;
         cMovement.Dash();
     }
     #endregion
@@ -44,6 +49,7 @@ public class PlayerController : MonoBehaviour
     #region Combat
     public void OnAttack(InputValue value)
     {
+        if (disableControl) return;
         cCombat.attackButton = !cCombat.attackButton;
         cCombat.AttackUpdate();
     }

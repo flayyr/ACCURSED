@@ -204,8 +204,8 @@ MonoBehaviour:
   lm_hurtbox:
     serializedVersion: 2
     m_Bits: 128
-  invinsible: 0
-  afterHurtInvinsibleDuration: 0.2
+  invincible: 0
+  afterHurtInvincibleDuration: 0.2
   personalHurtBoxes: []
   personalHitBoxes: []
 --- !u!1 &1365942243035010408
@@ -725,7 +725,6 @@ GameObject:
   - component: {fileID: 8817843868832260846}
   - component: {fileID: 4848131160581659832}
   - component: {fileID: 7527250969752035120}
-  - component: {fileID: 4549423748405120093}
   - component: {fileID: 4688762448128058071}
   - component: {fileID: 3428935267664869359}
   m_Layer: 0
@@ -886,6 +885,8 @@ MonoBehaviour:
   dashPower: 50
   dashLength: 0.1
   dashCoolDown: 0.5
+  dashInvincinbleTime: 0.5
+  hurtBox: {fileID: 6745598973557108595}
   walkSpeed: 5
   runSpeed: 10
   sprintSpeed: 15
@@ -956,6 +957,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb9b9abd7c23cc47a5ce8ecfb7e8525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  disableControl: 0
 --- !u!114 &8817843868832260846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1010,20 +1012,6 @@ MonoBehaviour:
   maxVitality: 10
   currentHealCharge: 0
   currentVitality: 0
---- !u!114 &4549423748405120093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3450769037150715107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81e617a963c8dc9408fdf4520b91a679, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
-  hurtBox: {fileID: 6745598973557108595}
-  healingInvincibleDuration: 1
 --- !u!114 &4688762448128058071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1036,6 +1024,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 802e8324263a44740a24785a84fe8c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDeath
+  respawnAspect: {fileID: 0}
+  deathWaitBeforeFadeTime: 1
 --- !u!114 &3428935267664869359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1050,9 +1040,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAbilities
   vestigeAbility: {fileID: 11400000, guid: 9fa7a2b6133007849ac284fb5279e02f, type: 2}
   remembranceAbility: {fileID: 11400000, guid: 606720454bcac3449beb6b3d7ecd64fd, type: 2}
+  healingInvincibleDuration: 1
   playerRef:
     particleSystem: {fileID: 8645542380604068033}
     spriteRenderer: {fileID: 8168863755395668422}
+    hurtBox: {fileID: 6745598973557108595}
+    playerStats: {fileID: 7527250969752035120}
 --- !u!1 &3910803402329907517
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,8 +15,6 @@ public class PlayerStatistics : CharacterStatistics
     protected override void Start()
     {
         base.Start();
-        currentHealCharge = maxHealCharge;
-        currentVitality = 0;
 
         OnHealChargeUpdate?.Invoke();
         OnVitalityUpdate?.Invoke();
@@ -48,5 +46,16 @@ public class PlayerStatistics : CharacterStatistics
         currentVitality = Math.Min(currentVitality, maxVitality);
         OnVitalityUpdate?.Invoke();
         return currentVitality;
+    }
+
+    public override void Reset()
+    {
+        base.Reset();
+
+        currentHealCharge = maxHealCharge;
+        currentVitality = 0;
+
+        OnHealChargeUpdate?.Invoke();
+        OnVitalityUpdate?.Invoke();
     }
 }

@@ -14,6 +14,9 @@ public class HealthDisplay : MonoBehaviour
     {
         stats = characterStats;
         OnEnable();
+        UpdateHealthDisplay();
+        UpdateVitalityDisplay();
+        UpdateHealChargeDisplay();
     }
 
     private void OnEnable()

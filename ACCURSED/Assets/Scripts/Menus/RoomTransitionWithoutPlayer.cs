@@ -6,6 +6,8 @@ public class RoomTransitionWithoutPlayer : MonoBehaviour
 {
     public static RoomTransitionWithoutPlayer Instance { get; private set; }
 
+    public delegate void TransitionFunc();
+
     [Header("Fade Prefab")]
     [SerializeField] private ScreenFadeOverlay fadeOverlayPrefab;
 
@@ -34,10 +36,17 @@ public class RoomTransitionWithoutPlayer : MonoBehaviour
     {
         if (isTransitioning) return;
 
-        StartCoroutine(TransitionRoutine(sceneName));
+        StartCoroutine(TransitionRoutine(sceneName, null));
     }
 
-    private IEnumerator TransitionRoutine(string sceneName)
+    public void BeginTransition(string sceneName, TransitionFunc func)
+    {
+        if (isTransitioning) return;
+
+        StartCoroutine(TransitionRoutine(sceneName, func));
+    }
+
+    private IEnumerator TransitionRoutine(string sceneName, TransitionFunc func)
     {
         isTransitioning = true;
 
@@ -67,6 +76,8 @@ public class RoomTransitionWithoutPlayer : MonoBehaviour
         {
             yield return new WaitForSecondsRealtime(holdBlackAfterSceneLoad);
         }
+
+        func();
 
         yield return fadeOverlay.FadeFromBlack(fadeInDuration);
 
