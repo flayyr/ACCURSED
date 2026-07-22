@@ -387,7 +387,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 2
-  m_Sprite: {fileID: -1587070306, guid: 476fd8cee50366047a1c081cbcafe45c, type: 3}
+  m_Sprite: {fileID: -8930258900783495267, guid: 38fff49ec413c8f42a1a7fb60eb39ddb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
   m_Library: []
-  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 172e6fa02cd568748a33415b55278bec, type: 3}
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 56e8a91d407e5964bbad23404926fe78, type: 3}
 --- !u!114 &4894654611718757885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -874,6 +874,7 @@ MonoBehaviour:
   movementState: 0
   walk: 0
   sprint: 0
+  timeTillSpecialIdle: 2
   idles:
   - IdleNorm
   - IdleSpecial1
@@ -914,7 +915,6 @@ MonoBehaviour:
     - name: Attack3
       enemyWindMin: 0
       enemyWindMax: 0
-  offset: {x: 0, y: 0}
   winding: 0
   currentCombo: 0
   currentAttack: 0
@@ -970,6 +970,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimator
   direction: 5
   eightDirections: 0
+  attackRotator: {fileID: 245171784798243098}
   libraryAssets:
   - {fileID: 7108339969198208228, guid: 65ce56df7a85bd44dbbd195ac3364ba3, type: 3}
   - {fileID: 7108339969198208228, guid: 7da89f5832658ae46824de8c72209fd6, type: 3}
