@@ -202,8 +202,7 @@ public class SettingsKeybindManager : MonoBehaviour
         return KeyCode.None;
     }
 
-    public string GetActionDisplayName(
-        SettingsKeybindAction action)
+    public string GetActionDisplayName(SettingsKeybindAction action)
     {
         switch (action)
         {

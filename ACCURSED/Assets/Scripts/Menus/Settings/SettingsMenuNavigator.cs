@@ -1,8 +1,9 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System;
 
 public class SettingsMenuNavigator : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class SettingsMenuNavigator : MonoBehaviour
 
     private SettingsKeybindRow activeKeybindRow;
     private bool isListeningForBinding;
+    private bool waitingForOpeningClickRelease;
     private int bindingStartFrame;
 
     public bool IsListeningForBinding
@@ -103,12 +105,12 @@ public class SettingsMenuNavigator : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
             {
-                SelectTab(selectedTabIndex - 1, false);
+                SelectTab(selectedTabIndex - 1, true);
             }
 
             if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             {
-                SelectTab(selectedTabIndex + 1, false);
+                SelectTab(selectedTabIndex + 1, true);
             }
 
             if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
@@ -182,7 +184,11 @@ public class SettingsMenuNavigator : MonoBehaviour
     public void StartKeybindListen(SettingsKeybindRow row)
     {
         if (row == null)
+        {
+            Debug.LogWarning("StartKeybindListen received a null row.");
+
             return;
+        }
 
         if (isListeningForBinding)
             return;
@@ -190,19 +196,22 @@ public class SettingsMenuNavigator : MonoBehaviour
         if (isAdjustingSlider)
             return;
 
+        // Select before enabling the lock because
+        // SelectOptionByMouse ignores input while listening.
+        SelectOptionByMouse(row);
+
         activeKeybindRow = row;
         isListeningForBinding = true;
-
-        // Prevent the Mouse0 click that opened the field
-        // from immediately becoming the new binding.
         bindingStartFrame = Time.frameCount;
 
-        foreach (SettingsMenuSelectable option in currentOptions)
+        for (int i = 0; i < currentOptions.Count; i++)
         {
+            SettingsMenuSelectable option = currentOptions[i];
+
             if (option == null)
                 continue;
 
-            bool isActiveRow = option == activeKeybindRow;
+            bool isActiveRow = option == row;
 
             option.SetSelected(isActiveRow);
 
@@ -212,6 +221,8 @@ public class SettingsMenuNavigator : MonoBehaviour
                 keybindRow.SetListening(isActiveRow);
             }
         }
+
+        Debug.Log("Navigator entered listening state for: " + row.Action);
     }
 
     private void HandleKeybindListeningInput()
@@ -222,76 +233,100 @@ public class SettingsMenuNavigator : MonoBehaviour
             return;
         }
 
-        // Ignore the same frame as the ValueArea click.
-        if (Time.frameCount <= bindingStartFrame)
+        // Ignore the click frame that opened listening mode.
+        if (Time.frameCount <= bindingStartFrame + 1)
             return;
 
-        if (!Input.anyKeyDown)
-            return;
-
-        foreach (KeyCode key in
-                 Enum.GetValues(typeof(KeyCode)))
+        foreach (KeyCode key in Enum.GetValues(typeof(KeyCode)))
         {
-            if (!IsAllowedBinding(key))
+            if (!IsBindingAllowed(key))
                 continue;
 
             if (!Input.GetKeyDown(key))
                 continue;
+
+            Debug.Log("Listening state detected input: " + key);
 
             FinishKeybindListen(key);
             return;
         }
     }
 
-    private bool IsAllowedBinding(KeyCode key)
+    private bool IsBindingAllowed(KeyCode key)
     {
         if (key == KeyCode.None)
             return false;
 
-        // Controller inputs will be handled separately in the
-        // Controller tab.
+        // Controller inputs can be handled separately on the Controller page.
         if (key.ToString().StartsWith("Joystick"))
             return false;
 
         return true;
     }
 
-    private void FinishKeybindListen(KeyCode newKey)
+    private void FinishKeybindListen(
+    KeyCode newKey)
     {
-        SettingsKeybindRow finishedRow =
-            activeKeybindRow;
+        SettingsKeybindRow finishedRow = activeKeybindRow;
 
         activeKeybindRow = null;
         isListeningForBinding = false;
+
+        for (int i = 0; i < currentOptions.Count; i++)
+        {
+            SettingsMenuSelectable option = currentOptions[i];
+
+            if (option == null)
+                continue;
+
+            bool isFinishedRow = option == finishedRow;
+
+            option.SetSelected(isFinishedRow);
+
+            if (option is SettingsKeybindRow keybindRow)
+            {
+                keybindRow.SetInteractionLocked(false);
+                keybindRow.SetListening(false);
+            }
+        }
 
         if (finishedRow != null)
         {
             finishedRow.ApplyBinding(newKey);
-            finishedRow.SetListening(false);
-        }
+            finishedRow.RefreshDisplay();
 
-        UnlockKeybindRows();
+            Debug.Log("Changed " + finishedRow.Action + " to " + newKey);
+        }
     }
 
-    public void CancelKeybindListen(
-        SettingsKeybindRow requestingRow = null)
+    public void CancelKeybindListen(SettingsKeybindRow requestingRow = null)
     {
-        if (requestingRow != null &&
-            requestingRow != activeKeybindRow)
-        {
+        if (requestingRow != null && requestingRow != activeKeybindRow)
             return;
-        }
 
-        SettingsKeybindRow cancelledRow =
-            activeKeybindRow;
+        SettingsKeybindRow cancelledRow = activeKeybindRow;
 
         activeKeybindRow = null;
         isListeningForBinding = false;
+        waitingForOpeningClickRelease = false;
 
-        if (cancelledRow != null)
-            cancelledRow.SetListening(false);
+        for (int i = 0; i < currentOptions.Count; i++)
+        {
+            SettingsMenuSelectable option = currentOptions[i];
 
-        UnlockKeybindRows();
+            if (option == null)
+                continue;
+
+            bool isCancelledRow = option == cancelledRow;
+
+            option.SetSelected(isCancelledRow);
+
+            if (option is SettingsKeybindRow keybindRow)
+            {
+                keybindRow.SetInteractionLocked(false);
+                keybindRow.SetListening(false);
+            }
+        }
     }
 
     private void UnlockKeybindRows()
@@ -355,19 +390,32 @@ public class SettingsMenuNavigator : MonoBehaviour
 
     private void MoveFromTabsToOptions()
     {
-        RefreshGeneratedOptions();
+        StartCoroutine(MoveFromTabsToOptionsNextFrame());
+    }
+
+    private IEnumerator MoveFromTabsToOptionsNextFrame()
+    {
+        // Ensure that the selected page is actually active.
+        SelectTab(selectedTabIndex, true);
+
+        // Allow SettingsBindingPageDisplay.OnEnable and the
+        // UI layout system to finish creating the rows.
+        yield return null;
+
+        RefreshCurrentOptions();
 
         if (currentOptions.Count == 0)
         {
             Debug.LogWarning(name + ": No active SettingsMenuSelectable rows were found " + "inside the selected tab panel.");
 
-            return;
+            yield break;
         }
 
-        if (selectedTabIndex >= 0 && selectedTabIndex < tabs.Count && tabs[selectedTabIndex] != null)
+        if (tabs[selectedTabIndex] != null)
             tabs[selectedTabIndex].SetSelected(false);
 
         currentArea = NavigationArea.Options;
+
         SelectOption(0);
     }
 

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class SettingsKeybindRow : SettingsMenuSelectable
 {
-
     [Header("Text")]
     [SerializeField] private TMP_Text actionNameText;
 
@@ -41,7 +40,6 @@ public class SettingsKeybindRow : SettingsMenuSelectable
     private GameObject highlightInstance;
     private CanvasGroup highlightCanvasGroup;
 
-    private bool isHovered;
     private bool rowSelected;
     private bool isListening;
     private bool interactionLocked;
@@ -116,20 +114,31 @@ public class SettingsKeybindRow : SettingsMenuSelectable
             );
     }
 
-    /*
-    public void OnPointerClick(PointerEventData eventData)
+    public override void OnPointerClick(PointerEventData eventData)
     {
-        if (!hasBeenInitialized)
-            return;
-
-        if (interactionLocked)
-            return;
-
-        if (isListening)
-            return;
-
         if (eventData.button != PointerEventData.InputButton.Left)
             return;
+
+        FindReferences();
+
+        if (menuNavigator == null)
+        {
+            Debug.LogWarning(name + ": SettingsMenuNavigator was not found.");
+
+            return;
+        }
+
+        if (!hasBeenInitialized)
+        {
+            Debug.LogWarning(name + ": This keybind row was clicked before Initialize() " + "assigned its action.");
+
+            return;
+        }
+
+        if (menuNavigator.IsListeningForBinding)
+            return;
+        
+        menuNavigator.SelectOptionByMouse(this);
 
         if (valueArea == null)
         {
@@ -138,17 +147,20 @@ public class SettingsKeybindRow : SettingsMenuSelectable
             return;
         }
 
-        bool clickedInsideValueArea = RectTransformUtility.RectangleContainsScreenPoint(
+        bool clickedValueArea = RectTransformUtility.RectangleContainsScreenPoint
+            (
                 valueArea,
                 eventData.position,
-                eventData.pressEventCamera);
+                eventData.pressEventCamera
+            );
 
-        if (!clickedInsideValueArea)
+        if (!clickedValueArea)
             return;
 
-        BeginListeningFromValueField();
+        Debug.Log("Beginning listening for: " + action);
+
+        menuNavigator.StartKeybindListen(this);
     }
-    */
 
     public void Initialize(SettingsKeybindAction assignedAction)
     {
@@ -226,31 +238,26 @@ public class SettingsKeybindRow : SettingsMenuSelectable
         highlightInstance.SetActive(false);
     }
 
-    public override void OnPointerEnter(PointerEventData eventData)
+    public override void OnPointerEnter(
+    PointerEventData eventData)
     {
         FindReferences();
-
-        if (menuNavigator != null && menuNavigator.IsListeningForBinding)
-            return;
 
         if (interactionLocked)
             return;
 
-        isHovered = true;
+        if (menuNavigator != null && menuNavigator.IsListeningForBinding)
+            return;
 
+        // Mouse hover becomes the menu's one official selection.
         if (menuNavigator != null)
             menuNavigator.SelectOptionByMouse(this);
-
-        RefreshHighlight();
     }
 
     public override void OnPointerExit(PointerEventData eventData)
     {
-        if (isListening)
-            return;
 
-        isHovered = false;
-        RefreshHighlight();
+        // The navigator owns which row is selected. Entering another row will automatically deselect this one.
     }
 
     /// <summary>
@@ -308,6 +315,9 @@ public class SettingsKeybindRow : SettingsMenuSelectable
         {
             if (statusText != null)
                 statusText.text = "";
+
+            if (highlightCanvasGroup != null)
+                highlightCanvasGroup.alpha = 1f;
         }
 
         RefreshHighlight();
@@ -318,21 +328,32 @@ public class SettingsKeybindRow : SettingsMenuSelectable
         interactionLocked = locked;
 
         if (interactionLocked && !isListening)
-        {
-            isHovered = false;
             rowSelected = false;
-        }
 
         RefreshHighlight();
     }
 
     public void ApplyBinding(KeyCode newKey)
     {
-        if (keybindManager == null)
-            FindReferences();
+        FindReferences();
 
-        if (keybindManager != null)
-            keybindManager.SetBinding(action, newKey);
+        if (!hasBeenInitialized)
+        {
+            Debug.LogWarning(name + ": Cannot apply a binding before initialization.");
+
+            return;
+        }
+
+        if (keybindManager == null)
+        {
+            Debug.LogWarning(name + ": SettingsKeybindManager was not found.");
+
+            return;
+        }
+
+        keybindManager.SetBinding(action, newKey);
+
+        RefreshDisplay();
     }
 
     public void RefreshDisplay()
@@ -367,10 +388,11 @@ public class SettingsKeybindRow : SettingsMenuSelectable
         if (highlightInstance == null)
             return;
 
-        bool shouldShow = isListening || (!interactionLocked && (isHovered || rowSelected));
+        bool shouldShow = isListening || (!interactionLocked && rowSelected);
 
         highlightInstance.SetActive(shouldShow);
 
+        // A selected row is steady. Only a listening row blinks.
         if (shouldShow && !isListening && highlightCanvasGroup != null)
             highlightCanvasGroup.alpha = 1f;
     }

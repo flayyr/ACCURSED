@@ -12,14 +12,12 @@ public class SettingsBindingPageDisplay : MonoBehaviour
         [Header("Entry Type")]
         public bool isInteractiveKeybind;
 
-        [Header("Interactive Keybind")]
+        [Header("Keybind")]
         public SettingsKeybindAction keybindAction;
 
-        [Header("Static Display")]
+        [Header("Displayed Text")]
         public string actionName;
         public string bindingText;
-
-        [Header("Optional")]
         public string statusText;
 
         public BindingEntry()
@@ -31,9 +29,7 @@ public class SettingsBindingPageDisplay : MonoBehaviour
         /// The displayed name and key will come from
         /// SettingsKeybindManager.
         /// </summary>
-        public BindingEntry(
-            SettingsKeybindAction keybindAction,
-            string statusText = "")
+        public BindingEntry(SettingsKeybindAction keybindAction, string statusText = "")
         {
             isInteractiveKeybind = true;
 
@@ -48,10 +44,17 @@ public class SettingsBindingPageDisplay : MonoBehaviour
         /// Creates a non-interactive display-only entry.
         /// This can still be used for placeholder pages.
         /// </summary>
-        public BindingEntry(
-            string actionName,
-            string bindingText,
-            string statusText = "")
+        public BindingEntry(SettingsKeybindAction keybindAction, string actionName, string statusText = "")
+        {
+            isInteractiveKeybind = true;
+
+            this.keybindAction = keybindAction;
+            this.actionName = actionName;
+            this.bindingText = "";
+            this.statusText = statusText;
+        }
+
+        public BindingEntry(string actionName, string bindingText, string statusText = "")
         {
             isInteractiveKeybind = false;
 
@@ -111,22 +114,19 @@ public class SettingsBindingPageDisplay : MonoBehaviour
     {
         if (contentRoot == null)
         {
-            Debug.LogWarning(
-                name + ": Content Root has not been assigned.");
+            Debug.LogWarning(name + ": Content Root has not been assigned.");
             return;
         }
 
         if (sectionHeaderPrefab == null)
         {
-            Debug.LogWarning(
-                name + ": Section Header Prefab has not been assigned.");
+            Debug.LogWarning( name + ": Section Header Prefab has not been assigned.");
             return;
         }
 
         if (rowPrefab == null)
         {
-            Debug.LogWarning(
-                name + ": Row Prefab has not been assigned.");
+            Debug.LogWarning(name + ": Row Prefab has not been assigned.");
             return;
         }
 
@@ -154,33 +154,51 @@ public class SettingsBindingPageDisplay : MonoBehaviour
                 if (entry == null)
                     continue;
 
-                SettingsBindingDisplayRow newRow = Instantiate(rowPrefab, contentRoot);
+                Debug.Log("Building entry: " + entry.actionName + " | Interactive: " 
+                    + entry.isInteractiveKeybind + " | Action: " + entry.keybindAction
+                );
 
-                if (entry.isInteractiveKeybind)
-                {
-                    SettingsKeybindRow keybindRow =
-                        newRow.GetComponent<SettingsKeybindRow>();
+                SettingsBindingDisplayRow newRow =
+                    Instantiate(rowPrefab, contentRoot);
 
-                    if (keybindRow != null)
-                    {
-                        keybindRow.Initialize(entry.keybindAction);
-                    }
-                    else
-                    {
-                        Debug.LogWarning(
-                            newRow.name +
-                            " is an interactive keybind row, but its prefab " +
-                            "does not contain SettingsKeybindRow.");
-                    }
-                }
-                else
+                newRow.gameObject.name =
+                    "Row - " + entry.actionName;
+
+                // Set the initial text for every kind of row.
+                newRow.SetDisplay(entry.actionName, entry.bindingText, entry.statusText
+                );
+
+                if (!entry.isInteractiveKeybind)
                 {
-                    // Display-only row, such as a placeholder setting.
-                    newRow.SetDisplay(
-                        entry.actionName,
-                        entry.bindingText,
-                        entry.statusText);
+                    Debug.Log( newRow.gameObject.name + " was created as a static display row.", newRow.gameObject
+                    );
+
+                    continue;
                 }
+
+                // First check the same GameObject.
+                SettingsKeybindRow keybindRow = newRow.GetComponent<SettingsKeybindRow>();
+
+                // Also support SettingsKeybindRow being on a child.
+                if (keybindRow == null)
+                {
+                    keybindRow = newRow.GetComponentInChildren <SettingsKeybindRow>(true);
+                }
+
+                if (keybindRow == null)
+                {
+                    Debug.LogWarning(newRow.gameObject.name + ": This entry is marked as an interactive keybind, " 
+                        + "but SettingsKeybindRow was not found on the row prefab.", newRow.gameObject
+                    );
+
+                    continue;
+                }
+
+                keybindRow.Initialize(entry.keybindAction);
+
+                Debug.Log("Initialized " + newRow.gameObject.name + " as " + entry.keybindAction 
+                    + " | Instance ID: " + keybindRow.GetInstanceID(), keybindRow
+                );
             }
         }
 
@@ -192,16 +210,7 @@ public class SettingsBindingPageDisplay : MonoBehaviour
         if (scrollRect != null)
             scrollRect.verticalNormalizedPosition = 1f;
 
-        SettingsMenuNavigator navigator = GetComponentInParent<SettingsMenuNavigator>();
-
-        if (navigator != null)
-        {
-            navigator.RefreshGeneratedOptions();
-        }
-        else
-        {
-            Debug.LogWarning(name + ": No SettingsMenuNavigator was found in the parent hierarchy.");
-        }
+        StartCoroutine(RefreshNavigatorNextFrame());
     }
 
     [ContextMenu("Clear Display")]
@@ -266,61 +275,38 @@ public class SettingsBindingPageDisplay : MonoBehaviour
     public void LoadKeyboardDefaults()
     {
         sections = new List<BindingSection>
-    {
-        new BindingSection(
-            "Movement",
-            new List<BindingEntry>
-            {
-                new BindingEntry(
-                    SettingsKeybindAction.MoveForwards),
+        {
+            new BindingSection("Game", new List<BindingEntry>
+                {
+                    new BindingEntry(SettingsKeybindAction.MoveForwards,"Move Forward", "W"),
+                    new BindingEntry(SettingsKeybindAction.MoveBackwards,"Move Backward", "S"),
+                    new BindingEntry(SettingsKeybindAction.MoveLeft,"Move Left", "A"),
+                    new BindingEntry(SettingsKeybindAction.MoveRight,"Move Right", "D"),
+                    new BindingEntry(SettingsKeybindAction.Dodge,"Dodge", "Space"),
+                    new BindingEntry(SettingsKeybindAction.Sprint,"Sprint", "Shift"),
+                    new BindingEntry(SettingsKeybindAction.Walk,"Walk", "Alt")
+                }),
 
-                new BindingEntry(
-                    SettingsKeybindAction.MoveBackwards),
+            new BindingSection("Actions",new List<BindingEntry>
+                {
+                    new BindingEntry(SettingsKeybindAction.Heal,"Heal", "Q"),
+                    new BindingEntry(SettingsKeybindAction.UseItem,"Use Item", "G"),
+                    new BindingEntry(SettingsKeybindAction.Remembrance,"Remembrance", "R"),
+                    new BindingEntry(SettingsKeybindAction.Vestige,"Vestige", "E"),
+                    new BindingEntry(SettingsKeybindAction.Interact,"Interact", "F")
+                }),
 
-                new BindingEntry(
-                    SettingsKeybindAction.MoveLeft),
-
-                new BindingEntry(
-                    SettingsKeybindAction.MoveRight),
-
-                new BindingEntry(
-                    SettingsKeybindAction.Dodge),
-
-                new BindingEntry(
-                    SettingsKeybindAction.Sprint),
-
-                new BindingEntry(
-                    SettingsKeybindAction.Walk)
-            }),
-
-        new BindingSection(
-            "Actions",
-            new List<BindingEntry>
-            {
-                new BindingEntry(
-                    SettingsKeybindAction.Heal),
-
-                new BindingEntry(
-                    SettingsKeybindAction.UseItem),
-
-                new BindingEntry(
-                    SettingsKeybindAction.Remembrance),
-
-                new BindingEntry(
-                    SettingsKeybindAction.Vestige),
-
-                new BindingEntry(
-                    SettingsKeybindAction.Interact)
-            }),
-
-        new BindingSection("Interface", new List<BindingEntry>
-            {
-                new BindingEntry(SettingsKeybindAction.Menu), 
-                new BindingEntry(SettingsKeybindAction.HUD)
-            })
+            new BindingSection("Interface",new List<BindingEntry>
+                {
+                    new BindingEntry(SettingsKeybindAction.Menu,"Menu", "Esc"),
+                    new BindingEntry(SettingsKeybindAction.HUD,"HUD", "Tab")
+                })
         };
 
         hasBuilt = false;
+
+        if (Application.isPlaying && isActiveAndEnabled)
+            BuildDisplay();
     }
 
     [ContextMenu("Load Controller Defaults")]
@@ -328,7 +314,7 @@ public class SettingsBindingPageDisplay : MonoBehaviour
     {
         sections = new List<BindingSection>
         {
-            new BindingSection("Controller", new List<BindingEntry>
+            new BindingSection("Game", new List<BindingEntry>
                 {
                     new BindingEntry("Move Forward", "W"),
                     new BindingEntry("Move Backward", "S"),
@@ -339,7 +325,7 @@ public class SettingsBindingPageDisplay : MonoBehaviour
                     new BindingEntry("Walk", "Alt")
                 }),
 
-            new BindingSection("Actions", new List<BindingEntry>
+            new BindingSection("Actions",new List<BindingEntry>
                 {
                     new BindingEntry("Heal", "Q"),
                     new BindingEntry("Use Item", "G"),
@@ -363,7 +349,7 @@ public class SettingsBindingPageDisplay : MonoBehaviour
     {
         sections = new List<BindingSection>
         {
-            new BindingSection("Display", new List<BindingEntry>
+            new BindingSection("Game", new List<BindingEntry>
                 {
                     new BindingEntry("Move Forward", "W"),
                     new BindingEntry("Move Backward", "S"),
@@ -374,7 +360,7 @@ public class SettingsBindingPageDisplay : MonoBehaviour
                     new BindingEntry("Walk", "Alt")
                 }),
 
-            new BindingSection("Actions", new List<BindingEntry>
+            new BindingSection("Actions",new List<BindingEntry>
                 {
                     new BindingEntry("Heal", "Q"),
                     new BindingEntry("Use Item", "G"),
@@ -383,7 +369,7 @@ public class SettingsBindingPageDisplay : MonoBehaviour
                     new BindingEntry("Interact", "F")
                 }),
 
-            new BindingSection("Interface", new List<BindingEntry>
+            new BindingSection("Interface",new List<BindingEntry>
                 {
                     new BindingEntry("Menu", "Esc"),
                     new BindingEntry("HUD", "Tab")
@@ -398,7 +384,7 @@ public class SettingsBindingPageDisplay : MonoBehaviour
     {
         sections = new List<BindingSection>
         {
-            new BindingSection("Sound", new List<BindingEntry>
+            new BindingSection("Game", new List<BindingEntry>
                 {
                     new BindingEntry("Move Forward", "W"),
                     new BindingEntry("Move Backward", "S"),
@@ -409,7 +395,7 @@ public class SettingsBindingPageDisplay : MonoBehaviour
                     new BindingEntry("Walk", "Alt")
                 }),
 
-            new BindingSection("Actions", new List<BindingEntry>
+            new BindingSection("Actions",new List<BindingEntry>
                 {
                     new BindingEntry("Heal", "Q"),
                     new BindingEntry("Use Item", "G"),
@@ -418,7 +404,7 @@ public class SettingsBindingPageDisplay : MonoBehaviour
                     new BindingEntry("Interact", "F")
                 }),
 
-            new BindingSection("Interface", new List<BindingEntry>
+            new BindingSection("Interface",new List<BindingEntry>
                 {
                     new BindingEntry("Menu", "Esc"),
                     new BindingEntry("HUD", "Tab")
@@ -439,5 +425,26 @@ public class SettingsBindingPageDisplay : MonoBehaviour
 
         if (scrollRect != null)
             scrollRect.verticalNormalizedPosition = 1f;
+    }
+
+    private IEnumerator RefreshNavigatorNextFrame()
+    {
+        yield return null;
+
+        Canvas.ForceUpdateCanvases();
+
+        if (contentRoot != null)
+            LayoutRebuilder.ForceRebuildLayoutImmediate(contentRoot);
+
+        SettingsMenuNavigator navigator = GetComponentInParent<SettingsMenuNavigator>();
+
+        if (navigator != null)
+        {
+            navigator.RefreshGeneratedOptions();
+        }
+        else
+        {
+            Debug.LogWarning(name + ": No SettingsMenuNavigator was found " + "in the parent hierarchy.");
+        }
     }
 }

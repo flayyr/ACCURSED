@@ -35,13 +35,6 @@ public class SettingsPrefabSpawner : MonoBehaviour
     [Tooltip("Scripts to temporarily disable while settings is open, like StartMenuManager.")]
     public List<MonoBehaviour> scriptsToDisableWhileOpen = new List<MonoBehaviour>();
 
-    [Header("Settings Menu Size")]
-    [Tooltip("Name of the child object containing the visible settings menu.")]
-    [SerializeField] private string settingsPanelName = "SettingsPanel";
-
-    [Tooltip("Additional size multiplier for the visible settings menu.")]
-    [SerializeField, Min(0.1f)] private float settingsPanelScale = 1.25f;
-
     private GameObject settingsInstance;
     private SettingsMenuNavigator settingsNavigator;
     private bool isOpen;
@@ -197,50 +190,30 @@ public class SettingsPrefabSpawner : MonoBehaviour
     {
         if (settingsInstance == null)
         {
-            settingsInstance = Instantiate(settingsPrefab, targetCanvas.transform, false
-            );
+            settingsInstance = Instantiate(settingsPrefab, targetCanvas.transform, false);
 
-            // Keep the root stretched across the entire screen.
-            RectTransform rootRect = settingsInstance.GetComponent<RectTransform>();
+            // Remove "(Clone)" from its runtime name if desired.
+            settingsInstance.name = settingsPrefab.name;
 
-            if (rootRect != null)
+            // The instantiated object is already the settings root.
+            RectTransform settingsRect = settingsInstance.GetComponent<RectTransform>();
+
+            if (settingsRect != null)
             {
-                rootRect.anchorMin = Vector2.zero;
-                rootRect.anchorMax = Vector2.one;
-
-                rootRect.offsetMin = Vector2.zero;
-                rootRect.offsetMax = Vector2.zero;
-
-                rootRect.anchoredPosition = Vector2.zero;
-                rootRect.localScale = Vector3.one;
-                rootRect.localRotation = Quaternion.identity;
+                settingsRect.anchorMin = Vector2.zero;
+                settingsRect.anchorMax = Vector2.one;
+                settingsRect.offsetMin = Vector2.zero;
+                settingsRect.offsetMax = Vector2.zero;
+                settingsRect.localScale = Vector3.one;
             }
 
-            // Scale the visible menu panel rather than the full-screen root.
-            Transform settingsPanel = FindChildRecursive(settingsInstance.transform, settingsPanelName);
+            settingsNavigator = settingsInstance.GetComponentInChildren<SettingsMenuNavigator>(true);
 
-            if (settingsPanel != null)
-            {
-                settingsPanel.localScale = Vector3.one * settingsPanelScale;
-            }
-            else
-            {
-                Debug.LogWarning("Could not find a child named " + settingsPanelName + 
-                    " inside the SettingsPrefab.", settingsInstance);
-            }
-
-            settingsNavigator =
-                settingsInstance.GetComponentInChildren
-                <SettingsMenuNavigator>(true);
+            if (settingsNavigator == null)
+                Debug.LogWarning( "No SettingsMenuNavigator was found inside " + settingsInstance.name, settingsInstance);
         }
-        else
-        {
-            settingsInstance.SetActive(true);
-        }
-
-        settingsInstance.transform.SetAsLastSibling();
     }
-
+    
     private void DisableSceneObjects()
     {
         foreach (GameObject obj in objectsToDisableWhileOpen)

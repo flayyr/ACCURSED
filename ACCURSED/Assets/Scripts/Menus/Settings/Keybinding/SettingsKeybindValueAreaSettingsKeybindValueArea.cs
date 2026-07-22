@@ -1,16 +1,35 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class SettingsKeybindValueField : MonoBehaviour
+public class SettingsKeybindValueArea : MonoBehaviour, IPointerClickHandler
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private SettingsKeybindRow keybindRow;
+
+    private void Awake()
     {
-        
+        if (keybindRow == null)
+        {
+            keybindRow = GetComponentInParent<SettingsKeybindRow>();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnPointerClick(PointerEventData eventData)
     {
-        
+        if (eventData.button != PointerEventData.InputButton.Left)
+            return;
+
+        if (keybindRow == null)
+            keybindRow = GetComponentInParent<SettingsKeybindRow>();
+
+        if (keybindRow == null)
+        {
+            Debug.LogWarning(name + ": SettingsKeybindRow was not found.");
+
+            return;
+        }
+
+        Debug.Log("Clicked value field for: " + keybindRow.Action);
+
+        keybindRow.BeginListeningFromValueField();
     }
 }
