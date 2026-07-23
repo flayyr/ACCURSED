@@ -244,7 +244,7 @@ public class CharacterMovement : MonoBehaviour
     #endregion
 
     #region Special
-    public void Dash()
+    public void Dash(Vector2 movementInput)
     {
         if (canDash)
         {

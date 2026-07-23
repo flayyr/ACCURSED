@@ -14,7 +14,7 @@ public class PlayerDeath : CharacterDeath
 
     public override void Die()
     {
-        GetComponent<PlayerController>().disableControl = true;
+        GetComponent<PlayerController>().SetState( PlayerControlState.Disabled);
         Invoke("StartRespawnTransition", deathWaitBeforeFadeTime);
     }
 
@@ -25,7 +25,7 @@ public class PlayerDeath : CharacterDeath
 
     private void ResetPlayer()
     {
-        GetComponent<PlayerController>().disableControl = false;
+        GetComponent<PlayerController>().SetState( PlayerControlState.Normal);
         transform.position = respawnAspect.position;
         GetComponent<PlayerStatistics>().Reset();
     }

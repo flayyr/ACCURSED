@@ -10,6 +10,8 @@ public class HurtBox : MonoBehaviour
 
     [SerializeField] bool invincible = false;
     [SerializeField] float afterHurtInvincibleDuration = 0.2f;
+    [SerializeField] float afterHurtStunDuration = 1.2f;
+    [SerializeField] float afterHurtDogeUncancellableDuration = 0.5f;
 
     [SerializeField] List<GameObject> personalHurtBoxes = new List<GameObject>();
     [SerializeField] List<GameObject> personalHitBoxes = new List<GameObject>();
@@ -17,10 +19,13 @@ public class HurtBox : MonoBehaviour
     CharacterMovement cMovement;
     CharacterStatistics cStatistics;
 
+    PlayerController playerController;
+
     void Start()
     {
         cMovement = GetComponentInParent<CharacterMovement>();
         cStatistics = GetComponentInParent<CharacterStatistics>();
+        playerController = GetComponentInParent<PlayerController>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -34,6 +39,14 @@ public class HurtBox : MonoBehaviour
             if (hitBox.originObject != transform.root.gameObject)
             {
                 InvincibleForSeconds(afterHurtInvincibleDuration);
+
+                if (playerController != null)
+                {
+                    playerController.SetState( PlayerControlState.Disabled);
+                    playerController.SetStateDelayed(PlayerControlState.DodgeOnly, afterHurtDogeUncancellableDuration);
+                    playerController.SetStateDelayed(PlayerControlState.Normal, afterHurtStunDuration);
+
+                }
 
                 // Use Hitbox info to affect me
                 cMovement.Knockback(direction, hitBox.knockBackPower, true);

@@ -61453,6 +61453,8 @@ MonoBehaviour:
     m_Bits: 128
   invincible: 0
   afterHurtInvincibleDuration: 0.2
+  afterHurtStunDuration: 1.2
+  afterHurtDogeUncancellableDuration: 0.5
   personalHurtBoxes: []
   personalHitBoxes: []
 --- !u!61 &1192276702
@@ -61768,6 +61770,8 @@ MonoBehaviour:
     m_Bits: 128
   invincible: 0
   afterHurtInvincibleDuration: 0.2
+  afterHurtStunDuration: 1.2
+  afterHurtDogeUncancellableDuration: 0.5
   personalHurtBoxes: []
   personalHitBoxes: []
 --- !u!61 &1228454603
@@ -62556,7 +62560,8 @@ PrefabInstance:
       propertyPath: patrolRadius
       value: 5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9086311780616813275, guid: 83c3038df53a2814e8e6aa25ec560474, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
