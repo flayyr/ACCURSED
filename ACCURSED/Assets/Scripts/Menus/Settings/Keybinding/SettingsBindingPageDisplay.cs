@@ -42,7 +42,6 @@ public class SettingsBindingPageDisplay : MonoBehaviour
 
         /// <summary>
         /// Creates a non-interactive display-only entry.
-        /// This can still be used for placeholder pages.
         /// </summary>
         public BindingEntry(SettingsKeybindAction keybindAction, string actionName, string statusText = "")
         {
@@ -93,8 +92,7 @@ public class SettingsBindingPageDisplay : MonoBehaviour
 
     [Header("Displayed Sections")]
     [SerializeField]
-    private List<BindingSection> sections =
-        new List<BindingSection>();
+    private List<BindingSection> sections = new List<BindingSection>();
 
     private bool hasBuilt;
 
@@ -271,36 +269,68 @@ public class SettingsBindingPageDisplay : MonoBehaviour
         hasBuilt = false;
     }
 
+    // STEP FOUR: If you just need to add a new action, follow the format under any of the 
+    // new BindingSection, that is:
+    // new BindingEntry(SettingsKeybindAction.[action name],["name to display"], "")
+    // Remember to add [,] to the previous entry.
+
+    // STEP FIVE: If you need to add a new section in the menu, follow the format under
+    // sections = new List<BindingSection> to make a new one and add the new action.
     [ContextMenu("Load Keyboard Defaults")]
     public void LoadKeyboardDefaults()
     {
         sections = new List<BindingSection>
         {
-            new BindingSection("Game", new List<BindingEntry>
+            new BindingSection("Movement", new List<BindingEntry>
                 {
-                    new BindingEntry(SettingsKeybindAction.MoveForwards,"Move Forward", "W"),
-                    new BindingEntry(SettingsKeybindAction.MoveBackwards,"Move Backward", "S"),
-                    new BindingEntry(SettingsKeybindAction.MoveLeft,"Move Left", "A"),
-                    new BindingEntry(SettingsKeybindAction.MoveRight,"Move Right", "D"),
-                    new BindingEntry(SettingsKeybindAction.Dodge,"Dodge", "Space"),
-                    new BindingEntry(SettingsKeybindAction.Sprint,"Sprint", "Shift"),
-                    new BindingEntry(SettingsKeybindAction.Walk,"Walk", "Alt")
+                    new BindingEntry(SettingsKeybindAction.MoveForwards,"Move Forward", ""),
+                    new BindingEntry(SettingsKeybindAction.MoveBackwards,"Move Backward", ""),
+                    new BindingEntry(SettingsKeybindAction.MoveLeft,"Move Left", ""),
+                    new BindingEntry(SettingsKeybindAction.MoveRight,"Move Right", ""),
+                    new BindingEntry(SettingsKeybindAction.Dodge,"Dodge", ""),
+                    new BindingEntry(SettingsKeybindAction.Sprint,"Sprint", ""),
+                    new BindingEntry(SettingsKeybindAction.Walk,"Walk", "")
+                    
+                    // Can add new action above here ^^^
+
+                    // Example:
+                    // new BindingEntry(SettingsKeybindAction.[action name],["name to display"], ""),
                 }),
 
-            new BindingSection("Actions",new List<BindingEntry>
+            new BindingSection("Actions", new List<BindingEntry>
                 {
-                    new BindingEntry(SettingsKeybindAction.Heal,"Heal", "Q"),
-                    new BindingEntry(SettingsKeybindAction.UseItem,"Use Item", "G"),
-                    new BindingEntry(SettingsKeybindAction.Remembrance,"Remembrance", "R"),
-                    new BindingEntry(SettingsKeybindAction.Vestige,"Vestige", "E"),
-                    new BindingEntry(SettingsKeybindAction.Interact,"Interact", "F")
+                    new BindingEntry(SettingsKeybindAction.Heal,"Heal", ""),
+                    new BindingEntry(SettingsKeybindAction.UseItem,"Use Item", ""),
+                    new BindingEntry(SettingsKeybindAction.Remembrance,"Remembrance", ""),
+                    new BindingEntry(SettingsKeybindAction.Vestige,"Vestige", ""),
+                    new BindingEntry(SettingsKeybindAction.Interact,"Interact", "")
+
+                    // Can add new action above here ^^^
                 }),
 
-            new BindingSection("Interface",new List<BindingEntry>
+            new BindingSection("Interface", new List<BindingEntry>
                 {
-                    new BindingEntry(SettingsKeybindAction.Menu,"Menu", "Esc"),
-                    new BindingEntry(SettingsKeybindAction.HUD,"HUD", "Tab")
+                    new BindingEntry(SettingsKeybindAction.Menu,"Menu", ""),
+                    new BindingEntry(SettingsKeybindAction.HUD,"HUD", "")
+
+                    // Can add new action above here ^^^
+                }),
+            
+
+            new BindingSection("Test", new List<BindingEntry>
+                {
+                    new BindingEntry(SettingsKeybindAction.Test, "Test", "")
                 })
+                // ^^^ Remember to add a [,] above  if you want to add a new section
+
+            // Can add new section above here ^^^
+
+            // Example:
+            // new BindingSection(["new section"],new List<BindingEntry>
+            // {
+            //      new BindingEntry(SettingsKeybindAction.[action name],["name to display"], "")
+            // })
+            
         };
 
         hasBuilt = false;

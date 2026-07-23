@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+// STEP ONE: Add the new action in SettingsKeybindAction.
 public enum SettingsKeybindAction
 {
-    MoveForwards,
+    MoveForwards,   
     MoveBackwards,
     MoveLeft,
     MoveRight,
@@ -17,7 +18,9 @@ public enum SettingsKeybindAction
     Vestige,
     Interact,
     Menu,
-    HUD
+    HUD,
+    Test
+    // Add it above this ^^^
 }
 
 public class SettingsKeybindManager : MonoBehaviour
@@ -152,6 +155,9 @@ public class SettingsKeybindManager : MonoBehaviour
         return playerPrefsPrefix + action;
     }
 
+    // STEP Two: Using the same format as below, add the new action's default keybinding.
+    // case SettingsKeybindAction.[action name]:
+    //     return KeyCode.[action key];
     public KeyCode GetDefaultBinding(SettingsKeybindAction action)
     {
         switch (action)
@@ -197,11 +203,19 @@ public class SettingsKeybindManager : MonoBehaviour
 
             case SettingsKeybindAction.HUD:
                 return KeyCode.Tab;
+
+            case SettingsKeybindAction.Test:
+                return KeyCode.T;
+
+            // Add it above this ^^^
         }
 
         return KeyCode.None;
     }
 
+    // STEP Three: Using the same format as below, add the new action's default name.
+    // case SettingsKeybindAction.[action name]:
+    //     return "[name to display]";
     public string GetActionDisplayName(SettingsKeybindAction action)
     {
         switch (action)
@@ -247,6 +261,11 @@ public class SettingsKeybindManager : MonoBehaviour
 
             case SettingsKeybindAction.HUD:
                 return "HUD";
+
+            case SettingsKeybindAction.Test:
+                return "Test";
+
+            // Add it above this ^^^
         }
 
         return action.ToString();
