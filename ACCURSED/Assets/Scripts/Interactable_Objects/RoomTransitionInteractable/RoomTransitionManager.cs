@@ -20,13 +20,13 @@ public class RoomTransitionManager : MonoBehaviour
 
     private void Awake()
     {
-        GameObject fadeObject = GameObject.FindGameObjectWithTag("Fade");
-
-        if (fadeObject != null)
-            Destroy(fadeObject);
-
         if (Instance != null && Instance != this)
         {
+            GameObject fadeObject = GameObject.FindGameObjectWithTag("Fade");
+
+            if (fadeObject != null)
+                Destroy(fadeObject);
+
             Destroy(gameObject);
             return;
         }
