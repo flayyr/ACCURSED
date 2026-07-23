@@ -20,6 +20,11 @@ public class RoomTransitionManager : MonoBehaviour
 
     private void Awake()
     {
+        GameObject fadeObject = GameObject.FindGameObjectWithTag("Fade");
+
+        if (fadeObject != null)
+            Destroy(fadeObject);
+
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -28,6 +33,14 @@ public class RoomTransitionManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Update()
+    {
+        GameObject fadeObject = GameObject.FindGameObjectWithTag("Fade");
+
+        if (!isTransitioning && fadeObject != null)
+            Destroy(fadeObject);
     }
 
     public void BeginTransition(string sceneName, string spawnID, Transform playerToMove)

@@ -69,6 +69,13 @@ public class StartMenuManager : MonoBehaviour
 
     private void Update()
     {
+        Scene currentScene = SceneManager.GetActiveScene();
+
+        if (currentScene.name == "Altar")
+        {
+            Destroy(gameObject);
+        }
+
         if (inputBlockedBySettings)
             return;
 
@@ -86,30 +93,30 @@ public class StartMenuManager : MonoBehaviour
         if (buttons.Count == 0)
             return;
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             SelectByIndex(selectedIndex + 1);
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             SelectByIndex(selectedIndex - 1);
         }
 
         if (allowHorizontalNavigation)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 SelectByIndex(selectedIndex + 1);
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 SelectByIndex(selectedIndex - 1);
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             ActivateSelectedButton();
         }
@@ -162,7 +169,7 @@ public class StartMenuManager : MonoBehaviour
         switch (button.buttonType)
         {
             case StartMenuButton.ButtonType.Play:
-                RoomTransitionWithoutPlayer.Instance.BeginTransition(playName);
+                RoomTransitionManager.Instance.BeginTransition("Altar", "Start", gameObject.transform);
                 break;
 
             case StartMenuButton.ButtonType.Saves:
