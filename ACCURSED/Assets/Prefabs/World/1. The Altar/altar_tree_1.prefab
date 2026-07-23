@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 174192022652222133}
   - component: {fileID: -5180595775107579989}
   - component: {fileID: 3210205836853272246}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: altar_tree_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 0
   normalMap: {fileID: -2197359250157334493, guid: 64fb19783aa572947b90c9b3d4f499f4, type: 3}
-  sortOrderOffset: 0
+  refTransform: {fileID: 0}
   useAmbientShadow: 1
   ambientShadowSprite: {fileID: 0}
   ambientShadowLength: 0.5
@@ -162,7 +162,6 @@ MonoBehaviour:
   interactionLayers:
     serializedVersion: 2
     m_Bits: 64
-  grassBend: 0
   bendAmountMax: 0
   bendLerpDuration: 0.1
   allowKeyboardTest: 0
@@ -244,8 +243,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DepthSort
   sortRenderer: {fileID: 0}
+  sortOrderOffset: 0
   useParticle: 0
   baseTransform: {fileID: 0}
+  selfUpdate: 0
 --- !u!1 &4596477133055185359
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,7 +257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5619906703399897049}
   - component: {fileID: 2365964481045797613}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: TreeBlockCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,7 +326,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5763980350726452875}
   - component: {fileID: 979094009076444410}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: TreeHitColliderTrunk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -394,7 +395,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7902330377601216992}
   - component: {fileID: 168840835338989143}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: TreeHitColliderFull
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -529,7 +530,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2407902881460183060, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3650438458653861055, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -573,7 +574,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4740356543358023209, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5992037195578543725, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: InitialModule.maxNumParticles
