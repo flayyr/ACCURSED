@@ -204,8 +204,9 @@ MonoBehaviour:
   lm_hurtbox:
     serializedVersion: 2
     m_Bits: 128
-  invincible: 0
   afterHurtInvincibleDuration: 0.2
+  afterHurtStunDuration: 1.2
+  durationUntilDodgeCancellable: 0.5
   personalHurtBoxes: []
   personalHitBoxes: []
 --- !u!1 &838227547138820842
@@ -254,11 +255,10 @@ GameObject:
   - component: {fileID: 7427543529721681770}
   - component: {fileID: 2737403891477535848}
   - component: {fileID: 493747596500326372}
-  - component: {fileID: 9086311780616813275}
   - component: {fileID: 376042867505150539}
   - component: {fileID: 6294427444672200251}
   - component: {fileID: 6551904891543865149}
-  - component: {fileID: 4953969511290504117}
+  - component: {fileID: 5128340459437188432}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -436,19 +436,6 @@ MonoBehaviour:
   attacking: 0
   releasing: 0
   attackCue: 0
---- !u!114 &9086311780616813275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320349112389769228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bb9b9abd7c23cc47a5ce8ecfb7e8525, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  disableControl: 0
 --- !u!95 &376042867505150539
 Animator:
   serializedVersion: 7
@@ -530,7 +517,7 @@ MonoBehaviour:
   - {fileID: 7108339969198208228, guid: 9aebb455c78197840909c94c001b1127, type: 3}
   - {fileID: 7108339969198208228, guid: e4b3be61f971cce42b4826f306677096, type: 3}
   - {fileID: 7108339969198208228, guid: d430232e841c60c4eb0ec174562aee84, type: 3}
---- !u!114 &4953969511290504117
+--- !u!114 &5128340459437188432
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -539,9 +526,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1320349112389769228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29da1597c2d440f4fa42dfdf911786dd, type: 3}
+  m_Script: {fileID: 11500000, guid: fe4f382e3fd441e4cb79b00dfb62da0b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterDeath
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDeath
 --- !u!1 &7939500389445177993
 GameObject:
   m_ObjectHideFlags: 0

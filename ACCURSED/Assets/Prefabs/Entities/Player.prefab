@@ -111,7 +111,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  damage: 0.26
+  damage: 1
   knockBackPower: 0.06
   direction: {x: 1.69, y: -1.18, z: 0}
   PostAnimDirection: {x: 0, y: 0, z: 0}
@@ -204,8 +204,9 @@ MonoBehaviour:
   lm_hurtbox:
     serializedVersion: 2
     m_Bits: 128
-  invincible: 0
   afterHurtInvincibleDuration: 0.2
+  afterHurtStunDuration: 1.2
+  durationUntilDodgeCancellable: 0.5
   personalHurtBoxes: []
   personalHitBoxes: []
 --- !u!1 &1365942243035010408
@@ -957,7 +958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb9b9abd7c23cc47a5ce8ecfb7e8525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  disableControl: 0
+  state: 0
 --- !u!114 &8817843868832260846
 MonoBehaviour:
   m_ObjectHideFlags: 0

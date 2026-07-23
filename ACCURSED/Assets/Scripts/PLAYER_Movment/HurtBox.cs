@@ -8,10 +8,12 @@ public class HurtBox : MonoBehaviour
     [SerializeField] LayerMask lm_hitbox;
     [SerializeField] LayerMask lm_hurtbox;
 
-    [SerializeField] bool invincible = false;
+    [Space]
+    bool invincible = false;
     [SerializeField] float afterHurtInvincibleDuration = 0.2f;
     [SerializeField] float afterHurtStunDuration = 1.2f;
-    [SerializeField] float afterHurtDogeUncancellableDuration = 0.5f;
+    [SerializeField] float durationUntilDodgeCancellable = 0.5f;
+    [Space]
 
     [SerializeField] List<GameObject> personalHurtBoxes = new List<GameObject>();
     [SerializeField] List<GameObject> personalHitBoxes = new List<GameObject>();
@@ -26,6 +28,11 @@ public class HurtBox : MonoBehaviour
         cMovement = GetComponentInParent<CharacterMovement>();
         cStatistics = GetComponentInParent<CharacterStatistics>();
         playerController = GetComponentInParent<PlayerController>();
+    }
+
+    private void OnEnable()
+    {
+        invincible = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -43,7 +50,7 @@ public class HurtBox : MonoBehaviour
                 if (playerController != null)
                 {
                     playerController.SetState( PlayerControlState.Disabled);
-                    playerController.SetStateDelayed(PlayerControlState.DodgeOnly, afterHurtDogeUncancellableDuration);
+                    playerController.SetStateDelayed(PlayerControlState.DodgeOnly, durationUntilDodgeCancellable);
                     playerController.SetStateDelayed(PlayerControlState.Normal, afterHurtStunDuration);
 
                 }
