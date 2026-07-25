@@ -28,7 +28,7 @@ public class RoomTransitionManager : MonoBehaviour
                 Destroy(fadeObject);
 
             Destroy(gameObject);
-            return;
+            //return;
         }
 
         Instance = this;
@@ -37,10 +37,7 @@ public class RoomTransitionManager : MonoBehaviour
 
     private void Update()
     {
-        GameObject fadeObject = GameObject.FindGameObjectWithTag("Fade");
-
-        if (!isTransitioning && fadeObject != null)
-            Destroy(fadeObject);
+        
     }
 
     public void BeginTransition(string sceneName, string spawnID, Transform playerToMove)
