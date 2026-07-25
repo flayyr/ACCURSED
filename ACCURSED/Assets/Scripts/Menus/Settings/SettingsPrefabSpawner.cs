@@ -72,8 +72,7 @@ public class SettingsPrefabSpawner : MonoBehaviour
 
         // Escape is currently being assigned as a keybind,
         // or was assigned during this same frame.
-        if (settingsNavigator != null &&
-            settingsNavigator.BlocksSettingsEscape)
+        if (settingsNavigator != null)
         {
             return;
         }

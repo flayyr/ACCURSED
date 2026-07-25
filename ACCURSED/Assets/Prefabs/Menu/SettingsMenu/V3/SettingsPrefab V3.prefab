@@ -1500,7 +1500,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 150}
+  m_AnchoredPosition: {x: 0, y: 100}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &3340643431274170167
@@ -1519,9 +1519,9 @@ MonoBehaviour:
     m_Left: 55
     m_Right: 0
     m_Top: 0
-    m_Bottom: 0
+    m_Bottom: 100
   m_ChildAlignment: 3
-  m_Spacing: 300
+  m_Spacing: 275
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -2141,83 +2141,14 @@ MonoBehaviour:
   contentRoot: {fileID: 2313711817704567496}
   scrollRect: {fileID: 737643514213237912}
   sectionHeaderPrefab: {fileID: 7836691785195578610, guid: 762ee348bb300eb478b4d6c46e4e203c, type: 3}
-  rowPrefab: {fileID: 3576817757789197675, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+  rowPrefab: {fileID: 3261465935946880823, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
   sections:
   - sectionTitle: Display
     entries:
     - isInteractiveKeybind: 1
-      keybindAction: 0
-      actionName: Move Forward
-      bindingText: W
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 1
-      actionName: Move Backward
-      bindingText: S
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 2
-      actionName: Move Left
-      bindingText: A
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 3
-      actionName: Move Right
-      bindingText: D
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 4
-      actionName: Dodge
-      bindingText: Space
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 5
-      actionName: Sprint
-      bindingText: Shift
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 6
-      actionName: Walk
-      bindingText: Alt
-      statusText: 
-  - sectionTitle: Actions
-    entries:
-    - isInteractiveKeybind: 1
-      keybindAction: 7
-      actionName: Heal
-      bindingText: Q
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 8
-      actionName: Use Item
-      bindingText: G
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 9
-      actionName: Remembrance
-      bindingText: R
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 10
-      actionName: Vestige
-      bindingText: E
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 11
-      actionName: Interact
-      bindingText: F
-      statusText: 
-  - sectionTitle: Interface
-    entries:
-    - isInteractiveKeybind: 1
-      keybindAction: 12
-      actionName: Menu
-      bindingText: Esc
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 13
-      actionName: HUD
-      bindingText: Tab
+      keybindAction: 17
+      actionName: Test
+      bindingText: T
       statusText: 
 --- !u!1 &2403802439389804920
 GameObject:
@@ -2272,90 +2203,105 @@ MonoBehaviour:
   contentRoot: {fileID: 4290960282050825514}
   scrollRect: {fileID: 1321439435182795107}
   sectionHeaderPrefab: {fileID: 7836691785195578610, guid: 762ee348bb300eb478b4d6c46e4e203c, type: 3}
-  rowPrefab: {fileID: 3576817757789197675, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+  rowPrefab: {fileID: 3261465935946880823, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
   sections:
   - sectionTitle: Movement
     entries:
     - isInteractiveKeybind: 1
       keybindAction: 0
       actionName: Move Forward
-      bindingText: 
+      bindingText: W
       statusText: 
     - isInteractiveKeybind: 1
       keybindAction: 1
       actionName: Move Backward
-      bindingText: 
+      bindingText: S
       statusText: 
     - isInteractiveKeybind: 1
       keybindAction: 2
       actionName: Move Left
-      bindingText: 
+      bindingText: A
       statusText: 
     - isInteractiveKeybind: 1
       keybindAction: 3
       actionName: Move Right
-      bindingText: 
+      bindingText: D
       statusText: 
     - isInteractiveKeybind: 1
       keybindAction: 4
       actionName: Dodge
-      bindingText: 
+      bindingText: Space
       statusText: 
     - isInteractiveKeybind: 1
       keybindAction: 5
       actionName: Sprint
-      bindingText: 
+      bindingText: Shift
       statusText: 
     - isInteractiveKeybind: 1
       keybindAction: 6
       actionName: Walk
-      bindingText: 
+      bindingText: Alt
       statusText: 
   - sectionTitle: Actions
     entries:
     - isInteractiveKeybind: 1
       keybindAction: 7
-      actionName: Heal
-      bindingText: 
+      actionName: Attack
+      bindingText: Left Mouse
       statusText: 
     - isInteractiveKeybind: 1
       keybindAction: 8
-      actionName: Use Item
+      actionName: Heavy Attack
       bindingText: 
       statusText: 
     - isInteractiveKeybind: 1
       keybindAction: 9
-      actionName: Remembrance
-      bindingText: 
+      actionName: Parry
+      bindingText: Right Mouse
       statusText: 
     - isInteractiveKeybind: 1
       keybindAction: 10
-      actionName: Vestige
-      bindingText: 
+      actionName: Heal
+      bindingText: Q
       statusText: 
     - isInteractiveKeybind: 1
       keybindAction: 11
       actionName: Interact
-      bindingText: 
+      bindingText: G
+      statusText: 
+    - isInteractiveKeybind: 1
+      keybindAction: 12
+      actionName: Remembrance
+      bindingText: R
+      statusText: 
+    - isInteractiveKeybind: 1
+      keybindAction: 13
+      actionName: Vestige
+      bindingText: E
+      statusText: 
+    - isInteractiveKeybind: 1
+      keybindAction: 14
+      actionName: Interact
+      bindingText: F
       statusText: 
   - sectionTitle: Interface
     entries:
     - isInteractiveKeybind: 1
-      keybindAction: 12
+      keybindAction: 15
       actionName: Menu
-      bindingText: 
+      bindingText: Esc
       statusText: 
     - isInteractiveKeybind: 1
-      keybindAction: 13
+      keybindAction: 16
       actionName: HUD
-      bindingText: 
+      bindingText: Tab
       statusText: 
   - sectionTitle: Test
     entries:
     - isInteractiveKeybind: 1
-      keybindAction: 14
+      keybindAction: 17
       actionName: Test
-      bindingText: 
+      bindingText: T
       statusText: 
 --- !u!1 &2404979616651143576
 GameObject:
@@ -2812,7 +2758,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 9032413674571840506}
+  - {fileID: 107237041557762658}
   m_Father: {fileID: 7758596586036912090}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -3742,83 +3690,14 @@ MonoBehaviour:
   contentRoot: {fileID: 8258372864018445937}
   scrollRect: {fileID: 8154207956264031306}
   sectionHeaderPrefab: {fileID: 7836691785195578610, guid: 762ee348bb300eb478b4d6c46e4e203c, type: 3}
-  rowPrefab: {fileID: 3576817757789197675, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+  rowPrefab: {fileID: 3261465935946880823, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
   sections:
   - sectionTitle: Controller
     entries:
     - isInteractiveKeybind: 1
-      keybindAction: 0
-      actionName: Move Forward
-      bindingText: W
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 1
-      actionName: Move Backward
-      bindingText: S
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 2
-      actionName: Move Left
-      bindingText: A
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 3
-      actionName: Move Right
-      bindingText: D
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 4
-      actionName: Dodge
-      bindingText: Space
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 5
-      actionName: Sprint
-      bindingText: Shift
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 6
-      actionName: Walk
-      bindingText: Alt
-      statusText: 
-  - sectionTitle: Actions
-    entries:
-    - isInteractiveKeybind: 1
-      keybindAction: 7
-      actionName: Heal
-      bindingText: Q
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 8
-      actionName: Use Item
-      bindingText: G
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 9
-      actionName: Remembrance
-      bindingText: R
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 10
-      actionName: Vestige
-      bindingText: E
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 11
-      actionName: Interact
-      bindingText: F
-      statusText: 
-  - sectionTitle: Interface
-    entries:
-    - isInteractiveKeybind: 1
-      keybindAction: 12
-      actionName: Menu
-      bindingText: Esc
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 13
-      actionName: HUD
-      bindingText: Tab
+      keybindAction: 17
+      actionName: Test
+      bindingText: T
       statusText: 
 --- !u!1 &3571410668783668694
 GameObject:
@@ -4649,14 +4528,20 @@ MonoBehaviour:
   visualSize: {x: 80, y: 40}
   visualOffset: {x: 0, y: 0}
   actionNameText: {fileID: 8503664594640635408}
-  keyText: {fileID: 5885340278478739320}
   statusText: {fileID: 894212985713090836}
+  singleValueRoot: {fileID: 0}
+  valueArea: {fileID: 415523551742727510}
+  keyText: {fileID: 5885340278478739320}
+  chordValueRoot: {fileID: 0}
+  modifierValueArea: {fileID: 0}
+  modifierKeyText: {fileID: 0}
+  triggerValueArea: {fileID: 0}
+  triggerKeyText: {fileID: 0}
   rowBackground: {fileID: 2766405019170639157}
   highlightPrefab: {fileID: 3128393248735509297, guid: deb73cf6e15fce9409895ba9a3691743, type: 3}
   blinkCyclesPerSecond: 0.7
   minimumBlinkAlpha: 0.2
   maximumBlinkAlpha: 0.85
-  valueArea: {fileID: 415523551742727510}
 --- !u!114 &2312699551265387399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5816,7 +5701,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1805658643559881916}
-  - component: {fileID: 4261960526109509775}
+  - component: {fileID: 5325302742434079243}
   m_Layer: 0
   m_Name: ReturnButton
   m_TagString: Untagged
@@ -5844,9 +5729,9 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 114.9989, y: 100}
+  m_SizeDelta: {x: 120.6638, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4261960526109509775
+--- !u!114 &5325302742434079243
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8082,83 +7967,14 @@ MonoBehaviour:
   contentRoot: {fileID: 5555215719693013598}
   scrollRect: {fileID: 7185088522945531121}
   sectionHeaderPrefab: {fileID: 7836691785195578610, guid: 762ee348bb300eb478b4d6c46e4e203c, type: 3}
-  rowPrefab: {fileID: 3576817757789197675, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+  rowPrefab: {fileID: 3261465935946880823, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
   sections:
   - sectionTitle: Sound
     entries:
     - isInteractiveKeybind: 1
-      keybindAction: 0
-      actionName: Move Forward
-      bindingText: W
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 1
-      actionName: Move Backward
-      bindingText: S
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 2
-      actionName: Move Left
-      bindingText: A
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 3
-      actionName: Move Right
-      bindingText: D
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 4
-      actionName: Dodge
-      bindingText: Space
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 5
-      actionName: Sprint
-      bindingText: Shift
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 6
-      actionName: Walk
-      bindingText: Alt
-      statusText: 
-  - sectionTitle: Actions
-    entries:
-    - isInteractiveKeybind: 1
-      keybindAction: 7
-      actionName: Heal
-      bindingText: Q
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 8
-      actionName: Use Item
-      bindingText: G
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 9
-      actionName: Remembrance
-      bindingText: R
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 10
-      actionName: Vestige
-      bindingText: E
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 11
-      actionName: Interact
-      bindingText: F
-      statusText: 
-  - sectionTitle: Interface
-    entries:
-    - isInteractiveKeybind: 1
-      keybindAction: 12
-      actionName: Menu
-      bindingText: Esc
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 13
-      actionName: HUD
-      bindingText: Tab
+      keybindAction: 17
+      actionName: Test
+      bindingText: T
       statusText: 
 --- !u!1 &8407442970676638364
 GameObject:
@@ -8213,83 +8029,14 @@ MonoBehaviour:
   contentRoot: {fileID: 997200993560996820}
   scrollRect: {fileID: 7975282057987689378}
   sectionHeaderPrefab: {fileID: 7836691785195578610, guid: 762ee348bb300eb478b4d6c46e4e203c, type: 3}
-  rowPrefab: {fileID: 3576817757789197675, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+  rowPrefab: {fileID: 3261465935946880823, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
   sections:
   - sectionTitle: Game
     entries:
     - isInteractiveKeybind: 1
-      keybindAction: 0
-      actionName: Move Forward
-      bindingText: W
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 1
-      actionName: Move Backward
-      bindingText: S
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 2
-      actionName: Move Left
-      bindingText: A
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 3
-      actionName: Move Right
-      bindingText: D
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 4
-      actionName: Dodge
-      bindingText: Space
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 5
-      actionName: Sprint
-      bindingText: Shift
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 6
-      actionName: Walk
-      bindingText: Alt
-      statusText: 
-  - sectionTitle: Actions
-    entries:
-    - isInteractiveKeybind: 1
-      keybindAction: 7
-      actionName: Heal
-      bindingText: Q
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 8
-      actionName: Use Item
-      bindingText: G
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 9
-      actionName: Remembrance
-      bindingText: R
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 10
-      actionName: Vestige
-      bindingText: E
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 11
-      actionName: Interact
-      bindingText: F
-      statusText: 
-  - sectionTitle: Interface
-    entries:
-    - isInteractiveKeybind: 1
-      keybindAction: 12
-      actionName: Menu
-      bindingText: Esc
-      statusText: 
-    - isInteractiveKeybind: 1
-      keybindAction: 13
-      actionName: HUD
-      bindingText: Tab
+      keybindAction: 17
+      actionName: Test
+      bindingText: T
       statusText: 
 --- !u!1 &8449954789467313744
 GameObject:
@@ -8600,7 +8347,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2526261555997892256}
-  - component: {fileID: 4513558662026396829}
+  - component: {fileID: 6485840612063016100}
   m_Layer: 0
   m_Name: RestoreButton
   m_TagString: Untagged
@@ -8627,9 +8374,9 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 375, y: 100}
+  m_SizeDelta: {x: 360.8287, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4513558662026396829
+--- !u!114 &6485840612063016100
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9241,6 +8988,112 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1001 &1120596465629707771
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4290960282050825514}
+    m_Modifications:
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1735.281
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -370
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2429151308510753331, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_Name
+      value: RowSingle
+      objectReference: {fileID: 0}
+    - target: {fileID: 2429151308510753331, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+--- !u!224 &107237041557762658 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
+  m_PrefabInstance: {fileID: 1120596465629707771}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4410579899129925223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9346,6 +9199,160 @@ PrefabInstance:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1076873822444638105, guid: 9f487ac7676d8dd4ab4c98a83bae993e, type: 3}
   m_PrefabInstance: {fileID: 4410579899129925223}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8018696904193209919
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4290960282050825514}
+    m_Modifications:
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1735.281
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -120
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4419844395311198319, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_Name
+      value: RowDouble
+      objectReference: {fileID: 0}
+    - target: {fileID: 4419844395311198319, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5455346109186707327, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5455346109186707327, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5455346109186707327, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1225
+      objectReference: {fileID: 0}
+    - target: {fileID: 5455346109186707327, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5693329045881901726, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5693329045881901726, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5693329045881901726, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 770
+      objectReference: {fileID: 0}
+    - target: {fileID: 5693329045881901726, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074017971227234913, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074017971227234913, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074017971227234913, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 315
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074017971227234913, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -50
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+--- !u!224 &9032413674571840506 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1302022122927410629, guid: 764c9505295e67548a80571eeab82bb6, type: 3}
+  m_PrefabInstance: {fileID: 8018696904193209919}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8253908582134290645
 PrefabInstance:

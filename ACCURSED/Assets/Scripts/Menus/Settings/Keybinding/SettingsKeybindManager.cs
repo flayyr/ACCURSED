@@ -2,16 +2,18 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-// STEP ONE: Add the new action in SettingsKeybindAction.
 public enum SettingsKeybindAction
 {
-    MoveForwards,   
+    MoveForwards,
     MoveBackwards,
     MoveLeft,
     MoveRight,
     Dodge,
     Sprint,
     Walk,
+    Attack,
+    HeavyAttack,
+    Parry,
     Heal,
     UseItem,
     Remembrance,
@@ -20,7 +22,70 @@ public enum SettingsKeybindAction
     Menu,
     HUD,
     Test
-    // Add it above this ^^^
+}
+
+public enum SettingsKeybindSlot
+{
+    Modifier,
+    Trigger
+}
+
+/// <summary>
+/// A keyboard/mouse binding.
+/// Single-key actions use Modifier = None.
+/// Chord actions use Modifier + Trigger, such as Ctrl + Left Mouse.
+/// </summary>
+[Serializable]
+public struct SettingsKeybind
+{
+    [SerializeField] private KeyCode modifier;
+    [SerializeField] private KeyCode trigger;
+
+    public KeyCode Modifier
+    {
+        get { return modifier; }
+    }
+
+    public KeyCode Trigger
+    {
+        get { return trigger; }
+    }
+
+    public bool IsChord
+    {
+        get { return modifier != KeyCode.None; }
+    }
+
+    public bool IsValid
+    {
+        get { return trigger != KeyCode.None; }
+    }
+
+    public SettingsKeybind(KeyCode trigger)
+    {
+        modifier = KeyCode.None;
+        this.trigger = trigger;
+    }
+
+    public SettingsKeybind(KeyCode modifier, KeyCode trigger)
+    {
+        this.modifier = modifier;
+        this.trigger = trigger;
+    }
+
+    public KeyCode GetKey(SettingsKeybindSlot slot)
+    {
+        return slot == SettingsKeybindSlot.Modifier
+            ? modifier
+            : trigger;
+    }
+
+    public SettingsKeybind WithKey(SettingsKeybindSlot slot, KeyCode newKey)
+    {
+        return slot == SettingsKeybindSlot.Modifier
+            ? new SettingsKeybind(newKey, trigger)
+            : new SettingsKeybind(modifier, newKey);
+    }
 }
 
 public class SettingsKeybindManager : MonoBehaviour
@@ -31,8 +96,8 @@ public class SettingsKeybindManager : MonoBehaviour
 
     [SerializeField] private string playerPrefsPrefix = "SettingsKeybind_";
 
-    private readonly Dictionary<SettingsKeybindAction, KeyCode>
-        currentBindings = new Dictionary<SettingsKeybindAction, KeyCode>();
+    private readonly Dictionary<SettingsKeybindAction, SettingsKeybind>
+        currentBindings = new Dictionary<SettingsKeybindAction, SettingsKeybind>();
 
     private readonly List<SettingsKeybindRow> registeredRows = new List<SettingsKeybindRow>();
 
@@ -43,29 +108,49 @@ public class SettingsKeybindManager : MonoBehaviour
         EnsureInitialized();
     }
 
-    public KeyCode GetBinding(SettingsKeybindAction action)
+    public SettingsKeybind GetBinding(SettingsKeybindAction action)
     {
         EnsureInitialized();
 
-        if (currentBindings.TryGetValue(action, out KeyCode key))
-            return key;
+        if (currentBindings.TryGetValue(action, out SettingsKeybind binding))
+            return binding;
 
         return GetDefaultBinding(action);
     }
 
-    public void SetBinding(SettingsKeybindAction action, KeyCode newKey)
+    public KeyCode GetBindingKey(SettingsKeybindAction action, SettingsKeybindSlot slot)
+    {
+        return GetBinding(action).GetKey(slot);
+    }
+
+    public bool UsesChord(SettingsKeybindAction action)
+    {
+        return GetBinding(action).IsChord;
+    }
+
+    public void SetBinding(SettingsKeybindAction action, SettingsKeybindSlot slot, KeyCode newKey)
+    {
+        SettingsKeybind currentBinding = GetBinding(action);
+        SettingsKeybind updatedBinding = currentBinding.WithKey(slot, newKey);
+
+        SetBinding(action, updatedBinding);
+    }
+
+    /// <summary>
+    /// Compatibility overload for older code.
+    /// Changes the trigger while preserving the modifier.
+    /// </summary>
+    public void SetBinding(SettingsKeybindAction action, KeyCode newTrigger)
+    {
+        SetBinding(action, SettingsKeybindSlot.Trigger, newTrigger);
+    }
+
+    public void SetBinding(SettingsKeybindAction action, SettingsKeybind newBinding)
     {
         EnsureInitialized();
 
-        currentBindings[action] = newKey;
-
-        if (saveWithPlayerPrefs)
-        {
-            PlayerPrefs.SetInt(GetSaveKey(action),(int)newKey);
-
-            PlayerPrefs.Save();
-        }
-
+        currentBindings[action] = newBinding;
+        SaveBinding(action, newBinding);
         RefreshAllRows();
     }
 
@@ -75,14 +160,10 @@ public class SettingsKeybindManager : MonoBehaviour
 
         foreach (SettingsKeybindAction action in Enum.GetValues(typeof(SettingsKeybindAction)))
         {
-            KeyCode defaultKey = GetDefaultBinding(action);
+            SettingsKeybind defaultBinding = GetDefaultBinding(action);
 
-            currentBindings[action] = defaultKey;
-
-            if (saveWithPlayerPrefs)
-            {
-                PlayerPrefs.SetInt(GetSaveKey(action), (int)defaultKey);
-            }
+            currentBindings[action] = defaultBinding;
+            SaveBinding(action, defaultBinding, false);
         }
 
         if (saveWithPlayerPrefs)
@@ -107,6 +188,38 @@ public class SettingsKeybindManager : MonoBehaviour
     public void UnregisterRow(SettingsKeybindRow row)
     {
         registeredRows.Remove(row);
+    }
+
+    /// <summary>
+    /// Optional helper for future gameplay scripts.
+    /// A chord becomes true when its modifier is held and its trigger
+    /// is pressed during the current frame.
+    /// </summary>
+    public bool WasBindingPressed(SettingsKeybindAction action)
+    {
+        SettingsKeybind binding = GetBinding(action);
+
+        if (!binding.IsValid)
+            return false;
+
+        bool modifierSatisfied = binding.Modifier == KeyCode.None || GetKeyEquivalent(binding.Modifier);
+
+        return modifierSatisfied && GetKeyDownEquivalent(binding.Trigger);
+    }
+
+    /// <summary>
+    /// Optional helper for continuous actions, such as movement or sprint.
+    /// </summary>
+    public bool IsBindingHeld(SettingsKeybindAction action)
+    {
+        SettingsKeybind binding = GetBinding(action);
+
+        if (!binding.IsValid)
+            return false;
+
+        bool modifierSatisfied = binding.Modifier == KeyCode.None || GetKeyEquivalent(binding.Modifier);
+
+        return modifierSatisfied && GetKeyEquivalent(binding.Trigger);
     }
 
     private void RefreshAllRows()
@@ -134,89 +247,145 @@ public class SettingsKeybindManager : MonoBehaviour
 
         foreach (SettingsKeybindAction action in Enum.GetValues(typeof(SettingsKeybindAction)))
         {
-            KeyCode defaultKey = GetDefaultBinding(action);
-            KeyCode loadedKey = defaultKey;
+            SettingsKeybind defaultBinding = GetDefaultBinding(action);
 
-            string saveKey = GetSaveKey(action);
-
-            if (saveWithPlayerPrefs && PlayerPrefs.HasKey(saveKey))
-            {
-                loadedKey = (KeyCode)PlayerPrefs.GetInt(saveKey, (int)defaultKey);
-            }
-
-            currentBindings[action] = loadedKey;
+            currentBindings[action] = LoadBinding(action, defaultBinding);
         }
 
         initialized = true;
     }
 
-    private string GetSaveKey(SettingsKeybindAction action)
+    private SettingsKeybind LoadBinding(SettingsKeybindAction action, SettingsKeybind defaultBinding)
+    {
+        if (!saveWithPlayerPrefs)
+            return defaultBinding;
+
+        string modifierSaveKey = GetModifierSaveKey(action);
+        string triggerSaveKey = GetTriggerSaveKey(action);
+
+        KeyCode modifier = defaultBinding.Modifier;
+        KeyCode trigger = defaultBinding.Trigger;
+
+        if (PlayerPrefs.HasKey(modifierSaveKey))
+            modifier = ReadSavedKey(modifierSaveKey, defaultBinding.Modifier);
+
+        if (PlayerPrefs.HasKey(triggerSaveKey))
+        {
+            trigger = ReadSavedKey(triggerSaveKey, defaultBinding.Trigger);
+        }
+        else
+        {
+            // Migration from the original one-KeyCode save format.
+            string legacySaveKey = GetLegacySaveKey(action);
+
+            if (PlayerPrefs.HasKey(legacySaveKey))
+                trigger = ReadSavedKey(legacySaveKey, defaultBinding.Trigger);
+        }
+
+        return new SettingsKeybind(modifier, trigger);
+    }
+
+    private KeyCode ReadSavedKey(string saveKey, KeyCode fallback)
+    {
+        int savedValue = PlayerPrefs.GetInt(saveKey, (int)fallback);
+
+        return Enum.IsDefined(typeof(KeyCode), savedValue)
+                ? (KeyCode)savedValue
+                : fallback;
+    }
+
+    private void SaveBinding(SettingsKeybindAction action, SettingsKeybind binding, bool saveImmediately = true)
+    {
+        if (!saveWithPlayerPrefs)
+            return;
+
+        PlayerPrefs.SetInt(GetModifierSaveKey(action), (int)binding.Modifier);
+
+        PlayerPrefs.SetInt(GetTriggerSaveKey(action), (int)binding.Trigger);
+
+        if (saveImmediately)
+            PlayerPrefs.Save();
+    }
+
+    private string GetLegacySaveKey(SettingsKeybindAction action)
     {
         return playerPrefsPrefix + action;
     }
 
-    // STEP Two: Using the same format as below, add the new action's default keybinding.
-    // case SettingsKeybindAction.[action name]:
-    //     return KeyCode.[action key];
-    public KeyCode GetDefaultBinding(SettingsKeybindAction action)
+    private string GetModifierSaveKey(SettingsKeybindAction action)
+    {
+        return playerPrefsPrefix + action + "_Modifier";
+    }
+
+    private string GetTriggerSaveKey(SettingsKeybindAction action)
+    {
+        return playerPrefsPrefix + action + "_Trigger";
+    }
+
+    public SettingsKeybind GetDefaultBinding(SettingsKeybindAction action)
     {
         switch (action)
         {
             case SettingsKeybindAction.MoveForwards:
-                return KeyCode.W;
+                return new SettingsKeybind(KeyCode.W);
 
             case SettingsKeybindAction.MoveBackwards:
-                return KeyCode.S;
+                return new SettingsKeybind(KeyCode.S);
 
             case SettingsKeybindAction.MoveLeft:
-                return KeyCode.A;
+                return new SettingsKeybind(KeyCode.A);
 
             case SettingsKeybindAction.MoveRight:
-                return KeyCode.D;
+                return new SettingsKeybind(KeyCode.D);
 
             case SettingsKeybindAction.Dodge:
-                return KeyCode.Space;
+                return new SettingsKeybind(KeyCode.Space);
 
             case SettingsKeybindAction.Sprint:
-                return KeyCode.LeftShift;
+                return new SettingsKeybind(KeyCode.LeftShift);
 
             case SettingsKeybindAction.Walk:
-                return KeyCode.LeftAlt;
+                return new SettingsKeybind(KeyCode.LeftAlt);
+
+            case SettingsKeybindAction.Attack:
+                return new SettingsKeybind(KeyCode.Mouse0);
+
+            case SettingsKeybindAction.HeavyAttack:
+                return new SettingsKeybind(KeyCode.LeftControl, KeyCode.Mouse0);
+
+            case SettingsKeybindAction.Parry:
+                return new SettingsKeybind(KeyCode.Mouse1);
 
             case SettingsKeybindAction.Heal:
-                return KeyCode.Q;
+                return new SettingsKeybind(KeyCode.Q);
 
             case SettingsKeybindAction.UseItem:
-                return KeyCode.G;
+                return new SettingsKeybind(KeyCode.G);
 
             case SettingsKeybindAction.Remembrance:
-                return KeyCode.R;
+                return new SettingsKeybind(KeyCode.R);
 
             case SettingsKeybindAction.Vestige:
-                return KeyCode.E;
+                return new SettingsKeybind(KeyCode.E);
 
             case SettingsKeybindAction.Interact:
-                return KeyCode.F;
+                return new SettingsKeybind(KeyCode.F);
 
             case SettingsKeybindAction.Menu:
-                return KeyCode.Escape;
+                return new SettingsKeybind(KeyCode.Escape);
 
             case SettingsKeybindAction.HUD:
-                return KeyCode.Tab;
+                return new SettingsKeybind(KeyCode.Tab);
 
             case SettingsKeybindAction.Test:
-                return KeyCode.T;
-
-            // Add it above this ^^^
+                return new SettingsKeybind(KeyCode.T);
         }
 
-        return KeyCode.None;
+        return new SettingsKeybind(KeyCode.None);
     }
 
-    // STEP Three: Using the same format as below, add the new action's default name.
-    // case SettingsKeybindAction.[action name]:
-    //     return "[name to display]";
-    public string GetActionDisplayName(SettingsKeybindAction action)
+    public string GetActionDisplayName(
+        SettingsKeybindAction action)
     {
         switch (action)
         {
@@ -241,6 +410,15 @@ public class SettingsKeybindManager : MonoBehaviour
             case SettingsKeybindAction.Walk:
                 return "Walk";
 
+            case SettingsKeybindAction.Attack:
+                return "Attack";
+
+            case SettingsKeybindAction.HeavyAttack:
+                return "Heavy Attack";
+
+            case SettingsKeybindAction.Parry:
+                return "Parry";
+
             case SettingsKeybindAction.Heal:
                 return "Heal";
 
@@ -264,17 +442,28 @@ public class SettingsKeybindManager : MonoBehaviour
 
             case SettingsKeybindAction.Test:
                 return "Test";
-
-            // Add it above this ^^^
         }
 
         return action.ToString();
+    }
+
+    public string GetBindingDisplayName(SettingsKeybindAction action)
+    {
+        SettingsKeybind binding = GetBinding(action);
+
+        if (!binding.IsChord)
+            return GetKeyDisplayName(binding.Trigger);
+
+        return GetKeyDisplayName(binding.Modifier) + " + " + GetKeyDisplayName(binding.Trigger);
     }
 
     public string GetKeyDisplayName(KeyCode key)
     {
         switch (key)
         {
+            case KeyCode.None:
+                return "None";
+
             case KeyCode.Escape:
                 return "Esc";
 
@@ -330,5 +519,53 @@ public class SettingsKeybindManager : MonoBehaviour
         }
 
         return key.ToString();
+    }
+
+    private static bool GetKeyEquivalent(KeyCode key)
+    {
+        switch (key)
+        {
+            case KeyCode.LeftControl:
+            case KeyCode.RightControl:
+                return Input.GetKey(KeyCode.LeftControl) ||
+                       Input.GetKey(KeyCode.RightControl);
+
+            case KeyCode.LeftShift:
+            case KeyCode.RightShift:
+                return Input.GetKey(KeyCode.LeftShift) ||
+                       Input.GetKey(KeyCode.RightShift);
+
+            case KeyCode.LeftAlt:
+            case KeyCode.RightAlt:
+                return Input.GetKey(KeyCode.LeftAlt) ||
+                       Input.GetKey(KeyCode.RightAlt);
+
+            default:
+                return Input.GetKey(key);
+        }
+    }
+
+    private static bool GetKeyDownEquivalent(KeyCode key)
+    {
+        switch (key)
+        {
+            case KeyCode.LeftControl:
+            case KeyCode.RightControl:
+                return Input.GetKeyDown(KeyCode.LeftControl) ||
+                       Input.GetKeyDown(KeyCode.RightControl);
+
+            case KeyCode.LeftShift:
+            case KeyCode.RightShift:
+                return Input.GetKeyDown(KeyCode.LeftShift) ||
+                       Input.GetKeyDown(KeyCode.RightShift);
+
+            case KeyCode.LeftAlt:
+            case KeyCode.RightAlt:
+                return Input.GetKeyDown(KeyCode.LeftAlt) ||
+                       Input.GetKeyDown(KeyCode.RightAlt);
+
+            default:
+                return Input.GetKeyDown(key);
+        }
     }
 }

@@ -25,38 +25,35 @@ public class SettingsBindingPageDisplay : MonoBehaviour
         }
 
         /// <summary>
-        /// Creates an interactive keyboard keybind entry.
-        /// The displayed name and key will come from
-        /// SettingsKeybindManager.
+        /// Creates an interactive entry using the manager's display name.
         /// </summary>
         public BindingEntry(SettingsKeybindAction keybindAction, string statusText = "")
         {
             isInteractiveKeybind = true;
-
             this.keybindAction = keybindAction;
             this.statusText = statusText;
-
             actionName = "";
             bindingText = "";
         }
 
         /// <summary>
-        /// Creates a non-interactive display-only entry.
+        /// Creates an interactive entry with a custom displayed name.
         /// </summary>
         public BindingEntry(SettingsKeybindAction keybindAction, string actionName, string statusText = "")
         {
             isInteractiveKeybind = true;
-
             this.keybindAction = keybindAction;
             this.actionName = actionName;
-            this.bindingText = "";
+            bindingText = "";
             this.statusText = statusText;
         }
 
+        /// <summary>
+        /// Creates a non-interactive display-only entry.
+        /// </summary>
         public BindingEntry(string actionName, string bindingText, string statusText = "")
         {
             isInteractiveKeybind = false;
-
             this.actionName = actionName;
             this.bindingText = bindingText;
             this.statusText = statusText;
@@ -73,9 +70,7 @@ public class SettingsBindingPageDisplay : MonoBehaviour
         {
         }
 
-        public BindingSection(
-            string sectionTitle,
-            List<BindingEntry> entries)
+        public BindingSection(string sectionTitle, List<BindingEntry> entries)
         {
             this.sectionTitle = sectionTitle;
             this.entries = entries;
@@ -110,23 +105,8 @@ public class SettingsBindingPageDisplay : MonoBehaviour
     [ContextMenu("Build Display")]
     public void BuildDisplay()
     {
-        if (contentRoot == null)
-        {
-            Debug.LogWarning(name + ": Content Root has not been assigned.");
+        if (!ValidateReferences())
             return;
-        }
-
-        if (sectionHeaderPrefab == null)
-        {
-            Debug.LogWarning( name + ": Section Header Prefab has not been assigned.");
-            return;
-        }
-
-        if (rowPrefab == null)
-        {
-            Debug.LogWarning(name + ": Row Prefab has not been assigned.");
-            return;
-        }
 
         ClearDisplay();
 
@@ -135,68 +115,15 @@ public class SettingsBindingPageDisplay : MonoBehaviour
             if (section == null)
                 continue;
 
-            GameObject headerObject = Instantiate(sectionHeaderPrefab, contentRoot);
-
-            headerObject.name = "Section - " + section.sectionTitle;
-
-            TMP_Text headerText = headerObject.GetComponentInChildren<TMP_Text>(true);
-
-            if (headerText != null)
-                headerText.text = section.sectionTitle;
+            CreateSectionHeader(section.sectionTitle);
 
             if (section.entries == null)
                 continue;
 
             foreach (BindingEntry entry in section.entries)
             {
-                if (entry == null)
-                    continue;
-
-                Debug.Log("Building entry: " + entry.actionName + " | Interactive: " 
-                    + entry.isInteractiveKeybind + " | Action: " + entry.keybindAction
-                );
-
-                SettingsBindingDisplayRow newRow =
-                    Instantiate(rowPrefab, contentRoot);
-
-                newRow.gameObject.name =
-                    "Row - " + entry.actionName;
-
-                // Set the initial text for every kind of row.
-                newRow.SetDisplay(entry.actionName, entry.bindingText, entry.statusText
-                );
-
-                if (!entry.isInteractiveKeybind)
-                {
-                    Debug.Log( newRow.gameObject.name + " was created as a static display row.", newRow.gameObject
-                    );
-
-                    continue;
-                }
-
-                // First check the same GameObject.
-                SettingsKeybindRow keybindRow = newRow.GetComponent<SettingsKeybindRow>();
-
-                // Also support SettingsKeybindRow being on a child.
-                if (keybindRow == null)
-                {
-                    keybindRow = newRow.GetComponentInChildren <SettingsKeybindRow>(true);
-                }
-
-                if (keybindRow == null)
-                {
-                    Debug.LogWarning(newRow.gameObject.name + ": This entry is marked as an interactive keybind, " 
-                        + "but SettingsKeybindRow was not found on the row prefab.", newRow.gameObject
-                    );
-
-                    continue;
-                }
-
-                keybindRow.Initialize(entry.keybindAction);
-
-                Debug.Log("Initialized " + newRow.gameObject.name + " as " + entry.keybindAction 
-                    + " | Instance ID: " + keybindRow.GetInstanceID(), keybindRow
-                );
+                if (entry != null)
+                    CreateEntryRow(entry);
             }
         }
 
@@ -211,6 +138,81 @@ public class SettingsBindingPageDisplay : MonoBehaviour
         StartCoroutine(RefreshNavigatorNextFrame());
     }
 
+    private bool ValidateReferences()
+    {
+        if (contentRoot == null)
+        {
+            Debug.LogWarning(name + ": Content Root has not been assigned.");
+            return false;
+        }
+
+        if (sectionHeaderPrefab == null)
+        {
+            Debug.LogWarning(name + ": Section Header Prefab has not been assigned.");
+            return false;
+        }
+
+        if (rowPrefab == null)
+        {
+            Debug.LogWarning(
+                name +
+                ": Row Prefab has not been assigned.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void CreateSectionHeader(
+        string sectionTitle)
+    {
+        GameObject headerObject =
+            Instantiate(
+                sectionHeaderPrefab,
+                contentRoot);
+
+        headerObject.name =
+            "Section - " + sectionTitle;
+
+        TMP_Text headerText =
+            headerObject.GetComponentInChildren
+                <TMP_Text>(true);
+
+        if (headerText != null)
+            headerText.text = sectionTitle;
+    }
+
+    private void CreateEntryRow(BindingEntry entry)
+    {
+        SettingsBindingDisplayRow newRow = Instantiate(rowPrefab, contentRoot);
+
+        string rowName = string.IsNullOrWhiteSpace(entry.actionName)
+            ? entry.keybindAction.ToString()
+            : entry.actionName;
+
+        newRow.SetDisplay(entry.actionName, entry.bindingText, entry.statusText);
+
+        newRow.gameObject.name = "Row - " + rowName;
+
+        if (!entry.isInteractiveKeybind)
+            return;
+
+        SettingsKeybindRow keybindRow = newRow.GetComponent<SettingsKeybindRow>();
+
+        if (keybindRow == null)
+        {
+            keybindRow = newRow.GetComponentInChildren<SettingsKeybindRow>(true);
+        }
+
+        if (keybindRow == null)
+        {
+            Debug.LogWarning(newRow.gameObject.name + ": Interactive entry has no SettingsKeybindRow.", newRow.gameObject);
+            return;
+        }
+
+        keybindRow.Initialize(entry.keybindAction);
+    }
+
     [ContextMenu("Clear Display")]
     public void ClearDisplay()
     {
@@ -219,16 +221,18 @@ public class SettingsBindingPageDisplay : MonoBehaviour
 
         for (int i = contentRoot.childCount - 1; i >= 0; i--)
         {
-            GameObject child =
-                contentRoot.GetChild(i).gameObject;
+            GameObject child = contentRoot.GetChild(i).gameObject;
 
-            // Immediately remove it from the layout.
             child.SetActive(false);
 
             if (Application.isPlaying)
+            {
                 Destroy(child);
+            }
             else
+            {
                 DestroyImmediate(child);
+            }
         }
 
         hasBuilt = false;
@@ -237,100 +241,55 @@ public class SettingsBindingPageDisplay : MonoBehaviour
     [ContextMenu("Load Game Defaults")]
     public void LoadGameDefaults()
     {
-        sections = new List<BindingSection>
-        {
-            new BindingSection("Game", new List<BindingEntry>
-                {
-                    new BindingEntry("Move Forward", "W"),
-                    new BindingEntry("Move Backward", "S"),
-                    new BindingEntry("Move Left", "A"),
-                    new BindingEntry("Move Right", "D"),
-                    new BindingEntry("Dodge", "Space"),
-                    new BindingEntry("Sprint", "Shift"),
-                    new BindingEntry("Walk", "Alt")
-                }),
-
-            new BindingSection("Actions",new List<BindingEntry>
-                {
-                    new BindingEntry("Heal", "Q"),
-                    new BindingEntry("Use Item", "G"),
-                    new BindingEntry("Remembrance", "R"),
-                    new BindingEntry("Vestige", "E"),
-                    new BindingEntry("Interact", "F")
-                }),
-
-            new BindingSection("Interface",new List<BindingEntry>
-                {
-                    new BindingEntry("Menu", "Esc"),
-                    new BindingEntry("HUD", "Tab")
-                })
-        };
-
+        sections = CreatePlaceholderSections();
         hasBuilt = false;
+
+        if (Application.isPlaying && isActiveAndEnabled)
+            BuildDisplay();
     }
 
-    // STEP FOUR: If you just need to add a new action, follow the format under any of the 
-    // new BindingSection, that is:
-    // new BindingEntry(SettingsKeybindAction.[action name],["name to display"], "")
-    // Remember to add [,] to the previous entry.
-
-    // STEP FIVE: If you need to add a new section in the menu, follow the format under
-    // sections = new List<BindingSection> to make a new one and add the new action.
     [ContextMenu("Load Keyboard Defaults")]
     public void LoadKeyboardDefaults()
     {
         sections = new List<BindingSection>
         {
-            new BindingSection("Movement", new List<BindingEntry>
+            new BindingSection("Game",
+                new List<BindingEntry>
                 {
-                    new BindingEntry(SettingsKeybindAction.MoveForwards,"Move Forward", ""),
-                    new BindingEntry(SettingsKeybindAction.MoveBackwards,"Move Backward", ""),
-                    new BindingEntry(SettingsKeybindAction.MoveLeft,"Move Left", ""),
-                    new BindingEntry(SettingsKeybindAction.MoveRight,"Move Right", ""),
-                    new BindingEntry(SettingsKeybindAction.Dodge,"Dodge", ""),
-                    new BindingEntry(SettingsKeybindAction.Sprint,"Sprint", ""),
-                    new BindingEntry(SettingsKeybindAction.Walk,"Walk", "")
-                    
-                    // Can add new action above here ^^^
-
-                    // Example:
-                    // new BindingEntry(SettingsKeybindAction.[action name],["name to display"], ""),
+                    new BindingEntry(SettingsKeybindAction.MoveForwards, "Move Forward"),
+                    new BindingEntry(SettingsKeybindAction.MoveBackwards, "Move Backward"),
+                    new BindingEntry(SettingsKeybindAction.MoveLeft, "Move Left"),
+                    new BindingEntry(SettingsKeybindAction.MoveRight, "Move Right"),
+                    new BindingEntry(SettingsKeybindAction.Dodge, "Dodge"),
+                    new BindingEntry(SettingsKeybindAction.Sprint, "Sprint"),
+                    new BindingEntry(SettingsKeybindAction.Walk, "Walk")
                 }),
 
-            new BindingSection("Actions", new List<BindingEntry>
+            new BindingSection("Actions",
+                new List<BindingEntry>
                 {
-                    new BindingEntry(SettingsKeybindAction.Heal,"Heal", ""),
-                    new BindingEntry(SettingsKeybindAction.UseItem,"Use Item", ""),
-                    new BindingEntry(SettingsKeybindAction.Remembrance,"Remembrance", ""),
-                    new BindingEntry(SettingsKeybindAction.Vestige,"Vestige", ""),
-                    new BindingEntry(SettingsKeybindAction.Interact,"Interact", "")
-
-                    // Can add new action above here ^^^
+                    new BindingEntry(SettingsKeybindAction.Attack, "Attack"),
+                    new BindingEntry(SettingsKeybindAction.HeavyAttack, "Heavy Attack"),
+                    new BindingEntry(SettingsKeybindAction.Parry, "Parry"),
+                    new BindingEntry(SettingsKeybindAction.Heal, "Heal"),
+                    new BindingEntry(SettingsKeybindAction.UseItem, "Use Item"),
+                    new BindingEntry(SettingsKeybindAction.Remembrance, "Remembrance"),
+                    new BindingEntry(SettingsKeybindAction.Vestige, "Vestige"),
+                    new BindingEntry(SettingsKeybindAction.Interact, "Interact")
                 }),
 
-            new BindingSection("Interface", new List<BindingEntry>
+            new BindingSection("Interface",
+                new List<BindingEntry>
                 {
-                    new BindingEntry(SettingsKeybindAction.Menu,"Menu", ""),
-                    new BindingEntry(SettingsKeybindAction.HUD,"HUD", "")
-
-                    // Can add new action above here ^^^
+                    new BindingEntry(SettingsKeybindAction.Menu, "Menu"),
+                    new BindingEntry(SettingsKeybindAction.HUD, "HUD")
                 }),
-            
 
-            new BindingSection("Test", new List<BindingEntry>
+            new BindingSection("Test",
+                new List<BindingEntry>
                 {
-                    new BindingEntry(SettingsKeybindAction.Test, "Test", "")
+                    new BindingEntry(SettingsKeybindAction.Test, "Test")
                 })
-                // ^^^ Remember to add a [,] above  if you want to add a new section
-
-            // Can add new section above here ^^^
-
-            // Example:
-            // new BindingSection(["new section"],new List<BindingEntry>
-            // {
-            //      new BindingEntry(SettingsKeybindAction.[action name],["name to display"], "")
-            // })
-            
         };
 
         hasBuilt = false;
@@ -342,106 +301,43 @@ public class SettingsBindingPageDisplay : MonoBehaviour
     [ContextMenu("Load Controller Defaults")]
     public void LoadControllerDefaults()
     {
-        sections = new List<BindingSection>
-        {
-            new BindingSection("Game", new List<BindingEntry>
-                {
-                    new BindingEntry("Move Forward", "W"),
-                    new BindingEntry("Move Backward", "S"),
-                    new BindingEntry("Move Left", "A"),
-                    new BindingEntry("Move Right", "D"),
-                    new BindingEntry("Dodge", "Space"),
-                    new BindingEntry("Sprint", "Shift"),
-                    new BindingEntry("Walk", "Alt")
-                }),
-
-            new BindingSection("Actions",new List<BindingEntry>
-                {
-                    new BindingEntry("Heal", "Q"),
-                    new BindingEntry("Use Item", "G"),
-                    new BindingEntry("Remembrance", "R"),
-                    new BindingEntry("Vestige", "E"),
-                    new BindingEntry("Interact", "F")
-                }),
-
-            new BindingSection("Interface",new List<BindingEntry>
-                {
-                    new BindingEntry("Menu", "Esc"),
-                    new BindingEntry("HUD", "Tab")
-                })
-        };
-
+        sections = CreatePlaceholderSections();
         hasBuilt = false;
+
+        if (Application.isPlaying && isActiveAndEnabled)
+            BuildDisplay();
     }
 
     [ContextMenu("Load Display Defaults")]
     public void LoadDisplayDefaults()
     {
-        sections = new List<BindingSection>
-        {
-            new BindingSection("Game", new List<BindingEntry>
-                {
-                    new BindingEntry("Move Forward", "W"),
-                    new BindingEntry("Move Backward", "S"),
-                    new BindingEntry("Move Left", "A"),
-                    new BindingEntry("Move Right", "D"),
-                    new BindingEntry("Dodge", "Space"),
-                    new BindingEntry("Sprint", "Shift"),
-                    new BindingEntry("Walk", "Alt")
-                }),
-
-            new BindingSection("Actions",new List<BindingEntry>
-                {
-                    new BindingEntry("Heal", "Q"),
-                    new BindingEntry("Use Item", "G"),
-                    new BindingEntry("Remembrance", "R"),
-                    new BindingEntry("Vestige", "E"),
-                    new BindingEntry("Interact", "F")
-                }),
-
-            new BindingSection("Interface",new List<BindingEntry>
-                {
-                    new BindingEntry("Menu", "Esc"),
-                    new BindingEntry("HUD", "Tab")
-                })
-        };
-
+        sections = CreatePlaceholderSections();
         hasBuilt = false;
+
+        if (Application.isPlaying && isActiveAndEnabled)
+            BuildDisplay();
     }
 
     [ContextMenu("Load Sound Defaults")]
     public void LoadSoundDefaults()
     {
-        sections = new List<BindingSection>
+        sections = CreatePlaceholderSections();
+        hasBuilt = false;
+
+        if (Application.isPlaying && isActiveAndEnabled)
+            BuildDisplay();
+    }
+
+    private static List<BindingSection> CreatePlaceholderSections()
+    {
+        return new List<BindingSection>
         {
-            new BindingSection("Game", new List<BindingEntry>
+            new BindingSection("Test",
+                new List<BindingEntry>
                 {
-                    new BindingEntry("Move Forward", "W"),
-                    new BindingEntry("Move Backward", "S"),
-                    new BindingEntry("Move Left", "A"),
-                    new BindingEntry("Move Right", "D"),
-                    new BindingEntry("Dodge", "Space"),
-                    new BindingEntry("Sprint", "Shift"),
-                    new BindingEntry("Walk", "Alt")
-                }),
-
-            new BindingSection("Actions",new List<BindingEntry>
-                {
-                    new BindingEntry("Heal", "Q"),
-                    new BindingEntry("Use Item", "G"),
-                    new BindingEntry("Remembrance", "R"),
-                    new BindingEntry("Vestige", "E"),
-                    new BindingEntry("Interact", "F")
-                }),
-
-            new BindingSection("Interface",new List<BindingEntry>
-                {
-                    new BindingEntry("Menu", "Esc"),
-                    new BindingEntry("HUD", "Tab")
+                    new BindingEntry("Test", "T"),
                 })
         };
-
-        hasBuilt = false;
     }
 
     private IEnumerator ResetScrollNextFrame()

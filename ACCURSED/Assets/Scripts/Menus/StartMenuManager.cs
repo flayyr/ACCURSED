@@ -134,7 +134,7 @@ public class StartMenuManager : MonoBehaviour
 
         // Escape is currently being captured as a keybind,
         // or it was captured earlier during this same frame.
-        if (settingsNavigator != null && settingsNavigator.BlocksSettingsEscape)
+        if (settingsNavigator != null)
             return;
 
         CloseSettingsPanel();
