@@ -70,6 +70,9 @@ public class SettingsPrefabSpawner : MonoBehaviour
         if (!Input.GetKeyDown(KeyCode.Escape))
             return;
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+            CloseSettings();
+
         // Escape is currently being assigned as a keybind,
         // or was assigned during this same frame.
         if (settingsNavigator != null)
