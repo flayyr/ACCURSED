@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+// STEP ONE: Add the new action in SettingsKeybindAction.
 public enum SettingsKeybindAction
 {
     MoveForwards,
@@ -21,9 +22,10 @@ public enum SettingsKeybindAction
     Interact,
     Menu,
     HUD,
-    Test
+    Test // Such as this one!
 }
 
+// This is if more keys are needed for the same action (such as ctl + LMB for Heavy Attack)
 public enum SettingsKeybindSlot
 {
     Modifier,
@@ -322,6 +324,11 @@ public class SettingsKeybindManager : MonoBehaviour
         return playerPrefsPrefix + action + "_Trigger";
     }
 
+    // STEP Two: Using the same format as below, add the new action's default keybinding.
+    // case SettingsKeybindAction.[action name (the same at STEP ONE)]:
+    //     return new SettingsKeybind.(KeyCode.[action key]);
+    // For action with two keys:
+    //     return new SettingsKeybind.(KeyCode.[action key 1], KeyCode.[action key 2]); 
     public SettingsKeybind GetDefaultBinding(SettingsKeybindAction action)
     {
         switch (action)
@@ -377,15 +384,19 @@ public class SettingsKeybindManager : MonoBehaviour
             case SettingsKeybindAction.HUD:
                 return new SettingsKeybind(KeyCode.Tab);
 
-            case SettingsKeybindAction.Test:
-                return new SettingsKeybind(KeyCode.T);
+            case SettingsKeybindAction.Test: // Such as this one!
+                return new SettingsKeybind(KeyCode.T); 
         }
 
         return new SettingsKeybind(KeyCode.None);
     }
 
-    public string GetActionDisplayName(
-        SettingsKeybindAction action)
+    // STEP THREE: Using the same format as below, add the new action's default name.
+    // This is the name shown to the player, and it could be a different name than the one used internally.
+    // case SettingsKeybindAction.[action name]:
+    //     return "[name to display]";
+
+    public string GetActionDisplayName(SettingsKeybindAction action)
     {
         switch (action)
         {
@@ -440,7 +451,7 @@ public class SettingsKeybindManager : MonoBehaviour
             case SettingsKeybindAction.HUD:
                 return "HUD";
 
-            case SettingsKeybindAction.Test:
+            case SettingsKeybindAction.Test: // Such as this one!
                 return "Test";
         }
 
@@ -457,6 +468,9 @@ public class SettingsKeybindManager : MonoBehaviour
         return GetKeyDisplayName(binding.Modifier) + " + " + GetKeyDisplayName(binding.Trigger);
     }
 
+    // STEP FOUR: If needed, using the same format as below, add the display name for a key.
+    // case KeyCode.[KeyCode of that key]:
+    //     return "[display name for that key]";
     public string GetKeyDisplayName(KeyCode key)
     {
         switch (key)
@@ -490,13 +504,13 @@ public class SettingsKeybindManager : MonoBehaviour
                 return "Ctrl";
 
             case KeyCode.Mouse0:
-                return "Left Mouse";
+                return "Left Mouse Button";
 
             case KeyCode.Mouse1:
-                return "Right Mouse";
+                return "Right Mouse Button";
 
             case KeyCode.Mouse2:
-                return "Middle Mouse";
+                return "Middle Mouse Button";
 
             case KeyCode.Mouse3:
                 return "Mouse 4";
@@ -509,6 +523,9 @@ public class SettingsKeybindManager : MonoBehaviour
 
             case KeyCode.Mouse6:
                 return "Mouse 7";
+
+            case KeyCode.F24: // Such as this one!
+                return "Test Key";
         }
 
         if (key >= KeyCode.Alpha0 && key <= KeyCode.Alpha9)

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class SettingsBindingPageDisplay : MonoBehaviour
@@ -248,6 +250,19 @@ public class SettingsBindingPageDisplay : MonoBehaviour
             BuildDisplay();
     }
 
+    // STEP FIVE: To add a new action, follow the format under any of the new BindingSection
+    // (that is: new BindingSection("Game", new List<BindingEntry>{}))
+    // new BindingEntry(SettingsKeybindAction.[action name], "[name to display]", "[Special status display if needed]")
+    // Remember to add [,] at the end of the previous entry.
+
+    // STEP FIVE: If you need to add a new section in the menu, follow the format under
+    // sections = new List<BindingSection> {} to make a new one and add the new action.
+    // new BindingSection("[Name of the section]",
+    //     new List<BindingEntry>
+    //     {
+    //     })
+    // Remember to add [,] at the end of the previous entry.
+
     [ContextMenu("Load Keyboard Defaults")]
     public void LoadKeyboardDefaults()
     {
@@ -285,10 +300,10 @@ public class SettingsBindingPageDisplay : MonoBehaviour
                     new BindingEntry(SettingsKeybindAction.HUD, "HUD")
                 }),
 
-            new BindingSection("Test",
+            new BindingSection("Test", // Such as this one!
                 new List<BindingEntry>
                 {
-                    new BindingEntry(SettingsKeybindAction.Test, "Test")
+                    new BindingEntry(SettingsKeybindAction.Test, "Test") // Such as this one!
                 })
         };
 
