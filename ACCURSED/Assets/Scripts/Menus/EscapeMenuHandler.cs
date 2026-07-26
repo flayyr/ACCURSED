@@ -1,31 +1,54 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
 
 public class EscapeMenuHandler : MonoBehaviour
 {
-    [Header("Scene Name")]
-    public string startScreenName = "StartMenu";
+    [Header("Destination")]
+    [SerializeField] private string startScreenName = "StartMenu";
 
-    public void Update()
+    [Header("Input")]
+    [Tooltip("Disable this when a UI Button calls ReturnToStartMenu instead.")]
+    [SerializeField] private bool listenForEscapeKey = true;
+    [SerializeField] private KeyCode escapeKey = KeyCode.Escape;
+
+    [Header("Paused Menus")]
+    [Tooltip("Restores normal time before leaving a pause menu.")]
+    [SerializeField] private bool restoreTimeScale = true;
+
+    private bool transitionRequested;
+
+    private void Update()
     {
-        HandleEscapeInput();
+        if (!listenForEscapeKey || transitionRequested)
+            return;
 
-        Debug.Log(PlayerPrefs.GetString("LastScene"));
+        if (Input.GetKeyDown(escapeKey))
+            ReturnToStartMenu();
     }
 
-    private void HandleEscapeInput()
+    public void ReturnToStartMenu()
     {
-        if (!Input.GetKeyDown(KeyCode.Escape))
+        if (transitionRequested)
             return;
 
-        string currentScene = SceneManager.GetActiveScene().name;
+        if (SceneManager.GetActiveScene().name == startScreenName)
+            return;
 
-        if (currentScene != startScreenName)
+        RoomTransitionManager manager = RoomTransitionManager.Instance;
+
+        if (manager == null)
         {
-            RoomTransitionWithoutPlayer.Instance.BeginTransition(startScreenName);
+            Debug.LogError("EscapeMenuHandler: No RoomTransitionManager exists. " +
+                "Add the RoomTransitionManager prefab to the scene.");
             return;
         }
+
+        if (manager.IsTransitioning)
+            return;
+
+        if (restoreTimeScale)
+            Time.timeScale = 1f;
+
+        transitionRequested = manager.BeginTransition(startScreenName);
     }
 }

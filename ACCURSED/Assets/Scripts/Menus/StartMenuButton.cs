@@ -46,11 +46,7 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerClic
     private void LateUpdate()
     {
         Vector3 targetScale = rowSelected ? normalScale * selectedScale : normalScale;
-        transform.localScale = Vector3.Lerp(
-            transform.localScale,
-            targetScale,
-            Time.deltaTime * scaleSpeed
-        );
+        transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * scaleSpeed);
     }
 
     public void SetSelected(bool selected)

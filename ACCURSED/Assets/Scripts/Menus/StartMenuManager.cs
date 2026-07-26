@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class StartMenuManager : MonoBehaviour
 {
+    public static StartMenuManager Instance { get; private set; }
+
     [Header("Menu Buttons")]
     public List<StartMenuButton> buttons = new List<StartMenuButton>();
 
@@ -69,12 +71,12 @@ public class StartMenuManager : MonoBehaviour
 
     private void Update()
     {
+        
+
         Scene currentScene = SceneManager.GetActiveScene();
 
-        if (currentScene.name == "Altar")
-        {
+        if (currentScene.name != "StartMenu")
             Destroy(gameObject);
-        }
 
         if (inputBlockedBySettings)
             return;
@@ -169,11 +171,11 @@ public class StartMenuManager : MonoBehaviour
         switch (button.buttonType)
         {
             case StartMenuButton.ButtonType.Play:
-                RoomTransitionManager.Instance.BeginTransition("Altar", "Start", gameObject.transform);
+                RoomTransitionManager.Instance.BeginTransition(playName);
                 break;
 
             case StartMenuButton.ButtonType.Saves:
-                RoomTransitionWithoutPlayer.Instance.BeginTransition(saveName);
+                RoomTransitionManager.Instance.BeginTransition(saveName);
                 break;
 
             case StartMenuButton.ButtonType.Settings:
@@ -181,7 +183,7 @@ public class StartMenuManager : MonoBehaviour
                 break;
 
             case StartMenuButton.ButtonType.Credits:
-                RoomTransitionWithoutPlayer.Instance.BeginTransition(creditName);
+                RoomTransitionManager.Instance.BeginTransition(creditName);
                 break;
 
             case StartMenuButton.ButtonType.Quit:

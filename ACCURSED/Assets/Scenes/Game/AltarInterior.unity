@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e0de589be99fbf40b2768bb32c03213, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TransitionSpawnPoint
-  spawnID: Entrance
+  spawnID: AltarExToIn
 --- !u!4 &190934350
 Transform:
   m_ObjectHideFlags: 0
@@ -557,7 +557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ddf33af2b7a1f247b70c8a348dec8c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomTransitionInteractable
-  promptText: Exit
+  promptText: AltarInToEx
   interactKey: 102
   playerTag: Player
   promptParentCanvas: {fileID: 973188955}
@@ -2155,6 +2155,9 @@ MonoBehaviour:
   fadeOutDuration: 0.25
   fadeInDuration: 0.35
   holdBlackAfterSceneLoad: 0.1
+  removeDuplicatePlayers: 1
+  playerTag: Player
+  clearPlayerVelocityOnArrival: 1
 --- !u!4 &1062128403
 Transform:
   m_ObjectHideFlags: 0

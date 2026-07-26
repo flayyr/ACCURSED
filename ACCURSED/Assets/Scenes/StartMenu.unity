@@ -2525,6 +2525,67 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.547621, y: 0.412001}
   m_EdgeRadius: 0
+--- !u!1001 &1238203904
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.19787
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.37698
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381282131549076825, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_Name
+      value: RoomTransitionManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7056819610981631005, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: fadeOverlayPrefab
+      value: 
+      objectReference: {fileID: 1675197433316514509, guid: 6308f0289f326404a8f91ae35215e2f3, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
 --- !u!1 &1281888253
 GameObject:
   m_ObjectHideFlags: 0
@@ -2535,7 +2596,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1281888255}
   - component: {fileID: 1281888254}
-  - component: {fileID: 1281888256}
   m_Layer: 0
   m_Name: StartMenuManager
   m_TagString: Untagged
@@ -2590,22 +2650,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1281888256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281888253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30034c1877bd3b64eaea00ff0c3769ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RoomTransitionManager
-  fadeOverlayPrefab: {fileID: 1675197433316514509, guid: 6308f0289f326404a8f91ae35215e2f3, type: 3}
-  fadeOutDuration: 0.25
-  fadeInDuration: 0.35
-  holdBlackAfterSceneLoad: 0.1
 --- !u!1 &1338553741
 GameObject:
   m_ObjectHideFlags: 0
@@ -3731,3 +3775,4 @@ SceneRoots:
   - {fileID: 1974331089}
   - {fileID: 40091861}
   - {fileID: 1486214440}
+  - {fileID: 1238203904}

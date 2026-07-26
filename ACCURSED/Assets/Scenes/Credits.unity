@@ -119,63 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &65115093
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.34868
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.68477
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8248199960658089470, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_Name
-      value: RoomTransitionHelper
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
 --- !u!1001 &379943739
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -228,6 +171,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: EscapeMenuHandler
       objectReference: {fileID: 0}
+    - target: {fileID: 9097371040794486916, guid: bdfca20dea8337a42a0b6ea60b9dc32c, type: 3}
+      propertyPath: roomTransitionManager
+      value: 
+      objectReference: {fileID: 943936804}
+    - target: {fileID: 9097371040794486916, guid: bdfca20dea8337a42a0b6ea60b9dc32c, type: 3}
+      propertyPath: roomTransitionManagerPrefab
+      value: 
+      objectReference: {fileID: 3381282131549076825, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -432,12 +383,12 @@ MonoBehaviour:
 
     Konrad Strauss-Sergeant
 
-    
 
-    Morgana
-    Brand
 
-    Anderson Sheu
+    Morgana Brand
+
+    Anderson
+    Sheu
 
     Jane Du
 
@@ -445,51 +396,51 @@ MonoBehaviour:
 
     Justin Wu
 
-    Lucas
-    Captan
+    Lucas Captan
 
-    Shannon Wang
+    Shannon
+    Wang
 
     Christian Wiseman
 
     Riya Kumar
 
-    Logan
-    Spinali
+    Logan Spinali
 
     Micah McFadden
 
-    Jace Areff
+    Jace
+    Areff
 
     Madeleine Martinez
 
-    Tyme
-    Justine Quek
+    Tyme Justine Quek
 
     Dominic Intervallo
 
-    Aki Gudan
+    Aki
+    Gudan
 
 
-    - Special Thanks
-    -
+    - Special Thanks -
 
     Liam Bowers
 
     Matthias Yuen
 
-    Jana Buchmann
+    Jana
+    Buchmann
 
     Liam Bowers
 
-    Matthias
-    Yuen
+    Matthias Yuen
 
     Noah Sweet
 
     Andrea Lazo-Cruz
 
-    Flan Falacci'
+    Flan
+    Falacci'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 954db9899f814ec4eabc98a2cb5af1dc, type: 2}
   m_sharedMaterial: {fileID: -4639023847572473875, guid: 954db9899f814ec4eabc98a2cb5af1dc, type: 2}
@@ -721,6 +672,68 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 734367061}
   m_CullTransparentMesh: 1
+--- !u!1001 &943936803
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.19787
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.37698
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381282131549076825, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_Name
+      value: RoomTransitionManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+--- !u!1 &943936804 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3381282131549076825, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+  m_PrefabInstance: {fileID: 943936803}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1191656915
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,4 +924,4 @@ SceneRoots:
   - {fileID: 379943739}
   - {fileID: 1553220362}
   - {fileID: 1191656918}
-  - {fileID: 65115093}
+  - {fileID: 943936803}
