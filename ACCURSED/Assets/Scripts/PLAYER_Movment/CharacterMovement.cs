@@ -48,6 +48,9 @@ public class CharacterMovement : MonoBehaviour
 
     [SerializeField] private float dashCoolDown; // seconds to wait after dashing to dash again
     private float dashCoolDownTimer; // timer used to track the cooldown
+
+    [SerializeField] private float dashInvincinbleTime = 0.5f;
+    [SerializeField] private HurtBox hurtBox;
     #endregion
 
     #region Knockback
@@ -241,7 +244,7 @@ public class CharacterMovement : MonoBehaviour
     #endregion
 
     #region Special
-    public void Dash()
+    public void Dash(Vector2 movementInput)
     {
         if (canDash)
         {
@@ -251,6 +254,8 @@ public class CharacterMovement : MonoBehaviour
             dashLengthTimer = dashLength;
             movementState = MovementState.launched;
             rb.linearVelocity = dashPower * movementInput;
+
+            hurtBox.InvincibleForSeconds(dashInvincinbleTime);
         }
     }
     #endregion

@@ -8,8 +8,12 @@ public class HurtBox : MonoBehaviour
     [SerializeField] LayerMask lm_hitbox;
     [SerializeField] LayerMask lm_hurtbox;
 
-    [SerializeField] bool invinsible = false;
-    [SerializeField] float afterHurtInvinsibleDuration = 0.2f;
+    [Space]
+    bool invincible = false;
+    [SerializeField] float afterHurtInvincibleDuration = 0.2f;
+    [SerializeField] float afterHurtStunDuration = 1.2f;
+    [SerializeField] float durationUntilDodgeCancellable = 0.5f;
+    [Space]
 
     [SerializeField] List<GameObject> personalHurtBoxes = new List<GameObject>();
     [SerializeField] List<GameObject> personalHitBoxes = new List<GameObject>();
@@ -17,15 +21,23 @@ public class HurtBox : MonoBehaviour
     CharacterMovement cMovement;
     CharacterStatistics cStatistics;
 
+    PlayerController playerController;
+
     void Start()
     {
         cMovement = GetComponentInParent<CharacterMovement>();
         cStatistics = GetComponentInParent<CharacterStatistics>();
+        playerController = GetComponentInParent<PlayerController>();
+    }
+
+    private void OnEnable()
+    {
+        invincible = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((lm_hitbox & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer && !personalHitBoxes.Contains(collision.gameObject) && invinsible == false)
+        if ((lm_hitbox & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer && !personalHitBoxes.Contains(collision.gameObject) && invincible == false)
         {
             // Identify Hitbox
             var hitBox = collision.gameObject.GetComponent<HitBox>();
@@ -33,7 +45,15 @@ public class HurtBox : MonoBehaviour
 
             if (hitBox.originObject != transform.root.gameObject)
             {
-                InvinsibleForSeconds(afterHurtInvinsibleDuration);
+                InvincibleForSeconds(afterHurtInvincibleDuration);
+
+                if (playerController != null)
+                {
+                    playerController.SetState( PlayerControlState.Disabled);
+                    playerController.SetStateDelayed(PlayerControlState.DodgeOnly, durationUntilDodgeCancellable);
+                    playerController.SetStateDelayed(PlayerControlState.Normal, afterHurtStunDuration);
+
+                }
 
                 // Use Hitbox info to affect me
                 cMovement.Knockback(direction, hitBox.knockBackPower, true);
@@ -44,15 +64,15 @@ public class HurtBox : MonoBehaviour
         }
     }
 
-    public void InvinsibleForSeconds(float seconds)
+    public void InvincibleForSeconds(float seconds)
     {
         StartCoroutine(InvisibilityTime(seconds));
     }
 
     IEnumerator InvisibilityTime(float duration)
     {
-        invinsible = true;
+        invincible = true;
         yield return new WaitForSeconds(duration);
-        invinsible = false;
+        invincible = false;
     }
 }

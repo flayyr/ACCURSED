@@ -119,63 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &65115093
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.34868
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.68477
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7941058908614592755, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8248199960658089470, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
-      propertyPath: m_Name
-      value: RoomTransitionHelper
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 93cc69474638ca247989fa2af5643a81, type: 3}
 --- !u!1001 &379943739
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -228,6 +171,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: EscapeMenuHandler
       objectReference: {fileID: 0}
+    - target: {fileID: 9097371040794486916, guid: bdfca20dea8337a42a0b6ea60b9dc32c, type: 3}
+      propertyPath: roomTransitionManager
+      value: 
+      objectReference: {fileID: 943936804}
+    - target: {fileID: 9097371040794486916, guid: bdfca20dea8337a42a0b6ea60b9dc32c, type: 3}
+      propertyPath: roomTransitionManagerPrefab
+      value: 
+      objectReference: {fileID: 3381282131549076825, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -405,7 +356,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -2300}
+  m_AnchoredPosition: {x: 0, y: -2862}
   m_SizeDelta: {x: 1350, y: 3510}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &719990516
@@ -428,149 +379,59 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Apocalypse
-
-    Our development team is currently composed of 18 members
-    (some of whose link pages are featured on strauss-sergeant.com/apocalypse.) A
-    number of these people are part-time supporters to accommodate their personal
-    schedules. This number does not include our guest artists, playtesters, advisors,
-    and any future onboards for roles I want. Make sure that your name is on this
-    list, and if it is not, absolutely holler at me to fix that!
-
-
+  m_text: 'Directed & produced by
 
     Konrad Strauss-Sergeant
-
-    Direction,
-    Production, Narrative Design, Visual Art
 
 
 
     Morgana Brand
 
-    Mechanics
-    Design, Narrative Design
+    Anderson
+    Sheu
 
-
-
-    Anderson Sheu
-
-    UI, Programming
-
-
-
-    Jane
-    Du
-
-    Visual Art
-
-
+    Jane Du
 
     Shaun Xu
 
-    Programming
-
-
-
-    Zane Smith
-
-    Programming
-
-
-
-    Tyme
-    Justine Quek
-
-    Visual Art
-
-
-
     Justin Wu
 
-    Programming, Mechanics Design
+    Lucas Captan
 
+    Shannon
+    Wang
 
-
-    Lucas
-    Captan
-
-    Programming, Media Editor
-
-
-
-    Matthew Caminiti
-
-    Programming
-
-
-
-    Christian
-    Wiseman
-
-    Visual Art
-
-
+    Christian Wiseman
 
     Riya Kumar
 
-    Lead Composer
-
-
-
     Logan Spinali
-
-    Music
-    Composition
-
-
-
-    Nicolas Bonnin
-
-    Music Composition
-
-
 
     Micah McFadden
 
-    Sound
-    Design
+    Jace
+    Areff
+
+    Madeleine Martinez
+
+    Tyme Justine Quek
+
+    Dominic Intervallo
+
+    Aki
+    Gudan
 
 
-
-    Jace Areff
-
-    Media Editor
-
-
-
-    Aki Gudan
-
-    Media Editor
-
-
-
-    Madeleine
-    Martinez
-
-    Marketing & PR
-
-
-
-    Guest Artists (more outreach is possibly
-    required)
+    - Special Thanks -
 
     Liam Bowers
 
     Matthias Yuen
 
+    Jana
+    Buchmann
 
-
-    Playtesters
-
-    Jana Buchmann
-
-    Liam
-    Bowers
+    Liam Bowers
 
     Matthias Yuen
 
@@ -578,21 +439,11 @@ MonoBehaviour:
 
     Andrea Lazo-Cruz
 
-    (NYU GC)
-
-    (PAX
-    and GDC 2027)
-
-
-
-    Advisors
-
-    Flan Falacci
-
-'
+    Flan
+    Falacci'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 954db9899f814ec4eabc98a2cb5af1dc, type: 2}
+  m_sharedMaterial: {fileID: -4639023847572473875, guid: 954db9899f814ec4eabc98a2cb5af1dc, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -616,8 +467,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -655,7 +506,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 1129.7784}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -718,7 +569,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 109.59003, y: -25}
+  m_AnchoredPosition: {x: 147, y: -2053}
   m_SizeDelta: {x: 200.83, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &734367063
@@ -821,6 +672,68 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 734367061}
   m_CullTransparentMesh: 1
+--- !u!1001 &943936803
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.19787
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.37698
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705605556375660194, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381282131549076825, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+      propertyPath: m_Name
+      value: RoomTransitionManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+--- !u!1 &943936804 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3381282131549076825, guid: 2fc4d749d4a71ce4e890c71c807b8d11, type: 3}
+  m_PrefabInstance: {fileID: 943936803}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1191656915
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,4 +924,4 @@ SceneRoots:
   - {fileID: 379943739}
   - {fileID: 1553220362}
   - {fileID: 1191656918}
-  - {fileID: 65115093}
+  - {fileID: 943936803}

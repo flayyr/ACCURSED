@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(fileName = "AspectSO", menuName = "Scriptable Objects/Aspects", order = 1)]
-public class AspectSO : ScriptableObject
+public class AspectSO : InteractableItemSO
 {
     public string locationName;
     //public string sceneName;
@@ -11,6 +11,16 @@ public class AspectSO : ScriptableObject
 
     public Vector3 position;
     public string sceneName;
+
+    public override void Interact()
+    {
+        PersistentPlayer.Instance.gameObject.GetComponent<PlayerDeath>().SetRespawnAspect(this);
+        AspectController.Instance.OpenMenu();
+        if(EnemySpawnManager.Instance != null)
+        {
+            EnemySpawnManager.Instance.RespawnEnemies();
+        }
+    }
 
     public bool isEmpty()
     {

@@ -9,7 +9,15 @@ public class SOExeQuit : EscMenuUIButtonSO
     {
         EscMenuController.Instance.CloseMenu();
 
-        // quit to main menu
-        RoomTransitionWithoutPlayer.Instance.BeginTransition("StartMenu");
+        Time.timeScale = 1f;
+
+        if (RoomTransitionManager.Instance == null)
+        {
+            Debug.LogError("SOExeQuit: No RoomTransitionManager exists.");
+            return;
+        }
+
+        RoomTransitionManager.Instance.BeginTransition("StartMenu");
     }
+
 }

@@ -1,8 +1,8 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System;
 
 public class SettingsMenuNavigator : MonoBehaviour
 {
@@ -24,10 +24,12 @@ public class SettingsMenuNavigator : MonoBehaviour
     [Header("Input")]
     public float sliderKeyboardSpeed = 0.5f;
 
-    private List<SettingsMenuSelectable> currentOptions = new List<SettingsMenuSelectable>();
+    private static readonly KeyCode[] BindableKeys = CreateBindableKeyCache();
 
-    private int selectedTabIndex = 0;
-    private int selectedOptionIndex = 0;
+    private readonly List<SettingsMenuSelectable> currentOptions = new List<SettingsMenuSelectable>();
+
+    private int selectedTabIndex;
+    private int selectedOptionIndex;
 
     private NavigationArea currentArea = NavigationArea.Tabs;
 
@@ -35,6 +37,8 @@ public class SettingsMenuNavigator : MonoBehaviour
     private bool isAdjustingSlider;
 
     private SettingsKeybindRow activeKeybindRow;
+    private SettingsKeybindSlot activeKeybindSlot = SettingsKeybindSlot.Trigger;
+
     private bool isListeningForBinding;
     private int bindingStartFrame;
 
@@ -52,14 +56,12 @@ public class SettingsMenuNavigator : MonoBehaviour
     {
         RegisterAllSelectables();
 
-        if (tabs.Count > 0)
-        {
-            SelectTab(0, true);
+        if (tabs.Count == 0)
+            return;
 
-            UseScrollViewFromTab(tabs[selectedTabIndex]);
-
-            currentArea = NavigationArea.Tabs;
-        }
+        SelectTab(0, true);
+        UseScrollViewFromTab(tabs[selectedTabIndex]);
+        currentArea = NavigationArea.Tabs;
     }
 
     private void Update()
@@ -88,70 +90,57 @@ public class SettingsMenuNavigator : MonoBehaviour
                 tab.SetNavigator(this);
         }
 
-        SettingsMenuSelectable[] allSelectables = FindObjectsByType<SettingsMenuSelectable>(
-            FindObjectsInactive.Include,FindObjectsSortMode.None);
+        SettingsMenuSelectable[] allSelectables = FindObjectsByType<SettingsMenuSelectable>
+            (FindObjectsInactive.Include, FindObjectsSortMode.None);
 
-        foreach (SettingsMenuSelectable selectable in allSelectables)
-        {
-            selectable.SetNavigator(this);
-        }
+        foreach (SettingsMenuSelectable selectable in allSelectables) selectable.SetNavigator(this);
     }
 
     private void HandleNormalNavigationInput()
     {
         if (currentArea == NavigationArea.Tabs)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-            {
-                SelectTab(selectedTabIndex - 1, false);
-            }
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+                SelectTab(selectedTabIndex - 1, true);
 
-            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-            {
-                SelectTab(selectedTabIndex + 1, false);
-            }
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+                SelectTab(selectedTabIndex + 1, true);
 
-            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-            {
+            if (Input.GetKeyDown(KeyCode.DownArrow) )
                 MoveFromTabsToOptions();
-            }
-        }
-        else if (currentArea == NavigationArea.Options)
-        {
-            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-            {
-                SelectOption(selectedOptionIndex + 1);
-            }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+            SelectOption(selectedOptionIndex + 1);
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (selectedOptionIndex <= 0)
             {
-                if (selectedOptionIndex <= 0)
-                {
-                    MoveFromOptionsToTabs();
-                }
-                else
-                {
-                    SelectOption(selectedOptionIndex - 1);
-                }
+                MoveFromOptionsToTabs();
+            }
+            else
+            {
+                SelectOption(selectedOptionIndex - 1);
             }
         }
     }
 
     private void HandleConfirmInput()
     {
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
-        {
-            if (currentArea == NavigationArea.Tabs)
-            {
-                SelectTab(selectedTabIndex, true);
-            }
-            else if (currentArea == NavigationArea.Options && currentOptions.Count > 0)
-            {
-                Debug.Log("Confirm pressed on option: " + currentOptions[selectedOptionIndex].gameObject.name);
+        if (!Input.GetKeyDown(KeyCode.Return) && !Input.GetKeyDown(KeyCode.Space))
+            return;
 
-                currentOptions[selectedOptionIndex].Activate();
-            }
+        if (currentArea == NavigationArea.Tabs)
+        {
+            SelectTab(selectedTabIndex, true);
+            return;
         }
+
+        if (currentArea == NavigationArea.Options && currentOptions.Count > 0)
+            currentOptions[selectedOptionIndex].Activate();
     }
 
     private void HandleSliderAdjustingInput()
@@ -168,48 +157,65 @@ public class SettingsMenuNavigator : MonoBehaviour
             return;
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        {
+        if (Input.GetKey(KeyCode.LeftArrow))
             activeSlider.AdjustSlider(-sliderKeyboardSpeed * Time.unscaledDeltaTime);
-        }
 
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        {
+        if (Input.GetKey(KeyCode.RightArrow))
             activeSlider.AdjustSlider(sliderKeyboardSpeed * Time.unscaledDeltaTime);
-        }
     }
 
+    /// <summary>
+    /// Compatibility overload for existing single-key rows.
+    /// </summary>
     public void StartKeybindListen(SettingsKeybindRow row)
     {
+        StartKeybindListen(row, SettingsKeybindSlot.Trigger);
+    }
+
+    public void StartKeybindListen(SettingsKeybindRow row, SettingsKeybindSlot slot)
+    {
         if (row == null)
+        {
+            Debug.LogWarning("StartKeybindListen received a null row.");
+            return;
+        }
+
+        if (isListeningForBinding || isAdjustingSlider)
             return;
 
-        if (isListeningForBinding)
-            return;
-
-        if (isAdjustingSlider)
-            return;
+        // Select before enabling the listening lock.
+        SelectOptionByMouse(row);
 
         activeKeybindRow = row;
-        isListeningForBinding = true;
+        activeKeybindSlot = slot;
 
-        // Prevent the Mouse0 click that opened the field
-        // from immediately becoming the new binding.
+        isListeningForBinding = true;
         bindingStartFrame = Time.frameCount;
 
-        foreach (SettingsMenuSelectable option in currentOptions)
+        for (int i = 0; i < currentOptions.Count; i++)
         {
+            SettingsMenuSelectable option = currentOptions[i];
+
             if (option == null)
                 continue;
 
-            bool isActiveRow = option == activeKeybindRow;
-
+            bool isActiveRow = option == row;
             option.SetSelected(isActiveRow);
 
-            if (option is SettingsKeybindRow keybindRow)
+            SettingsKeybindRow keybindRow = option as SettingsKeybindRow;
+
+            if (keybindRow == null)
+                continue;
+
+            keybindRow.SetInteractionLocked(!isActiveRow);
+
+            if (isActiveRow)
             {
-                keybindRow.SetInteractionLocked(!isActiveRow);
-                keybindRow.SetListening(isActiveRow);
+                keybindRow.SetListening(true, slot);
+            }
+            else
+            {
+                keybindRow.SetListening(false);
             }
         }
     }
@@ -222,18 +228,14 @@ public class SettingsMenuNavigator : MonoBehaviour
             return;
         }
 
-        // Ignore the same frame as the ValueArea click.
-        if (Time.frameCount <= bindingStartFrame)
+        // Prevent the click used to open a field from
+        // immediately becoming that field's new binding.
+        if (Time.frameCount <= bindingStartFrame + 1)
             return;
 
-        if (!Input.anyKeyDown)
-            return;
-
-        foreach (KeyCode key in
-                 Enum.GetValues(typeof(KeyCode)))
+        for (int i = 0; i < BindableKeys.Length; i++)
         {
-            if (!IsAllowedBinding(key))
-                continue;
+            KeyCode key = BindableKeys[i];
 
             if (!Input.GetKeyDown(key))
                 continue;
@@ -243,69 +245,75 @@ public class SettingsMenuNavigator : MonoBehaviour
         }
     }
 
-    private bool IsAllowedBinding(KeyCode key)
-    {
-        if (key == KeyCode.None)
-            return false;
-
-        // Controller inputs will be handled separately in the
-        // Controller tab.
-        if (key.ToString().StartsWith("Joystick"))
-            return false;
-
-        return true;
-    }
-
     private void FinishKeybindListen(KeyCode newKey)
     {
-        SettingsKeybindRow finishedRow =
-            activeKeybindRow;
+        SettingsKeybindRow finishedRow = activeKeybindRow;
 
-        activeKeybindRow = null;
-        isListeningForBinding = false;
+        SettingsKeybindSlot finishedSlot = activeKeybindSlot;
+
+        EndListeningState(finishedRow);
 
         if (finishedRow != null)
         {
-            finishedRow.ApplyBinding(newKey);
-            finishedRow.SetListening(false);
-        }
+            finishedRow.ApplyBinding(finishedSlot, newKey);
 
-        UnlockKeybindRows();
+            finishedRow.RefreshDisplay();
+        }
     }
 
-    public void CancelKeybindListen(
-        SettingsKeybindRow requestingRow = null)
+    public void CancelKeybindListen(SettingsKeybindRow requestingRow = null)
     {
-        if (requestingRow != null &&
-            requestingRow != activeKeybindRow)
-        {
+        if (requestingRow != null && requestingRow != activeKeybindRow)
             return;
-        }
 
-        SettingsKeybindRow cancelledRow =
-            activeKeybindRow;
+        SettingsKeybindRow cancelledRow = activeKeybindRow;
 
+        EndListeningState(cancelledRow);
+    }
+
+    private void EndListeningState(SettingsKeybindRow previouslyActiveRow)
+    {
         activeKeybindRow = null;
+        activeKeybindSlot = SettingsKeybindSlot.Trigger;
         isListeningForBinding = false;
 
-        if (cancelledRow != null)
-            cancelledRow.SetListening(false);
-
-        UnlockKeybindRows();
-    }
-
-    private void UnlockKeybindRows()
-    {
-        foreach (SettingsMenuSelectable option in currentOptions)
+        for (int i = 0; i < currentOptions.Count; i++)
         {
-            if (option is SettingsKeybindRow keybindRow)
-            {
-                keybindRow.SetInteractionLocked(false);
-                keybindRow.SetListening(false);
-            }
+            SettingsMenuSelectable option = currentOptions[i];
+
+            if (option == null)
+                continue;
+
+            option.SetSelected(option == previouslyActiveRow);
+
+            SettingsKeybindRow keybindRow = option as SettingsKeybindRow;
+
+            if (keybindRow == null)
+                continue;
+
+            keybindRow.SetInteractionLocked(false);
+            keybindRow.SetListening(false);
         }
     }
-    
+
+    private static KeyCode[] CreateBindableKeyCache()
+    {
+        List<KeyCode> keys = new List<KeyCode>();
+
+        foreach (KeyCode key in Enum.GetValues(typeof(KeyCode)))
+        {
+            if (key == KeyCode.None)
+                continue;
+
+            if (key.ToString().StartsWith("Joystick"))
+                continue;
+
+            keys.Add(key);
+        }
+
+        return keys.ToArray();
+    }
+
     public void SelectTab(int index, bool showTab)
     {
         if (tabs.Count == 0)
@@ -323,23 +331,19 @@ public class SettingsMenuNavigator : MonoBehaviour
         currentArea = NavigationArea.Tabs;
 
         for (int i = 0; i < tabs.Count; i++)
-        {
             tabs[i].SetSelected(i == selectedTabIndex);
-        }
 
-        if (showTab)
+        if (!showTab)
+            return;
+
+        tabs[selectedTabIndex].ShowThisTab();
+        UseScrollViewFromTab(tabs[selectedTabIndex]);
+        RefreshCurrentOptions();
+
+        if (scrollRect != null)
         {
-            tabs[selectedTabIndex].ShowThisTab();
-
-            UseScrollViewFromTab(tabs[selectedTabIndex]);
-
-            RefreshCurrentOptions();
-
-            if (scrollRect != null)
-            {
-                Canvas.ForceUpdateCanvases();
-                scrollRect.verticalNormalizedPosition = 1f;
-            }
+            Canvas.ForceUpdateCanvases();
+            scrollRect.verticalNormalizedPosition = 1f;
         }
     }
 
@@ -348,23 +352,28 @@ public class SettingsMenuNavigator : MonoBehaviour
         int index = tabs.IndexOf(tab);
 
         if (index >= 0)
-        {
             SelectTab(index, showTab);
-        }
     }
 
     private void MoveFromTabsToOptions()
     {
-        RefreshGeneratedOptions();
+        StartCoroutine(MoveFromTabsToOptionsNextFrame());
+    }
+
+    private IEnumerator MoveFromTabsToOptionsNextFrame()
+    {
+        SelectTab(selectedTabIndex, true);
+        yield return null;
+
+        RefreshCurrentOptions();
 
         if (currentOptions.Count == 0)
         {
-            Debug.LogWarning(name + ": No active SettingsMenuSelectable rows were found " + "inside the selected tab panel.");
-
-            return;
+            Debug.LogWarning(name + ": No active settings rows were found " + "inside the selected tab panel.");
+            yield break;
         }
 
-        if (selectedTabIndex >= 0 && selectedTabIndex < tabs.Count && tabs[selectedTabIndex] != null)
+        if (tabs[selectedTabIndex] != null)
             tabs[selectedTabIndex].SetSelected(false);
 
         currentArea = NavigationArea.Options;
@@ -374,7 +383,6 @@ public class SettingsMenuNavigator : MonoBehaviour
     private void MoveFromOptionsToTabs()
     {
         DeselectCurrentOption();
-
         currentArea = NavigationArea.Tabs;
 
         if (tabs.Count > 0)
@@ -415,17 +423,14 @@ public class SettingsMenuNavigator : MonoBehaviour
             return;
 
         tabs[selectedTabIndex].SetSelected(false);
-
         currentArea = NavigationArea.Options;
         SelectOption(index);
     }
 
     public void SelectTabByMouse(SettingsTabButton tab)
     {
-        if (isListeningForBinding)
-            return;
-
-        SelectTab(tab, true);
+        if (!isListeningForBinding)
+            SelectTab(tab, true);
     }
 
     private void DeselectCurrentOption()
@@ -449,24 +454,17 @@ public class SettingsMenuNavigator : MonoBehaviour
         if (activeTabPanel == null)
             return;
 
-        SettingsMenuSelectable[] selectables =
-            activeTabPanel.GetComponentsInChildren<SettingsMenuSelectable>(true);
+        SettingsMenuSelectable[] selectables = activeTabPanel.GetComponentsInChildren <SettingsMenuSelectable>(true);
 
         foreach (SettingsMenuSelectable selectable in selectables)
         {
-            if (selectable == null)
-                continue;
-
-            if (selectable is SettingsTabButton)
-                continue;
-
-            if (!selectable.gameObject.activeInHierarchy)
+            if (selectable == null || selectable is SettingsTabButton || !selectable.gameObject.activeInHierarchy)
                 continue;
 
             currentOptions.Add(selectable);
         }
 
-        currentOptions.Sort((a, b) =>
+        currentOptions.Sort(delegate ( SettingsMenuSelectable a, SettingsMenuSelectable b)
         {
             return a.transform.GetSiblingIndex().CompareTo(b.transform.GetSiblingIndex());
         });
@@ -497,10 +495,7 @@ public class SettingsMenuNavigator : MonoBehaviour
         if (scrollRect == null || scrollContent == null || scrollViewport == null)
             return;
 
-        if (currentArea != NavigationArea.Options)
-            return;
-
-        if (currentOptions.Count == 0)
+        if (currentArea != NavigationArea.Options || currentOptions.Count == 0)
             return;
 
         RectTransform selectedRect = currentOptions[selectedOptionIndex].GetComponent<RectTransform>();
@@ -511,18 +506,22 @@ public class SettingsMenuNavigator : MonoBehaviour
         Canvas.ForceUpdateCanvases();
 
         float contentHeight = scrollContent.rect.height;
+
         float viewportHeight = scrollViewport.rect.height;
 
         if (contentHeight <= viewportHeight)
             return;
 
         Vector3 selectedWorldCenter = selectedRect.TransformPoint(selectedRect.rect.center);
+
         Vector3 viewportLocalCenter = scrollViewport.InverseTransformPoint(selectedWorldCenter);
 
         float selectedTop = viewportLocalCenter.y + selectedRect.rect.height * 0.5f;
+
         float selectedBottom = viewportLocalCenter.y - selectedRect.rect.height * 0.5f;
 
         float viewportTop = scrollViewport.rect.height * 0.5f;
+
         float viewportBottom = -scrollViewport.rect.height * 0.5f;
 
         float scrollAmount = 0f;
@@ -542,6 +541,7 @@ public class SettingsMenuNavigator : MonoBehaviour
         float normalizedDelta = scrollAmount / (contentHeight - viewportHeight);
 
         scrollRect.verticalNormalizedPosition += normalizedDelta;
+
         scrollRect.verticalNormalizedPosition = Mathf.Clamp01(scrollRect.verticalNormalizedPosition);
 
         Canvas.ForceUpdateCanvases();
@@ -549,24 +549,24 @@ public class SettingsMenuNavigator : MonoBehaviour
 
     public void ResetNavigation()
     {
+        CancelKeybindListen();
         StopSliderAdjustMode();
-
         RegisterAllSelectables();
 
         selectedTabIndex = 0;
         selectedOptionIndex = 0;
         currentArea = NavigationArea.Tabs;
 
-        if (tabs.Count > 0)
-        {
-            SelectTab(0, true);
-            UseScrollViewFromTab(tabs[selectedTabIndex]);
+        if (tabs.Count == 0)
+            return;
 
-            if (scrollRect != null)
-            {
-                Canvas.ForceUpdateCanvases();
-                scrollRect.verticalNormalizedPosition = 1f;
-            }
+        SelectTab(0, true);
+        UseScrollViewFromTab(tabs[selectedTabIndex]);
+
+        if (scrollRect != null)
+        {
+            Canvas.ForceUpdateCanvases();
+            scrollRect.verticalNormalizedPosition = 1f;
         }
     }
 
@@ -601,7 +601,6 @@ public class SettingsMenuNavigator : MonoBehaviour
     private IEnumerator ScrollToSelectedOptionNextFrame()
     {
         yield return null;
-
         ScrollToSelectedOption();
     }
 }

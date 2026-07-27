@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8222865812721415034}
   - component: {fileID: 378404810132116839}
   - component: {fileID: 4571670661640614811}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: TreeBlockCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,7 +165,8 @@ GameObject:
   - component: {fileID: 9076234574164971278}
   - component: {fileID: 4423460681706233714}
   - component: {fileID: 7221923429348580910}
-  m_Layer: 10
+  - component: {fileID: 5138140401945677753}
+  m_Layer: 8
   m_Name: altar_fallentree_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,7 +275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 0
   normalMap: {fileID: 0}
-  sortOrderOffset: 0
+  refTransform: {fileID: 0}
   useAmbientShadow: 1
   ambientShadowSprite: {fileID: 0}
   ambientShadowLength: 0.5
@@ -286,3 +287,20 @@ MonoBehaviour:
   windStrength: 0.006
   topSway: 0
   topSwayStrength: 0.1
+--- !u!114 &5138140401945677753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3973726136208924697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cf5f29b7fb9574c982a65643d421cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSort
+  sortRenderer: {fileID: 0}
+  sortOrderOffset: 0
+  useParticle: 0
+  baseTransform: {fileID: 0}
+  selfUpdate: 0
