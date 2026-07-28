@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class SettingsPrefabSpawner : MonoBehaviour
@@ -37,6 +38,7 @@ public class SettingsPrefabSpawner : MonoBehaviour
 
     [Header("Start Menu Input")]
     [SerializeField] private StartMenuManager startMenuManager;
+    [SerializeField] private string playerTag = "Player";
 
     private GameObject settingsInstance;
     private SettingsMenuNavigator settingsNavigator;
@@ -61,8 +63,41 @@ public class SettingsPrefabSpawner : MonoBehaviour
 
     private void Update()
     {
+        GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
+        if (playerObject != null)
+        {
+            CharacterMovement scriptToDisable = playerObject.GetComponent<CharacterMovement>();
+
+            Debug.Log("Time.timeScale = " + Time.timeScale);
+            Debug.Log("ScriptToDisable = " + scriptToDisable.enabled);
+            Debug.Log("PlayerInput = " + playerObject.GetComponent<PlayerInput>().enabled);
+
+            if (!isOpen)
+            {
+                scriptToDisable.enabled = true;
+                playerObject.GetComponent<PlayerInput>().enabled = true;
+            }
+
+            if (isOpen)
+            {
+                scriptToDisable.enabled = false;
+                playerObject.GetComponent<PlayerInput>().enabled = false;
+            }
+        }
+
         if (!isOpen)
+        {
+            Time.timeScale = 1f;
+            //EnableSceneObjects();
             return;
+        }
+
+        if (isOpen)
+        {
+            Time.timeScale = 0f;
+            DisableSceneObjects();
+        }
+            
 
         if (!closeWithEscape)
             return;
@@ -79,6 +114,7 @@ public class SettingsPrefabSpawner : MonoBehaviour
         {
             return;
         }
+
 
         CloseSettings();
 
