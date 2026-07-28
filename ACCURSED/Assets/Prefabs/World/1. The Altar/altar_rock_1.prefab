@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1577763451747760082}
   - component: {fileID: 3831240164435663781}
+  - component: {fileID: 5911710300013851400}
   m_Layer: 8
   m_Name: RockBlockCollider
   m_TagString: Untagged
@@ -69,6 +70,22 @@ CapsuleCollider2D:
   m_Offset: {x: -0.1329385, y: 0.09594828}
   m_Size: {x: 0.76187134, y: 0.25785348}
   m_Direction: 1
+--- !u!114 &5911710300013851400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 930064872101902026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &3868808298077235797
 GameObject:
   m_ObjectHideFlags: 0
