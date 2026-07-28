@@ -25,13 +25,20 @@ public class TravelAspect_Buttons : MonoBehaviour
     {
         if (AspectController.Instance.currentAspect == asp)
         {
-            Debug.Log("same aspect");
-            AspectController.Instance.CloseMenu();
+            //Debug.Log("same aspect");
+            TravelMenuController.Instance.CloseMenu();
             return;
         }
-        PersistentPlayer.Instance.transform.position = asp.position;
-        RoomTransitionWithoutPlayer.Instance.BeginTransition(asp.sceneName);
+
+        //RoomTransitionWithoutPlayer.Instance.BeginTransition(asp.sceneName);
+        RoomTransitionManager.Instance.BeginTransition(asp.sceneName, SetPlayerPos);
     }
+
+    void SetPlayerPos()
+    {
+        PersistentPlayer.Instance.transform.position = asp.position;
+    }
+
     //private IEnumerator TransitionBlack()
     //{
     //    blackFade.SetActive(true);

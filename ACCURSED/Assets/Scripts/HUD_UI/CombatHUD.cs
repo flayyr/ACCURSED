@@ -21,7 +21,7 @@ public class CombatHUD : MonoBehaviour
 
     Coroutine currFade;
 
-    private void Start()
+    private void OnEnable()
     {
         canvasGroup.alpha = 1f;
         currentShowingTime = 0;
@@ -29,7 +29,7 @@ public class CombatHUD : MonoBehaviour
         playerStatistics = PersistentPlayer.Instance.gameObject.GetComponent<PlayerStatistics>();
         playerAbilities = PersistentPlayer.Instance.gameObject.GetComponent<PlayerAbilities>();
 
-        if(playerStatistics != null)
+        if (playerStatistics != null)
         {
             playerStatistics.OnHealChargeUpdate += Show;
             playerStatistics.OnHealthUpdate += Show;
@@ -40,9 +40,23 @@ public class CombatHUD : MonoBehaviour
             healthUI.Initialize(playerStatistics);
         }
 
-        if(playerAbilities != null)
+        if (playerAbilities != null)
         {
             playerAbilities.InitializeUI(vestigeUI, remembranceUI);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (playerStatistics != null)
+        {
+            playerStatistics.OnHealChargeUpdate -= Show;
+            playerStatistics.OnHealthUpdate -= Show;
+            playerStatistics.OnVitalityUpdate -= Show;
+
+            playerAbilities.OnAbilityUsed -= Show;
+
+            healthUI.Initialize(playerStatistics);
         }
     }
 
