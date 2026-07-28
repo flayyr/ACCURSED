@@ -15,7 +15,7 @@ public class AspectSO : InteractableItemSO
     public override void Interact()
     {
         PersistentPlayer.Instance.gameObject.GetComponent<PlayerDeath>().SetRespawnAspect(this);
-        AspectController.Instance.OpenMenu();
+        AspectController.Instance.OpenMenu(this);
         if(EnemySpawnManager.Instance != null)
         {
             EnemySpawnManager.Instance.RespawnEnemies();
