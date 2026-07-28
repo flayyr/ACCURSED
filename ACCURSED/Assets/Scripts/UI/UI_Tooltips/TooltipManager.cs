@@ -92,7 +92,7 @@ public class ToolTipManager : MonoBehaviour
 
     private void CheckPromptTrigger()
     {
-        if (promptOpen && Input.GetKeyDown(KeyCode.E))
+        if (promptOpen && Input.GetKeyDown(KeyCode.F))
         {
             if (GetComponent<NormalItemPickup>().itemPickupQueue.Count < 2)
             {
