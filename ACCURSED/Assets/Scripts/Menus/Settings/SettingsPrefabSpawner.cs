@@ -68,9 +68,9 @@ public class SettingsPrefabSpawner : MonoBehaviour
         {
             CharacterMovement scriptToDisable = playerObject.GetComponent<CharacterMovement>();
 
-            Debug.Log("Time.timeScale = " + Time.timeScale);
-            Debug.Log("ScriptToDisable = " + scriptToDisable.enabled);
-            Debug.Log("PlayerInput = " + playerObject.GetComponent<PlayerInput>().enabled);
+            //Debug.Log("Time.timeScale = " + Time.timeScale);
+            //Debug.Log("ScriptToDisable = " + scriptToDisable.enabled);
+            //Debug.Log("PlayerInput = " + playerObject.GetComponent<PlayerInput>().enabled);
 
             if (!isOpen)
             {
