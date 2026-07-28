@@ -1,9 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using SaintsField;
 using SaintsField.Playa;
 using UnityEngine;
+using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour
 {
     public enum EnemyState
@@ -20,6 +21,7 @@ public class EnemyController : MonoBehaviour
     #region Neutral Patrol
     [LayoutStart("Patrolling", ELayout.FoldoutBox)]
     [SerializeField] private float patrolRadius;
+    [SerializeField] private LayerMask obstacleLayers;
     [SerializeField] private float waypointTolerance;
     [SerializeField] private float patrolWaitMin;
     [SerializeField] private float patrolWaitMax;
@@ -53,12 +55,8 @@ public class EnemyController : MonoBehaviour
 
     #region Pathfinding
     [LayoutStart("Pathfinding", ELayout.FoldoutBox)]
-    [SerializeField][ReadOnly] public List<Vector3> pathVectorList = null;
-    [HideInInspector] public int currentPathIndex = 0;
-    [HideInInspector] public float pathUpdateTimer = 0f;
-    [HideInInspector] public float pathUpdateInterval = 0.1f; // Update path every 1 second
-
-    [HideInInspector] public bool PathfindingOverride = false;
+    [SerializeField][ReadOnly] private NavMeshAgent agent;
+    [SerializeField] private float stoppingDistance = 0.2f;
     #endregion
 
     #region References
@@ -76,6 +74,13 @@ public class EnemyController : MonoBehaviour
         GetComponents();
         patrolOrigin = transform.position;
         playerTransform = GameObject.FindWithTag("Player").transform;
+
+        // The agent only supplies path corners here; CharacterMovement's Rigidbody2D does the actual moving,
+        // so we drive movement/rotation ourselves and keep the agent's internal position in sync each frame.
+        agent.updatePosition = false;
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+        agent.stoppingDistance = stoppingDistance;
     }
 
     void GetComponents()
@@ -83,6 +88,7 @@ public class EnemyController : MonoBehaviour
         cStatistics = GetComponent<CharacterStatistics>();
         cMovement = GetComponent<CharacterMovement>();
         cCombat = GetComponent<CharacterCombat>();
+        agent = GetComponent<NavMeshAgent>();
     }
 
     void Update()
@@ -200,8 +206,7 @@ public class EnemyController : MonoBehaviour
     void PickNewPatrolTarget()
     {
         Vector2 offset = Random.insideUnitCircle * patrolRadius;
-        LayerMask layerMask = Pathfinding.Instance.Obstacles();
-        while (Physics2D.OverlapPoint(offset, layerMask))
+        while (Physics2D.OverlapPoint(offset, obstacleLayers))
         {
             offset = Random.insideUnitCircle * patrolRadius;
         }
@@ -307,60 +312,44 @@ public class EnemyController : MonoBehaviour
     #region Pathfinding
     public void HandleMovement()
     {
-        if (pathVectorList != null && currentPathIndex < pathVectorList.Count)
+        // CharacterMovement's Rigidbody2D is what actually moves us, so keep the agent's
+        // internal position pinned to our real position instead of letting it move us.
+        agent.nextPosition = transform.position;
+
+        if (!agent.hasPath) return;
+
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            Vector3 targetPosition = pathVectorList[currentPathIndex];
-
-            if (Vector3.Distance(transform.position, targetPosition) > 0.2f) // Smaller threshold
-            {
-                //Debug.Log("Far");
-                Vector2 moveDir = (targetPosition - transform.position);
-                //print("move");
-                cMovement.movementInput = moveDir;
-            }
-            else //if(!enemyScript.shooterEnemy)
-            {
-                //Debug.Log("Close");
-                currentPathIndex++;
-
-                // Stop if reached the end of the path
-                if (currentPathIndex >= pathVectorList.Count)
-                {
-                    //print("stopMove");
-                    StopMoving();
-                }
-
-
-            }
+            StopMoving();
+            return;
         }
+
+        Vector2 moveDir = (Vector2)agent.steeringTarget - (Vector2)transform.position;
+        cMovement.movementInput = moveDir;
     }
 
     public void StopMoving()
     {
-        pathVectorList = null;
+        if (agent.hasPath)
+            agent.ResetPath();
         cMovement.movementInput = Vector2.zero;
     }
 
     public void SetTargetPosition(Vector3 targetPosition)
     {
-        pathVectorList = Pathfinding.Instance.FindPath(transform.position, targetPosition);
-
-        if (pathVectorList != null && pathVectorList.Count > 0)
-        {
-            currentPathIndex = 0; // Start from the first node
-            pathVectorList.RemoveAt(0); // Remove starting position
-        }
+        agent.SetDestination(targetPosition);
     }
     #endregion
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        if (pathVectorList != null)
+        if (agent != null && agent.hasPath)
         {
-            for (int i = 0; i < pathVectorList.Count - 1; i++)
+            Vector3[] corners = agent.path.corners;
+            for (int i = 0; i < corners.Length - 1; i++)
             {
-                Gizmos.DrawLine(pathVectorList[i], pathVectorList[i + 1]);
+                Gizmos.DrawLine(corners[i], corners[i + 1]);
             }
         }
         Gizmos.color = Color.yellow;

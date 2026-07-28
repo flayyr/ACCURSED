@@ -251,7 +251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6191780428714321842}
   - component: {fileID: 1223159794708041137}
-  - component: {fileID: 8265158389516734992}
+  - component: {fileID: 8593666626741018183}
   - component: {fileID: 7427543529721681770}
   - component: {fileID: 2737403891477535848}
   - component: {fileID: 493747596500326372}
@@ -259,6 +259,7 @@ GameObject:
   - component: {fileID: 6294427444672200251}
   - component: {fileID: 6551904891543865149}
   - component: {fileID: 5128340459437188432}
+  - component: {fileID: 1589712744783307736}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -311,8 +312,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!61 &8265158389516734992
-BoxCollider2D:
+--- !u!58 &8593666626741018183
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -321,7 +322,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 7756bc250e9d7904e9fe6b649274633d, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -346,17 +347,7 @@ BoxCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.5
 --- !u!114 &7427543529721681770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -471,7 +462,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   enemyState: 0
-  patrolRadius: 16.59
+  patrolRadius: 5
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 0
   waypointTolerance: 1
   patrolWaitMin: 0.1
   patrolWaitMax: 5
@@ -481,17 +475,14 @@ MonoBehaviour:
   waitingAtWaypoint: 0
   detectionRadius: 8
   attackRange: 3
-  loseSightRadius: 10
+  loseSightRadius: 12
   attackPhase: 0
   comboContinueChance: 1
   windUpTimer: 0
   comboLength: 0
   holding: 0
-  pathVectorList: []
-  currentPathIndex: 0
-  pathUpdateTimer: 0
-  pathUpdateInterval: 0.1
-  PathfindingOverride: 0
+  agent: {fileID: 0}
+  stoppingDistance: 0.2
   playerTransform: {fileID: 0}
 --- !u!114 &6551904891543865149
 MonoBehaviour:
@@ -529,6 +520,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe4f382e3fd441e4cb79b00dfb62da0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDeath
+--- !u!195 &1589712744783307736
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320349112389769228}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &7939500389445177993
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,6 +554,7 @@ GameObject:
   - component: {fileID: 2636616582463588878}
   - component: {fileID: 1356209484756461755}
   - component: {fileID: 6791513267764152681}
+  - component: {fileID: 2247571393106372410}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -652,3 +666,20 @@ MonoBehaviour:
   m_labelHash: 0
   m_SpriteKey: 0
   m_SpriteHash: 0
+--- !u!114 &2247571393106372410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7939500389445177993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cf5f29b7fb9574c982a65643d421cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSort
+  sortRenderer: {fileID: 0}
+  sortOrderOffset: 0
+  useParticle: 0
+  baseTransform: {fileID: 0}
+  selfUpdate: 0
