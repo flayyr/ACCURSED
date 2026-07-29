@@ -49,6 +49,7 @@ public class ToolTipManager : MonoBehaviour
     }
     private void OnDisable()
     {
+        if(PersistentPlayer.Instance!=null)
         PersistentPlayer.Instance.GetComponent<PlayerController>().InteractKeyPressed -= CheckPromptTrigger;
     }
 
