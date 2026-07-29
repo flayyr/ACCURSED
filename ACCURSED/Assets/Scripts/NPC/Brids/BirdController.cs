@@ -166,13 +166,13 @@ public class BirdController : MonoBehaviour
         // mandatory null checking
         if (animator == null)
         {
-            Debug.LogWarning( name + " has no animator.");
+            //Debug.LogWarning( name + " has no animator.");
             return;
         }
 
         if (idleAnimationNames == null)
         {
-            Debug.LogWarning(name + " has no idle animation.");
+            //Debug.LogWarning(name + " has no idle animation.");
             return;
         }
 
@@ -187,7 +187,7 @@ public class BirdController : MonoBehaviour
 
         animator.Play(animationName, 0, 0f);
 
-        Debug.Log("playing " + animationName);
+        //Debug.Log("playing " + animationName);
     }
 
     public void ResetIdleTimer()
@@ -197,7 +197,7 @@ public class BirdController : MonoBehaviour
 
     public void AnimationEnd()
     {
-        Debug.Log("AnimationEnd called on " + name);
+        //Debug.Log("AnimationEnd called on " + name);
 
         ResetIdleTimer();
 

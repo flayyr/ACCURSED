@@ -7,35 +7,48 @@ using UnityEngine.SceneManagement;
 public class TravelAspect_Buttons : MonoBehaviour
 {
     [SerializeField] public GameObject title;
-    public Button b;
-    public AspectSO asp;
+    private Button b;
+    private AspectSO asp;
 
-    [SerializeField] private GameObject blackFade;
+    //[SerializeField] private GameObject blackFade;
     private CanvasGroup blackFadeCanvas;
     void Awake()
     {
         b = gameObject.GetComponent<Button>();
         b.onClick.AddListener(Teleport);
 
-        blackFadeCanvas = blackFade.GetComponent<CanvasGroup>();
-        blackFade.SetActive(false);
+        //blackFadeCanvas = blackFade.GetComponent<CanvasGroup>();
+        //blackFade.SetActive(false);
     }
 
     void Teleport()
     {
-        PersistentPlayer.Instance.transform.position = asp.position;
-        RoomTransitionWithoutPlayer.Instance.BeginTransition(asp.sceneName);
-    }
-    private IEnumerator TransitionBlack()
-    {
-        blackFade.SetActive(true);
-        blackFadeCanvas.alpha = 0f;
+        if (AspectController.Instance.currentAspect == asp)
+        {
+            //Debug.Log("same aspect");
+            TravelMenuController.Instance.CloseMenu();
+            return;
+        }
 
-        yield return UITransitions.Instance.FadeTransition(blackFadeCanvas, 0f, 1f, 0.1f);
-        yield return new WaitForSeconds(1);
-        yield return UITransitions.Instance.FadeTransition(blackFadeCanvas, 1f, 0f, 0.1f);
-        blackFade.SetActive(false);
+        //RoomTransitionWithoutPlayer.Instance.BeginTransition(asp.sceneName);
+        RoomTransitionManager.Instance.BeginTransition(asp.sceneName, SetPlayerPos);
     }
+
+    void SetPlayerPos()
+    {
+        PersistentPlayer.Instance.transform.position = asp.position;
+    }
+
+    //private IEnumerator TransitionBlack()
+    //{
+    //    blackFade.SetActive(true);
+    //    blackFadeCanvas.alpha = 0f;
+
+    //    yield return UITransitions.Instance.FadeTransition(blackFadeCanvas, 0f, 1f, 0.1f);
+    //    yield return new WaitForSeconds(1);
+    //    yield return UITransitions.Instance.FadeTransition(blackFadeCanvas, 1f, 0f, 0.1f);
+    //    blackFade.SetActive(false);
+    //}
 
 
     void Update()

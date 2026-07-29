@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5674230250799998821}
   - component: {fileID: 4426046601899903352}
+  - component: {fileID: 4361900556175299719}
   m_Layer: 8
   m_Name: TreeBlockCollider
   m_TagString: Untagged
@@ -69,6 +70,22 @@ CapsuleCollider2D:
   m_Offset: {x: -0.11966896, y: -1.5667837}
   m_Size: {x: 0.50504684, y: 0.54729414}
   m_Direction: 0
+--- !u!114 &4361900556175299719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4265431937446588084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &7976290024678702480
 GameObject:
   m_ObjectHideFlags: 0

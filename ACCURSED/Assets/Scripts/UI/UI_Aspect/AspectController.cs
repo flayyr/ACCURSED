@@ -13,6 +13,8 @@ public class AspectController : MonoBehaviour
 
     private Coroutine menuAppear;
 
+    [HideInInspector]public AspectSO currentAspect;
+
 
     void Awake()
     {
@@ -42,8 +44,10 @@ public class AspectController : MonoBehaviour
         }
     }
 
-    public void OpenMenu()
+    public void OpenMenu(AspectSO openedAspect)
     {
+        currentAspect = openedAspect;
+
         StopCurrentTransition();
         aspectMenu.SetActive(true);
         isOpen = true;

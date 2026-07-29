@@ -188,26 +188,35 @@ namespace NavMeshPlus.Extensions
 
         public static void CollectSources(List<NavMeshBuildSource> sources, NavMeshBuilder2dState builder, NavMeshModifier modifier, int area)
         {
-            if (builder.CollectGeometry == NavMeshCollectGeometry.PhysicsColliders)
+            // A modifier sitting on actual (non-trigger) colliders always bakes from those colliders'
+            // real shapes, regardless of the surface's geometry mode - the physics footprint is what
+            // should be marked, not whatever the sprite/tilemap on the same object looks like. An object
+            // can carry more than one collider (compound shapes), so collect every qualifying one.
+            bool collectedAnyCollider = false;
+            foreach (var collider in modifier.GetComponents<Collider2D>())
             {
-                var collider = modifier.GetComponent<Collider2D>();
-                if (collider != null)
-                {
-                    CollectSources(sources, collider, area, builder);
-                }
+                if (collider.isTrigger)
+                    continue;
+
+                // Pieces merged into a CompositeCollider2D are represented by the composite itself.
+                if (collider is not CompositeCollider2D && collider.composite != null)
+                    continue;
+
+                CollectSources(sources, collider, area, builder);
+                collectedAnyCollider = true;
             }
-            else
+            if (collectedAnyCollider)
+                return;
+
+            var tilemap = modifier.GetComponent<Tilemap>();
+            if (tilemap != null)
             {
-                var tilemap = modifier.GetComponent<Tilemap>();
-                if (tilemap != null)
-                {
-                    CollectTileSources(sources, tilemap, area, builder);
-                }
-                var sprite = modifier.GetComponent<SpriteRenderer>();
-                if (sprite != null)
-                {
-                    CollectSources(sources, sprite, area, builder);
-                }
+                CollectTileSources(sources, tilemap, area, builder);
+            }
+            var sprite = modifier.GetComponent<SpriteRenderer>();
+            if (sprite != null)
+            {
+                CollectSources(sources, sprite, area, builder);
             }
         }
 

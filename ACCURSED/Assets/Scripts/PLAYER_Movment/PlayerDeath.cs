@@ -20,7 +20,8 @@ public class PlayerDeath : CharacterDeath
 
     public void StartRespawnTransition()
     {
-        RoomTransitionWithoutPlayer.Instance.BeginTransition(respawnAspect.sceneName, ResetPlayer);
+        //RoomTransitionWithoutPlayer.Instance.BeginTransition(respawnAspect.sceneName, ResetPlayer);
+        RoomTransitionManager.Instance.BeginTransition(respawnAspect.sceneName, ResetPlayer);
     }
 
     private void ResetPlayer()

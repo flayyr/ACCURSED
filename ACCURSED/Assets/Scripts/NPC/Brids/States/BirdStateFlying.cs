@@ -31,7 +31,7 @@ public class BirdStateFlying : BirdBaseState
 
         bird.InitializeFade();
 
-        Debug.Log("Entered Flying state.");
+        //Debug.Log("Entered Flying state.");
     }
 
     public override void UpdateState(BirdController bird)
