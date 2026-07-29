@@ -3,6 +3,7 @@ using UnityEngine;
 public class PersistentPlayer : MonoBehaviour
 {
     public static PersistentPlayer Instance { get; private set; }
+    public static PlayerController controllerInstance { get; private set; }
 
     private void Awake()
     {
@@ -15,6 +16,7 @@ public class PersistentPlayer : MonoBehaviour
 
         // This is the first player, so keep it forever.
         Instance = this;
+        controllerInstance = GetComponent<PlayerController>();
         DontDestroyOnLoad(gameObject);
     }
 }

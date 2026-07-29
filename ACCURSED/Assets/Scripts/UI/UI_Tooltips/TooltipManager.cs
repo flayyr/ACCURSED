@@ -42,6 +42,16 @@ public class ToolTipManager : MonoBehaviour
         }
         Instance = this;
     }
+
+    private void OnEnable()
+    {
+        PersistentPlayer.Instance.GetComponent<PlayerController>().InteractKeyPressed += CheckPromptTrigger;
+    }
+    private void OnDisable()
+    {
+        PersistentPlayer.Instance.GetComponent<PlayerController>().InteractKeyPressed -= CheckPromptTrigger;
+    }
+
     public void PromptAppear()
     {
         
@@ -92,7 +102,7 @@ public class ToolTipManager : MonoBehaviour
 
     private void CheckPromptTrigger()
     {
-        if (promptOpen && Input.GetKeyDown(KeyCode.F))
+        if (promptOpen)
         {
             if (GetComponent<NormalItemPickup>().itemPickupQueue.Count < 2)
             {
@@ -178,7 +188,6 @@ public class ToolTipManager : MonoBehaviour
 
     public void Update()
     {
-        CheckPromptTrigger();
         ToolTipDebug(); //DEBUG
 
         // if (too far away) { PromptDisappear }

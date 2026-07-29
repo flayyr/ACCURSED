@@ -66,6 +66,7 @@ public class EscMenuController : MonoBehaviour
         menuAppear = StartCoroutine(MenuOpenRoutine());
 
         //GamePauseController.Instance.PauseGame();
+        PersistentPlayer.controllerInstance.SetState(PlayerControlState.Disabled);
     }
 
     public void CloseMenu()
@@ -76,6 +77,7 @@ public class EscMenuController : MonoBehaviour
 
 
         //GamePauseController.Instance.ResumeGame();
+        PersistentPlayer.controllerInstance.SetState(PlayerControlState.Normal);
     }
 
     private IEnumerator MenuOpenRoutine()

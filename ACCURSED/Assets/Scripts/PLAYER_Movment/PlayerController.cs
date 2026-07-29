@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,12 +15,16 @@ public class PlayerController : MonoBehaviour
     #region References
     CharacterMovement cMovement;
     CharacterCombat cCombat;
+    PlayerAbilities playerAbilities;
     #endregion
 
     Vector2 currentMovementInput = Vector2.zero;
 
     [SerializeField]private PlayerControlState state = PlayerControlState.Normal;
     private Queue< PlayerControlState> nextStates = new Queue<PlayerControlState>();
+
+    public event Action InteractKeyPressed;
+
 
     public void SetState(PlayerControlState newState)
     {
@@ -59,6 +64,7 @@ public class PlayerController : MonoBehaviour
     {
         cMovement = GetComponent<CharacterMovement>();
         cCombat = GetComponent<CharacterCombat>();
+        playerAbilities = GetComponent<PlayerAbilities>();
     }
 
     #region Movement
@@ -91,5 +97,30 @@ public class PlayerController : MonoBehaviour
         cCombat.attackButton = !cCombat.attackButton;
         cCombat.AttackUpdate();
     }
+
+    public void OnHeal(InputValue value)
+    {
+        if (state is not PlayerControlState.Normal) return;
+        playerAbilities.UseHeal();
+    }
+
+    public void OnVestige(InputValue value)
+    {
+        if (state is not PlayerControlState.Normal) return;
+        playerAbilities.UseVestige();
+    }
+
+    public void OnRememberance(InputValue value)
+    {
+        if (state is not PlayerControlState.Normal) return;
+        playerAbilities.UseRemembrance();
+    }
+
     #endregion
+
+    public void OnInteract(InputValue value)
+    {
+        if (state is PlayerControlState.Disabled) return;
+        InteractKeyPressed?.Invoke();
+    }
 }

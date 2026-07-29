@@ -32,16 +32,6 @@ public class PlayerAbilities : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            remembranceAbility.Trigger(ref playerRef);
-            OnAbilityUsed?.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            vestigeAbility.Trigger(ref playerRef);
-            OnAbilityUsed?.Invoke();
-        }
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (playerRef.playerStats.UseHealCharge())
@@ -50,4 +40,29 @@ public class PlayerAbilities : MonoBehaviour
             }
         }
     }
+
+    public bool UseRemembrance()
+    {
+        remembranceAbility.Trigger(ref playerRef);
+        OnAbilityUsed?.Invoke();
+        return true;
+    }
+
+    public bool UseVestige()
+    {
+        vestigeAbility.Trigger(ref playerRef);
+        OnAbilityUsed?.Invoke();
+        return true;
+    }
+
+    public bool UseHeal()
+    {
+        if (playerRef.playerStats.UseHealCharge())
+        {
+            playerRef.hurtBox.InvincibleForSeconds(healingInvincibleDuration);
+            return true;
+        }
+        return false;
+    }
+
 }
