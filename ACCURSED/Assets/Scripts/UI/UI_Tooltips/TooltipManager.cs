@@ -45,7 +45,12 @@ public class ToolTipManager : MonoBehaviour
 
     private void OnEnable()
     {
+        if(PersistentPlayer.Instance != null)
         PersistentPlayer.Instance.GetComponent<PlayerController>().InteractKeyPressed += CheckPromptTrigger;
+    }
+    private void Start()
+    {
+        OnEnable(); //for some reason onEnable gets called before persistent player instance is set sometimes, assigning again in start to avoid that.
     }
     private void OnDisable()
     {

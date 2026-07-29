@@ -53,7 +53,7 @@ public class TravelMenuController : MonoBehaviour
         isOpen = true;
 
         menuAppear = StartCoroutine(MenuOpenRoutine());
-        PersistentPlayer.controllerInstance.SetState(PlayerControlState.Disabled);
+        //PersistentPlayer.controllerInstance.SetState(PlayerControlState.Disabled);
     }
 
     public void CloseMenu()
@@ -62,7 +62,7 @@ public class TravelMenuController : MonoBehaviour
         isOpen = false;
 
         menuAppear = StartCoroutine(MenuCloseRoutine());
-        PersistentPlayer.controllerInstance.SetState(PlayerControlState.Normal);
+        //PersistentPlayer.controllerInstance.SetState(PlayerControlState.Normal);
     }
 
     private IEnumerator MenuOpenRoutine()
