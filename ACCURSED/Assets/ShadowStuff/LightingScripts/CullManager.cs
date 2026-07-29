@@ -11,6 +11,7 @@ public class CullManager : MonoBehaviour
     [SerializeField] Vector2 worldMaxBounds;
     [SerializeField] Vector2 chunkSize;
     HashSet<CustomDynamicLit>[,] litObjects;
+    bool[,] chunksIsEnabled;
 
     Vector2 worldSize;
 
@@ -29,6 +30,7 @@ public class CullManager : MonoBehaviour
         rowCount = Mathf.CeilToInt( worldSize.y / chunkSize.y);
 
         litObjects = new HashSet<CustomDynamicLit>[columnCount, rowCount];
+        chunksIsEnabled = new bool[columnCount, rowCount];
 
         for (int i = 0; i<columnCount; i++)
         {
@@ -39,44 +41,53 @@ public class CullManager : MonoBehaviour
         }
 
         prevCamCoord = PositionToChunkCoord(cam.transform.position);
+        for (int i = -1; i <= 1; i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                chunksIsEnabled[prevCamCoord.x + i, prevCamCoord.y + j] = true;
+            }
+        }
     }
 
     private void Update()
     {
         int2 camCoord = PositionToChunkCoord(cam.transform.position);
         int2 difference = camCoord - prevCamCoord;
-        if (difference.x != 0)
+
+        if (difference.x != 0 || difference.y != 0)
         {
-            for (int i = -1; i <= 1; i++)
+            UpdateCulling(camCoord);
+            prevCamCoord = camCoord;
+        }
+    }
+    
+    void UpdateCulling(int2 camCoord)
+    {
+        for (int i = 0; i < columnCount; i++)
+        {
+            for (int j = 0; j < rowCount; j++)
             {
-                ObjectsSetEnabledAll(litObjects[prevCamCoord.x - difference.x, prevCamCoord.y + i], false);
-                ObjectsSetEnabledAll(litObjects[camCoord.x + difference.x, camCoord.y + i], true);
+                bool targetEnabledStatus = math.abs(camCoord.x - i) <= 1 && math.abs(camCoord.y - j) <= 1;
+
+                if (targetEnabledStatus != chunksIsEnabled[i,j])
+                {
+                    ObjectsSetEnabledAll(litObjects[i, j], targetEnabledStatus);
+                    chunksIsEnabled[i, j] = targetEnabledStatus;
+                }
             }
         }
-        if (difference.y != 0)
-        {
-            for (int i = -1; i <= 1; i++)
-            {
-                ObjectsSetEnabledAll(litObjects[prevCamCoord.x +i, prevCamCoord.y - difference.y], false);
-                ObjectsSetEnabledAll(litObjects[camCoord.x + i, camCoord.y + difference.y], true);
-            }
-        }
-        prevCamCoord = camCoord;
     }
 
     public void AddObject(CustomDynamicLit obj, Vector2 position)
     {
         int2 chunkCoord = PositionToChunkCoord(position);
-        if (chunkCoord.x > 0 && chunkCoord.x<columnCount && chunkCoord.y > 0 && chunkCoord.y<rowCount)
-        {
+        //if (chunkCoord.x > 0 && chunkCoord.x<columnCount && chunkCoord.y > 0 && chunkCoord.y<rowCount)
+        //{
             litObjects[chunkCoord.x, chunkCoord.y].Add(obj);
 
-            int2 difference = chunkCoord - prevCamCoord;
-            if(math.abs(difference.x)>1 || math.abs(difference.y) > 1)
-            {
-                ObjectSetEnabled(obj, false);
-            }
-        }
+            ObjectSetEnabled(obj, chunksIsEnabled[chunkCoord.x, chunkCoord.y]);
+        //}
     }
 
     int2 PositionToChunkCoord(Vector2 position)
@@ -85,6 +96,8 @@ public class CullManager : MonoBehaviour
         int2 chunkCoord = new int2(Mathf.FloorToInt(relativePos.x/chunkSize.x), Mathf.FloorToInt(relativePos.y / chunkSize.y));
         return chunkCoord;
     }
+
+    
 
     void ObjectsSetEnabledAll(HashSet<CustomDynamicLit> set, bool enabled)
     {
