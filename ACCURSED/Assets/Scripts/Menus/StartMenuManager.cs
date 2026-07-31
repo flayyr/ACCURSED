@@ -260,48 +260,6 @@ public class StartMenuManager : MonoBehaviour
         }
     }
 
-    private void OpenSettingsPanel()
-    {
-        if (settingsPanel == null)
-        {
-            Debug.LogWarning("Settings Panel is not assigned.");
-            return;
-        }
-
-        if (settingsNavigator == null)
-            settingsNavigator = settingsPanel.GetComponentInChildren<SettingsMenuNavigator>(true);
-
-        settingsOpen = true;
-
-        ClearMainMenuSelectionVisuals();
-
-        settingsPanel.SetActive(true);
-
-        EventSystem.current.SetSelectedGameObject(null);
-
-        GameObject objectToSelect = firstSettingsSelectedObject;
-
-        if (objectToSelect == null)
-        {
-            Selectable firstSelectable = settingsPanel.GetComponentInChildren<Selectable>(true);
-
-            
-
-            if (firstSelectable != null)
-                objectToSelect = firstSelectable.gameObject;
-        }
-
-        if (objectToSelect != null)
-        {
-            EventSystem.current.SetSelectedGameObject(objectToSelect);
-            Debug.Log("Selected settings object: " + objectToSelect.name);
-        }
-        else
-        {
-            Debug.LogWarning("No selectable object found inside Settings Panel.");
-        }
-    }
-
     private void CloseSettingsPanel()
     {
         settingsOpen = false;
