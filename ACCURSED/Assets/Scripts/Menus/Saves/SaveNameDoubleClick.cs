@@ -16,13 +16,20 @@ public class SaveNameDoubleClick : MonoBehaviour, IPointerClickHandler
         if (eventData.button != PointerEventData.InputButton.Left)
             return;
 
+        if (SaveNamePopup.IsOpen)
+            return;
+
         if (saveSlot == null)
             return;
 
-        // A single click only selects the slot.
-        // Loading the save on the first click would make double-clicking impossible.
+        // Clicking or double-clicking the name of an empty slot does nothing.
+        if (!saveSlot.HasSave)
+            return;
+
+        // A single click on an existing save name only selects the slot. It does not load the save.
         saveSlot.SelectThisButton();
 
+        // A double-click opens the rename popup.
         if (eventData.clickCount >= 2)
             saveSlot.BeginRename();
     }

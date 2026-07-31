@@ -46,7 +46,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public Sprite slotTwoSelectedSprite;
     public Sprite slotThreeSelectedSprite;
     public Sprite slotFourSelectedSprite;
-
+    
     private Image buttonImage;
     private bool isSelected;
 
@@ -361,7 +361,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (index >= 0)
             SelectButton(index);
     }
-
+    
     public void OnPointerEnter(PointerEventData eventData)
     {
         SelectThisButton();
@@ -377,19 +377,51 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (eventData.button != PointerEventData.InputButton.Left)
             return;
 
+        if (SaveNamePopup.IsOpen)
+            return;
+
+        // Usually the name and Delete button consume their own pointer events.
+        // These checks prevent the slot from activating in case the event reaches this parent object anyway.
+        if (WasSaveNameClicked(eventData))
+            return;
+
+        if (WasDeleteButtonClicked(eventData))
+            return;
+
+        // Clicking the body of the slot:
+        // Empty slot    -> opens the new-save naming popup.
+        // Existing slot -> loads the save's scene.
+        ActivateButton();
+    }
+
+    private bool WasSaveNameClicked(PointerEventData eventData)
+    {
+        if (saveNameText == null)
+            return false;
+
         GameObject clickedObject = eventData.pointerPressRaycast.gameObject;
 
-        //Do not activate/load the slot when the player is clicking its name or Delete button.
-        if (clickedObject != null)
-        {
-            if (clickedObject.GetComponentInParent<SaveNameDoubleClick>() != null)
-                return;
+        if (clickedObject == null)
+            return false;
 
-            if (deleteButton != null && clickedObject.transform.IsChildOf(deleteButton.transform))
-                return;
-        }
+        Transform clickedTransform = clickedObject.transform;
 
-        ActivateButton();
+        return clickedTransform == saveNameText.transform || clickedTransform.IsChildOf(saveNameText.transform);
+    }
+
+    private bool WasDeleteButtonClicked(PointerEventData eventData)
+    {
+        if (deleteButton == null)
+            return false;
+
+        GameObject clickedObject = eventData.pointerPressRaycast.gameObject;
+
+        if (clickedObject == null)
+            return false;
+
+        Transform clickedTransform = clickedObject.transform;
+
+        return clickedTransform == deleteButton.transform || clickedTransform.IsChildOf(deleteButton.transform);
     }
 
     private static void SelectButton(int index)
@@ -414,9 +446,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private void SetSelected(bool selected)
     {
         if (isSelected == selected)
-        {
             return;
-        }
 
         isSelected = selected;
         ChangeSprite();
@@ -425,9 +455,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private static void SelectDefaultPlayButton()
     {
         if (buttons.Count == 0)
-        {
             return;
-        }
 
         SaveMenuButton firstSlot = buttons.Find(button => button.buttonType == ButtonType.SlotOne);
 
