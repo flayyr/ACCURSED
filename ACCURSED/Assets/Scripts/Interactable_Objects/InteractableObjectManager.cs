@@ -5,7 +5,7 @@ public class InteractableObjectManager : MonoBehaviour
 {
     [SerializeField] private InteractableItemSO obj; // attach respective item.
 
-    [SerializeField] private GameObject player;
+    //[SerializeField] private GameObject player;
     [SerializeField] private string promptText;
 
     private bool isInsideTrigger;
