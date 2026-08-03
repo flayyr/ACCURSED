@@ -2,21 +2,21 @@ using UnityEngine;
 
 public class LightBehavior : MonoBehaviour
 {
-    [SerializeField] private float lightRadius;
-    [SerializeField] private float lightIntensity;
-    [SerializeField] private Color lightColor;
+    //[SerializeField] private float lightRadius;
+    //[SerializeField] private float lightIntensity;
+    //[SerializeField] private Color lightColor;
 
     private Vector2 lightPosition;
 
     [Header("Parent")]
     [SerializeField] SpriteRenderer parentRenderer;
 
-    [HideInInspector] public GPULight lightData;
+    [SerializeField] public GPULight lightData;
 
 
     private void Awake()
     {
-        lightData = new GPULight(lightPosition, 0f, lightRadius, lightIntensity, lightColor);
+        //lightData = new GPULight(lightPosition, 0f, lightRadius, lightIntensity, lightColor);
         UpdateDepth();
     }
 

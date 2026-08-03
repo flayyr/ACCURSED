@@ -42,11 +42,13 @@ Shader "Custom/LightColorFullScreen"
             {
                 float2 position;
 
+                float depth;
+
                 float radius;
 
                 float intensity;
 
-                float4 color;
+                float3 color;
             };
 
             StructuredBuffer<Light> _Lights;
@@ -133,14 +135,17 @@ Shader "Custom/LightColorFullScreen"
 
             half4 Frag(Varyings input) : SV_Target
             {
-                // float2 worldPos =
-                //     _CameraMin +
-                //     input.uv * _CameraSize;
+                float2 uv = input.uv;
+                uv.y = 1.0 - uv.y;
 
-                // float3 lighting =
-                //     CalculateLighting(worldPos);
+                float2 worldPos =
+                    _CameraMin +
+                    uv * _CameraSize;
 
-                return half4(input.uv,0,1);
+                float3 lighting =
+                    CalculateLighting(worldPos);
+
+                return half4(lighting,1);
             }
 
             ENDHLSL

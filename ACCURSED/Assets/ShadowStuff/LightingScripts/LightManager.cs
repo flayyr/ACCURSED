@@ -1,20 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using UnityEditor;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential), Serializable]
 public struct GPULight
 {
-    public Vector2 position;
-    public float depth;
-    public float radius;
-    public float intensity;
-    public Vector3 color;
+    [HideInInspector]public Vector2 position;
+    [HideInInspector]public float depth;
+    [SerializeField] public float radius;
+    [SerializeField] public float intensity;
+    [SerializeField] public Vector3 color;
 
     public GPULight(Vector2 position, float depth,float radius, float intensity, Color color)
     {
@@ -36,8 +32,10 @@ public class LightManager : MonoBehaviour
     [Space]
 
     [SerializeField] Camera cam;
-    [SerializeField] RenderTexture lightTexture;
-    [SerializeField] Material lightMaterial;
+    [SerializeField] RenderTexture lightColorTexture;
+    [SerializeField] Material lightColorMaterial;
+    [SerializeField] RenderTexture lightDataTexture;
+    [SerializeField] Material lightDataMaterial;
 
     [Space]
     [SerializeField] float lightCullBuffer;
@@ -79,6 +77,7 @@ public class LightManager : MonoBehaviour
         {
             instance = null;
         }
+        lightBuffer.Dispose();
     }
 
     private void Start()
@@ -92,19 +91,14 @@ public class LightManager : MonoBehaviour
 
     private void Update()
     {
+        if (cam == null)
         {
-            if (cam == null)
-            {
-                return;
-            }
+            return;
+        }
 
-            //only run rest of script every cullInterval seconds
-            if (cullTimer > 0)
-            {
-                cullTimer -= Time.deltaTime;
-                return;
-            }
-            cullTimer = cullInterval;
+        if (cullTimer <= 0)
+        {
+            cullTimer += cullInterval;
 
             //calculate camera bounding box
             boundsBotLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, cam.nearClipPlane));
@@ -161,25 +155,29 @@ public class LightManager : MonoBehaviour
             {
                 visibleLights[i] = lightBehaviors[i].lightData;
             }
+
+            lightBuffer.SetData(visibleLights);
+
+            lightColorMaterial.SetBuffer("_Lights", lightBuffer);
+            lightColorMaterial.SetInt("_LightCount", visibleLights.Length);
+            lightDataMaterial.SetBuffer("_Lights", lightBuffer);
+            lightDataMaterial.SetInt("_LightCount", visibleLights.Length);
         }
-
-
-
-
-        lightBuffer.SetData(visibleLights);
-
-        lightMaterial.SetBuffer("_Lights", lightBuffer);
-
-        lightMaterial.SetInt("_LightCount", visibleLights.Length);
+        else
+        {
+            cullTimer -= Time.deltaTime;
+        }
 
         boundsBotLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, cam.nearClipPlane));
         boundsTopRight = cam.ViewportToWorldPoint(new Vector3(1, 1, cam.nearClipPlane));
 
-        lightMaterial.SetVector("_CameraMin", boundsBotLeft);
+        lightColorMaterial.SetVector("_CameraMin", boundsBotLeft);
+        lightColorMaterial.SetVector("_CameraSize", boundsTopRight - boundsBotLeft);
+        lightDataMaterial.SetVector("_CameraMin", boundsBotLeft);
+        lightDataMaterial.SetVector("_CameraSize", boundsTopRight - boundsBotLeft);
 
-        lightMaterial.SetVector("_CameraSize", boundsTopRight - boundsBotLeft);
-
-        Graphics.Blit(null, lightTexture, lightMaterial);
+        Graphics.Blit(null, lightColorTexture, lightColorMaterial);
+        Graphics.Blit(null, lightDataTexture, lightDataMaterial);
 
 
     }
