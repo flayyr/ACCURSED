@@ -4,8 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(ReflectionSprite)), RequireComponent(typeof(DepthSort))]
 public class CustomDynamicLit : MonoBehaviour
 {
-    [Header("Culling")]
+    [Header("Toggles")]
     [SerializeField] bool canMove = false;
+    [SerializeField] bool isAnimated = false;
     [Header("Normal Map")]
     [SerializeField] Sprite normalMap;
     [Header("Ref Transform")]
@@ -128,6 +129,13 @@ public class CustomDynamicLit : MonoBehaviour
             ambientShadowRenderer.sprite = ambientShadowSprite != null ? ambientShadowSprite : spriteRenderer.sprite;
             ambientShadowRenderer.sortingLayerName = "AmbientShadow";
             ambientShadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
+
+            if (isAnimated)
+            {
+                shadowObj.AddComponent<SpriteUpdater>().SetTargetRenderer(spriteRenderer);
+            }
+            
+
             if (refTransform != transform)
             {
                 shadowObj.GetComponent<ShadowScript>().SetShadowOffset(refTransform.position);
