@@ -18,15 +18,21 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [Header("Button Type")]
     public ButtonType buttonType;
 
-    [Header("Save Name")]
-    [Tooltip("The text displayed above this save slot.")]
+    [Header("Save Information")]
+    [Tooltip("The save name displayed above this slot.")]
     [SerializeField] private TMP_Text saveNameText;
 
-    [Tooltip("The popup used to enter or rename save names.")]
+    [Tooltip("The popup used to create or rename saves.")]
     [SerializeField] private SaveNamePopup saveNamePopup;
 
+    [Header("Delete Button")]
+    [Tooltip("The Delete button belonging to this save slot.")]
+    [SerializeField] private Button deleteButton;
+
+    [Tooltip("Hide the Delete button when the slot is empty.")]
+    [SerializeField] private bool hideDeleteButtonWhenEmpty = true;
+
     [Header("Scene Loading")]
-    [Tooltip("Scene loaded after creating or opening this save.")]
     [SerializeField] private string gameSceneName = "Game";
 
     [Header("Normal Sprites")]
@@ -40,7 +46,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public Sprite slotTwoSelectedSprite;
     public Sprite slotThreeSelectedSprite;
     public Sprite slotFourSelectedSprite;
-
+    
     private Image buttonImage;
     private bool isSelected;
 
@@ -53,19 +59,38 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         get { return (int)buttonType; }
     }
 
+    // Whether this slot actually contains a save.
+    // The displayed name is not used to determine this because both an empty slot and a named save can be called "New Game."
     public bool HasSave
     {
-        get { return PlayerPrefs.GetInt(GetExistsKey(), 0) == 1; }
+        get
+        {
+            return PlayerPrefs.GetInt(GetExistsKey(), 0) == 1;
+        }
     }
 
     public string CurrentSaveName
     {
-        get { return PlayerPrefs.GetString(GetNameKey(), "New Game"); }
+        get
+        {
+            return PlayerPrefs.GetString(GetNameKey(), "New Game");
+        }
     }
 
     private void Awake()
     {
         buttonImage = GetComponent<Image>();
+
+        // Connect the Delete button automatically.
+        // Do not also add DeleteSave manually to the button's On Click list.
+        if (deleteButton != null)
+            deleteButton.onClick.AddListener(DeleteSave);
+    }
+
+    private void OnDestroy()
+    {
+        if (deleteButton != null)
+            deleteButton.onClick.RemoveListener(DeleteSave);
     }
 
     private void OnEnable()
@@ -74,7 +99,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             buttons.Add(this);
 
         SortButtons();
-        RefreshNameDisplay();
+        RefreshSlotDisplay();
         SelectDefaultPlayButton();
     }
 
@@ -85,12 +110,11 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void Update()
     {
-        // Only one save button handles the shared keyboard input.
-        // This prevents every save button from reading the same key.
+        // Only the first registered button handles the shared keyboard navigation.
         if (buttons.Count == 0 || buttons[0] != this)
             return;
 
-        // Do not navigate or activate save slots while the player is typing into the naming popup.
+        // Do not navigate or activate slots while the player is entering a save name.
         if (SaveNamePopup.IsOpen)
             return;
 
@@ -137,24 +161,25 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (saveNamePopup == null)
         {
-            Debug.LogError("No SaveNamePopup has been assigned to " + gameObject.name);
+            Debug.LogError("No SaveNamePopup is assigned to " + gameObject.name);
 
             return;
         }
 
-        // New empty slots always begin with "New Game" in the input field.
-        // It is not permanently saved until Accept is pressed.
         saveNamePopup.OpenForNewSave(this);
     }
 
     public void BeginRename()
     {
+        // Empty slots cannot be renamed because they do not yet contain a save.
         if (!HasSave)
+        {
             return;
+        }
 
         if (saveNamePopup == null)
         {
-            Debug.LogError("No SaveNamePopup has been assigned to " + gameObject.name);
+            Debug.LogError("No SaveNamePopup is assigned to " + gameObject.name);
 
             return;
         }
@@ -163,24 +188,21 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         saveNamePopup.OpenForRename(this);
     }
 
-    // Called by SaveNamePopup when Accept is pressed while making a new save.
     public void CreateNewSave(string enteredName)
     {
         string finalName = NormalizeSaveName(enteredName);
 
         PlayerPrefs.SetInt(GetExistsKey(), 1);
         PlayerPrefs.SetString(GetNameKey(), finalName);
-
         PlayerPrefs.Save();
 
-        RefreshNameDisplay();
+        RefreshSlotDisplay();
 
         Debug.Log("Created save slot " + (SlotIndex + 1) + " with the name: " + finalName);
 
         StartNewGame();
     }
 
-    // Called by SaveNamePopup when Accept is pressed while renaming.
     public void RenameSave(string enteredName)
     {
         if (!HasSave)
@@ -191,22 +213,71 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         PlayerPrefs.SetString(GetNameKey(), finalName);
         PlayerPrefs.Save();
 
-        RefreshNameDisplay();
+        RefreshSlotDisplay();
 
         Debug.Log("Renamed save slot " + (SlotIndex + 1) + " to: " + finalName);
+    }
+
+    public void DeleteSave()
+    {
+        if (!HasSave)
+        {
+            RefreshSlotDisplay();
+            return;
+        }
+
+        
+        // Remove the values used by this naming system.
+        PlayerPrefs.DeleteKey(GetExistsKey());
+        PlayerPrefs.DeleteKey(GetNameKey());
+
+        // If this slot was marked as the currently active slot, remove those values too.
+        if (PlayerPrefs.GetInt("ActiveSaveSlot", -1) == SlotIndex)
+        {
+            PlayerPrefs.DeleteKey("ActiveSaveSlot");
+            PlayerPrefs.DeleteKey("ActiveSaveIsNew");
+        }
+
+        // Add the deletion of your actual game-save data here once your full saving system is implemented.
+        DeleteActualSlotData();
+
+        PlayerPrefs.Save();
+
+        RefreshSlotDisplay();
+
+        Debug.Log("Deleted save slot " + (SlotIndex + 1) +". The slot is now empty.");
+    }
+
+    private void DeleteActualSlotData()
+    {
+        /*
+        Placeholder for your future save system.
+        
+        Examples:
+        SaveManager.DeleteSave(SlotIndex);
+        
+        or:
+        
+        string path = Application.persistentDataPath + "/SaveSlot_" + SlotIndex + ".json";
+        
+        if (System.IO.File.Exists(path))
+            System.IO.File.Delete(path);
+        
+        */
     }
 
     private string NormalizeSaveName(string enteredName)
     {
         if (string.IsNullOrWhiteSpace(enteredName))
+        {
             return "New Game";
+        }
 
         return enteredName.Trim();
     }
 
     private void StartNewGame()
     {
-        // Your gameplay save manager can read these values after the game scene loads.
         PlayerPrefs.SetInt("ActiveSaveSlot", SlotIndex);
         PlayerPrefs.SetInt("ActiveSaveIsNew", 1);
         PlayerPrefs.Save();
@@ -229,29 +300,58 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (string.IsNullOrWhiteSpace(gameSceneName))
         {
-            Debug.LogWarning("No game scene has been assigned to " + gameObject.name);
+            Debug.LogWarning("No game scene is assigned to " + gameObject.name);
 
             return;
         }
 
-        SceneManager.LoadScene(gameSceneName);
+        RoomTransitionManager.Instance.BeginTransition(gameSceneName);
     }
 
-    public void RefreshNameDisplay()
+    public void RefreshSlotDisplay()
     {
-        if (saveNameText == null)
+        /*
+        The name text is now always visible.
+        
+        Empty slot:
+            New Game
+         
+        Occupied slot:
+            Its saved name
+        */
+        if (saveNameText != null)
+        {
+            saveNameText.gameObject.SetActive(true);
+
+            if (HasSave)
+            {
+                saveNameText.text = CurrentSaveName;
+            }
+            else
+            {
+                saveNameText.text = "New Game";
+            }
+        }
+
+        RefreshDeleteButton();
+    }
+
+    private void RefreshDeleteButton()
+    {
+        if (deleteButton == null)
             return;
 
-        bool saveExists = HasSave;
-
-        
-        // An empty slot does not display a name.
-        // Once the player accepts a new save name, the text becomes visible.
-        
-        saveNameText.gameObject.SetActive(saveExists);
-
-        if (saveExists)
-            saveNameText.text = CurrentSaveName;
+        if (hideDeleteButtonWhenEmpty)
+        {
+            deleteButton.gameObject.SetActive(HasSave);
+        }
+        else
+        {
+            // Keep the button visible, but prevent it from being
+            // pressed while the slot is empty.
+            deleteButton.gameObject.SetActive(true);
+            deleteButton.interactable = HasSave;
+        }
     }
 
     public void SelectThisButton()
@@ -261,7 +361,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (index >= 0)
             SelectButton(index);
     }
-
+    
     public void OnPointerEnter(PointerEventData eventData)
     {
         SelectThisButton();
@@ -269,7 +369,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        // The slot remains selected after the pointer leaves.
+        // Keep the slot selected after the pointer exits.
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -277,13 +377,51 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (eventData.button != PointerEventData.InputButton.Left)
             return;
 
-        // If the player clicked the save-name text, let SaveNameDoubleClick handle it instead.
-        GameObject clickedObject = eventData.pointerPressRaycast.gameObject;
-
-        if (clickedObject != null && clickedObject.GetComponentInParent<SaveNameDoubleClick>() != null)
+        if (SaveNamePopup.IsOpen)
             return;
 
+        // Usually the name and Delete button consume their own pointer events.
+        // These checks prevent the slot from activating in case the event reaches this parent object anyway.
+        if (WasSaveNameClicked(eventData))
+            return;
+
+        if (WasDeleteButtonClicked(eventData))
+            return;
+
+        // Clicking the body of the slot:
+        // Empty slot    -> opens the new-save naming popup.
+        // Existing slot -> loads the save's scene.
         ActivateButton();
+    }
+
+    private bool WasSaveNameClicked(PointerEventData eventData)
+    {
+        if (saveNameText == null)
+            return false;
+
+        GameObject clickedObject = eventData.pointerPressRaycast.gameObject;
+
+        if (clickedObject == null)
+            return false;
+
+        Transform clickedTransform = clickedObject.transform;
+
+        return clickedTransform == saveNameText.transform || clickedTransform.IsChildOf(saveNameText.transform);
+    }
+
+    private bool WasDeleteButtonClicked(PointerEventData eventData)
+    {
+        if (deleteButton == null)
+            return false;
+
+        GameObject clickedObject = eventData.pointerPressRaycast.gameObject;
+
+        if (clickedObject == null)
+            return false;
+
+        Transform clickedTransform = clickedObject.transform;
+
+        return clickedTransform == deleteButton.transform || clickedTransform.IsChildOf(deleteButton.transform);
     }
 
     private static void SelectButton(int index)
@@ -380,8 +518,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private static void SortButtons()
     {
-        buttons.Sort((a, b) => a.transform.GetSiblingIndex()
-                    .CompareTo(b.transform.GetSiblingIndex())
+        buttons.Sort((a, b) => a.transform.GetSiblingIndex().CompareTo(b.transform.GetSiblingIndex())
         );
     }
 }
