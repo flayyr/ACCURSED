@@ -1,3 +1,4 @@
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
 public class HitBox : MonoBehaviour
@@ -10,6 +11,7 @@ public class HitBox : MonoBehaviour
     [SerializeField] public Vector3 PostAnimDirection;
     [Space]
     [SerializeField] private PlayerStatistics playerStats;
+    [SerializeField] private MMF_Player hitFeedback;
 
     [HideInInspector]public GameObject originObject;
     CircleCollider2D c_cc;
@@ -30,6 +32,10 @@ public class HitBox : MonoBehaviour
         if (playerStats != null)
         {
             playerStats.UpdateVitality(1);
+        }
+        if (hitFeedback != null)
+        {
+            hitFeedback.PlayFeedbacks();
         }
     }
 

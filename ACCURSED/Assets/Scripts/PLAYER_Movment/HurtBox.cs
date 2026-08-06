@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using MoreMountains.Feedbacks;
 
 public class HurtBox : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class HurtBox : MonoBehaviour
     [SerializeField] float afterHurtStunDuration = 1.2f;
     [SerializeField] float durationUntilDodgeCancellable = 0.5f;
     [Space]
+    [SerializeField] private MMF_Player hurtFeedback;
 
     [SerializeField] List<GameObject> personalHurtBoxes = new List<GameObject>();
     [SerializeField] List<GameObject> personalHitBoxes = new List<GameObject>();
@@ -58,6 +60,9 @@ public class HurtBox : MonoBehaviour
                 // Use Hitbox info to affect me
                 cMovement.Knockback(direction, hitBox.knockBackPower, true);
                 cStatistics.UpdateHealth( -hitBox.damage);
+
+                if(hurtFeedback!=null)
+                    hurtFeedback.PlayFeedbacks();
 
                 hitBox.Hit();
             }
