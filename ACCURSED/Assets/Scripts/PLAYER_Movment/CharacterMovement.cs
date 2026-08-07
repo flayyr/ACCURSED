@@ -174,7 +174,8 @@ public class CharacterMovement : MonoBehaviour
         if (knockBackTimer <= 0 && gettingKnockBack)
         {
             gettingKnockBack = false;
-            movementState = MovementState.normal;
+            if (!cCombat.attacking) // don't hand movement back mid-attack, or the animation stays stuck on the wind-up/swing pose while the character walks around
+                movementState = MovementState.normal;
         }
         else
         {
