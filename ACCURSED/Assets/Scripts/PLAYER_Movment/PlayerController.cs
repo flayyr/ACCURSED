@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
     public void OnAttack(InputValue value)
     {
         if (state is not PlayerControlState.Normal) return;
-        cCombat.attackButton = !cCombat.attackButton;
+        cCombat.attackButton = value.isPressed;
         cCombat.AttackUpdate();
     }
 
