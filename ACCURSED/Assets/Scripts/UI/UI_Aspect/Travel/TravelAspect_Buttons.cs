@@ -2,54 +2,40 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
-using UnityEngine.SceneManagement;
 
 public class TravelAspect_Buttons : MonoBehaviour
 {
     [SerializeField] public GameObject title;
-    private Button b;
-    private AspectSO asp;
+    public Button b;
+    public Aspect asp;
 
-    //[SerializeField] private GameObject blackFade;
+    [SerializeField] private GameObject blackFade;
     private CanvasGroup blackFadeCanvas;
     void Awake()
     {
         b = gameObject.GetComponent<Button>();
         b.onClick.AddListener(Teleport);
 
-        //blackFadeCanvas = blackFade.GetComponent<CanvasGroup>();
-        //blackFade.SetActive(false);
+        blackFadeCanvas = blackFade.GetComponent<CanvasGroup>();
+        blackFade.SetActive(false);
+
+        //Refresh(TravelMenuController.currentRegion);
     }
 
     void Teleport()
     {
-        if (AspectController.Instance.currentAspect == asp)
-        {
-            //Debug.Log("same aspect");
-            TravelMenuController.Instance.CloseMenu();
-            return;
-        }
-
-        //RoomTransitionWithoutPlayer.Instance.BeginTransition(asp.sceneName);
-        RoomTransitionManager.Instance.BeginTransition(asp.sceneName, SetPlayerAfterTransition);
+        
     }
-
-    void SetPlayerAfterTransition()
+    private IEnumerator TransitionBlack()
     {
-        PersistentPlayer.Instance.transform.position = asp.position;
-        PersistentPlayer.controllerInstance.SetState(PlayerControlState.Normal);
+        blackFade.SetActive(true);
+        blackFadeCanvas.alpha = 0f;
+
+        yield return UITransitions.Instance.FadeTransition(blackFadeCanvas, 0f, 1f, 0.1f);
+        yield return new WaitForSeconds(1);
+        yield return UITransitions.Instance.FadeTransition(blackFadeCanvas, 1f, 0f, 0.1f);
+        blackFade.SetActive(false);
     }
-
-    //private IEnumerator TransitionBlack()
-    //{
-    //    blackFade.SetActive(true);
-    //    blackFadeCanvas.alpha = 0f;
-
-    //    yield return UITransitions.Instance.FadeTransition(blackFadeCanvas, 0f, 1f, 0.1f);
-    //    yield return new WaitForSeconds(1);
-    //    yield return UITransitions.Instance.FadeTransition(blackFadeCanvas, 1f, 0f, 0.1f);
-    //    blackFade.SetActive(false);
-    //}
 
 
     void Update()
@@ -57,7 +43,7 @@ public class TravelAspect_Buttons : MonoBehaviour
         
     }
 
-    public void Refresh(AspectSO a)
+    public void Refresh(Aspect a)
     {
         MajorRegion reg = TravelMenuController.currentRegion;
 
