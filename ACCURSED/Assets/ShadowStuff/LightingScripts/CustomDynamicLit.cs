@@ -4,8 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(ReflectionSprite)), RequireComponent(typeof(DepthSort))]
 public class CustomDynamicLit : MonoBehaviour
 {
-    [Header("Culling")]
+    [Header("Toggles")]
     [SerializeField] bool canMove = false;
+    [SerializeField] bool isAnimated = false;
     [Header("Normal Map")]
     [SerializeField] Sprite normalMap;
     [Header("Ref Transform")]
@@ -30,7 +31,7 @@ public class CustomDynamicLit : MonoBehaviour
     SpriteRenderer ambientShadowRenderer;
     GameObject shadowPrefab;
 
-    CustomLight[] affectingLights;
+    GPULight[] affectingLights;
 
     DepthSort depthSorter;
     float depth;
@@ -56,7 +57,7 @@ public class CustomDynamicLit : MonoBehaviour
         SetUpLitMat();
         SetUpSort();
 
-        affectingLights = new CustomLight[4];
+        affectingLights = new GPULight[4];
     }
 
     private void SetUpIDs()
@@ -128,6 +129,13 @@ public class CustomDynamicLit : MonoBehaviour
             ambientShadowRenderer.sprite = ambientShadowSprite != null ? ambientShadowSprite : spriteRenderer.sprite;
             ambientShadowRenderer.sortingLayerName = "AmbientShadow";
             ambientShadowRenderer.sortingOrder = spriteRenderer.sortingOrder;
+
+            if (isAnimated)
+            {
+                shadowObj.AddComponent<SpriteUpdater>().SetTargetRenderer(spriteRenderer);
+            }
+            
+
             if (refTransform != transform)
             {
                 shadowObj.GetComponent<ShadowScript>().SetShadowOffset(refTransform.position);
@@ -174,7 +182,7 @@ public class CustomDynamicLit : MonoBehaviour
             affectingLights = LightManager.instance.FindAffectingLights(spriteRenderer.bounds.min, spriteRenderer.bounds.max);
             for (int i = 0; i < 4; i++)
             {
-                if (affectingLights[i] != null)
+                if (i<affectingLights.Length)
                 {
                     //mat.SetVector(_LightIDs[i, 0], affectingLights[i].lightPosition);
                     //mat.SetColor(_LightIDs[i, 1], affectingLights[i].lightColor);
@@ -187,9 +195,9 @@ public class CustomDynamicLit : MonoBehaviour
 
                         shadowRenderers[i].sortingOrder = spriteRenderer.sortingOrder;
                         Material currShadowMat = shadowRenderers[i].material;
-                        currShadowMat.SetVector("_LightDirection", (Vector2)(refTransform.position - affectingLights[i].lightPosition)* (1-affectingLights[i].lightIntensity));
-                        currShadowMat.SetFloat("_LightIntensity", affectingLights[i].lightIntensity);
-                        currShadowMat.SetFloat("_LightRadius", affectingLights[i].lightRadius);
+                        currShadowMat.SetVector("_LightDirection", ((Vector2)refTransform.position - affectingLights[i].position)* (1-affectingLights[i].intensity));
+                        currShadowMat.SetFloat("_LightIntensity", affectingLights[i].intensity);
+                        currShadowMat.SetFloat("_LightRadius", affectingLights[i].radius);
                     }
                 }
                 else
