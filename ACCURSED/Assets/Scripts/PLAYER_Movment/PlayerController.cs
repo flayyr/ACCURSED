@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
     #region Combat
     public void OnAttack(InputValue value)
     {
-        if (state is not PlayerControlState.Normal) return;
+        if (state is not PlayerControlState.Normal && value.isPressed) return;
         cCombat.attackButton = value.isPressed;
         cCombat.AttackUpdate();
     }
@@ -101,19 +101,22 @@ public class PlayerController : MonoBehaviour
     public void OnHeal(InputValue value)
     {
         if (state is not PlayerControlState.Normal) return;
-        playerAbilities.UseHeal();
+        if(value.isPressed)
+            playerAbilities.UseHeal();
     }
 
     public void OnVestige(InputValue value)
     {
         if (state is not PlayerControlState.Normal) return;
-        playerAbilities.UseVestige();
+        if (value.isPressed)
+            playerAbilities.UseVestige();
     }
 
     public void OnRememberance(InputValue value)
     {
         if (state is not PlayerControlState.Normal) return;
-        playerAbilities.UseRemembrance();
+        if (value.isPressed)
+            playerAbilities.UseRemembrance();
     }
 
     #endregion
@@ -121,6 +124,7 @@ public class PlayerController : MonoBehaviour
     public void OnInteract(InputValue value)
     {
         if (state is PlayerControlState.Disabled) return;
-        InteractKeyPressed?.Invoke();
+        if (value.isPressed)
+            InteractKeyPressed?.Invoke();
     }
 }

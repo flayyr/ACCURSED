@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
@@ -57,6 +58,16 @@ public class CharacterAnimator : MonoBehaviour
     public void Play(string baseName)
     {
         anim.Play(baseName);
+    }
+
+    public float Play(string baseName, AnimatorController animator)
+    {
+        if(anim.runtimeAnimatorController != animator)
+            anim.runtimeAnimatorController = animator;
+
+        anim.Play(baseName);
+
+        return anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex(baseName)).length;
     }
 
     public void GetCurrentState(string stateName)
