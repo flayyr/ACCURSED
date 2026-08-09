@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
@@ -17,50 +16,68 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     [Header("Button Type")]
     public ButtonType buttonType;
+    
+    [Header("Slot References")]
+    [Tooltip("Dark rectangle behind the slot frame.")]
+    [SerializeField] private Image backgroundImage;
 
-    [Header("Save Information")]
-    [Tooltip("The save name displayed above this slot.")]
+    [Tooltip("The frame image displayed above the background.")]
+    [SerializeField] private Image frameImage;
+
+    [Tooltip("The save name displayed above the slot.")]
     [SerializeField] private TMP_Text saveNameText;
 
-    [Tooltip("The popup used to create or rename saves.")]
-    [SerializeField] private SaveNamePopup saveNamePopup;
-
-    [Header("Delete Button")]
-    [Tooltip("The Delete button belonging to this save slot.")]
+    [Tooltip("Delete button belonging to this slot.")]
     [SerializeField] private Button deleteButton;
 
-    [Tooltip("Hide the Delete button when the slot is empty.")]
+    [Tooltip("Popup used to create and rename saves.")]
+    [SerializeField] private SaveNamePopup saveNamePopup;
+    
+    [Header("Selection - Scale")]
+    [Tooltip("How much larger the entire slot becomes when selected.")]
+    [SerializeField] private float selectedScale = 1.08f;
+
+    [Tooltip("How quickly the slot lerps between its normal and selected size.")]
+    [SerializeField] private float scaleSpeed = 12f;
+
+    [Header("Selection - Arrow")]
+    [Tooltip("Arrow prefab spawned below the selected slot.")]
+    [SerializeField] private GameObject arrowPrefab;
+
+    [Tooltip("Additional position adjustment for the arrow.")]
+    [SerializeField] private Vector2 arrowOffset = new Vector2(0f, -20f);
+
+    [Tooltip("Width assigned to the spawned arrow RectTransform.")]
+    [SerializeField] private float arrowWidth = 32f;
+
+    [Tooltip("Height assigned to the spawned arrow RectTransform.")]
+    [SerializeField] private float arrowHeight = 32f;
+
+    [Header("Delete")]
+    [Tooltip("Hide Delete while this slot is empty.")]
     [SerializeField] private bool hideDeleteButtonWhenEmpty = true;
 
     [Header("Scene Loading")]
-    [SerializeField] private string gameSceneName = "Game";
-
-    [Header("Normal Sprites")]
-    public Sprite slotOneNormalSprite;
-    public Sprite slotTwoNormalSprite;
-    public Sprite slotThreeNormalSprite;
-    public Sprite slotFourNormalSprite;
-
-    [Header("Selection Sprites")]
-    public Sprite slotOneSelectedSprite;
-    public Sprite slotTwoSelectedSprite;
-    public Sprite slotThreeSelectedSprite;
-    public Sprite slotFourSelectedSprite;
+    [SerializeField] private string gameSceneName;
     
-    private Image buttonImage;
     private bool isSelected;
+
+    private Vector3 normalScale;
+
+    private GameObject arrowInstance;
 
     private static readonly List<SaveMenuButton> buttons = new List<SaveMenuButton>();
 
-    private static int selectedIndex;
+    private static int selectedIndex = 0;
 
     public int SlotIndex
     {
-        get { return (int)buttonType; }
+        get
+        {
+            return (int)buttonType;
+        }
     }
 
-    // Whether this slot actually contains a save.
-    // The displayed name is not used to determine this because both an empty slot and a named save can be called "New Game."
     public bool HasSave
     {
         get
@@ -76,21 +93,20 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             return PlayerPrefs.GetString(GetNameKey(), "New Game");
         }
     }
-
+    
     private void Awake()
     {
-        buttonImage = GetComponent<Image>();
+        /*
+        Remember the slot's original scale.
+        
+        This means the slot can already have a custom scale in
+        the Inspector and the selection animation will respect it.
+        */
+        normalScale = transform.localScale;
 
-        // Connect the Delete button automatically.
-        // Do not also add DeleteSave manually to the button's On Click list.
+
         if (deleteButton != null)
             deleteButton.onClick.AddListener(DeleteSave);
-    }
-
-    private void OnDestroy()
-    {
-        if (deleteButton != null)
-            deleteButton.onClick.RemoveListener(DeleteSave);
     }
 
     private void OnEnable()
@@ -99,22 +115,41 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             buttons.Add(this);
 
         SortButtons();
+
         RefreshSlotDisplay();
-        SelectDefaultPlayButton();
+
+        SelectDefaultButton();
     }
 
     private void OnDisable()
     {
         buttons.Remove(this);
+
+        RemoveArrow();
+
+        // Reset scale in case the menu gets disabled while this slot is selected.
+        transform.localScale = normalScale;
+
+        isSelected = false;
+    }
+
+    private void OnDestroy()
+    {
+        if (deleteButton != null)
+            deleteButton.onClick.RemoveListener(DeleteSave);
+
+        RemoveArrow();
     }
 
     private void Update()
     {
-        // Only the first registered button handles the shared keyboard navigation.
+        // Only one SaveMenuButton needs to process the shared keyboard input.
+        
         if (buttons.Count == 0 || buttons[0] != this)
             return;
 
-        // Do not navigate or activate slots while the player is entering a save name.
+        // Don't move around the save menu while typing a name.
+        
         if (SaveNamePopup.IsOpen)
             return;
 
@@ -122,6 +157,18 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         HandleConfirmInput();
     }
 
+    private void LateUpdate()
+    {
+        // Selected slot gradually becomes larger.
+       
+        Vector3 targetScale = isSelected
+            ? normalScale * selectedScale
+            : normalScale;
+
+        transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.unscaledDeltaTime * scaleSpeed);
+    }
+    
+    // Navigation
     private void HandleKeyboardSelection()
     {
         if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow))
@@ -139,13 +186,22 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 buttons[selectedIndex].ActivateButton();
         }
     }
-
+    
+    // Slot Activation
     public void ActivateButton()
     {
         if (SaveNamePopup.IsOpen)
             return;
 
         SelectThisButton();
+
+        /*
+        Existing slot:
+        load it.
+        
+        Empty slot:
+        ask for a name first.
+        */
 
         if (HasSave)
         {
@@ -161,48 +217,53 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (saveNamePopup == null)
         {
-            Debug.LogError("No SaveNamePopup is assigned to " + gameObject.name);
+            Debug.LogError("No SaveNamePopup assigned to " + gameObject.name);
 
             return;
         }
 
         saveNamePopup.OpenForNewSave(this);
     }
-
+    
+    // Rename
     public void BeginRename()
     {
-        // Empty slots cannot be renamed because they do not yet contain a save.
+        // "New Game" on an empty slot is only placeholder text.
+        // It cannot be renamed because no save exists yet.
         if (!HasSave)
-        {
             return;
-        }
 
         if (saveNamePopup == null)
         {
-            Debug.LogError("No SaveNamePopup is assigned to " + gameObject.name);
+            Debug.LogError( "No SaveNamePopup assigned to " + gameObject.name);
 
             return;
         }
 
         SelectThisButton();
+
         saveNamePopup.OpenForRename(this);
     }
-
+    
+    // Create Save
     public void CreateNewSave(string enteredName)
     {
-        string finalName = NormalizeSaveName(enteredName);
+        string finalName =NormalizeSaveName(enteredName);
 
         PlayerPrefs.SetInt(GetExistsKey(), 1);
+
         PlayerPrefs.SetString(GetNameKey(), finalName);
+
         PlayerPrefs.Save();
 
         RefreshSlotDisplay();
 
-        Debug.Log("Created save slot " + (SlotIndex + 1) + " with the name: " + finalName);
+        Debug.Log("Created save slot " +(SlotIndex + 1) + " with the name: " + finalName);
 
         StartNewGame();
     }
-
+    
+    // Rename Save 
     public void RenameSave(string enteredName)
     {
         if (!HasSave)
@@ -210,14 +271,16 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         string finalName = NormalizeSaveName(enteredName);
 
-        PlayerPrefs.SetString(GetNameKey(), finalName);
+        PlayerPrefs.SetString(GetNameKey(),finalName);
+
         PlayerPrefs.Save();
 
         RefreshSlotDisplay();
 
         Debug.Log("Renamed save slot " + (SlotIndex + 1) + " to: " + finalName);
     }
-
+    
+    // Delete Save
     public void DeleteSave()
     {
         if (!HasSave)
@@ -226,60 +289,41 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             return;
         }
 
-        
-        // Remove the values used by this naming system.
         PlayerPrefs.DeleteKey(GetExistsKey());
+
         PlayerPrefs.DeleteKey(GetNameKey());
 
-        // If this slot was marked as the currently active slot, remove those values too.
+
+        // If just deleted the save that was marked active, remove the active-save information too.
         if (PlayerPrefs.GetInt("ActiveSaveSlot", -1) == SlotIndex)
         {
             PlayerPrefs.DeleteKey("ActiveSaveSlot");
+
             PlayerPrefs.DeleteKey("ActiveSaveIsNew");
         }
 
-        // Add the deletion of your actual game-save data here once your full saving system is implemented.
+        // Later, when there's actual save data, delete that file here as well.
         DeleteActualSlotData();
 
         PlayerPrefs.Save();
 
         RefreshSlotDisplay();
 
-        Debug.Log("Deleted save slot " + (SlotIndex + 1) +". The slot is now empty.");
+        Debug.Log("Deleted save slot " + (SlotIndex + 1) + ".");
     }
 
     private void DeleteActualSlotData()
     {
-        /*
-        Placeholder for your future save system.
-        
-        Examples:
-        SaveManager.DeleteSave(SlotIndex);
-        
-        or:
-        
-        string path = Application.persistentDataPath + "/SaveSlot_" + SlotIndex + ".json";
-        
-        if (System.IO.File.Exists(path))
-            System.IO.File.Delete(path);
-        
-        */
+        // Placeholder for future actual save-file deletion.
     }
-
-    private string NormalizeSaveName(string enteredName)
-    {
-        if (string.IsNullOrWhiteSpace(enteredName))
-        {
-            return "New Game";
-        }
-
-        return enteredName.Trim();
-    }
-
+    
+    // Scene Loading
     private void StartNewGame()
     {
         PlayerPrefs.SetInt("ActiveSaveSlot", SlotIndex);
+
         PlayerPrefs.SetInt("ActiveSaveIsNew", 1);
+
         PlayerPrefs.Save();
 
         LoadGameScene();
@@ -288,7 +332,9 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private void LoadExistingSave()
     {
         PlayerPrefs.SetInt("ActiveSaveSlot", SlotIndex);
+
         PlayerPrefs.SetInt("ActiveSaveIsNew", 0);
+
         PlayerPrefs.Save();
 
         Debug.Log("Loading save slot " + (SlotIndex + 1) + ": " + CurrentSaveName);
@@ -300,37 +346,32 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (string.IsNullOrWhiteSpace(gameSceneName))
         {
-            Debug.LogWarning("No game scene is assigned to " + gameObject.name);
+            Debug.LogWarning("No game scene assigned to " + gameObject.name);
+
+            return;
+        }
+
+        // Keep using your existing transition system.
+        if (RoomTransitionManager.Instance == null)
+        {
+            Debug.LogError("No RoomTransitionManager instance exists.");
 
             return;
         }
 
         RoomTransitionManager.Instance.BeginTransition(gameSceneName);
     }
-
+    
+    // Display
     public void RefreshSlotDisplay()
     {
-        /*
-        The name text is now always visible.
-        
-        Empty slot:
-            New Game
-         
-        Occupied slot:
-            Its saved name
-        */
         if (saveNameText != null)
         {
             saveNameText.gameObject.SetActive(true);
 
-            if (HasSave)
-            {
-                saveNameText.text = CurrentSaveName;
-            }
-            else
-            {
-                saveNameText.text = "New Game";
-            }
+            saveNameText.text = HasSave
+                ? CurrentSaveName
+                : "New Game";
         }
 
         RefreshDeleteButton();
@@ -347,29 +388,24 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
         else
         {
-            // Keep the button visible, but prevent it from being
-            // pressed while the slot is empty.
             deleteButton.gameObject.SetActive(true);
+
             deleteButton.interactable = HasSave;
         }
     }
-
-    public void SelectThisButton()
-    {
-        int index = buttons.IndexOf(this);
-
-        if (index >= 0)
-            SelectButton(index);
-    }
     
+    // Pointer Input
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (SaveNamePopup.IsOpen)
+            return;
+
         SelectThisButton();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        // Keep the slot selected after the pointer exits.
+        
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -380,48 +416,57 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (SaveNamePopup.IsOpen)
             return;
 
-        // Usually the name and Delete button consume their own pointer events.
-        // These checks prevent the slot from activating in case the event reaches this parent object anyway.
-        if (WasSaveNameClicked(eventData))
+        // Name and Delete have their own click behavior.
+        // If Unity passes their click to this parent too, don't activate the slot.
+        if (WasNameClicked(eventData))
             return;
 
-        if (WasDeleteButtonClicked(eventData))
+        if (WasDeleteClicked(eventData))
             return;
 
-        // Clicking the body of the slot:
-        // Empty slot    -> opens the new-save naming popup.
-        // Existing slot -> loads the save's scene.
+        // Clicking Background or Frame reaches SaveMenuButton and activates it
         ActivateButton();
     }
 
-    private bool WasSaveNameClicked(PointerEventData eventData)
+    private bool WasNameClicked(PointerEventData eventData)
     {
         if (saveNameText == null)
             return false;
 
-        GameObject clickedObject = eventData.pointerPressRaycast.gameObject;
+        GameObject clicked = eventData.pointerPressRaycast.gameObject;
 
-        if (clickedObject == null)
+        if (clicked == null)
             return false;
 
-        Transform clickedTransform = clickedObject.transform;
+        Transform clickedTransform = clicked.transform;
 
-        return clickedTransform == saveNameText.transform || clickedTransform.IsChildOf(saveNameText.transform);
+        return
+            clickedTransform == saveNameText.transform || clickedTransform.IsChildOf(saveNameText.transform);
     }
 
-    private bool WasDeleteButtonClicked(PointerEventData eventData)
+    private bool WasDeleteClicked(PointerEventData eventData)
     {
         if (deleteButton == null)
             return false;
 
-        GameObject clickedObject = eventData.pointerPressRaycast.gameObject;
+        GameObject clicked = eventData.pointerPressRaycast.gameObject;
 
-        if (clickedObject == null)
+        if (clicked == null)
             return false;
 
-        Transform clickedTransform = clickedObject.transform;
+        Transform clickedTransform = clicked.transform;
 
-        return clickedTransform == deleteButton.transform || clickedTransform.IsChildOf(deleteButton.transform);
+        return
+            clickedTransform == deleteButton.transform || clickedTransform.IsChildOf(deleteButton.transform);
+    }
+    
+    // Selection
+    public void SelectThisButton()
+    {
+        int index = buttons.IndexOf(this);
+
+        if (index >= 0)
+            SelectButton(index);
     }
 
     private static void SelectButton(int index)
@@ -449,15 +494,23 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             return;
 
         isSelected = selected;
-        ChangeSprite();
+
+        if (isSelected)
+        {
+            SpawnArrow();
+        }
+        else
+        {
+            RemoveArrow();
+        }
     }
 
-    private static void SelectDefaultPlayButton()
+    private static void SelectDefaultButton()
     {
         if (buttons.Count == 0)
             return;
 
-        SaveMenuButton firstSlot = buttons.Find(button => button.buttonType == ButtonType.SlotOne);
+        SaveMenuButton firstSlot = buttons.Find(button => button.buttonType ==ButtonType.SlotOne);
 
         if (firstSlot != null)
         {
@@ -468,57 +521,113 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             SelectButton(0);
         }
     }
-
-    private void ChangeSprite()
+    
+    // Arrow
+    private void SpawnArrow()
     {
-        if (buttonImage == null)
+        RemoveArrow();
+
+        if (arrowPrefab == null)
+            return;
+
+        RectTransform slotRect = transform as RectTransform;
+
+        if (slotRect == null)
         {
-            Debug.LogError("No Image component found on " + gameObject.name);
+            Debug.LogError(gameObject.name + " needs a RectTransform.");
 
             return;
         }
 
-        switch (buttonType)
+
+        // Same spawn method as the other menu selection arrows: instantiate directly underneath the selected UI object.
+        arrowInstance = Instantiate(arrowPrefab, transform);
+
+        RectTransform arrowRect = arrowInstance.GetComponent<RectTransform>();
+
+        if (arrowRect == null)
         {
-            case ButtonType.SlotOne:
-                buttonImage.sprite = isSelected
-                    ? slotOneSelectedSprite
-                    : slotOneNormalSprite;
-                break;
+            Debug.LogError("Arrow prefab needs a RectTransform.");
 
-            case ButtonType.SlotTwo:
-                buttonImage.sprite = isSelected
-                    ? slotTwoSelectedSprite
-                    : slotTwoNormalSprite;
-                break;
+            Destroy(arrowInstance);
+            arrowInstance = null;
 
-            case ButtonType.SlotThree:
-                buttonImage.sprite = isSelected
-                    ? slotThreeSelectedSprite
-                    : slotThreeNormalSprite;
-                break;
-
-            case ButtonType.SlotFour:
-                buttonImage.sprite = isSelected
-                    ? slotFourSelectedSprite
-                    : slotFourNormalSprite;
-                break;
+            return;
         }
+
+
+        arrowInstance.SetActive(true);
+
+
+        // Center anchor lets us calculate its position relative to the center of the slot.
+        arrowRect.anchorMin = new Vector2(0.5f, 0.5f);
+
+        arrowRect.anchorMax = new Vector2(0.5f, 0.5f);
+
+        arrowRect.pivot = new Vector2(0.5f, 0.5f);
+
+
+        arrowRect.sizeDelta = new Vector2(arrowWidth, arrowHeight);
+
+
+        /*
+        Position at the bottom edge of the slot.
+        
+        arrowOffset.x moves it left/right.
+        arrowOffset.y moves it farther above/below the edge.
+        */
+        float slotHalfHeight = slotRect.rect.height / 2f;
+
+        arrowRect.anchoredPosition = new Vector2(arrowOffset.x, -slotHalfHeight + arrowOffset.y);
+
+
+        arrowRect.localScale = Vector3.one;
+
+        arrowRect.localRotation = Quaternion.identity;
+
+
+        // Keep the arrow visually above Background and Frame.
+        arrowRect.SetAsLastSibling();
+    }
+
+    private void RemoveArrow()
+    {
+        if (arrowInstance == null)
+            return;
+
+        Destroy(arrowInstance);
+
+        arrowInstance = null;
+    }
+
+    // HELPERS
+
+    private string NormalizeSaveName(
+        string enteredName
+    )
+    {
+        if (string.IsNullOrWhiteSpace(enteredName))
+            return "New Game";
+
+        return enteredName.Trim();
     }
 
     private string GetExistsKey()
     {
-        return "SaveSlot_" + SlotIndex + "_Exists";
+        return
+            "SaveSlot_" + SlotIndex + "_Exists";
     }
 
     private string GetNameKey()
     {
-        return "SaveSlot_" + SlotIndex + "_Name";
+        return
+            "SaveSlot_" + SlotIndex + "_Name";
     }
 
     private static void SortButtons()
     {
-        buttons.Sort((a, b) => a.transform.GetSiblingIndex().CompareTo(b.transform.GetSiblingIndex())
+        buttons.Sort((a, b) => a.transform.GetSiblingIndex().CompareTo(
+            b.transform.GetSiblingIndex())
         );
     }
 }
