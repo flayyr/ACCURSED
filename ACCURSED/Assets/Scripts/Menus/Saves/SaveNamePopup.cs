@@ -123,6 +123,7 @@ public class SaveNamePopup : MonoBehaviour
 
     private IEnumerator FocusInputNextFrame()
     {
+        // Wait one frame so the popup and input field are fully active before trying to focus it.
         yield return null;
 
         if (!IsOpen || saveNameInput == null)
@@ -131,10 +132,16 @@ public class SaveNamePopup : MonoBehaviour
         saveNameInput.Select();
         saveNameInput.ActivateInputField();
 
-        // Select the existing name so typing immediately replaces it.
-        // The player can also click inside the field to position the caret.
-        saveNameInput.selectionAnchorPosition = 0;
-        saveNameInput.selectionFocusPosition = saveNameInput.text.Length;
+        int endPosition = saveNameInput.text.Length;
+
+        saveNameInput.caretPosition = endPosition;
+        saveNameInput.stringPosition = endPosition;
+
+        // Make sure there is no text selection active.
+        saveNameInput.selectionAnchorPosition = endPosition;
+        saveNameInput.selectionFocusPosition = endPosition;
+
+        saveNameInput.ActivateInputField();
     }
 
     public void Accept()
