@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 169639333591234553}
   - component: {fileID: 7045314193249064292}
   - component: {fileID: 7884425474843528456}
+  - component: {fileID: 851660574003361532}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -90,3 +91,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 641849ad06792cb4cbcb6f9e82844e94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnManager
+--- !u!114 &851660574003361532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4949041148854407289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04ed3035581eb20408907bafb68b493b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Loader
+  loadingScreen: {fileID: 0}
+  slider: {fileID: 0}

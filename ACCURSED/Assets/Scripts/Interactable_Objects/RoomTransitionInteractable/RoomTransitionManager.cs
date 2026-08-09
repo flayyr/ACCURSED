@@ -114,6 +114,8 @@ public class RoomTransitionManager : MonoBehaviour
 
         yield return activeFadeOverlay.FadeToBlack(fadeOutDuration);
 
+        yield return LoadingScreenController.Instance.OpenScreen();
+
         AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
 
         if (loadOperation == null)
@@ -124,7 +126,13 @@ public class RoomTransitionManager : MonoBehaviour
         }
 
         while (!loadOperation.isDone)
+        {
+            float progress = Mathf.Clamp01(loadOperation.progress / 0.9f);
+            LoadingScreenController.Instance.SetProgress(progress);
             yield return null;
+        }
+
+        LoadingScreenController.Instance.SetProgress(1f);
 
         // Allow Awake/OnEnable/Start-related scene setup to begin before placement.
         yield return null;
@@ -158,8 +166,12 @@ public class RoomTransitionManager : MonoBehaviour
             }
         }
 
-        if (holdBlackAfterSceneLoad > 0f)
-            yield return new WaitForSecondsRealtime(holdBlackAfterSceneLoad);
+        yield return new WaitForSecondsRealtime(3f);
+
+        /*if (holdBlackAfterSceneLoad > 0f)
+            yield return new WaitForSecondsRealtime(holdBlackAfterSceneLoad);*/
+
+        yield return LoadingScreenController.Instance.CloseScreen();
 
         yield return activeFadeOverlay.FadeFromBlack(fadeInDuration);
 

@@ -27,7 +27,7 @@ public class UITransitions : MonoBehaviour
 
         while (elapsed < dur)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
 
             canvas.alpha = Mathf.Lerp(startAlp, endAlp, elapsed / dur);
       
@@ -45,7 +45,7 @@ public class UITransitions : MonoBehaviour
 
         while (elapsed < dur)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
 
             canvas.alpha = Mathf.Lerp(startAlp, endAlp, elapsed / dur);
 
@@ -68,7 +68,7 @@ public class UITransitions : MonoBehaviour
 
         while (elapsed < dur)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
 
             canvas.alpha = Mathf.Lerp(startAlp, endAlp, elapsed / dur);
 
