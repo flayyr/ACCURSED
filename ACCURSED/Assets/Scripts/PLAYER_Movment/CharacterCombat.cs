@@ -97,7 +97,7 @@ public class CharacterCombat : MonoBehaviour
 
         cMovement.movementState = CharacterMovement.MovementState.launched;
 
-        cAnimator.Play(combos[currentCombo].attacks[currentAttack].name + "Wind");
+        ////////////////cAnimator.Play(combos[currentCombo].attacks[currentAttack].name + "Wind");
     }
 
     void Attack()
@@ -107,7 +107,7 @@ public class CharacterCombat : MonoBehaviour
 
         cMovement.movementState = CharacterMovement.MovementState.launched;
 
-        cAnimator.Play(combos[currentCombo].attacks[currentAttack].name);
+        ///////////cAnimator.Play(combos[currentCombo].attacks[currentAttack].name);
 
         if (combos[currentCombo].attacks.Count - 1 > currentAttack)
         {

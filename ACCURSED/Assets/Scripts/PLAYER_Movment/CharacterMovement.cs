@@ -78,6 +78,7 @@ public class CharacterMovement : MonoBehaviour
     CharacterCombat cCombat;
     CharacterAnimator cAnimator;
     Rigidbody2D rb;
+    PlayerAnimator pAnim;
     #endregion
 
 
@@ -90,6 +91,7 @@ public class CharacterMovement : MonoBehaviour
         cCombat = GetComponent<CharacterCombat>();
         cAnimator = GetComponent<CharacterAnimator>();
         rb = GetComponent<Rigidbody2D>();
+        pAnim = GetComponent<PlayerAnimator>();
     }
 
     public void Knockback(Vector2 direction, float pushPower, bool resetVelocity)
@@ -118,25 +120,27 @@ public class CharacterMovement : MonoBehaviour
             {
                 idleTime -= Time.deltaTime; // timer for when the play the special idle animation
 
-                if (idleTime < 0) // time to play the special idle animation
-                {
-                    idleTime = timeTillSpecialIdle; // reset timer
-                    cAnimator.Play(idles[UnityEngine.Random.Range(1, idles.Count)]); // play special animation
-                    doingIdleSpecial = true;
-                }
-                else if (!cAnimator.IsCurrentState(idles[0])) // if the animation if currently not the normal idle animation
-                {
-                    if (doingIdleSpecial)
-                    {
-                        if (cAnimator.GetCurrentNormalizedTime() >= 1f)
-                        {
-                            cAnimator.Play(idles[0]);
-                            doingIdleSpecial = false;
-                        }
-                    }
-                    else
-                        cAnimator.Play(idles[0]);
-                }
+                cAnimator.SetMoveState(0);
+
+                //if (idleTime < 0) // time to play the special idle animation
+                //{
+                //    idleTime = timeTillSpecialIdle; // reset timer
+                //    cAnimator.Play(idles[UnityEngine.Random.Range(1, idles.Count)]); // play special animation
+                //    doingIdleSpecial = true;
+                //}
+                //else if (!cAnimator.IsCurrentState(idles[0])) // if the animation if currently not the normal idle animation
+                //{
+                //    if (doingIdleSpecial)
+                //    {
+                //        if (cAnimator.GetCurrentNormalizedTime() >= 1f)
+                //        {
+                //            cAnimator.Play(idles[0]);
+                //            doingIdleSpecial = false;
+                //        }
+                //    }
+                //    else
+                //        cAnimator.Play(idles[0]);
+                //}
             }
             else
             {
@@ -144,10 +148,12 @@ public class CharacterMovement : MonoBehaviour
 
                 idleTime = timeTillSpecialIdle;
 
-                string targetAnim = sprint ? movements[2] : walk ? movements[0] : movements[1];
+                //string targetAnim = sprint ? movements[2] : walk ? movements[0] : movements[1];
 
-                if (!cAnimator.IsCurrentState(targetAnim))
-                    cAnimator.Play(targetAnim);
+                //if (!cAnimator.IsCurrentState(targetAnim))
+                //    cAnimator.Play(targetAnim);
+
+                cAnimator.SetMoveState(sprint ? 3 : walk ? 1 : 2); //1=walk, 2=run, 3=sprint, 0=not moving
             }
         }
         else
@@ -224,18 +230,6 @@ public class CharacterMovement : MonoBehaviour
     {
         if (cAnimator != null)
             cAnimator.SetFacingDirection(movementInput);
-
-        /* for shaun :P
-        if (movementInput.x == 0 && movementInput.y > 0) facing = 180;
-        else if (movementInput.x > 0 && movementInput.y > 0) facing = 135;
-        else if (movementInput.x > 0 && movementInput.y == 0) facing = 90;
-        else if (movementInput.x > 0 && movementInput.y < 0) facing = 45;
-        else if (movementInput.x == 0 && movementInput.y < 0) facing = 0;
-        else if (movementInput.x < 0 && movementInput.y < 0) facing = 315;
-        else if (movementInput.x < 0 && movementInput.y == 0) facing = 270;
-        else if (movementInput.x < 0 && movementInput.y > 0) facing = 225;
-        transform.rotation = Quaternion.Euler(0, 0, facing);
-        */
     }
 
     public void AttackForwardStep()

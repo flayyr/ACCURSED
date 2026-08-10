@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     CharacterMovement cMovement;
     CharacterCombat cCombat;
     PlayerAbilities playerAbilities;
+
+    PlayerHitter basicAttacker;
     #endregion
 
     Vector2 currentMovementInput = Vector2.zero;
@@ -65,6 +67,7 @@ public class PlayerController : MonoBehaviour
         cMovement = GetComponent<CharacterMovement>();
         cCombat = GetComponent<CharacterCombat>();
         playerAbilities = GetComponent<PlayerAbilities>();
+        basicAttacker = GetComponent<PlayerHitter>();
     }
 
     #region Movement
@@ -74,17 +77,20 @@ public class PlayerController : MonoBehaviour
     }
     public void OnWalk(InputValue value)
     {
-        cMovement.walk = !cMovement.walk;
-        cMovement.FigureOutMovementState();
+        if (value.isPressed)
+        {
+            cMovement.walk = !cMovement.walk;
+            cMovement.FigureOutMovementState();
+        }
     }
     public void OnSprint(InputValue value)
     {
-        cMovement.sprint = !cMovement.sprint;
+        cMovement.sprint = value.isPressed;
         cMovement.FigureOutMovementState();
     }
     public void OnDash(InputValue value)
     {
-        if (state is PlayerControlState.Disabled) return; //runs during dodgeonly state
+        if (state is PlayerControlState.Disabled || !value.isPressed) return; //runs during dodgeonly state
         cMovement.Dash(currentMovementInput);
         SetState(PlayerControlState.Normal);
     }
@@ -94,8 +100,9 @@ public class PlayerController : MonoBehaviour
     public void OnAttack(InputValue value)
     {
         if (state is not PlayerControlState.Normal && value.isPressed) return;
-        cCombat.attackButton = value.isPressed;
-        cCombat.AttackUpdate();
+        //cCombat.attackButton = value.isPressed;
+        //cCombat.AttackUpdate();
+        basicAttacker.CueAttack(value.isPressed);
     }
 
     public void OnHeal(InputValue value)
