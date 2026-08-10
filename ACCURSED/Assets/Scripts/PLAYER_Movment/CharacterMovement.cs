@@ -78,7 +78,6 @@ public class CharacterMovement : MonoBehaviour
     //CharacterCombat cCombat;
     CharacterAnimator cAnimator;
     Rigidbody2D rb;
-    PlayerAnimator pAnim;
     #endregion
 
 
@@ -91,7 +90,6 @@ public class CharacterMovement : MonoBehaviour
         //cCombat = GetComponent<CharacterCombat>();
         cAnimator = GetComponent<CharacterAnimator>();
         rb = GetComponent<Rigidbody2D>();
-        pAnim = GetComponent<PlayerAnimator>();
     }
 
     public void Knockback(Vector2 direction, float pushPower, bool resetVelocity)
@@ -179,17 +177,17 @@ public class CharacterMovement : MonoBehaviour
         }
         else dashLengthTimer -= Time.deltaTime;
 
-        // knockback
-        //if (knockBackTimer <= 0 && gettingKnockBack)
-        //{
-        //    gettingKnockBack = false;
-        //    if (!cCombat.attacking) // don't hand movement back mid-attack, or the animation stays stuck on the wind-up/swing pose while the character walks around
-        //        movementState = MovementState.normal;
-        //}
-        //else
-        //{
-        //    knockBackTimer -= Time.deltaTime;
-        //}
+        //knockback
+        if (knockBackTimer <= 0 && gettingKnockBack)
+        {
+            gettingKnockBack = false;
+            //if (!cCombat.attacking) // don't hand movement back mid-attack, or the animation stays stuck on the wind-up/swing pose while the character walks around
+                movementState = MovementState.normal;
+        }
+        else
+        {
+            knockBackTimer -= Time.deltaTime;
+        }
     }
 
     #region Basic Movement

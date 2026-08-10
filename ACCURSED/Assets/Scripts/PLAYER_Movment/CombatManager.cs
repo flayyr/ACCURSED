@@ -11,7 +11,7 @@ public class CombatManager : MonoBehaviour
 
     public AttackInstance currAttack = null;
 
-    [SerializeField]CombatState combatState = CombatState.Idle;
+    [SerializeField] CombatState combatState = CombatState.Idle;
 
     float windTimer = 0;
 
@@ -24,14 +24,20 @@ public class CombatManager : MonoBehaviour
 
     private void OnEnable()
     {
+        combatState = CombatState.Idle;
+        currAttack = null;
+        windTimer = 0;
+
         attackQueuer.OnAttackQueued += PlayNextAttack;
         cAnim.OnAttackFinished += OnAttackFinish;
+        //cMove.OnFinishDash += DashFinished;
     }
 
     private void OnDisable()
     {
         attackQueuer.OnAttackQueued -= PlayNextAttack;
         cAnim.OnAttackFinished -= OnAttackFinish;
+        //cMove.OnFinishDash -= DashFinished;
     }
 
     private void Update()
@@ -101,21 +107,22 @@ public class CombatManager : MonoBehaviour
     //Movement
 
     [SerializeField] BaseMoveState moveState = BaseMoveState.None;
-    bool moving = false;
-    Vector2 moveInput;
+    //bool dashing = false;
 
+    Vector2 moveInput;
     bool walkInput;
     bool sprintInput;
 
     public void MoveInput(Vector2 input)
     {
         moveInput = input;
-        cAnim.SetFacingDirection(moveInput);
+        //if(!dashing)
+            cAnim.SetFacingDirection(moveInput);
     }
 
     void UpdateMovement()
     {
-        if(combatState is CombatState.Idle)
+        if(combatState is CombatState.Idle /*&& !dashing*/)
         {
             FigureOutMovementState();
 
@@ -167,11 +174,18 @@ public class CombatManager : MonoBehaviour
 
     public void Dash()
     {
-        if (combatState is CombatState.Idle)
+        if (combatState is CombatState.Idle && moveInput != Vector2.zero)
         {
             cMove.Dash(moveInput);
+            //dashing = true;
         }
     }
 
+    void DashFinished()
+    {
+        //dashing = false;
+    }
 
+    public CombatState GetCombatState() => combatState;
+    public BaseMoveState GetMoveState() => moveState;
 }

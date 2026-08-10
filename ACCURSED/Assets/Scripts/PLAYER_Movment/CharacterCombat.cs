@@ -95,7 +95,7 @@ public class CharacterCombat : MonoBehaviour
         cMovement.UpdateRotation();
         cMovement.AttackForwardStep();
 
-        cMovement.movementState = CharacterMovement.MovementState.launched;
+        //cMovement.movementState = CharacterMovement.MovementState.launched;
 
         ////////////////cAnimator.Play(combos[currentCombo].attacks[currentAttack].name + "Wind");
     }
@@ -105,7 +105,7 @@ public class CharacterCombat : MonoBehaviour
         cMovement.UpdateRotation();
         cMovement.AttackForwardStep();
 
-        cMovement.movementState = CharacterMovement.MovementState.launched;
+        //cMovement.movementState = CharacterMovement.MovementState.launched;
 
         ///////////cAnimator.Play(combos[currentCombo].attacks[currentAttack].name);
 
@@ -145,7 +145,7 @@ public class CharacterCombat : MonoBehaviour
             attacking = false;
             releasing = false;
             currentAttack = 0;
-            cMovement.movementState = CharacterMovement.MovementState.normal;
+            //cMovement.movementState = CharacterMovement.MovementState.normal;
         }
     }
 }
