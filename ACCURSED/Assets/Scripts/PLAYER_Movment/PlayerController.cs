@@ -21,8 +21,6 @@ public class PlayerController : MonoBehaviour
     CombatManager combatManager;
     #endregion
 
-    Vector2 currentMovementInput = Vector2.zero;
-
     [SerializeField]private PlayerControlState state = PlayerControlState.Normal;
     private Queue< PlayerControlState> nextStates = new Queue<PlayerControlState>();
 
@@ -75,8 +73,9 @@ public class PlayerController : MonoBehaviour
     #region Movement
     public void OnMove(InputValue value)
     {
-        currentMovementInput = value.Get<Vector2>();
-        combatManager.MoveInput(currentMovementInput);
+        //if (state is not PlayerControlState.Normal) return;
+
+        combatManager.MoveInput(value.Get<Vector2>());
     }
     public void OnWalk(InputValue value)
     {

@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using UnityEngine;
 
-public enum CombatState { Idle, Winding, Attacking, Stunned }
+public enum CombatState { Idle, Winding, Attacking, Stunned, StunnedCancellable }
 public enum BaseMoveState { None = 0, Walk=1, Run=2, Sprint=3}
 public class CombatManager : MonoBehaviour
 {
@@ -14,6 +14,8 @@ public class CombatManager : MonoBehaviour
     [SerializeField] CombatState combatState = CombatState.Idle;
 
     float windTimer = 0;
+    float stunTimer = 0;
+    float stunCancelTimer = 0;
 
     private void Awake()
     {
@@ -42,7 +44,11 @@ public class CombatManager : MonoBehaviour
 
     private void Update()
     {
-        UpdateWindTimer();
+        if(combatState is CombatState.Stunned or CombatState.StunnedCancellable)
+            UpdateStunTimer();
+        if(combatState is CombatState.Winding)
+            UpdateWindTimer();
+
         UpdateMovement();
     }
 
@@ -56,6 +62,29 @@ public class CombatManager : MonoBehaviour
                 windTimer = 0;
                 cAnim.SetWind(false);
                 combatState = CombatState.Attacking;
+            }
+        }
+    }
+
+    void UpdateStunTimer()
+    {
+        if (stunCancelTimer > 0)
+        {
+            stunCancelTimer -= Time.deltaTime;
+            if(stunCancelTimer <= 0)
+            {
+                stunCancelTimer = 0;
+                combatState = CombatState.StunnedCancellable;
+            }
+        }
+        else if (stunTimer > 0)
+        {
+            stunTimer -= Time.deltaTime;
+            if (stunTimer <= 0)
+            {
+                stunTimer = 0;
+                cAnim.SetStunned(false);
+                combatState = CombatState.Idle;
             }
         }
     }
@@ -101,7 +130,16 @@ public class CombatManager : MonoBehaviour
         combatState = CombatState.Attacking;
     }
 
+    public void Stun(float stunDuration, float timeBeforeCancellable)
+    {
+        combatState = CombatState.Stunned;
+        cAnim.SetStunned(true);
 
+        currAttack = null;
+
+        stunTimer = stunDuration;
+        stunCancelTimer = timeBeforeCancellable;
+    }
 
 
     //Movement
@@ -116,7 +154,7 @@ public class CombatManager : MonoBehaviour
     public void MoveInput(Vector2 input)
     {
         moveInput = input;
-        //if(!dashing)
+        if(combatState is CombatState.Idle or CombatState.Winding)
             cAnim.SetFacingDirection(moveInput);
     }
 
@@ -174,16 +212,13 @@ public class CombatManager : MonoBehaviour
 
     public void Dash()
     {
-        if (combatState is CombatState.Idle && moveInput != Vector2.zero)
+        if (combatState is CombatState.Idle or CombatState.StunnedCancellable && moveInput != Vector2.zero)
         {
+            combatState = CombatState.Idle;
+            cAnim.SetFacingDirection(moveInput);
             cMove.Dash(moveInput);
-            //dashing = true;
+            cAnim.SetStunned(false);
         }
-    }
-
-    void DashFinished()
-    {
-        //dashing = false;
     }
 
     public CombatState GetCombatState() => combatState;
