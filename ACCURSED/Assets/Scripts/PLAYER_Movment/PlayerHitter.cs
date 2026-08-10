@@ -22,13 +22,11 @@ public class PlayerHitter : MonoBehaviour
     {
         if (buttonPressed)
         {
-            Debug.Log("pressed button");
             currAttackInstance = attackQueuer.QueueAttack(attack);
         }
 
         if (buttonReleased)
         {
-            Debug.Log("released button");
             currAttackInstance.skipWindWhenQueued = true;
             combatManager.SkipWind(currAttackInstance);
         }

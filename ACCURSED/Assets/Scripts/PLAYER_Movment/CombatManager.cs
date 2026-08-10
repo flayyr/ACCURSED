@@ -2,7 +2,7 @@ using System.ComponentModel;
 using UnityEngine;
 
 public enum CombatState { Idle, Winding, Attacking, Stunned }
-public enum MoveState { None = 0, Walk=1, Run=2, Sprint=3}
+public enum BaseMoveState { None = 0, Walk=1, Run=2, Sprint=3}
 public class CombatManager : MonoBehaviour
 {
     AttackQueuer attackQueuer;
@@ -56,7 +56,6 @@ public class CombatManager : MonoBehaviour
 
     void OnAttackFinish()
     {
-        Debug.Log("attack finished");
         combatState = CombatState.Idle;
         //currAttack = null;
         PlayNextAttack();
@@ -91,8 +90,6 @@ public class CombatManager : MonoBehaviour
     {
         if (attackInstance != currAttack || combatState is not CombatState.Winding) return; //make sure currAttack is the same instance to be skipped
 
-        Debug.Log("skipping wind");
-
         windTimer = 0;
         cAnim.SetWind(false);
         combatState = CombatState.Attacking;
@@ -103,7 +100,7 @@ public class CombatManager : MonoBehaviour
 
     //Movement
 
-    [SerializeField] MoveState moveState = MoveState.None;
+    [SerializeField] BaseMoveState moveState = BaseMoveState.None;
     bool moving = false;
     Vector2 moveInput;
 
@@ -128,7 +125,7 @@ public class CombatManager : MonoBehaviour
         }
         else
         {
-            moveState = MoveState.None;
+            moveState = BaseMoveState.None;
             cAnim.SetMoveState(0);
         }
     }
@@ -147,24 +144,32 @@ public class CombatManager : MonoBehaviour
     { 
         if(moveInput == Vector2.zero)
         {
-            moveState = MoveState.None;
+            moveState = BaseMoveState.None;
             return;
         }
 
         if (sprintInput)
         {
-            moveState = MoveState.Sprint;
+            moveState = BaseMoveState.Sprint;
         }
         else
         {
             if (walkInput)
             {
-                moveState = MoveState.Walk;
+                moveState = BaseMoveState.Walk;
             }
             else
             {
-                moveState = MoveState.Run;
+                moveState = BaseMoveState.Run;
             }
+        }
+    }
+
+    public void Dash()
+    {
+        if (combatState is CombatState.Idle)
+        {
+            cMove.Dash(moveInput);
         }
     }
 

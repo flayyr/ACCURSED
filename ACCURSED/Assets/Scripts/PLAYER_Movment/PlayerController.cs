@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
     public void OnDash(InputValue value)
     {
         if (state is PlayerControlState.Disabled || !value.isPressed) return; //runs during dodgeonly state
-        //cMovement.Dash(currentMovementInput);
+        combatManager.Dash();
         SetState(PlayerControlState.Normal);
     }
     #endregion
