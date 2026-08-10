@@ -106,10 +106,10 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
-        BaseMovement();
+        //BaseMovement();
         TimerUpdates();
-        if (cAnimator != null)
-            AnimationUpdate();
+        //if (cAnimator != null)
+        //    AnimationUpdate();
     }
 
     void AnimationUpdate()
@@ -210,20 +210,44 @@ public class CharacterMovement : MonoBehaviour
             }
         }
     }
-    void BaseMovement()
+
+    public void SetMoveSpeed(MoveState moveState)
     {
-        switch (movementState)
+        switch (moveState)
         {
-            case MovementState.normal:
-                rb.linearVelocity = movementInput.normalized * movementSpeed;
-
-                UpdateRotation();
-
+            case MoveState.Walk:
+                movementSpeed = walkSpeed;
                 break;
-            case MovementState.launched:
-                //rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, Vector2.zero, 0.01f);
+            case MoveState.Run:
+                movementSpeed = runSpeed;
+                break;
+            case MoveState.Sprint:
+                movementSpeed = sprintSpeed;
+                break;
+            default:
                 break;
         }
+    }
+
+    //void BaseMovement()
+    //{
+    //    switch (movementState)
+    //    {
+    //        case MovementState.normal:
+    //            rb.linearVelocity = movementInput.normalized * movementSpeed;
+
+    //            UpdateRotation();
+
+    //            break;
+    //        case MovementState.launched:
+    //            //rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, Vector2.zero, 0.01f);
+    //            break;
+    //    }
+    //}
+
+    public void BaseMove(Vector2 moveInput)
+    {
+        rb.linearVelocity = moveInput.normalized * movementSpeed;
     }
 
     public void UpdateRotation()
@@ -234,7 +258,7 @@ public class CharacterMovement : MonoBehaviour
 
     public void AttackForwardStep()
     {
-        rb.AddForce(movementInput.normalized * attackStep, ForceMode2D.Impulse);
+        //rb.AddForce(movementInput.normalized * attackStep, ForceMode2D.Impulse);
     }
     #endregion
 

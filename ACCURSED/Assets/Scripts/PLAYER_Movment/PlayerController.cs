@@ -13,11 +13,12 @@ public enum PlayerControlState
 public class PlayerController : MonoBehaviour
 {
     #region References
-    CharacterMovement cMovement;
+    //CharacterMovement cMovement;
     CharacterCombat cCombat;
     PlayerAbilities playerAbilities;
 
     PlayerHitter basicAttacker;
+    CombatManager combatManager;
     #endregion
 
     Vector2 currentMovementInput = Vector2.zero;
@@ -59,39 +60,38 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        cMovement.movementInput = state is PlayerControlState.Normal ? currentMovementInput : Vector2.zero;
+        //cMovement.movementInput = state is PlayerControlState.Normal ? currentMovementInput : Vector2.zero;
     }
 
     void RefrenceRetreival()
     {
-        cMovement = GetComponent<CharacterMovement>();
+        //cMovement = GetComponent<CharacterMovement>();
         cCombat = GetComponent<CharacterCombat>();
         playerAbilities = GetComponent<PlayerAbilities>();
         basicAttacker = GetComponent<PlayerHitter>();
+        combatManager = GetComponent<CombatManager>();
     }
 
     #region Movement
     public void OnMove(InputValue value)
     {
         currentMovementInput = value.Get<Vector2>();
+        combatManager.MoveInput(currentMovementInput);
     }
     public void OnWalk(InputValue value)
     {
-        if (value.isPressed)
-        {
-            cMovement.walk = !cMovement.walk;
-            cMovement.FigureOutMovementState();
-        }
+        combatManager.SetWalkInput(value.isPressed);
+        //cMovement.FigureOutMovementState();
     }
     public void OnSprint(InputValue value)
     {
-        cMovement.sprint = value.isPressed;
-        cMovement.FigureOutMovementState();
+        combatManager.SetSprintInput( value.isPressed);
+        //cMovement.FigureOutMovementState();
     }
     public void OnDash(InputValue value)
     {
         if (state is PlayerControlState.Disabled || !value.isPressed) return; //runs during dodgeonly state
-        cMovement.Dash(currentMovementInput);
+        //cMovement.Dash(currentMovementInput);
         SetState(PlayerControlState.Normal);
     }
     #endregion
