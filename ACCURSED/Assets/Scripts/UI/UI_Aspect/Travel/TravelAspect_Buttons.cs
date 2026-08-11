@@ -54,7 +54,7 @@ public class TravelAspect_Buttons : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     public void Refresh(AspectSO a)
