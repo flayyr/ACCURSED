@@ -32,8 +32,12 @@ public class LoadingTipsUI : MonoBehaviour
 
     void Awake()
     {
+        // temporary, change this later
+        loadingTips = loadingTipsAltar;
+
         tipIndex = Random.Range(0, loadingTips.Count);
         currentTip = loadingTips[tipIndex];
+        loadingTipHeaderGO.GetComponent<TextMeshProUGUI>().text = currentTip.loadingTipHeader;
         loadingTipDescGO.GetComponent<TextMeshProUGUI>().text = currentTip.loadingTipDesc;
         tipCG = loadingTipDescGO.GetComponent<CanvasGroup>();
 
@@ -58,7 +62,8 @@ public class LoadingTipsUI : MonoBehaviour
         {
             tipIndex = 0;
         }
-        //currentTip = loadingTips[tipIndex];
+        currentTip = loadingTips[tipIndex];
+        loadingTipHeaderGO.GetComponent<TextMeshProUGUI>().text = currentTip.loadingTipHeader;
         loadingTipDescGO.GetComponent<TextMeshProUGUI>().text = currentTip.loadingTipDesc;
 
         tipCG.alpha = 1f;
