@@ -114,6 +114,8 @@ public class RoomTransitionManager : MonoBehaviour
 
         yield return activeFadeOverlay.FadeToBlack(fadeOutDuration);
 
+        yield return new WaitForSeconds(0.6f);
+
         yield return LoadingScreenController.Instance.OpenScreen();
 
         AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
@@ -172,6 +174,8 @@ public class RoomTransitionManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(holdBlackAfterSceneLoad);*/
 
         yield return LoadingScreenController.Instance.CloseScreen();
+
+        yield return new WaitForSeconds(0.6f);
 
         yield return activeFadeOverlay.FadeFromBlack(fadeInDuration);
 
