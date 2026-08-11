@@ -13,13 +13,12 @@ public enum PlayerControlState
 public class PlayerController : MonoBehaviour
 {
     #region References
-    //CharacterMovement cMovement;
+    CharacterMovement cMovement;
     CharacterCombat cCombat;
     PlayerAbilities playerAbilities;
-
-    PlayerHitter basicAttacker;
-    CombatManager combatManager;
     #endregion
+
+    Vector2 currentMovementInput = Vector2.zero;
 
     [SerializeField]private PlayerControlState state = PlayerControlState.Normal;
     private Queue< PlayerControlState> nextStates = new Queue<PlayerControlState>();
@@ -58,39 +57,35 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        //cMovement.movementInput = state is PlayerControlState.Normal ? currentMovementInput : Vector2.zero;
+        cMovement.movementInput = state is PlayerControlState.Normal ? currentMovementInput : Vector2.zero;
     }
 
     void RefrenceRetreival()
     {
-        //cMovement = GetComponent<CharacterMovement>();
+        cMovement = GetComponent<CharacterMovement>();
         cCombat = GetComponent<CharacterCombat>();
         playerAbilities = GetComponent<PlayerAbilities>();
-        basicAttacker = GetComponent<PlayerHitter>();
-        combatManager = GetComponent<CombatManager>();
     }
 
     #region Movement
     public void OnMove(InputValue value)
     {
-        //if (state is not PlayerControlState.Normal) return;
-
-        combatManager.MoveInput(value.Get<Vector2>());
+        currentMovementInput = value.Get<Vector2>();
     }
     public void OnWalk(InputValue value)
     {
-        combatManager.SetWalkInput(value.isPressed);
-        //cMovement.FigureOutMovementState();
+        cMovement.walk = !cMovement.walk;
+        cMovement.FigureOutMovementState();
     }
     public void OnSprint(InputValue value)
     {
-        combatManager.SetSprintInput( value.isPressed);
-        //cMovement.FigureOutMovementState();
+        cMovement.sprint = !cMovement.sprint;
+        cMovement.FigureOutMovementState();
     }
     public void OnDash(InputValue value)
     {
-        if (state is PlayerControlState.Disabled || !value.isPressed) return; //runs during dodgeonly state
-        combatManager.Dash();
+        if (state is PlayerControlState.Disabled) return; //runs during dodgeonly state
+        cMovement.Dash(currentMovementInput);
         SetState(PlayerControlState.Normal);
     }
     #endregion
@@ -98,31 +93,27 @@ public class PlayerController : MonoBehaviour
     #region Combat
     public void OnAttack(InputValue value)
     {
-        if (state is not PlayerControlState.Normal && value.isPressed) return;
-        //cCombat.attackButton = value.isPressed;
-        //cCombat.AttackUpdate();
-        basicAttacker.CueAttack(value.isPressed);
+        if (state is not PlayerControlState.Normal) return;
+        cCombat.attackButton = value.isPressed;
+        cCombat.AttackUpdate();
     }
 
     public void OnHeal(InputValue value)
     {
         if (state is not PlayerControlState.Normal) return;
-        if(value.isPressed)
-            playerAbilities.UseHeal();
+        playerAbilities.UseHeal();
     }
 
     public void OnVestige(InputValue value)
     {
         if (state is not PlayerControlState.Normal) return;
-        if (value.isPressed)
-            playerAbilities.UseVestige();
+        playerAbilities.UseVestige();
     }
 
     public void OnRememberance(InputValue value)
     {
         if (state is not PlayerControlState.Normal) return;
-        if (value.isPressed)
-            playerAbilities.UseRemembrance();
+        playerAbilities.UseRemembrance();
     }
 
     #endregion
@@ -130,7 +121,6 @@ public class PlayerController : MonoBehaviour
     public void OnInteract(InputValue value)
     {
         if (state is PlayerControlState.Disabled) return;
-        if (value.isPressed)
-            InteractKeyPressed?.Invoke();
+        InteractKeyPressed?.Invoke();
     }
 }

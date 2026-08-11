@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
@@ -9,8 +7,6 @@ using UnityEngine.U2D.Animation;
 // 1=Up, 2=UpRight, 3=Right, 4=DownRight, 5=Down, 6=DownLeft, 7=Left, 8=UpLeft
 public class CharacterAnimator : MonoBehaviour
 {
-    public Action OnAttackFinished;
-
     [SerializeField] private int direction = 5;
     [SerializeField] private bool eightDirections;
     [SerializeField] private Transform attackRotator;
@@ -58,25 +54,10 @@ public class CharacterAnimator : MonoBehaviour
         }
     }
 
-    public void OnAttackAnimationFinish()
-    {
-        OnAttackFinished?.Invoke();
-    }
-
-    public void SwitchAnimationState(string baseName)
+    public void Play(string baseName)
     {
         anim.Play(baseName);
     }
-
-    //public float Play(string baseName, AnimatorController animator)
-    //{
-    //    if(anim.runtimeAnimatorController != animator)
-    //        anim.runtimeAnimatorController = animator;
-
-    //    anim.Play(baseName);
-
-    //    return anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex(baseName)).length;
-    //}
 
     public void GetCurrentState(string stateName)
     {
@@ -93,21 +74,6 @@ public class CharacterAnimator : MonoBehaviour
     public float GetCurrentNormalizedTime()
     {
         return anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-    }
-
-    public void SetWind(bool wind)
-    {
-        anim.SetBool("Winding", wind);
-    }
-
-    public void SetStunned(bool stunned)
-    {
-        anim.SetBool("Stunned", stunned);
-    }
-
-    public void SetMoveState(int moveState)
-    {
-        anim.SetInteger("MoveState", moveState);
     }
 
     public int Direction => direction;
