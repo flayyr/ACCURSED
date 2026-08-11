@@ -23,129 +23,132 @@ public class Attack
 
 public class CharacterCombat : MonoBehaviour
 {
-    #region Modifiers
-    [LayoutStart("Combos", ELayout.FoldoutBox)]
-    public List<Combo> combos;
-    #endregion
-
-    #region States
-    [LayoutStart("Debug", ELayout.FoldoutBox)]
-    [ReadOnly] public bool winding;
-    [ReadOnly] public int currentCombo = 0;
-    [ReadOnly] public int currentAttack = 0;
-    [ReadOnly] public bool attackButton; // shows when the button is pressed
-    [ReadOnly] public bool attacking;
-    [ReadOnly] public bool releasing;
-    [ReadOnly] public bool attackCue;
-    #endregion
-
-    #region Refrences
-    CharacterMovement cMovement;
-    CharacterAnimator cAnimator;
-    Rigidbody2D rb;
-    #endregion
+    //DEPRECATED SCRIPT
 
 
-    void Start()
-    {
-        GetComponents();
-    }
-    void GetComponents()
-    {
-        cMovement = GetComponent<CharacterMovement>();
-        cAnimator = GetComponent<CharacterAnimator>();
-        rb = GetComponent<Rigidbody2D>();
-    }
+    //#region Modifiers
+    //[LayoutStart("Combos", ELayout.FoldoutBox)]
+    //public List<Combo> combos;
+    //#endregion
 
-    void Update()
-    {
-        TimerUpdates();
-    }
+    //#region States
+    //[LayoutStart("Debug", ELayout.FoldoutBox)]
+    //[ReadOnly] public bool winding;
+    //[ReadOnly] public int currentCombo = 0;
+    //[ReadOnly] public int currentAttack = 0;
+    //[ReadOnly] public bool attackButton; // shows when the button is pressed
+    //[ReadOnly] public bool attacking;
+    //[ReadOnly] public bool releasing;
+    //[ReadOnly] public bool attackCue;
+    //#endregion
 
-    void TimerUpdates()
-    {
+    //#region Refrences
+    //CharacterMovement cMovement;
+    //CharacterAnimator cAnimator;
+    //Rigidbody2D rb;
+    //#endregion
 
-    }
 
-    public void AttackUpdate()
-    {
-        if (attackButton && !attacking)
-        {
-            rb.linearVelocity = Vector2.zero;
-            attacking = true;
-            winding = true;
-            releasing = false;
-            Wind();
-        }
-        else if (!attackButton && winding)
-        {
-            attacking = true;
-            winding = false;
-            releasing = true;
-            Attack();
-        }
-        else if (attackButton && attacking)
-        {
-            attackCue = true;
-        }
-    }
+    //void Start()
+    //{
+    //    GetComponents();
+    //}
+    //void GetComponents()
+    //{
+    //    cMovement = GetComponent<CharacterMovement>();
+    //    cAnimator = GetComponent<CharacterAnimator>();
+    //    rb = GetComponent<Rigidbody2D>();
+    //}
 
-    void Wind()
-    {
-        //cMovement.UpdateRotation();
-        //cMovement.AttackForwardStep();
+    //void Update()
+    //{
+    //    TimerUpdates();
+    //}
 
-        //cMovement.movementState = CharacterMovement.MovementState.launched;
+    //void TimerUpdates()
+    //{
 
-        ////////////////cAnimator.Play(combos[currentCombo].attacks[currentAttack].name + "Wind");
-    }
+    //}
 
-    void Attack()
-    {
-        //cMovement.UpdateRotation();
-        //cMovement.AttackForwardStep();
+    //public void AttackUpdate()
+    //{
+    //    if (attackButton && !attacking)
+    //    {
+    //        rb.linearVelocity = Vector2.zero;
+    //        attacking = true;
+    //        winding = true;
+    //        releasing = false;
+    //        Wind();
+    //    }
+    //    else if (!attackButton && winding)
+    //    {
+    //        attacking = true;
+    //        winding = false;
+    //        releasing = true;
+    //        Attack();
+    //    }
+    //    else if (attackButton && attacking)
+    //    {
+    //        attackCue = true;
+    //    }
+    //}
 
-        //cMovement.movementState = CharacterMovement.MovementState.launched;
+    //void Wind()
+    //{
+    //    //cMovement.UpdateRotation();
+    //    //cMovement.AttackForwardStep();
 
-        ///////////cAnimator.Play(combos[currentCombo].attacks[currentAttack].name);
+    //    //cMovement.movementState = CharacterMovement.MovementState.launched;
 
-        if (combos[currentCombo].attacks.Count - 1 > currentAttack)
-        {
-            currentAttack++;
-        }
-        else
-        {
-            currentAttack = 0;
-        }
-    }
+    //    ////////////////cAnimator.Play(combos[currentCombo].attacks[currentAttack].name + "Wind");
+    //}
 
-    //must place event 
-    public void OnAttackAnimationComplete()
-    {
-        if (attackButton)
-        {
-            rb.linearVelocity = Vector2.zero;
-            attackCue = false;
-            attacking = true;
-            winding = true;
-            releasing = false;
-            Wind();
-        }
-        else if (attackCue)
-        {
-            rb.linearVelocity = Vector2.zero;
-            attackCue = false;
-            attacking = true;
-            winding = false;
-            releasing = true;
-            Attack();
-        }
-        else
-        {
-            attacking = false;
-            releasing = false;
-            currentAttack = 0;
-            //cMovement.movementState = CharacterMovement.MovementState.normal;
-        }
-    }
+    //void Attack()
+    //{
+    //    //cMovement.UpdateRotation();
+    //    //cMovement.AttackForwardStep();
+
+    //    //cMovement.movementState = CharacterMovement.MovementState.launched;
+
+    //    ///////////cAnimator.Play(combos[currentCombo].attacks[currentAttack].name);
+
+    //    if (combos[currentCombo].attacks.Count - 1 > currentAttack)
+    //    {
+    //        currentAttack++;
+    //    }
+    //    else
+    //    {
+    //        currentAttack = 0;
+    //    }
+    //}
+
+    ////must place event 
+    //public void OnAttackAnimationComplete()
+    //{
+    //    if (attackButton)
+    //    {
+    //        rb.linearVelocity = Vector2.zero;
+    //        attackCue = false;
+    //        attacking = true;
+    //        winding = true;
+    //        releasing = false;
+    //        Wind();
+    //    }
+    //    else if (attackCue)
+    //    {
+    //        rb.linearVelocity = Vector2.zero;
+    //        attackCue = false;
+    //        attacking = true;
+    //        winding = false;
+    //        releasing = true;
+    //        Attack();
+    //    }
+    //    else
+    //    {
+    //        attacking = false;
+    //        releasing = false;
+    //        currentAttack = 0;
+    //        //cMovement.movementState = CharacterMovement.MovementState.normal;
+    //    }
+    //}
 }

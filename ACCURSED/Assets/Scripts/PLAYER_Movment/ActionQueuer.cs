@@ -16,7 +16,6 @@ public class ActionInstance
     }
 }
 
-//processes attack, including special abilities
 public class ActionQueuer : MonoBehaviour
 {
 
@@ -26,12 +25,9 @@ public class ActionQueuer : MonoBehaviour
 
     Queue<ActionInstance> actionQueue;
 
-    //CharacterAnimator cAnim;
-
     private void Awake()
     {
         actionQueue = new Queue<ActionInstance>();
-        //cAnim = GetComponent<CharacterAnimator>();
     }
 
     public ActionInstance QueueAction(ActionSO attack)
@@ -39,38 +35,31 @@ public class ActionQueuer : MonoBehaviour
         ActionInstance instance = new ActionInstance(attack, Time.time);
         actionQueue.Enqueue(instance);
 
+        //broadcasts event for character manager, which will process the next attack
         OnActionQueued?.Invoke();
 
         return instance;
     }
 
-    public ActionInstance NextAction()
+    public ActionInstance GetNextAction()
     {
-        //clear attacks that were queued too early
+        //clear actions that were queued too early
         while(actionQueue.Count > 0 && actionQueue.Peek().queueTime + queueWindow < Time.time)
         {
             actionQueue.Dequeue();
         }
 
+        //if no actions in queue
         if (actionQueue.Count == 0)
         {
-            //state = CombatState.Idle;
             return null;
         }
 
         return actionQueue.Dequeue();
     }
 
-
     public void ClearActions()
     {
         actionQueue.Clear();
     }
-
-    //public void SkipWind(AttackInstance attackInstance)
-    //{
-    //    if (attackInstance.queueTime != currAttack.queueTime) return; //make sure currAttack is the same instance to be skipped
-
-
-    //}
 }

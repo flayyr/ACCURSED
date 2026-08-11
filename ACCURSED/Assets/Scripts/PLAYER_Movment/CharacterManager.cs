@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Windows;
 
@@ -8,20 +9,21 @@ public enum BaseMoveState { None = 0, Walk=1, Run=2, Sprint=3}
 
 public class CharacterManager : MonoBehaviour
 {
-    [SerializeField] DashAction dashAction;
-    [SerializeField] HitBox hitBox;
+    //This script processes actions from actionQueuer. It handles both movement and combat
 
-    ActionQueuer actionQueuer;
-    CharacterAnimator cAnim;
-    CharacterMovement cMove;
+    [SerializeField] protected HitBox hitBox;
+
+    protected ActionQueuer actionQueuer;
+    protected CharacterAnimator cAnim;
+    protected CharacterMovement cMove;
 
     public ActionInstance currAction = null;
 
-    [SerializeField] ActionState combatState = ActionState.Idle;
+    protected ActionState combatState = ActionState.Idle;
 
-    float windTimer = 0;
-    float stunTimer = 0;
-    float stunCancelTimer = 0;
+    protected float windTimer = 0;
+    protected float stunTimer = 0;
+    protected float stunCancelTimer = 0;
 
     private void Awake()
     {
@@ -37,15 +39,13 @@ public class CharacterManager : MonoBehaviour
         windTimer = 0;
 
         actionQueuer.OnActionQueued += PlayNextAction;
-        cAnim.OnAttackFinished += OnAttackFinish;
-        //cMove.OnFinishDash += DashFinished;
+        cAnim.OnActionFinished += OnActionFinish;
     }
 
     private void OnDisable()
     {
         actionQueuer.OnActionQueued -= PlayNextAction;
-        cAnim.OnAttackFinished -= OnAttackFinish;
-        //cMove.OnFinishDash -= DashFinished;
+        cAnim.OnActionFinished -= OnActionFinish;
     }
 
     private void Update()
@@ -58,7 +58,10 @@ public class CharacterManager : MonoBehaviour
         UpdateMovement();
     }
 
-    void UpdateWindTimer()
+    #region Combat
+
+    //all winds have a max wind time and will end once timer runs out
+    protected void UpdateWindTimer()
     {
         if (windTimer > 0)
         {
@@ -70,7 +73,7 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    void UpdateStunTimer()
+    protected void UpdateStunTimer()
     {
         if (stunCancelTimer > 0)
         {
@@ -93,30 +96,31 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    void OnAttackFinish()
+    //event call from animator, runs when lastest action animation ends
+    protected void OnActionFinish()
     {
         combatState = ActionState.Idle;
         UpdateDirection();
         PlayNextAction();
     }
 
-    private void PlayNextAction()
+    protected void PlayNextAction()
     {
-        if(combatState is ActionState.Idle)
+        if(combatState is ActionState.Idle)//only perform actions when idle
         {
-            currAction = actionQueuer.NextAction();
+            currAction = actionQueuer.GetNextAction();//gets next action from queuer, null if queue empty
 
             if (currAction != null)
             {
-                hitBox.SetAttackSO(currAction.actionSO);
+                hitBox.SetAttackSO(currAction.actionSO);//sets attack data into hitbox
 
+                //start winding
                 cAnim.SetWind(true);
-
                 combatState = ActionState.Winding;
                 windTimer = currAction.actionSO.windDuration;
-
                 cAnim.SwitchAnimationState(currAction.actionSO.windAnimationState);
 
+                //end wind immediately if released key early (set thru PlayerAttacker), or the action has no wind
                 if (currAction.skipWindWhenQueued || windTimer<=0)
                 {
                     EndWind();
@@ -143,10 +147,11 @@ public class CharacterManager : MonoBehaviour
         cMove.AttackForwardStep(currDir, currAction.actionSO.stepAmount);
     }
 
+    //gets stunned when hit, called by hurtbox
     public void Stun(float stunDuration, float timeBeforeCancellable)
     {
         combatState = ActionState.Stunned;
-        cAnim.SetStunned(true);
+        cAnim.SetStunned(true);//for stun animations
         actionQueuer.ClearActions();
 
         currAction = null;
@@ -154,42 +159,46 @@ public class CharacterManager : MonoBehaviour
         stunTimer = stunDuration;
         stunCancelTimer = timeBeforeCancellable;
     }
+    #endregion
 
+    #region Movement
+    //moveState is only None or Run for NPCs.
+    protected BaseMoveState moveState = BaseMoveState.None;
 
-    //Movement
+    protected Vector2 moveInput;
+    protected Vector2 currDir = Vector2.down;
 
-    [SerializeField] BaseMoveState moveState = BaseMoveState.None;
-    //bool dashing = false;
+    protected bool walkInput;
+    protected bool sprintInput;
 
-    Vector2 moveInput;
-    Vector2 currDir = Vector2.down;
-
-    bool walkInput;
-    bool sprintInput;
-
+    //called by controller scripts
     public void MoveInput(Vector2 input)
     {
         moveInput = input;
-        if(combatState is ActionState.Idle or ActionState.Winding)
+
+        if(moveInput != Vector2.zero)
+            currDir = moveInput;
+
+        if (combatState is ActionState.Idle or ActionState.Winding)
             UpdateDirection();
     }
 
-    private void UpdateDirection()
+    //updates animator direction
+    protected void UpdateDirection()
     {
-        if (moveInput == Vector2.zero) return;
-
-        currDir = moveInput;
         cAnim.SetFacingDirection(currDir);
     }
 
-    void UpdateMovement()
+    protected void UpdateMovement()
     {
-        if(combatState is ActionState.Idle /*&& !dashing*/)
+        if(combatState is ActionState.Idle)
         {
             FigureOutMovementState();
 
+            //sets move speed and animator parameter depending on movestate, mostly for player
             cMove.SetMoveSpeed(moveState);
             cAnim.SetMoveState((int)moveState);
+
             cMove.BaseMove(moveInput);
         }
         else
@@ -209,7 +218,7 @@ public class CharacterManager : MonoBehaviour
         sprintInput = sprint;
     }
 
-    void FigureOutMovementState()
+    protected void FigureOutMovementState()
     { 
         if(moveInput == Vector2.zero)
         {
@@ -234,23 +243,58 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    public void Dash()
+
+    void IdleUpdate()
     {
-        combatState = ActionState.Idle;
-        UpdateDirection();
-        cMove.Dash(moveInput);
-        cAnim.SetStunned(false);
+        if (combatState is ActionState.Idle)
+        {
+            if (moveInput == Vector2.zero) // not moving
+            {
+                //idleTime -= Time.deltaTime; // timer for when the play the special idle animation
+
+                //cAnimator.SetMoveState(0);
+
+                //if (idleTime < 0) // time to play the special idle animation
+                //{
+                //    idleTime = timeTillSpecialIdle; // reset timer
+                //    cAnimator.Play(idles[UnityEngine.Random.Range(1, idles.Count)]); // play special animation
+                //    doingIdleSpecial = true;
+                //}
+                //else if (!cAnimator.IsCurrentState(idles[0])) // if the animation if currently not the normal idle animation
+                //{
+                //    if (doingIdleSpecial)
+                //    {
+                //        if (cAnimator.GetCurrentNormalizedTime() >= 1f)
+                //        {
+                //            cAnimator.Play(idles[0]);
+                //            doingIdleSpecial = false;
+                //        }
+                //    }
+                //    else
+                //        cAnimator.Play(idles[0]);
+                //}
+            }
+            else
+            {
+                //doingIdleSpecial = false;
+
+                //idleTime = timeTillSpecialIdle;
+
+                //string targetAnim = sprint ? movements[2] : walk ? movements[0] : movements[1];
+
+                //if (!cAnimator.IsCurrentState(targetAnim))
+                //    cAnimator.Play(targetAnim);
+
+                //cAnimator.SetMoveState(sprint ? 3 : walk ? 1 : 2); //1=walk, 2=run, 3=sprint, 0=not moving
+            }
+        }
+        else
+        {
+            //doingIdleSpecial = false;
+        }
     }
 
-    public bool CueDash()
-    {
-        if (combatState is ActionState.Idle or ActionState.StunnedCancellable && moveInput != Vector2.zero)
-        {
-            actionQueuer.QueueAction(dashAction);
-            return true;
-        }
-        return false;
-    }
+    #endregion
 
     public ActionState GetCombatState() => combatState;
     public BaseMoveState GetMoveState() => moveState;

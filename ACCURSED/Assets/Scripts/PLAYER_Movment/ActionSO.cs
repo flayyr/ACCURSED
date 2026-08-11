@@ -15,7 +15,7 @@ public class ActionSO : ScriptableObject
     [SerializeField] public float stepAmount;
     [SerializeField] public float knockbackPower;
 
-    public virtual void Trigger(ref PlayerReference playerRef)
+    public virtual void PlayerActionTrigger(ref PlayerReference playerRef)
     {
         
     }

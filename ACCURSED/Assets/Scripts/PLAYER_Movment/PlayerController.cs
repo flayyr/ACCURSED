@@ -17,8 +17,8 @@ public class PlayerController : MonoBehaviour
     CharacterCombat cCombat;
     PlayerAbilities playerAbilities;
 
-    PlayerHitter basicAttacker;
-    CharacterManager combatManager;
+    PlayerAttacker basicAttacker;
+    PlayerManager playerManager;
     #endregion
 
     [SerializeField]private PlayerControlState state = PlayerControlState.Normal;
@@ -66,8 +66,8 @@ public class PlayerController : MonoBehaviour
         //cMovement = GetComponent<CharacterMovement>();
         cCombat = GetComponent<CharacterCombat>();
         playerAbilities = GetComponent<PlayerAbilities>();
-        basicAttacker = GetComponent<PlayerHitter>();
-        combatManager = GetComponent<CharacterManager>();
+        basicAttacker = GetComponent<PlayerAttacker>();
+        playerManager = GetComponent<PlayerManager>();
     }
 
     #region Movement
@@ -75,23 +75,23 @@ public class PlayerController : MonoBehaviour
     {
         //if (state is not PlayerControlState.Normal) return;
 
-        combatManager.MoveInput(value.Get<Vector2>());
+        playerManager.MoveInput(value.Get<Vector2>());
     }
     public void OnWalk(InputValue value)
     {
-        combatManager.SetWalkInput(value.isPressed);
+        playerManager.SetWalkInput(value.isPressed);
         //cMovement.FigureOutMovementState();
     }
     public void OnSprint(InputValue value)
     {
-        combatManager.SetSprintInput( value.isPressed);
+        playerManager.SetSprintInput( value.isPressed);
         //cMovement.FigureOutMovementState();
     }
     public void OnDash(InputValue value)
     {
         if (state is PlayerControlState.Disabled || !value.isPressed) return; //runs during dodgeonly state
         
-        if(combatManager.CueDash())
+        if(playerManager.CueDash())
             SetState(PlayerControlState.Normal);
     }
     #endregion

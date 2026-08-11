@@ -9,7 +9,7 @@ using UnityEngine.U2D.Animation;
 // 1=Up, 2=UpRight, 3=Right, 4=DownRight, 5=Down, 6=DownLeft, 7=Left, 8=UpLeft
 public class CharacterAnimator : MonoBehaviour
 {
-    public Action OnAttackFinished;
+    public Action OnActionFinished;
 
     [SerializeField] private int direction = 5;
     [SerializeField] private bool eightDirections;
@@ -27,6 +27,8 @@ public class CharacterAnimator : MonoBehaviour
     // Call this whenever the character's facing changes (CharacterMovement.UpdateRotation)
     public void SetFacingDirection(Vector2 input)
     {
+        if (input == Vector2.zero) return;
+
         float angle = Mathf.Atan2(input.y, input.x) * Mathf.Rad2Deg;
         if (angle < 0f) angle += 360f;
 
@@ -56,25 +58,17 @@ public class CharacterAnimator : MonoBehaviour
         }
     }
 
-    public void OnAttackAnimationFinish()
+    //Called by animation event when an action animation finishes.
+    public void OnActionAnimationFinish()
     {
-        OnAttackFinished?.Invoke();
+        //invokes function in CharacterManager
+        OnActionFinished?.Invoke();
     }
 
     public void SwitchAnimationState(string baseName)
     {
         anim.Play(baseName);
     }
-
-    //public float Play(string baseName, AnimatorController animator)
-    //{
-    //    if(anim.runtimeAnimatorController != animator)
-    //        anim.runtimeAnimatorController = animator;
-
-    //    anim.Play(baseName);
-
-    //    return anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex(baseName)).length;
-    //}
 
     public void GetCurrentState(string stateName)
     {
@@ -92,6 +86,11 @@ public class CharacterAnimator : MonoBehaviour
     {
         return anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
     }
+
+    
+
+    ////////////////////////
+    //Set Animator Properties
 
     public void SetWind(bool wind)
     {
