@@ -7,7 +7,7 @@ using UnityEngine.InputSystem.LowLevel;
 
 public enum PlayerControlState
 {
-    Normal, Disabled, DodgeOnly, None
+    Normal, Disabled, None
 }
 
 public class PlayerController : MonoBehaviour
@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     [SerializeField]private PlayerControlState state = PlayerControlState.Normal;
-    private Queue< PlayerControlState> nextStates = new Queue<PlayerControlState>();
 
     public event Action InteractKeyPressed;
 
@@ -30,35 +29,11 @@ public class PlayerController : MonoBehaviour
     public void SetState(PlayerControlState newState)
     {
         state = newState;
-        nextStates.Clear();
-
-        //UpdateCharacterMovementState();
     }
-    public void SetStateDelayed(PlayerControlState newState, float waitDuration)
-    {
-        nextStates.Enqueue(newState);
-        Invoke("NextState", waitDuration);
-    }
-    private void NextState()
-    {
-        if(nextStates.Count>0)
-            state = nextStates.Dequeue();
-        //UpdateCharacterMovementState();
-    }
-
-    //private void UpdateCharacterMovementState()
-    //{
-    //    cMovement.movementState = state is PlayerControlState.Normal ? CharacterMovement.MovementState.normal : CharacterMovement.MovementState.stunned;
-    //}
 
     void Start()
     {
         RefrenceRetreival();
-    }
-
-    private void Update()
-    {
-        //cMovement.movementInput = state is PlayerControlState.Normal ? currentMovementInput : Vector2.zero;
     }
 
     void RefrenceRetreival()
@@ -100,8 +75,6 @@ public class PlayerController : MonoBehaviour
     public void OnAttack(InputValue value)
     {
         if (state is not PlayerControlState.Normal && value.isPressed) return;
-        //cCombat.attackButton = value.isPressed;
-        //cCombat.AttackUpdate();
         basicAttacker.CueAttack(value.isPressed);
     }
 

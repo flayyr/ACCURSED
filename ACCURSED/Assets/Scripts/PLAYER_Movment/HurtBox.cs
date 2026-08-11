@@ -53,10 +53,6 @@ public class HurtBox : MonoBehaviour
 
                 if (playerController != null)
                 {
-                    //playerController.SetState( PlayerControlState.Disabled);
-                    //playerController.SetStateDelayed(PlayerControlState.DodgeOnly, durationUntilDodgeCancellable);
-                    //playerController.SetStateDelayed(PlayerControlState.Normal, afterHurtStunDuration);
-
                     combatManager.Stun(afterHurtStunDuration, durationUntilDodgeCancellable);
                 }
 

@@ -26,9 +26,6 @@ public class PlayerManager : CharacterManager
     //gets triggered by dash actionSO
     public void Dash()
     {
-        //dashing causes troubles with the queue system, so I clear it just in case of bugs
-        //actionQueuer.ClearActions();
-
         combatState = ActionState.Idle;
         UpdateDirection();
         cMove.Dash(moveInput);

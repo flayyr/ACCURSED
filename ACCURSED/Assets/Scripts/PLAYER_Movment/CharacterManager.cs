@@ -243,7 +243,7 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-
+    //leaving this here as reference since I haven't implemented this yet
     void IdleUpdate()
     {
         if (combatState is ActionState.Idle)

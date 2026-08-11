@@ -15,6 +15,7 @@ public class ActionSO : ScriptableObject
     [SerializeField] public float stepAmount;
     [SerializeField] public float knockbackPower;
 
+    //only triggered for the player. Ideally id have it so that enemy actions don't have this
     public virtual void PlayerActionTrigger(ref PlayerReference playerRef)
     {
         
