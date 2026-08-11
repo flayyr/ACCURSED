@@ -27,7 +27,7 @@ public class PlayerManager : CharacterManager
     public void Dash()
     {
         //dashing causes troubles with the queue system, so I clear it just in case of bugs
-        actionQueuer.ClearActions();
+        //actionQueuer.ClearActions();
 
         combatState = ActionState.Idle;
         UpdateDirection();
