@@ -11,11 +11,12 @@ public class ActionSO : ScriptableObject
     [SerializeField] public float windDuration;
 
     [Header("Data")]
-    [SerializeField] public float moveDist;
-    [SerializeField] public float knockback;
+    [SerializeField] public float attackDamage = 1f;
+    [SerializeField] public float stepAmount;
+    [SerializeField] public float knockbackPower;
 
     public virtual void Trigger(ref PlayerReference playerRef)
     {
-
+        
     }
 }

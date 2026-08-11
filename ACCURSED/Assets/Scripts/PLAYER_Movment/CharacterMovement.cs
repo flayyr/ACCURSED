@@ -65,12 +65,12 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] public float walkSpeed = 5; // changes movementSpeed to this when walking
     [SerializeField] public float runSpeed = 10; // changes movementSpeed to this when running (normal)
     [SerializeField] public float sprintSpeed = 15; // changes movementSpeed to this when sprinting
-    [SerializeField] float attackStep;
+    //[SerializeField] float attackStep;
     #endregion
 
 
     #region Input
-    [HideInInspector] public Vector2 movementInput; // input
+    //[HideInInspector] public Vector2 movementInput; // input
 
     #endregion
 
@@ -252,15 +252,15 @@ public class CharacterMovement : MonoBehaviour
         rb.linearVelocity = moveInput.normalized * movementSpeed;
     }
 
-    public void UpdateRotation()
-    {
-        if (cAnimator != null)
-            cAnimator.SetFacingDirection(movementInput);
-    }
+    //public void UpdateRotation(Vector2 moveInput)
+    //{
+    //    if (cAnimator != null)
+    //        cAnimator.SetFacingDirection(moveInput);
+    //}
 
-    public void AttackForwardStep()
+    public void AttackForwardStep(Vector2 moveInput, float stepAmount)
     {
-        //rb.AddForce(movementInput.normalized * attackStep, ForceMode2D.Impulse);
+        rb.AddForce(moveInput.normalized * stepAmount, ForceMode2D.Impulse);
     }
     #endregion
 

@@ -61,8 +61,10 @@ public class HurtBox : MonoBehaviour
                 }
 
                 // Use Hitbox info to affect me
-                cMovement.Knockback(direction, hitBox.knockBackPower, true);
-                cStatistics.UpdateHealth( -hitBox.damage);
+                ActionSO attackSO = hitBox.GetAttackSO();
+
+                cMovement.Knockback(direction, attackSO.knockbackPower, true);
+                cStatistics.UpdateHealth( -attackSO.attackDamage);
 
                 if(hurtFeedback!=null)
                     hurtFeedback.PlayFeedbacks();

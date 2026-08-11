@@ -27,8 +27,6 @@ public class CharacterAnimator : MonoBehaviour
     // Call this whenever the character's facing changes (CharacterMovement.UpdateRotation)
     public void SetFacingDirection(Vector2 input)
     {
-        if (input == Vector2.zero) return;
-
         float angle = Mathf.Atan2(input.y, input.x) * Mathf.Rad2Deg;
         if (angle < 0f) angle += 360f;
 

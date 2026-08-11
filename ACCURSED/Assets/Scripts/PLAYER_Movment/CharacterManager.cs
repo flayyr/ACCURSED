@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.Windows;
 
 public enum ActionState { Idle, Winding, Attacking, Stunned, StunnedCancellable }
 public enum BaseMoveState { None = 0, Walk=1, Run=2, Sprint=3}
@@ -8,6 +9,7 @@ public enum BaseMoveState { None = 0, Walk=1, Run=2, Sprint=3}
 public class CharacterManager : MonoBehaviour
 {
     [SerializeField] DashAction dashAction;
+    [SerializeField] HitBox hitBox;
 
     ActionQueuer actionQueuer;
     CharacterAnimator cAnim;
@@ -106,6 +108,8 @@ public class CharacterManager : MonoBehaviour
 
             if (currAction != null)
             {
+                hitBox.SetAttackSO(currAction.actionSO);
+
                 cAnim.SetWind(true);
 
                 combatState = ActionState.Winding;
@@ -135,6 +139,8 @@ public class CharacterManager : MonoBehaviour
         windTimer = 0;
         cAnim.SetWind(false);
         combatState = ActionState.Attacking;
+
+        cMove.AttackForwardStep(currDir, currAction.actionSO.stepAmount);
     }
 
     public void Stun(float stunDuration, float timeBeforeCancellable)
@@ -156,6 +162,8 @@ public class CharacterManager : MonoBehaviour
     //bool dashing = false;
 
     Vector2 moveInput;
+    Vector2 currDir = Vector2.down;
+
     bool walkInput;
     bool sprintInput;
 
@@ -163,12 +171,15 @@ public class CharacterManager : MonoBehaviour
     {
         moveInput = input;
         if(combatState is ActionState.Idle or ActionState.Winding)
-            cAnim.SetFacingDirection(moveInput);
+            UpdateDirection();
     }
 
     private void UpdateDirection()
     {
-        cAnim.SetFacingDirection(moveInput);
+        if (moveInput == Vector2.zero) return;
+
+        currDir = moveInput;
+        cAnim.SetFacingDirection(currDir);
     }
 
     void UpdateMovement()

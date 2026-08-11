@@ -92,8 +92,8 @@ public class CharacterCombat : MonoBehaviour
 
     void Wind()
     {
-        cMovement.UpdateRotation();
-        cMovement.AttackForwardStep();
+        //cMovement.UpdateRotation();
+        //cMovement.AttackForwardStep();
 
         //cMovement.movementState = CharacterMovement.MovementState.launched;
 
@@ -102,8 +102,8 @@ public class CharacterCombat : MonoBehaviour
 
     void Attack()
     {
-        cMovement.UpdateRotation();
-        cMovement.AttackForwardStep();
+        //cMovement.UpdateRotation();
+        //cMovement.AttackForwardStep();
 
         //cMovement.movementState = CharacterMovement.MovementState.launched;
 
