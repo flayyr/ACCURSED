@@ -20,11 +20,11 @@ public class CharacterMovement : MonoBehaviour
 
     #endregion
 
-    #region Movement Toggles (Walk/Sprint)
-    [LayoutStart("Move Toggles", ELayout.FoldoutBox)]
-    [SerializeField][ReadOnly] public bool walk; // checks if the player toggled walk
-    [SerializeField][ReadOnly] public bool sprint; // checks if the player is holding spring
-    #endregion
+    //#region Movement Toggles (Walk/Sprint)
+    //[LayoutStart("Move Toggles", ELayout.FoldoutBox)]
+    //[SerializeField][ReadOnly] public bool walk; // checks if the player toggled walk
+    //[SerializeField][ReadOnly] public bool sprint; // checks if the player is holding spring
+    //#endregion
 
     #region Animations
     [LayoutStart("Animation Names", ELayout.FoldoutBox)]
@@ -75,7 +75,7 @@ public class CharacterMovement : MonoBehaviour
     #endregion
 
     #region Refrences
-    CharacterCombat cCombat;
+    //CharacterCombat cCombat;
     CharacterAnimator cAnimator;
     Rigidbody2D rb;
     #endregion
@@ -87,7 +87,7 @@ public class CharacterMovement : MonoBehaviour
     }
     void GetComponents()
     {
-        cCombat = GetComponent<CharacterCombat>();
+        //cCombat = GetComponent<CharacterCombat>();
         cAnimator = GetComponent<CharacterAnimator>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -104,77 +104,84 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
-        BaseMovement();
+        //BaseMovement();
         TimerUpdates();
-        if (cAnimator != null)
-            AnimationUpdate();
+        //if (cAnimator != null)
+        //    AnimationUpdate();
     }
 
     void AnimationUpdate()
     {
-        if (!cCombat.attacking)
-        {
-            if (movementInput == Vector2.zero) // not moving
-            {
-                idleTime -= Time.deltaTime; // timer for when the play the special idle animation
+        //if (!cCombat.attacking)
+        //{
+        //    if (movementInput == Vector2.zero) // not moving
+        //    {
+        //        idleTime -= Time.deltaTime; // timer for when the play the special idle animation
 
-                if (idleTime < 0) // time to play the special idle animation
-                {
-                    idleTime = timeTillSpecialIdle; // reset timer
-                    cAnimator.Play(idles[UnityEngine.Random.Range(1, idles.Count)]); // play special animation
-                    doingIdleSpecial = true;
-                }
-                else if (!cAnimator.IsCurrentState(idles[0])) // if the animation if currently not the normal idle animation
-                {
-                    if (doingIdleSpecial)
-                    {
-                        if (cAnimator.GetCurrentNormalizedTime() >= 1f)
-                        {
-                            cAnimator.Play(idles[0]);
-                            doingIdleSpecial = false;
-                        }
-                    }
-                    else
-                        cAnimator.Play(idles[0]);
-                }
-            }
-            else
-            {
-                doingIdleSpecial = false;
+        //        cAnimator.SetMoveState(0);
 
-                idleTime = timeTillSpecialIdle;
+        //        //if (idleTime < 0) // time to play the special idle animation
+        //        //{
+        //        //    idleTime = timeTillSpecialIdle; // reset timer
+        //        //    cAnimator.Play(idles[UnityEngine.Random.Range(1, idles.Count)]); // play special animation
+        //        //    doingIdleSpecial = true;
+        //        //}
+        //        //else if (!cAnimator.IsCurrentState(idles[0])) // if the animation if currently not the normal idle animation
+        //        //{
+        //        //    if (doingIdleSpecial)
+        //        //    {
+        //        //        if (cAnimator.GetCurrentNormalizedTime() >= 1f)
+        //        //        {
+        //        //            cAnimator.Play(idles[0]);
+        //        //            doingIdleSpecial = false;
+        //        //        }
+        //        //    }
+        //        //    else
+        //        //        cAnimator.Play(idles[0]);
+        //        //}
+        //    }
+        //    else
+        //    {
+        //        doingIdleSpecial = false;
 
-                string targetAnim = sprint ? movements[2] : walk ? movements[0] : movements[1];
+        //        idleTime = timeTillSpecialIdle;
 
-                if (!cAnimator.IsCurrentState(targetAnim))
-                    cAnimator.Play(targetAnim);
-            }
-        }
-        else
-        {
-            doingIdleSpecial = false;
-        }
+        //        //string targetAnim = sprint ? movements[2] : walk ? movements[0] : movements[1];
+
+        //        //if (!cAnimator.IsCurrentState(targetAnim))
+        //        //    cAnimator.Play(targetAnim);
+
+        //        cAnimator.SetMoveState(sprint ? 3 : walk ? 1 : 2); //1=walk, 2=run, 3=sprint, 0=not moving
+        //    }
+        //}
+        //else
+        //{
+        //    doingIdleSpecial = false;
+        //}
     }
 
     void TimerUpdates()
     {
         // dashing cooldown
-        if (dashCoolDownTimer <= 0) canDash = true;
-        else dashCoolDownTimer -= Time.deltaTime;
+        if (dashCoolDownTimer <= 0) 
+            canDash = true;
+        else 
+            dashCoolDownTimer -= Time.deltaTime;
 
         // dashing length
         if (dashLengthTimer <= 0 && dashing == true)
         {
             dashing = false;
             movementState = MovementState.normal;
+            BaseMove(rb.linearVelocity);
         }
         else dashLengthTimer -= Time.deltaTime;
 
-        // knockback
+        //knockback
         if (knockBackTimer <= 0 && gettingKnockBack)
         {
             gettingKnockBack = false;
-            if (!cCombat.attacking) // don't hand movement back mid-attack, or the animation stays stuck on the wind-up/swing pose while the character walks around
+            //if (!cCombat.attacking) // don't hand movement back mid-attack, or the animation stays stuck on the wind-up/swing pose while the character walks around
                 movementState = MovementState.normal;
         }
         else
@@ -185,62 +192,75 @@ public class CharacterMovement : MonoBehaviour
 
     #region Basic Movement
     // from input method --> passes state and if its held down or not
-    public void FigureOutMovementState()
+    //public void FigureOutMovementState()
+    //{
+    //    if (sprint)
+    //    {
+    //        walk = false;
+    //        movementSpeed = sprintSpeed;
+    //    }
+    //    else
+    //    {
+    //        if (walk)
+    //        {
+    //            movementSpeed = walkSpeed;
+    //        }
+    //        else
+    //        {
+    //            movementSpeed = runSpeed;
+    //        }
+    //    }
+    //}
+
+    public void SetMoveSpeed(BaseMoveState moveState)
     {
-        if (sprint)
+        switch (moveState)
         {
-            walk = false;
-            movementSpeed = sprintSpeed;
-        }
-        else
-        {
-            if (walk)
-            {
+            case BaseMoveState.Walk:
                 movementSpeed = walkSpeed;
-            }
-            else
-            {
+                break;
+            case BaseMoveState.Run:
                 movementSpeed = runSpeed;
-            }
+                break;
+            case BaseMoveState.Sprint:
+                movementSpeed = sprintSpeed;
+                break;
+            default:
+                break;
         }
     }
-    void BaseMovement()
+
+    //void BaseMovement()
+    //{
+    //    switch (movementState)
+    //    {
+    //        case MovementState.normal:
+    //            rb.linearVelocity = movementInput.normalized * movementSpeed;
+
+    //            UpdateRotation();
+
+    //            break;
+    //        case MovementState.launched:
+    //            //rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, Vector2.zero, 0.01f);
+    //            break;
+    //    }
+    //}
+
+    public void BaseMove(Vector2 moveInput)
     {
-        switch (movementState)
-        {
-            case MovementState.normal:
-                rb.linearVelocity = movementInput.normalized * movementSpeed;
-
-                UpdateRotation();
-
-                break;
-            case MovementState.launched:
-                //rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, Vector2.zero, 0.01f);
-                break;
-        }
+        if(movementState is MovementState.normal)
+        rb.linearVelocity = moveInput.normalized * movementSpeed;
     }
 
     public void UpdateRotation()
     {
         if (cAnimator != null)
             cAnimator.SetFacingDirection(movementInput);
-
-        /* for shaun :P
-        if (movementInput.x == 0 && movementInput.y > 0) facing = 180;
-        else if (movementInput.x > 0 && movementInput.y > 0) facing = 135;
-        else if (movementInput.x > 0 && movementInput.y == 0) facing = 90;
-        else if (movementInput.x > 0 && movementInput.y < 0) facing = 45;
-        else if (movementInput.x == 0 && movementInput.y < 0) facing = 0;
-        else if (movementInput.x < 0 && movementInput.y < 0) facing = 315;
-        else if (movementInput.x < 0 && movementInput.y == 0) facing = 270;
-        else if (movementInput.x < 0 && movementInput.y > 0) facing = 225;
-        transform.rotation = Quaternion.Euler(0, 0, facing);
-        */
     }
 
     public void AttackForwardStep()
     {
-        rb.AddForce(movementInput.normalized * attackStep, ForceMode2D.Impulse);
+        //rb.AddForce(movementInput.normalized * attackStep, ForceMode2D.Impulse);
     }
     #endregion
 
