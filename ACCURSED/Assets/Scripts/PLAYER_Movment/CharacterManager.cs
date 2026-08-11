@@ -7,6 +7,8 @@ public enum BaseMoveState { None = 0, Walk=1, Run=2, Sprint=3}
 
 public class CharacterManager : MonoBehaviour
 {
+    [SerializeField] DashAction dashAction;
+
     ActionQueuer actionQueuer;
     CharacterAnimator cAnim;
     CharacterMovement cMove;
@@ -223,13 +225,20 @@ public class CharacterManager : MonoBehaviour
 
     public void Dash()
     {
+        combatState = ActionState.Idle;
+        UpdateDirection();
+        cMove.Dash(moveInput);
+        cAnim.SetStunned(false);
+    }
+
+    public bool CueDash()
+    {
         if (combatState is ActionState.Idle or ActionState.StunnedCancellable && moveInput != Vector2.zero)
         {
-            combatState = ActionState.Idle;
-            cAnim.SetFacingDirection(moveInput);
-            cMove.Dash(moveInput);
-            cAnim.SetStunned(false);
+            actionQueuer.QueueAction(dashAction);
+            return true;
         }
+        return false;
     }
 
     public ActionState GetCombatState() => combatState;

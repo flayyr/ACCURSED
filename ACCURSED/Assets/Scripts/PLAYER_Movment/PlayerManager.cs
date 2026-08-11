@@ -8,6 +8,7 @@ public struct PlayerReference
     public SpriteRenderer spriteRenderer;
     public HurtBox hurtBox;
     public PlayerStatistics playerStats;
+    public PlayerManager playerManager;
 }
 
 public class PlayerManager : CharacterManager
