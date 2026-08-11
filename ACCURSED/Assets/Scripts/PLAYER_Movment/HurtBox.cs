@@ -22,7 +22,7 @@ public class HurtBox : MonoBehaviour
 
     CharacterMovement cMovement;
     CharacterStatistics cStatistics;
-    CombatManager combatManager;
+    CharacterManager combatManager;
 
     PlayerController playerController;
 
@@ -31,7 +31,7 @@ public class HurtBox : MonoBehaviour
         cMovement = GetComponentInParent<CharacterMovement>();
         cStatistics = GetComponentInParent<CharacterStatistics>();
         playerController = GetComponentInParent<PlayerController>();
-        combatManager = GetComponentInParent<CombatManager>();
+        combatManager = GetComponentInParent<CharacterManager>();
     }
 
     private void OnEnable()

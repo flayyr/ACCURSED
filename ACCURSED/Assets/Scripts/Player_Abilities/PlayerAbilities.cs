@@ -1,26 +1,23 @@
 using System;
 using UnityEngine;
 
-[Serializable]
-public struct PlayerReference
-{
-    public ParticleSystem particleSystem;
-    public SpriteRenderer spriteRenderer;
-    public HurtBox hurtBox;
-    public PlayerStatistics playerStats;
-}
-
 public class PlayerAbilities : MonoBehaviour
 {
-    [SerializeField] private Ability vestigeAbility;
-    [SerializeField] private Ability remembranceAbility;
-    [SerializeField] float healingInvincibleDuration = 1f;
-    [Space]
-    [SerializeField] PlayerReference playerRef;
+    [SerializeField] private AbilitySO vestigeAbility;
+    [SerializeField] private AbilitySO remembranceAbility;
+    [SerializeField] private ActionSO healAction;
 
 
     [HideInInspector] public event Action OnAbilityUsed;
 
+    private ActionQueuer actionQueuer;
+    private PlayerStatistics playerStatistics;
+
+    private void Awake()
+    {
+        actionQueuer = GetComponent<ActionQueuer>();
+        playerStatistics = GetComponent<PlayerStatistics>();
+    }
 
     public void InitializeUI(AbilityUIDisplay vestigeDisplay, AbilityUIDisplay remembranceDisplay)
     {
@@ -30,36 +27,28 @@ public class PlayerAbilities : MonoBehaviour
             remembranceDisplay.Initialize(remembranceAbility.abilityIcon);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            if (playerRef.playerStats.UseHealCharge())
-            {
-                playerRef.hurtBox.InvincibleForSeconds(healingInvincibleDuration);
-            }
-        }
-    }
-
     public bool UseRemembrance()
     {
-        remembranceAbility.Trigger(ref playerRef);
+        actionQueuer.QueueAction(remembranceAbility);
+
         OnAbilityUsed?.Invoke();
         return true;
     }
 
     public bool UseVestige()
     {
-        vestigeAbility.Trigger(ref playerRef);
+        actionQueuer.QueueAction(vestigeAbility);
+
         OnAbilityUsed?.Invoke();
         return true;
     }
 
     public bool UseHeal()
     {
-        if (playerRef.playerStats.UseHealCharge())
+        if (playerStatistics.CanHeal())
         {
-            playerRef.hurtBox.InvincibleForSeconds(healingInvincibleDuration);
+            actionQueuer.QueueAction(healAction);
+
             return true;
         }
         return false;

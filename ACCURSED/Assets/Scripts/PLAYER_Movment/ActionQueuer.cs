@@ -2,69 +2,69 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackInstance
+public class ActionInstance
 {
-    public AttackSO attackSO;
+    public ActionSO actionSO;
     public float queueTime;
     public bool skipWindWhenQueued;
 
-    public AttackInstance(AttackSO attackSO, float currTime)
+    public ActionInstance(ActionSO actionSO, float currTime)
     {
-        this.attackSO = attackSO;
+        this.actionSO = actionSO;
         queueTime = currTime;
         skipWindWhenQueued = false;
     }
 }
 
 //processes attack, including special abilities
-public class AttackQueuer : MonoBehaviour
+public class ActionQueuer : MonoBehaviour
 {
 
-    public Action OnAttackQueued;
+    public Action OnActionQueued;
 
     [SerializeField] float queueWindow = 0f;
 
-    Queue<AttackInstance> attackQueue;
+    Queue<ActionInstance> actionQueue;
 
     //CharacterAnimator cAnim;
 
     private void Awake()
     {
-        attackQueue = new Queue<AttackInstance>();
+        actionQueue = new Queue<ActionInstance>();
         //cAnim = GetComponent<CharacterAnimator>();
     }
 
-    public AttackInstance QueueAttack(AttackSO attack)
+    public ActionInstance QueueAction(ActionSO attack)
     {
-        AttackInstance instance = new AttackInstance(attack, Time.time);
-        attackQueue.Enqueue(instance);
+        ActionInstance instance = new ActionInstance(attack, Time.time);
+        actionQueue.Enqueue(instance);
 
-        OnAttackQueued?.Invoke();
+        OnActionQueued?.Invoke();
 
         return instance;
     }
 
-    public AttackInstance NextAttack()
+    public ActionInstance NextAction()
     {
         //clear attacks that were queued too early
-        while(attackQueue.Count > 0 && attackQueue.Peek().queueTime + queueWindow < Time.time)
+        while(actionQueue.Count > 0 && actionQueue.Peek().queueTime + queueWindow < Time.time)
         {
-            attackQueue.Dequeue();
+            actionQueue.Dequeue();
         }
 
-        if (attackQueue.Count == 0)
+        if (actionQueue.Count == 0)
         {
             //state = CombatState.Idle;
             return null;
         }
 
-        return attackQueue.Dequeue();
+        return actionQueue.Dequeue();
     }
 
 
-    public void ClearAttacks()
+    public void ClearActions()
     {
-        attackQueue.Clear();
+        actionQueue.Clear();
     }
 
     //public void SkipWind(AttackInstance attackInstance)

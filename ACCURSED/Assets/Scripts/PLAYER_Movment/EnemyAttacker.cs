@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class EnemyAttacker : MonoBehaviour
 {
-    [SerializeField] AttackSO attack;
-    AttackQueuer attackQueuer;
+    [SerializeField] ActionSO attack;
+    ActionQueuer attackQueuer;
 
     private void Start()
     {
-        attackQueuer = GetComponent<AttackQueuer>();
+        attackQueuer = GetComponent<ActionQueuer>();
     }
 
     //called by enemy controller
     public void CueAttack()
     {
-        attackQueuer.QueueAttack(attack);
+        attackQueuer.QueueAction(attack);
     }
 }

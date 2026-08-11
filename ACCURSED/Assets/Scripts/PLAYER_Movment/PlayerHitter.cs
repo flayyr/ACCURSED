@@ -2,27 +2,27 @@ using UnityEngine;
 
 public class PlayerHitter : MonoBehaviour
 {
-    [SerializeField] AttackSO attack;
-    AttackQueuer attackQueuer;
-    CombatManager combatManager;
+    [SerializeField] ActionSO attack;
+    ActionQueuer attackQueuer;
+    CharacterManager combatManager;
 
     bool buttonPressed;
     bool buttonHeld;
     bool buttonReleased;
 
-    private AttackInstance currAttackInstance;
+    private ActionInstance currAttackInstance;
 
     private void Start()
     {
-        attackQueuer = GetComponent<AttackQueuer>();
-        combatManager = GetComponent<CombatManager>();
+        attackQueuer = GetComponent<ActionQueuer>();
+        combatManager = GetComponent<CharacterManager>();
     }
 
     private void Update()
     {
         if (buttonPressed)
         {
-            currAttackInstance = attackQueuer.QueueAttack(attack);
+            currAttackInstance = attackQueuer.QueueAction(attack);
         }
 
         if (buttonReleased)

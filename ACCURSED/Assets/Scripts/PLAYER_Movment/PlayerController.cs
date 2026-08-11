@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     PlayerAbilities playerAbilities;
 
     PlayerHitter basicAttacker;
-    CombatManager combatManager;
+    CharacterManager combatManager;
     #endregion
 
     [SerializeField]private PlayerControlState state = PlayerControlState.Normal;
@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
         cCombat = GetComponent<CharacterCombat>();
         playerAbilities = GetComponent<PlayerAbilities>();
         basicAttacker = GetComponent<PlayerHitter>();
-        combatManager = GetComponent<CombatManager>();
+        combatManager = GetComponent<CharacterManager>();
     }
 
     #region Movement

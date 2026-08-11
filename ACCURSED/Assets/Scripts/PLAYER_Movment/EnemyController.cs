@@ -65,7 +65,7 @@ public class EnemyController : MonoBehaviour
     //private CharacterMovement cMovement;
     //private CharacterCombat cCombat;
 
-    CombatManager combatManager;
+    CharacterManager combatManager;
     EnemyAttacker enemyAttacker;
     #endregion
 
@@ -93,7 +93,7 @@ public class EnemyController : MonoBehaviour
         //cCombat = GetComponent<CharacterCombat>();
         agent = GetComponent<NavMeshAgent>();
 
-        combatManager = GetComponent<CombatManager>();
+        combatManager = GetComponent<CharacterManager>();
         enemyAttacker = GetComponent<EnemyAttacker>();
     }
 
@@ -261,7 +261,7 @@ public class EnemyController : MonoBehaviour
             //{
             //    StartCombo();
             //}
-            if (combatManager.GetCombatState() is CombatState.Idle)/////////////////////
+            if (combatManager.GetCombatState() is ActionState.Idle)/////////////////////
             {
                 //StartCombo();
                 enemyAttacker.CueAttack();
@@ -270,7 +270,7 @@ public class EnemyController : MonoBehaviour
         else
         {
             // Out of range: only break off if we aren't mid-combo, then close the gap.
-            if (combatManager.GetCombatState() is CombatState.Idle)
+            if (combatManager.GetCombatState() is ActionState.Idle)
             {
                 HandleMovement();
                 SetTargetPosition(playerTransform.position);

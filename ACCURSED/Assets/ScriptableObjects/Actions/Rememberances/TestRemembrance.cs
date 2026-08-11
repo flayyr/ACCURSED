@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TestRemembrance", menuName = "Abilities/TestRemembrance")]
-public class TestRemembrance : Ability
+[CreateAssetMenu(fileName = "TestRemembrance", menuName = "Actions/Remembrance/TestRemembrance")]
+public class TestRemembrance : AbilitySO
 {
     public override void Trigger(ref PlayerReference playerRef)
     {

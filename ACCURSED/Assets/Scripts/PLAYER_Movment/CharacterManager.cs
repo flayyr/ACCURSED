@@ -1,17 +1,19 @@
+using System;
 using System.ComponentModel;
 using UnityEngine;
 
-public enum CombatState { Idle, Winding, Attacking, Stunned, StunnedCancellable }
+public enum ActionState { Idle, Winding, Attacking, Stunned, StunnedCancellable }
 public enum BaseMoveState { None = 0, Walk=1, Run=2, Sprint=3}
-public class CombatManager : MonoBehaviour
+
+public class CharacterManager : MonoBehaviour
 {
-    AttackQueuer attackQueuer;
+    ActionQueuer actionQueuer;
     CharacterAnimator cAnim;
     CharacterMovement cMove;
 
-    public AttackInstance currAttack = null;
+    public ActionInstance currAction = null;
 
-    [SerializeField] CombatState combatState = CombatState.Idle;
+    [SerializeField] ActionState combatState = ActionState.Idle;
 
     float windTimer = 0;
     float stunTimer = 0;
@@ -19,34 +21,34 @@ public class CombatManager : MonoBehaviour
 
     private void Awake()
     {
-        attackQueuer = GetComponent<AttackQueuer>();
+        actionQueuer = GetComponent<ActionQueuer>();
         cAnim = GetComponent<CharacterAnimator>();
         cMove = GetComponent<CharacterMovement>();
     }
 
     private void OnEnable()
     {
-        combatState = CombatState.Idle;
-        currAttack = null;
+        combatState = ActionState.Idle;
+        currAction = null;
         windTimer = 0;
 
-        attackQueuer.OnAttackQueued += PlayNextAttack;
+        actionQueuer.OnActionQueued += PlayNextAction;
         cAnim.OnAttackFinished += OnAttackFinish;
         //cMove.OnFinishDash += DashFinished;
     }
 
     private void OnDisable()
     {
-        attackQueuer.OnAttackQueued -= PlayNextAttack;
+        actionQueuer.OnActionQueued -= PlayNextAction;
         cAnim.OnAttackFinished -= OnAttackFinish;
         //cMove.OnFinishDash -= DashFinished;
     }
 
     private void Update()
     {
-        if(combatState is CombatState.Stunned or CombatState.StunnedCancellable)
+        if(combatState is ActionState.Stunned or ActionState.StunnedCancellable)
             UpdateStunTimer();
-        if(combatState is CombatState.Winding)
+        if(combatState is ActionState.Winding)
             UpdateWindTimer();
 
         UpdateMovement();
@@ -59,9 +61,7 @@ public class CombatManager : MonoBehaviour
             windTimer -= Time.deltaTime;
             if (windTimer <= 0)
             {
-                windTimer = 0;
-                cAnim.SetWind(false);
-                combatState = CombatState.Attacking;
+                EndWind();
             }
         }
     }
@@ -74,7 +74,7 @@ public class CombatManager : MonoBehaviour
             if(stunCancelTimer <= 0)
             {
                 stunCancelTimer = 0;
-                combatState = CombatState.StunnedCancellable;
+                combatState = ActionState.StunnedCancellable;
             }
         }
         else if (stunTimer > 0)
@@ -84,36 +84,36 @@ public class CombatManager : MonoBehaviour
             {
                 stunTimer = 0;
                 cAnim.SetStunned(false);
-                combatState = CombatState.Idle;
+                combatState = ActionState.Idle;
             }
         }
     }
 
     void OnAttackFinish()
     {
-        combatState = CombatState.Idle;
-        //currAttack = null;
-        PlayNextAttack();
+        combatState = ActionState.Idle;
+        UpdateDirection();
+        PlayNextAction();
     }
 
-    private void PlayNextAttack()
+    private void PlayNextAction()
     {
-        if(combatState is CombatState.Idle)
+        if(combatState is ActionState.Idle)
         {
-            currAttack = attackQueuer.NextAttack();
+            currAction = actionQueuer.NextAction();
 
-            if (currAttack != null)
+            if (currAction != null)
             {
                 cAnim.SetWind(true);
 
-                combatState = CombatState.Winding;
-                windTimer = currAttack.attackSO.windDuration;
+                combatState = ActionState.Winding;
+                windTimer = currAction.actionSO.windDuration;
 
-                cAnim.SwitchAnimationState(currAttack.attackSO.windAnimationState);
+                cAnim.SwitchAnimationState(currAction.actionSO.windAnimationState);
 
-                if (currAttack.skipWindWhenQueued)
+                if (currAction.skipWindWhenQueued || windTimer<=0)
                 {
-                    SkipWind(currAttack);
+                    EndWind();
                 }
 
                 return;
@@ -121,21 +121,27 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    public void SkipWind(AttackInstance attackInstance)
+    public void SkipWind(ActionInstance attackInstance)
     {
-        if (attackInstance != currAttack || combatState is not CombatState.Winding) return; //make sure currAttack is the same instance to be skipped
+        if (attackInstance != currAction || combatState is not ActionState.Winding) return; //make sure currAttack is the same instance to be skipped
 
+        EndWind();
+    }
+
+    protected virtual void EndWind()
+    {
         windTimer = 0;
         cAnim.SetWind(false);
-        combatState = CombatState.Attacking;
+        combatState = ActionState.Attacking;
     }
 
     public void Stun(float stunDuration, float timeBeforeCancellable)
     {
-        combatState = CombatState.Stunned;
+        combatState = ActionState.Stunned;
         cAnim.SetStunned(true);
+        actionQueuer.ClearActions();
 
-        currAttack = null;
+        currAction = null;
 
         stunTimer = stunDuration;
         stunCancelTimer = timeBeforeCancellable;
@@ -154,13 +160,18 @@ public class CombatManager : MonoBehaviour
     public void MoveInput(Vector2 input)
     {
         moveInput = input;
-        if(combatState is CombatState.Idle or CombatState.Winding)
+        if(combatState is ActionState.Idle or ActionState.Winding)
             cAnim.SetFacingDirection(moveInput);
+    }
+
+    private void UpdateDirection()
+    {
+        cAnim.SetFacingDirection(moveInput);
     }
 
     void UpdateMovement()
     {
-        if(combatState is CombatState.Idle /*&& !dashing*/)
+        if(combatState is ActionState.Idle /*&& !dashing*/)
         {
             FigureOutMovementState();
 
@@ -212,15 +223,15 @@ public class CombatManager : MonoBehaviour
 
     public void Dash()
     {
-        if (combatState is CombatState.Idle or CombatState.StunnedCancellable && moveInput != Vector2.zero)
+        if (combatState is ActionState.Idle or ActionState.StunnedCancellable && moveInput != Vector2.zero)
         {
-            combatState = CombatState.Idle;
+            combatState = ActionState.Idle;
             cAnim.SetFacingDirection(moveInput);
             cMove.Dash(moveInput);
             cAnim.SetStunned(false);
         }
     }
 
-    public CombatState GetCombatState() => combatState;
+    public ActionState GetCombatState() => combatState;
     public BaseMoveState GetMoveState() => moveState;
 }

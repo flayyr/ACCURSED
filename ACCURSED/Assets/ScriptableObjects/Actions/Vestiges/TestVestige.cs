@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Abilities/TestVestige")]
-public class TestVestige : Ability
+[CreateAssetMenu(menuName = "Actions/Vestige/TestVestige")]
+public class TestVestige : AbilitySO
 {
     public override void Trigger(ref PlayerReference playerRef)
     {
