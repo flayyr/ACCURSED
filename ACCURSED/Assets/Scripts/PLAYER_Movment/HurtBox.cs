@@ -22,6 +22,7 @@ public class HurtBox : MonoBehaviour
 
     CharacterMovement cMovement;
     CharacterStatistics cStatistics;
+    CharacterManager combatManager;
 
     PlayerController playerController;
 
@@ -30,6 +31,7 @@ public class HurtBox : MonoBehaviour
         cMovement = GetComponentInParent<CharacterMovement>();
         cStatistics = GetComponentInParent<CharacterStatistics>();
         playerController = GetComponentInParent<PlayerController>();
+        combatManager = GetComponentInParent<CharacterManager>();
     }
 
     private void OnEnable()
@@ -51,15 +53,14 @@ public class HurtBox : MonoBehaviour
 
                 if (playerController != null)
                 {
-                    playerController.SetState( PlayerControlState.Disabled);
-                    playerController.SetStateDelayed(PlayerControlState.DodgeOnly, durationUntilDodgeCancellable);
-                    playerController.SetStateDelayed(PlayerControlState.Normal, afterHurtStunDuration);
-
+                    combatManager.Stun(afterHurtStunDuration, durationUntilDodgeCancellable);
                 }
 
                 // Use Hitbox info to affect me
-                cMovement.Knockback(direction, hitBox.knockBackPower, true);
-                cStatistics.UpdateHealth( -hitBox.damage);
+                ActionSO attackSO = hitBox.GetAttackSO();
+
+                cMovement.Knockback(direction, attackSO.knockbackPower, true);
+                cStatistics.UpdateHealth( -attackSO.attackDamage);
 
                 if(hurtFeedback!=null)
                     hurtFeedback.PlayFeedbacks();

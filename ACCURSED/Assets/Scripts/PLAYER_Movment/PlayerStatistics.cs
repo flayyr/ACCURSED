@@ -22,7 +22,7 @@ public class PlayerStatistics : CharacterStatistics
 
     public bool UseHealCharge()
     {
-        if (currentHealCharge > 0 && currentHealth<maxHealth)
+        if (CanHeal())
         {
             UpdateHealth(1);
             currentHealCharge--;
@@ -32,6 +32,11 @@ public class PlayerStatistics : CharacterStatistics
             return true;
         }
         return false;
+    }
+
+    public bool CanHeal()
+    {
+        return currentHealCharge > 0 && currentHealth < maxHealth;
     }
 
     public int UpdateVitality(int vitalityChange)

@@ -81,41 +81,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b09277ad3808fc40b0a2b417df062b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
-  damageColor:
-    serializedVersion: 2
-    key0: {r: 0.9569671, g: 1, b: 0, a: 1}
-    key1: {r: 0.9964243, g: 1, b: 0, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 65535
-    ctime2: 0
-    ctime3: 0
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_ColorSpace: -1
-    m_NumColorKeys: 2
-    m_NumAlphaKeys: 2
-  damage: 1
-  knockBackPower: 0.06
   direction: {x: 1.69, y: -1.18, z: 0}
   PostAnimDirection: {x: 0, y: 0, z: 0}
   playerStats: {fileID: 0}
+  hitFeedback: {fileID: 0}
   originObject: {fileID: 0}
 --- !u!1 &573294374125508871
 GameObject:
@@ -207,6 +176,7 @@ MonoBehaviour:
   afterHurtInvincibleDuration: 0.2
   afterHurtStunDuration: 1.2
   durationUntilDodgeCancellable: 0.5
+  hurtFeedback: {fileID: 0}
   personalHurtBoxes: []
   personalHitBoxes: []
 --- !u!1 &838227547138820842
@@ -254,12 +224,14 @@ GameObject:
   - component: {fileID: 8593666626741018183}
   - component: {fileID: 7427543529721681770}
   - component: {fileID: 2737403891477535848}
-  - component: {fileID: 493747596500326372}
   - component: {fileID: 376042867505150539}
   - component: {fileID: 6294427444672200251}
   - component: {fileID: 6551904891543865149}
   - component: {fileID: 5128340459437188432}
   - component: {fileID: 1589712744783307736}
+  - component: {fileID: 8605228946051326404}
+  - component: {fileID: 7100763712315554272}
+  - component: {fileID: 4224283445472444351}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -376,8 +348,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovement
   movementState: 0
-  walk: 0
-  sprint: 0
   timeTillSpecialIdle: 10
   idles:
   - IdleNorm
@@ -395,39 +365,6 @@ MonoBehaviour:
   walkSpeed: 3
   runSpeed: 7
   sprintSpeed: 10
-  attackStep: 5
-  movementInput: {x: 0, y: 0}
---- !u!114 &493747596500326372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320349112389769228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 587c729b5d5795c438d4c8b2313905cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterCombat
-  combos:
-  - name: Test Combo
-    attacks:
-    - name: Attack1
-      enemyWindMin: 0.4
-      enemyWindMax: 0.4
-    - name: Attack2
-      enemyWindMin: 0.4
-      enemyWindMax: 0.4
-    - name: Attack3
-      enemyWindMin: 0.4
-      enemyWindMax: 0.4
-  winding: 0
-  currentCombo: 0
-  currentAttack: 0
-  attackButton: 0
-  attacking: 0
-  releasing: 0
-  attackCue: 0
 --- !u!95 &376042867505150539
 Animator:
   serializedVersion: 7
@@ -476,12 +413,7 @@ MonoBehaviour:
   waitingAtWaypoint: 0
   detectionRadius: 8
   attackRange: 3
-  loseSightRadius: 12
-  attackPhase: 0
-  comboContinueChance: 1
-  windUpTimer: 0
-  comboLength: 0
-  holding: 0
+  loseSightRadius: 15
   agent: {fileID: 0}
   stoppingDistance: 0.2
   playerTransform: {fileID: 0}
@@ -543,6 +475,45 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &8605228946051326404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320349112389769228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa81ae4487bdb1429f6e2c94676a18d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttacker
+  attack: {fileID: 11400000, guid: c5fdfd0220b3d7442a91ef9138e47b0f, type: 2}
+--- !u!114 &7100763712315554272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320349112389769228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 052c0108bb0d91e4bbfcd55843e7604d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterManager
+  hitBox: {fileID: 7154117247340023451}
+--- !u!114 &4224283445472444351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320349112389769228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e16c5bb9d2e949b469af768eacd2407a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ActionQueuer
+  queueWindow: 0
 --- !u!1 &3273320339406198930
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,6 +618,8 @@ GameObject:
   - component: {fileID: 1356209484756461755}
   - component: {fileID: 6791513267764152681}
   - component: {fileID: 2247571393106372410}
+  - component: {fileID: 3653632831064639890}
+  - component: {fileID: 8807504092767381664}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -770,8 +743,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58cf5f29b7fb9574c982a65643d421cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DepthSort
-  sortRenderer: {fileID: 0}
+  sortRenderer: {fileID: 2636616582463588878}
   sortOrderOffset: 0
   useParticle: 0
   baseTransform: {fileID: 0}
   selfUpdate: 0
+--- !u!114 &3653632831064639890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7939500389445177993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
+--- !u!114 &8807504092767381664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7939500389445177993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7011d57e41589024fb444d8773c926bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
+  canMove: 1
+  isAnimated: 1
+  normalMap: {fileID: -2197359250157334493, guid: 64fb19783aa572947b90c9b3d4f499f4, type: 3}
+  refTransform: {fileID: 0}
+  useAmbientShadow: 1
+  ambientShadowSprite: {fileID: 0}
+  ambientShadowLength: 0.5
+  useAdditionalShadow: 0
+  shadowMat: {fileID: 0}
+  ShadowSprite: {fileID: 0}
+  shadowSize: {x: 1, y: 1}
+  useWind: 0
+  windStrength: 0.006
+  topSway: 0
+  topSwayStrength: 0.1

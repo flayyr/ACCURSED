@@ -81,38 +81,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b09277ad3808fc40b0a2b417df062b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
-  damageColor:
-    serializedVersion: 2
-    key0: {r: 0.9569671, g: 1, b: 0, a: 1}
-    key1: {r: 0.9964243, g: 1, b: 0, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 65535
-    ctime2: 0
-    ctime3: 0
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_ColorSpace: -1
-    m_NumColorKeys: 2
-    m_NumAlphaKeys: 2
-  damage: 1
-  knockBackPower: 0.06
   direction: {x: 1.69, y: -1.18, z: 0}
   PostAnimDirection: {x: 0, y: 0, z: 0}
   playerStats: {fileID: 7527250969752035120}
@@ -1028,7 +996,6 @@ GameObject:
   - component: {fileID: 3234503567105461568}
   - component: {fileID: 2058322285537662179}
   - component: {fileID: 5371999705111558022}
-  - component: {fileID: 6336535850343787009}
   - component: {fileID: 3530850735266089704}
   - component: {fileID: 9088022478868893035}
   - component: {fileID: 8817843868832260846}
@@ -1038,6 +1005,9 @@ GameObject:
   - component: {fileID: 3428935267664869359}
   - component: {fileID: 3871672931295881435}
   - component: {fileID: -6908115143795700542}
+  - component: {fileID: 1917082925803381966}
+  - component: {fileID: 275542753763917146}
+  - component: {fileID: 8797631828024848465}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1138,8 +1108,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovement
   movementState: 0
-  walk: 0
-  sprint: 0
   timeTillSpecialIdle: 2
   idles:
   - IdleNorm
@@ -1157,39 +1125,6 @@ MonoBehaviour:
   walkSpeed: 3
   runSpeed: 7
   sprintSpeed: 10
-  attackStep: 5
-  movementInput: {x: 0, y: 0}
---- !u!114 &6336535850343787009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3450769037150715107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 587c729b5d5795c438d4c8b2313905cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterCombat
-  combos:
-  - name: Test Combo
-    attacks:
-    - name: Attack1
-      enemyWindMin: 0
-      enemyWindMax: 0
-    - name: Attack2
-      enemyWindMin: 0
-      enemyWindMax: 0
-    - name: Attack3
-      enemyWindMin: 0
-      enemyWindMax: 0
-  winding: 0
-  currentCombo: 0
-  currentAttack: 0
-  attackButton: 0
-  attacking: 0
-  releasing: 0
-  attackCue: 0
 --- !u!95 &3530850735266089704
 Animator:
   serializedVersion: 7
@@ -1307,12 +1242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAbilities
   vestigeAbility: {fileID: 11400000, guid: 9fa7a2b6133007849ac284fb5279e02f, type: 2}
   remembranceAbility: {fileID: 11400000, guid: 606720454bcac3449beb6b3d7ecd64fd, type: 2}
-  healingInvincibleDuration: 1
-  playerRef:
-    particleSystem: {fileID: 8645542380604068033}
-    spriteRenderer: {fileID: 8168863755395668422}
-    hurtBox: {fileID: 6745598973557108595}
-    playerStats: {fileID: 7527250969752035120}
+  healAction: {fileID: 11400000, guid: 4031b5dd3d605ad4dab4a2abbbc97b95, type: 2}
 --- !u!58 &3871672931295881435
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1363,6 +1293,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
   nonRigidbodyVelocity: 0
   attenuationObject: {fileID: 0}
+--- !u!114 &1917082925803381966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3450769037150715107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ad080a36fe65924db5a4803e6becc84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHitter
+  attack: {fileID: 11400000, guid: c5fdfd0220b3d7442a91ef9138e47b0f, type: 2}
+--- !u!114 &275542753763917146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3450769037150715107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e16c5bb9d2e949b469af768eacd2407a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ActionQueuer
+  queueWindow: 0.5
+--- !u!114 &8797631828024848465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3450769037150715107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81e617a963c8dc9408fdf4520b91a679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
+  hitBox: {fileID: 8659350370337283521}
+  playerRef:
+    particleSystem: {fileID: 8645542380604068033}
+    spriteRenderer: {fileID: 8168863755395668422}
+    hurtBox: {fileID: 6745598973557108595}
+    playerStats: {fileID: 7527250969752035120}
+    playerManager: {fileID: 8797631828024848465}
+  dashAction: {fileID: 11400000, guid: 95202a69deac1c444937fb2c9442daee, type: 2}
 --- !u!1 &3910803402329907517
 GameObject:
   m_ObjectHideFlags: 0

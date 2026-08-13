@@ -38,21 +38,6 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float loseSightRadius;
     #endregion
 
-    #region Attack Behaviour
-    private enum AttackPhase
-    {
-        idle,       // not attacking
-        winding,    // button held, waiting out the wind time
-        releasing,  // button let go for one frame to fire the swing
-    }
-    [LayoutStart("Attacking", ELayout.FoldoutBox)]
-    [SerializeField] private AttackPhase attackPhase = AttackPhase.idle;
-    [SerializeField][Range(0f, 1f)] private float comboContinueChance = 1f;
-    [SerializeField][ReadOnly] private float windUpTimer;
-    [SerializeField][ReadOnly] private int comboLength;     // cached attack count for the active combo
-    [SerializeField][ReadOnly] private bool holding;        // current state of the simulated button
-    #endregion
-
     #region Pathfinding
     [LayoutStart("Pathfinding", ELayout.FoldoutBox)]
     [SerializeField][ReadOnly] private NavMeshAgent agent;
@@ -61,9 +46,9 @@ public class EnemyController : MonoBehaviour
 
     #region References
     [SerializeField][ReadOnly] private Transform playerTransform;
-    private CharacterStatistics cStatistics;
-    private CharacterMovement cMovement;
-    private CharacterCombat cCombat;
+
+    CharacterManager combatManager;
+    EnemyAttacker enemyAttacker;
     #endregion
 
 
@@ -85,22 +70,16 @@ public class EnemyController : MonoBehaviour
 
     void GetComponents()
     {
-        cStatistics = GetComponent<CharacterStatistics>();
-        cMovement = GetComponent<CharacterMovement>();
-        cCombat = GetComponent<CharacterCombat>();
         agent = GetComponent<NavMeshAgent>();
+
+        combatManager = GetComponent<CharacterManager>();
+        enemyAttacker = GetComponent<EnemyAttacker>();
     }
 
     void Update()
     {
         StateUpdate();
         TimerUpdates();
-        AttackPhaseUpdate();
-
-        // CharacterCombat reads attackButton + calls AttackUpdate() to act on it.
-        // We drive attackButton from our own "holding" intent, then let combat process it.
-        cCombat.attackButton = holding;
-        cCombat.AttackUpdate();
     }
 
     void TimerUpdates()
@@ -117,54 +96,6 @@ public class EnemyController : MonoBehaviour
             }
         }
     }
-
-    // Drives the wind -> release -> (chain or stop) cycle for the active combo.
-    void AttackPhaseUpdate()
-    {
-        switch (attackPhase)
-        {
-            case AttackPhase.winding:
-                // Hold the button and wait out the current attack's wind time.
-                holding = true;
-                if (cCombat.winding)
-                {
-                    windUpTimer -= Time.deltaTime;
-                    if (windUpTimer <= 0)
-                    {
-                        attackPhase = AttackPhase.releasing;
-                        windUpTimer = 0.1f;
-                    }
-                }
-                break;
-
-            case AttackPhase.releasing:
-                // Let go for this frame so CharacterCombat.AttackUpdate() fires the swing.
-                holding = false;
-
-                windUpTimer -= Time.deltaTime;
-                if (windUpTimer <= 0)
-                {
-                    if (cCombat.currentAttack < comboLength && PlayerInAttackRange() && Random.value <= comboContinueChance)
-                    {
-                        // More attacks left: re-hold so the button is DOWN when the swing's
-                        // animation completes, which makes CharacterCombat wind the next attack.
-                        BeginWind();
-                    }
-                    else
-                    {
-                        // Combo done (or breaking off): stay released so the swing resolves
-                        // and CharacterCombat returns to idle on its own.
-                        attackPhase = AttackPhase.idle;
-                    }
-                }
-                break;
-
-            case AttackPhase.idle:
-                holding = false;
-                break;
-        }
-    }
-
     void StateUpdate()
     {
         switch (enemyState)
@@ -188,7 +119,7 @@ public class EnemyController : MonoBehaviour
     {
         if (waitingAtWaypoint)
         {
-            cMovement.movementInput = Vector2.zero;
+            combatManager.MoveInput(Vector2.zero);
             return;
         }
 
@@ -215,7 +146,7 @@ public class EnemyController : MonoBehaviour
 
     void ArriveAtWaypoint()
     {
-        cMovement.movementInput = Vector2.zero;
+        combatManager.MoveInput(Vector2.zero);
         waitingAtWaypoint = true;
         patrolWaitTimer = Random.Range(patrolWaitMin, patrolWaitMax);
     }
@@ -246,50 +177,22 @@ public class EnemyController : MonoBehaviour
         if (distToPlayer <= attackRange)
         {
             // In range: face the player, hold position, and start a combo if idle.
-            cMovement.movementInput = toPlayer.normalized;
+            combatManager.MoveInput(toPlayer);
 
-            if (attackPhase == AttackPhase.idle && !cCombat.attacking)
+            if (combatManager.GetCombatState() is ActionState.Idle)
             {
-                StartCombo();
+                enemyAttacker.CueAttack();
             }
         }
         else
         {
             // Out of range: only break off if we aren't mid-combo, then close the gap.
-            if (attackPhase == AttackPhase.idle)
+            if (combatManager.GetCombatState() is ActionState.Idle)
             {
                 HandleMovement();
                 SetTargetPosition(playerTransform.position);
             }
         }
-    }
-
-    // Begins a fresh combo from the start of the current combo list.
-    void StartCombo()
-    {
-        comboLength = cCombat.combos[cCombat.currentCombo].attacks.Count;
-        BeginWind();
-    }
-
-    // Hold the button and start winding the attack that is about to play.
-    void BeginWind()
-    {
-        attackPhase = AttackPhase.winding;
-        holding = true;
-        windUpTimer = GetCurrentAttackWind();
-    }
-
-    float GetCurrentAttackWind()
-    {
-        Combo combo = cCombat.combos[cCombat.currentCombo];
-        Attack attack = combo.attacks[cCombat.currentAttack];
-        return Random.Range(attack.enemyWindMin, attack.enemyWindMax);
-    }
-
-    bool PlayerInAttackRange()
-    {
-        if (playerTransform == null) return false;
-        return Vector2.Distance(transform.position, playerTransform.position) <= attackRange;
     }
 
     void CheckLoseSight()
@@ -299,8 +202,6 @@ public class EnemyController : MonoBehaviour
         float distToPlayer = Vector2.Distance(transform.position, playerTransform.position);
         if (distToPlayer > loseSightRadius)
         {
-            attackPhase = AttackPhase.idle;
-            holding = false;
             enemyState = EnemyState.neutral;
             StopMoving();
             PickNewPatrolTarget();
@@ -325,14 +226,15 @@ public class EnemyController : MonoBehaviour
         }
 
         Vector2 moveDir = (Vector2)agent.steeringTarget - (Vector2)transform.position;
-        cMovement.movementInput = moveDir;
+        combatManager.MoveInput(moveDir);
     }
 
     public void StopMoving()
     {
         if (agent.hasPath)
             agent.ResetPath();
-        cMovement.movementInput = Vector2.zero;
+        //cMovement.movementInput = Vector2.zero;
+        combatManager.MoveInput(Vector2.zero);
     }
 
     public void SetTargetPosition(Vector3 targetPosition)
