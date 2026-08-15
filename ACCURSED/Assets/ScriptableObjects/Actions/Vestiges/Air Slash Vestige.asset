@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3a245ad0a5d36043baad4b85fc05f1b, type: 3}
+  m_Name: Air Slash Vestige
+  m_EditorClassIdentifier: Assembly-CSharp::AirSlashVestige
+  actionName: Air Slash
+  animatorController: {fileID: 9100000, guid: 52fb3bbb4e8a496469ac4cb5b421105f, type: 2}
+  windAnimationState: Vestige1Wind
+  actionAnimationState: Vestige1
+  windDuration: 0.5
+  attackData:
+    attackDamage: 1
+    stepAmount: 5
+    knockbackPower: 20
+  abilityIcon: {fileID: 853030833, guid: 56edaa2169cb8884cbfbb53452296f1b, type: 3}
+  projectileObj: {fileID: 9036294462101054948, guid: decc38a29026fa34b90e7b80f47d7435, type: 3}
+  moveSpeed: 10
+  lifetime: 1

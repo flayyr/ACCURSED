@@ -24,13 +24,10 @@ public class HurtBox : MonoBehaviour
     CharacterStatistics cStatistics;
     CharacterManager combatManager;
 
-    PlayerController playerController;
-
     void Start()
     {
         cMovement = GetComponentInParent<CharacterMovement>();
         cStatistics = GetComponentInParent<CharacterStatistics>();
-        playerController = GetComponentInParent<PlayerController>();
         combatManager = GetComponentInParent<CharacterManager>();
     }
 
@@ -51,16 +48,16 @@ public class HurtBox : MonoBehaviour
             {
                 InvincibleForSeconds(afterHurtInvincibleDuration);
 
-                if (playerController != null)
-                {
-                    combatManager.Stun(afterHurtStunDuration, durationUntilDodgeCancellable);
-                }
+                
+                combatManager.Stun(afterHurtStunDuration, durationUntilDodgeCancellable);
+                
 
                 // Use Hitbox info to affect me
-                ActionSO attackSO = hitBox.GetAttackSO();
+                AttackData attackData = hitBox.GetAttackSO();
 
-                cMovement.Knockback(direction, attackSO.knockbackPower, true);
-                cStatistics.UpdateHealth( -attackSO.attackDamage);
+                combatManager.Launch(direction, attackData.knockbackPower, true);
+                Debug.Log(direction);
+                cStatistics.UpdateHealth( -attackData.attackDamage);
 
                 if(hurtFeedback!=null)
                     hurtFeedback.PlayFeedbacks();

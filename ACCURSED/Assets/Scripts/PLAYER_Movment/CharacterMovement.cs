@@ -123,11 +123,6 @@ public class CharacterMovement : MonoBehaviour
         if(movementState is MovementState.normal)
         rb.linearVelocity = moveInput.normalized * movementSpeed;
     }
-
-    public void AttackForwardStep(Vector2 moveInput, float stepAmount)
-    {
-        rb.AddForce(moveInput.normalized * stepAmount, ForceMode2D.Impulse);
-    }
     #endregion
 
     #region Special
