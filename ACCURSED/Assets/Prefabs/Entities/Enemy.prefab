@@ -229,9 +229,9 @@ GameObject:
   - component: {fileID: 6551904891543865149}
   - component: {fileID: 5128340459437188432}
   - component: {fileID: 1589712744783307736}
-  - component: {fileID: 8605228946051326404}
   - component: {fileID: 7100763712315554272}
   - component: {fileID: 4224283445472444351}
+  - component: {fileID: 5781690150774530566}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -475,19 +475,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8605228946051326404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320349112389769228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fa81ae4487bdb1429f6e2c94676a18d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttacker
-  attack: {fileID: 11400000, guid: c5fdfd0220b3d7442a91ef9138e47b0f, type: 2}
 --- !u!114 &7100763712315554272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,6 +501,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActionQueuer
   queueWindow: 0
+--- !u!114 &5781690150774530566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320349112389769228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1999020abfc6893469fc91bc5d6821de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttacker
+  attack: {fileID: 11400000, guid: 88e8d60571772c94eb52f6fef5cc921b, type: 2}
 --- !u!1 &3273320339406198930
 GameObject:
   m_ObjectHideFlags: 0
