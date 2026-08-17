@@ -56,7 +56,6 @@ public class HurtBox : MonoBehaviour
                 AttackData attackData = hitBox.GetAttackSO();
 
                 combatManager.Launch(direction, attackData.knockbackPower, true);
-                Debug.Log(direction);
                 cStatistics.UpdateHealth( -attackData.attackDamage);
 
                 if(hurtFeedback!=null)

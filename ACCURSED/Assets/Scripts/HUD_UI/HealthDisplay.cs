@@ -9,7 +9,7 @@ public class HealthDisplay : MonoBehaviour
     [SerializeField] Image vitalityImage;
     [SerializeField] TextMeshProUGUI healChargeText;
 
-    [SerializeField] PlayerStatistics stats;
+    PlayerStatistics stats;
     public void Initialize(PlayerStatistics characterStats)
     {
         stats = characterStats;
