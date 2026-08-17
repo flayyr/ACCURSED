@@ -11,6 +11,9 @@ public class RollingCredits : MonoBehaviour
     public float endYPosition = 1200f;
     //public string sceneToLoadWhenFinished = "StartMenu";
 
+    [Header("Destination")]
+    [SerializeField] private string startScreenName = "StartMenu";
+
     private RectTransform rectTransform;
 
     private void Start()
@@ -26,7 +29,25 @@ public class RollingCredits : MonoBehaviour
             currentSpeed = fastSpeed;
 
         if (rectTransform.anchoredPosition.y < endYPosition)
+        {
             rectTransform.anchoredPosition += Vector2.up * currentSpeed * Time.deltaTime;
+        }
+        else
+        {
+            RoomTransitionManager manager = RoomTransitionManager.Instance;
+
+            if (manager == null)
+            {
+                Debug.LogError("EscapeMenuHandler: No RoomTransitionManager exists. " +
+                    "Add the RoomTransitionManager prefab to the scene.");
+                return;
+            }
+
+            if (manager.IsTransitioning)
+                return;
+            
+            manager.BeginTransition(startScreenName);
+        }
 
         
         //SceneManager.LoadScene(sceneToLoadWhenFinished);

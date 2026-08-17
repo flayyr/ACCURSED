@@ -10,10 +10,6 @@ public class RoomTransitionInteractable : MonoBehaviour
     [SerializeField] private KeyCode interactKey = KeyCode.E;
     [SerializeField] private string playerTag = "Player";
 
-    [Header("Prompt UI - Local To This Script")]
-    [SerializeField] private Transform promptParentCanvas;
-    [SerializeField] private GameObject promptPrefab;
-
     [Header("Scene Transition")]
     [SerializeField] private string targetSceneName = "AltarInterior";
     [SerializeField] private string targetSpawnID = "Entrance";
@@ -33,8 +29,8 @@ public class RoomTransitionInteractable : MonoBehaviour
     private readonly HashSet<Collider2D> playerColliders = new HashSet<Collider2D>();
 
     private bool isTransitioning;
+    private bool promptOpen;
     private Transform currentPlayer;
-    private GameObject currentPrompt;
 
     private void Reset()
     {
@@ -49,10 +45,21 @@ public class RoomTransitionInteractable : MonoBehaviour
 
         if (RoomTransitionManager.Instance != null && RoomTransitionManager.Instance.IsTransitioning)
         {
+            HidePrompt();
             return;
         }
 
-        if (Input.GetKeyDown(interactKey))
+        // Match InteractableObjectManager's behavior: keep trying to open the prompt while the player is inside
+        // as long as another UI/prompt is not open.
+        if (!promptOpen &&
+            !InteractableObjectManager.promptOpen &&
+            GlobalUIController.Instance != null &&
+            !GlobalUIController.Instance.CheckIfOtherUIOpen())
+        {
+            ShowPrompt();
+        }
+
+        if (promptOpen && Input.GetKeyDown(interactKey))
             StartCoroutine(EnterRoomRoutine(currentPlayer));
     }
 
@@ -68,7 +75,6 @@ public class RoomTransitionInteractable : MonoBehaviour
 
         playerColliders.Add(other);
         currentPlayer = player;
-        ShowPrompt();
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -93,7 +99,10 @@ public class RoomTransitionInteractable : MonoBehaviour
     private IEnumerator EnterRoomRoutine(Transform playerAtInteractionTime)
     {
         isTransitioning = true;
+
+        // Remove the tooltip as soon as the player interacts.
         HidePrompt();
+
         PlayGateOpenFeedback();
 
         if (gateOpenDelay > 0f)
@@ -164,39 +173,33 @@ public class RoomTransitionInteractable : MonoBehaviour
 
     private void ShowPrompt()
     {
-        if (currentPrompt != null)
+        if (promptOpen)
             return;
 
-        if (promptParentCanvas == null)
+        if (ToolTipManager.Instance == null)
         {
-            Debug.LogError($"{name}: promptParentCanvas is not assigned.");
+            Debug.LogWarning($"{name}: No ToolTipManager exists in the scene.");
             return;
         }
 
-        if (promptPrefab == null)
-        {
-            Debug.LogError($"{name}: promptPrefab is not assigned.");
-            return;
-        }
+        // Share InteractableObjectManager's public prompt flag so the two interaction systems do not try to claim ToolTipManager at once.
+        InteractableObjectManager.promptOpen = true;
+        promptOpen = true;
 
-        currentPrompt = Instantiate(promptPrefab, promptParentCanvas, false);
-        currentPrompt.SetActive(true);
-
-        PromptUI promptUI = currentPrompt.GetComponentInChildren<PromptUI>(true);
-
-        if (promptUI != null)
-            promptUI.SetText(promptText);
-        else
-            Debug.LogWarning($"{name}: promptPrefab does not contain a PromptUI component.");
+        // Room transitions only need the popup itself, so no InteractableItemSO is passed.
+        ToolTipManager.Instance.Prompt(promptText);
     }
 
     private void HidePrompt()
     {
-        if (currentPrompt == null)
+        if (!promptOpen)
             return;
 
-        Destroy(currentPrompt);
-        currentPrompt = null;
+        promptOpen = false;
+        InteractableObjectManager.promptOpen = false;
+
+        if (ToolTipManager.Instance != null)
+            ToolTipManager.Instance.ManuallyRemovePrompt();
     }
 
     private void PlayGateOpenFeedback()
