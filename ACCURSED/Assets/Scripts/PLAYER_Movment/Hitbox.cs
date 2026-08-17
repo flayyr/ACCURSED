@@ -50,4 +50,5 @@ public class HitBox : MonoBehaviour
     public AttackData GetAttackSO() { return attackData; }
     public void SetPlayerStats(PlayerStatistics playerStats) {  this.playerStats = playerStats; }
     public void SetHitFeedback(MMF_Player hitFeedback) {  this.hitFeedback = hitFeedback; }
+    public void SetDirection(Vector2 direction) {  this.direction = direction; }
 }
