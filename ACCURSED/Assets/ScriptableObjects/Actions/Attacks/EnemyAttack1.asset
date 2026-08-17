@@ -9,14 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd210e12c099986428ef1bc36bb39ce6, type: 3}
-  m_Name: DashAction
-  m_EditorClassIdentifier: Assembly-CSharp::DashAction
-  actionName: Dash
+  m_Script: {fileID: 11500000, guid: 2d0af707d8eb21b4db8b0bb335318f77, type: 3}
+  m_Name: EnemyAttack1
+  m_EditorClassIdentifier: Assembly-CSharp::ActionSO
+  actionName: Attack 1
   animatorController: {fileID: 9100000, guid: 52fb3bbb4e8a496469ac4cb5b421105f, type: 2}
-  windAnimationState: EmptyActionWind
-  actionAnimationState: EmptyAction
-  windDuration: 0
-  attackDamage: 1
-  stepAmount: 0
-  knockbackPower: 0
+  windAnimationState: Attack1Wind
+  actionAnimationState: Attack1
+  windDuration: 1.5
+  attackData:
+    attackDamage: 1
+    stepAmount: 5
+    knockbackPower: 10

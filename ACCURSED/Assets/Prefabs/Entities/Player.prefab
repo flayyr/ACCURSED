@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 261903483625927116}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.38600016, y: -1.05, z: 0}
+  m_LocalPosition: {x: 0, y: -1.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   lm_hitbox:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 32768
   lm_hurtbox:
     serializedVersion: 2
     m_Bits: 128
@@ -1240,7 +1240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7224a7e8eee656498d0c12ad36c8588, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAbilities
-  vestigeAbility: {fileID: 11400000, guid: 9fa7a2b6133007849ac284fb5279e02f, type: 2}
+  vestigeAbility: {fileID: 11400000, guid: 77279543bc986434d8fca66d83194c97, type: 2}
   remembranceAbility: {fileID: 11400000, guid: 606720454bcac3449beb6b3d7ecd64fd, type: 2}
   healAction: {fileID: 11400000, guid: 4031b5dd3d605ad4dab4a2abbbc97b95, type: 2}
 --- !u!58 &3871672931295881435
@@ -1336,8 +1336,10 @@ MonoBehaviour:
     particleSystem: {fileID: 8645542380604068033}
     spriteRenderer: {fileID: 8168863755395668422}
     hurtBox: {fileID: 6745598973557108595}
+    hitBox: {fileID: 8659350370337283521}
     playerStats: {fileID: 7527250969752035120}
     playerManager: {fileID: 8797631828024848465}
+    hitFeedback: {fileID: 761115410651149162}
   dashAction: {fileID: 11400000, guid: 95202a69deac1c444937fb2c9442daee, type: 2}
 --- !u!1 &3910803402329907517
 GameObject:
