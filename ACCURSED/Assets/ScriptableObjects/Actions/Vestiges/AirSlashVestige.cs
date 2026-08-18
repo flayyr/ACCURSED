@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [CreateAssetMenu(menuName = "Actions/Vestige/AirSlashVestige")]
-public class AirSlashVestige : AbilitySO
+public class AirSlashVestige : VestigeSO
 {
     [Header("Projectile")]
     public Projectile projectileObj;

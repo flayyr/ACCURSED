@@ -3,11 +3,13 @@ using UnityEditor.Animations;
 using UnityEngine;
 
 [Serializable]
-public struct AttackData
+public class AttackData
 {
-    public float attackDamage;
+    public float attackDamage = 1;
     public float stepAmount;
     public float knockbackPower;
+    public float stunDuration;
+    public float vitalityBuildUp = 1;
 }
 
 [CreateAssetMenu(fileName = "ActionSO", menuName = "Actions/ActionSO")]

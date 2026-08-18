@@ -5,12 +5,15 @@ public class PlayerStatistics : CharacterStatistics
 {
     public event Action OnHealChargeUpdate;
     public event Action OnVitalityUpdate;
+    public event Action OnRemembranceChargeUpdate;
 
     [SerializeField] private int maxHealCharge = 3;
-    [SerializeField] public int maxVitality = 10;
+    [SerializeField] public float maxVitality = 10;
+    private float maxRemembranceCharge;
 
     [HideInInspector]public int currentHealCharge;
-    [HideInInspector]public int currentVitality;
+    [HideInInspector]public float currentVitality;
+    [HideInInspector] public float currentRemembranceCharge;
 
     protected override void Start()
     {
@@ -18,6 +21,7 @@ public class PlayerStatistics : CharacterStatistics
 
         OnHealChargeUpdate?.Invoke();
         OnVitalityUpdate?.Invoke();
+        OnRemembranceChargeUpdate?.Invoke();
     }
 
     public bool UseHealCharge()
@@ -39,7 +43,7 @@ public class PlayerStatistics : CharacterStatistics
         return currentHealCharge > 0 && currentHealth < maxHealth;
     }
 
-    public int UpdateVitality(int vitalityChange)
+    public float UpdateVitality(float vitalityChange)
     {
         currentVitality += vitalityChange;
         if (currentVitality >= maxVitality && currentHealCharge<maxHealCharge)
@@ -53,14 +57,30 @@ public class PlayerStatistics : CharacterStatistics
         return currentVitality;
     }
 
+    public float UpdateRemembranceCharge(float remembranceChargeChange)
+    {
+        currentRemembranceCharge += remembranceChargeChange;
+        currentRemembranceCharge = Math.Min(currentRemembranceCharge, maxRemembranceCharge);
+        OnRemembranceChargeUpdate?.Invoke();
+
+        return currentRemembranceCharge;
+    }
+
     public override void Reset()
     {
         base.Reset();
 
         currentHealCharge = maxHealCharge;
         currentVitality = 0;
+        currentRemembranceCharge = maxRemembranceCharge;
 
         OnHealChargeUpdate?.Invoke();
         OnVitalityUpdate?.Invoke();
+        OnRemembranceChargeUpdate?.Invoke();
+    }
+
+    public void SetMaxRemembranceCharge(float maxRemembranceCharge)
+    {
+        this.maxRemembranceCharge = maxRemembranceCharge;
     }
 }

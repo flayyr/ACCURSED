@@ -30,7 +30,8 @@ public class HitBox : MonoBehaviour
     {
         if (playerStats != null)
         {
-            playerStats.UpdateVitality(1);
+            playerStats.UpdateVitality(attackData.vitalityBuildUp);
+            playerStats.UpdateRemembranceCharge(attackData.vitalityBuildUp);
         }
         if (hitFeedback != null)
         {

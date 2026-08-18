@@ -151,23 +151,22 @@ public class CharacterManager : MonoBehaviour
     //gets stunned when hit, called by hurtbox
     public void Stun(float stunDuration, float timeBeforeCancellable)
     {
+        if (stunDuration <= 0) return;
+
+
         combatState = ActionState.Stunned;
         cAnim.SetStunned(true);//for stun animations
         actionQueuer.ClearActions();
 
         currAction = null;
 
-        stunTimer = stunDuration;
+        if(stunTimer<stunDuration)
+            stunTimer = stunDuration;
         stunCancelTimer = timeBeforeCancellable;
 
         if (stunCancelTimer <= 0)
         {
             combatState = ActionState.StunnedCancellable;
-        }
-        if (stunTimer <= 0)
-        {
-            cAnim.SetStunned(false);
-            combatState = ActionState.Idle;
         }
     }
     #endregion
