@@ -1,4 +1,5 @@
 using System;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
 [Serializable]
@@ -7,14 +8,15 @@ public struct PlayerReference
     public ParticleSystem particleSystem;
     public SpriteRenderer spriteRenderer;
     public HurtBox hurtBox;
+    public HitBox hitBox;
     public PlayerStatistics playerStats;
     public PlayerManager playerManager;
+    public MMF_Player hitFeedback;
 }
 
 public class PlayerManager : CharacterManager
 {
     [SerializeField] PlayerReference playerRef;
-    [SerializeField] DashAction dashAction;
 
     protected override void EndWind()
     {
@@ -23,21 +25,15 @@ public class PlayerManager : CharacterManager
         currAction.actionSO.PlayerActionTrigger(ref playerRef);
     }
 
-    //gets triggered by dash actionSO
-    public void Dash()
-    {
-        combatState = ActionState.Idle;
-        UpdateDirection();
-        cMove.Dash(moveInput);
-        cAnim.SetStunned(false);
-    }
-
     //called by player controller, queues a dash action. Ideally manager doesnt queue actions, but I'll allow dashing
     public bool CueDash()
     {
-        if (combatState is ActionState.Idle or ActionState.StunnedCancellable && moveInput != Vector2.zero)
+        if ((combatState is ActionState.Idle or ActionState.StunnedCancellable) && moveInput != Vector2.zero)
         {
-            actionQueuer.QueueAction(dashAction);
+            combatState = ActionState.Idle;
+            UpdateDirection();
+            cMove.Dash(moveInput);
+            cAnim.SetStunned(false);
             return true;
         }
         return false;
