@@ -12,7 +12,7 @@ public class HurtBox : MonoBehaviour
     [Space]
     bool invincible = false;
     [SerializeField] float afterHurtInvincibleDuration = 0.2f;
-    [SerializeField] float afterHurtStunDuration = 1.2f;
+    //[SerializeField] float afterHurtStunDuration = 1.2f;
     [SerializeField] float durationUntilDodgeCancellable = 0.5f;
     [Space]
     [SerializeField] private MMF_Player hurtFeedback;
@@ -47,13 +47,12 @@ public class HurtBox : MonoBehaviour
             if (hitBox.originObject != transform.root.gameObject)
             {
                 InvincibleForSeconds(afterHurtInvincibleDuration);
-
-                
-                combatManager.Stun(afterHurtStunDuration, durationUntilDodgeCancellable);
                 
 
                 // Use Hitbox info to affect me
                 AttackData attackData = hitBox.GetAttackSO();
+
+                combatManager.Stun(attackData.stunDuration, durationUntilDodgeCancellable);
 
                 combatManager.Launch(direction, attackData.knockbackPower, true);
                 cStatistics.UpdateHealth( -attackData.attackDamage);
