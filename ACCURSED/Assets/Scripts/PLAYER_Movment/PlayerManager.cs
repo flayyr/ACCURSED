@@ -34,6 +34,8 @@ public class PlayerManager : CharacterManager
             UpdateDirection();
             cMove.Dash(moveInput);
             cAnim.SetStunned(false);
+            cAnim.SetMoveState(0);
+            cAnim.SetDashing();
             return true;
         }
         return false;
