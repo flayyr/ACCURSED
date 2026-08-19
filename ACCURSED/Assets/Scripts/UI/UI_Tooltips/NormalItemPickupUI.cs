@@ -37,7 +37,7 @@ public class NormalItemPickupUI : MonoBehaviour
         quantityUI.GetComponent<TextMeshProUGUI>().text = item.itemQuantity > 0 ? $"x{item.itemQuantity}" : "x1";
         manager = ToolTipManager.Instance.GetComponent<NormalItemPickup>();
 
-        this.item = item;
+        //this.item = item;
 
         //Debug.Log("Initialize");
         //StartCoroutine(FadeTransformTransition());
@@ -58,6 +58,7 @@ public class NormalItemPickupUI : MonoBehaviour
         Destroy(gameObject);
     }
 
+    /*
     private void Awake()
     {
         imgUI.GetComponent<Image>().sprite = item.itemSpr;
@@ -67,6 +68,7 @@ public class NormalItemPickupUI : MonoBehaviour
         quantityUI.GetComponent<TextMeshProUGUI>().text = (item.itemQuantity != 0) ? $"x{item.itemQuantity}" : "x1";
 
     }
+    */
 
     // lerp instance's Y position based on queue position
     private void ManageStack()
