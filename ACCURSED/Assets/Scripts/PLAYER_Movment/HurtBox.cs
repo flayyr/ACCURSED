@@ -12,7 +12,7 @@ public class HurtBox : MonoBehaviour
     [Space]
     bool invincible = false;
     [SerializeField] float afterHurtInvincibleDuration = 0.2f;
-    [SerializeField] float afterHurtStunDuration = 1.2f;
+    //[SerializeField] float afterHurtStunDuration = 1.2f;
     [SerializeField] float durationUntilDodgeCancellable = 0.5f;
     [Space]
     [SerializeField] private MMF_Player hurtFeedback;
@@ -24,13 +24,10 @@ public class HurtBox : MonoBehaviour
     CharacterStatistics cStatistics;
     CharacterManager combatManager;
 
-    PlayerController playerController;
-
     void Start()
     {
         cMovement = GetComponentInParent<CharacterMovement>();
         cStatistics = GetComponentInParent<CharacterStatistics>();
-        playerController = GetComponentInParent<PlayerController>();
         combatManager = GetComponentInParent<CharacterManager>();
     }
 
@@ -50,17 +47,15 @@ public class HurtBox : MonoBehaviour
             if (hitBox.originObject != transform.root.gameObject)
             {
                 InvincibleForSeconds(afterHurtInvincibleDuration);
-
-                if (playerController != null)
-                {
-                    combatManager.Stun(afterHurtStunDuration, durationUntilDodgeCancellable);
-                }
+                
 
                 // Use Hitbox info to affect me
-                ActionSO attackSO = hitBox.GetAttackSO();
+                AttackData attackData = hitBox.GetAttackSO();
 
-                cMovement.Knockback(direction, attackSO.knockbackPower, true);
-                cStatistics.UpdateHealth( -attackSO.attackDamage);
+                combatManager.Stun(attackData.stunDuration, durationUntilDodgeCancellable);
+
+                combatManager.Launch(direction, attackData.knockbackPower, true);
+                cStatistics.UpdateHealth( -attackData.attackDamage);
 
                 if(hurtFeedback!=null)
                     hurtFeedback.PlayFeedbacks();

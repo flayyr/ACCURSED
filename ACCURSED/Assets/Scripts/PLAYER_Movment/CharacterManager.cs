@@ -84,7 +84,8 @@ public class CharacterManager : MonoBehaviour
                 combatState = ActionState.StunnedCancellable;
             }
         }
-        else if (stunTimer > 0)
+        
+        if (stunTimer > 0)
         {
             stunTimer -= Time.deltaTime;
             if (stunTimer <= 0)
@@ -112,7 +113,7 @@ public class CharacterManager : MonoBehaviour
 
             if (currAction != null)
             {
-                hitBox.SetAttackSO(currAction.actionSO);//sets attack data into hitbox
+                hitBox.SetAttackData(currAction.actionSO.attackData);//sets attack data into hitbox
 
                 //start winding
                 cAnim.SetWind(true);
@@ -144,20 +145,29 @@ public class CharacterManager : MonoBehaviour
         cAnim.SetWind(false);
         combatState = ActionState.Attacking;
 
-        cMove.AttackForwardStep(currDir, currAction.actionSO.stepAmount);
+        Launch(currDir, currAction.actionSO.attackData.stepAmount, true);
     }
 
     //gets stunned when hit, called by hurtbox
     public void Stun(float stunDuration, float timeBeforeCancellable)
     {
+        if (stunDuration <= 0) return;
+
+
         combatState = ActionState.Stunned;
         cAnim.SetStunned(true);//for stun animations
         actionQueuer.ClearActions();
 
         currAction = null;
 
-        stunTimer = stunDuration;
+        if(stunTimer<stunDuration)
+            stunTimer = stunDuration;
         stunCancelTimer = timeBeforeCancellable;
+
+        if (stunCancelTimer <= 0)
+        {
+            combatState = ActionState.StunnedCancellable;
+        }
     }
     #endregion
 
@@ -243,6 +253,11 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
+    public void Launch(Vector2 moveInput, float launchForce, bool resetVel)
+    {
+        cMove.Knockback(moveInput, launchForce, resetVel);
+    }
+
     //leaving this here as reference since I haven't implemented this yet
     void IdleUpdate()
     {
@@ -298,4 +313,5 @@ public class CharacterManager : MonoBehaviour
 
     public ActionState GetCombatState() => combatState;
     public BaseMoveState GetMoveState() => moveState;
+    public Vector2 GetDirection() => currDir;
 }

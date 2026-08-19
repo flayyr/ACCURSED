@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99237d98059217d418bfade0b9376ee0, type: 3}
-  m_Name: TestRemembrance
+  m_Name: KnockBackRemembrance
   m_EditorClassIdentifier: Assembly-CSharp::TestRemembrance
   actionName: Test Rememberance
   animatorController: {fileID: 9100000, guid: 52fb3bbb4e8a496469ac4cb5b421105f, type: 2}
-  windAnimationState: EmptyActionWind
-  actionAnimationState: EmptyAction
-  windDuration: 0
+  windAnimationState: Remembrance1Wind
+  actionAnimationState: Remembrance1
+  windDuration: 0.5
   attackData:
     attackDamage: 1
     stepAmount: 0
-    knockbackPower: 0
-    stunDuration: 0
+    knockbackPower: 20
+    stunDuration: 3
     vitalityBuildUp: 1
   abilityIcon: {fileID: 4315179464032735879, guid: 56edaa2169cb8884cbfbb53452296f1b, type: 3}
   invincibleDuration: 2
-  requiredCharge: 10
+  requiredCharge: 8

@@ -13,7 +13,7 @@ public class HitBox : MonoBehaviour
     [HideInInspector]public GameObject originObject;
     CircleCollider2D c_cc;
 
-    ActionSO attackSO;
+    AttackData attackData;
 
     private void Start()
     {
@@ -30,7 +30,8 @@ public class HitBox : MonoBehaviour
     {
         if (playerStats != null)
         {
-            playerStats.UpdateVitality(1);
+            playerStats.UpdateVitality(attackData.vitalityBuildUp);
+            playerStats.UpdateRemembranceCharge(attackData.vitalityBuildUp);
         }
         if (hitFeedback != null)
         {
@@ -42,9 +43,13 @@ public class HitBox : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position, transform.position + direction);
+        if(GetComponent<CircleCollider2D>()!=null)
         Gizmos.DrawWireSphere(transform.position, GetComponent<CircleCollider2D>().radius);
     }
 
-    public void SetAttackSO(ActionSO attackSO) { this.attackSO = attackSO; }
-    public ActionSO GetAttackSO() { return attackSO; }
+    public void SetAttackData(AttackData attackData) { this.attackData = attackData; }
+    public AttackData GetAttackSO() { return attackData; }
+    public void SetPlayerStats(PlayerStatistics playerStats) {  this.playerStats = playerStats; }
+    public void SetHitFeedback(MMF_Player hitFeedback) {  this.hitFeedback = hitFeedback; }
+    public void SetDirection(Vector2 direction) {  this.direction = direction; }
 }
