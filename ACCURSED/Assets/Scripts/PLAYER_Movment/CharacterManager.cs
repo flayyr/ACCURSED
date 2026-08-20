@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Windows;
 
-public enum ActionState { Idle, Winding, Attacking, Stunned, StunnedCancellable }
+public enum ActionState { Idle, Winding, Acting, Stunned, StunnedCancellable }
 public enum BaseMoveState { None = 0, Walk=1, Run=2, Sprint=3}
 
 public class CharacterManager : MonoBehaviour
@@ -143,7 +143,7 @@ public class CharacterManager : MonoBehaviour
     {
         windTimer = 0;
         cAnim.SetWind(false);
-        combatState = ActionState.Attacking;
+        combatState = ActionState.Acting;
 
         Launch(currDir, currAction.actionSO.attackData.stepAmount, true);
     }

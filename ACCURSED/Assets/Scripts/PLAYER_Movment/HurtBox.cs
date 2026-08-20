@@ -11,8 +11,9 @@ public class HurtBox : MonoBehaviour
 
     [Space]
     bool invincible = false;
+    bool perfectParry = false;
+
     [SerializeField] float afterHurtInvincibleDuration = 0.2f;
-    //[SerializeField] float afterHurtStunDuration = 1.2f;
     [SerializeField] float durationUntilDodgeCancellable = 0.5f;
     [Space]
     [SerializeField] private MMF_Player hurtFeedback;
@@ -38,7 +39,7 @@ public class HurtBox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((lm_hitbox & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer && !personalHitBoxes.Contains(collision.gameObject) && invincible == false)
+        if ((lm_hitbox & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer && !personalHitBoxes.Contains(collision.gameObject))
         {
             // Identify Hitbox
             var hitBox = collision.gameObject.GetComponent<HitBox>();
@@ -46,23 +47,37 @@ public class HurtBox : MonoBehaviour
 
             if (hitBox.originObject != transform.root.gameObject)
             {
-                InvincibleForSeconds(afterHurtInvincibleDuration);
-                
+                if (!invincible)
+                {
+                    InvincibleForSeconds(afterHurtInvincibleDuration);
 
-                // Use Hitbox info to affect me
-                AttackData attackData = hitBox.GetAttackSO();
 
-                combatManager.Stun(attackData.stunDuration, durationUntilDodgeCancellable);
+                    // Use Hitbox info to affect me
+                    AttackData attackData = hitBox.GetAttackSO();
 
-                combatManager.Launch(direction, attackData.knockbackPower, true);
-                cStatistics.UpdateHealth( -attackData.attackDamage);
+                    combatManager.Stun(attackData.stunDuration, durationUntilDodgeCancellable);
 
-                if(hurtFeedback!=null)
-                    hurtFeedback.PlayFeedbacks();
+                    combatManager.Launch(direction, attackData.knockbackPower, true);
+                    cStatistics.UpdateHealth(-attackData.attackDamage);
 
-                hitBox.Hit();
+                    if (hurtFeedback != null)
+                        hurtFeedback.PlayFeedbacks();
+
+                    hitBox.Hit();
+                } else if(perfectParry)
+                {
+                    hitBox.PerfectParried();
+
+                    Debug.Log("perfect parry");
+                }
             }
         }
+    }
+
+    public void Parry(float parryTime, float perfectParryWindow)
+    {
+        InvincibleForSeconds(parryTime);
+        StartCoroutine(PerfectParryTime(perfectParryWindow));
     }
 
     public void InvincibleForSeconds(float seconds)
@@ -75,5 +90,12 @@ public class HurtBox : MonoBehaviour
         invincible = true;
         yield return new WaitForSeconds(duration);
         invincible = false;
+    }
+
+    IEnumerator PerfectParryTime(float duration)
+    {
+        perfectParry = true;
+        yield return new WaitForSeconds(duration);
+        perfectParry = false;
     }
 }

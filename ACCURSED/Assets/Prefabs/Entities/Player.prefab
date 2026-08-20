@@ -85,6 +85,7 @@ MonoBehaviour:
   PostAnimDirection: {x: 0, y: 0, z: 0}
   playerStats: {fileID: 7527250969752035120}
   hitFeedback: {fileID: 761115410651149162}
+  perfectParryStunDuration: 1
   originObject: {fileID: 0}
 --- !u!1 &1040940457257564178
 GameObject:
@@ -1213,6 +1214,7 @@ MonoBehaviour:
   maxVitality: 10
   currentHealCharge: 0
   currentVitality: 0
+  currentRemembranceCharge: 0
 --- !u!114 &4688762448128058071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1242,6 +1244,7 @@ MonoBehaviour:
   vestigeAbility: {fileID: 11400000, guid: 77279543bc986434d8fca66d83194c97, type: 2}
   remembranceAbility: {fileID: 11400000, guid: b9b61bd7c7a7e394f89a28c0c69b8e43, type: 2}
   healAction: {fileID: 11400000, guid: 4031b5dd3d605ad4dab4a2abbbc97b95, type: 2}
+  parryAction: {fileID: 11400000, guid: 259ebed5e6e56c042b53c768bbb2e8e1, type: 2}
 --- !u!58 &3871672931295881435
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1729,7 +1732,7 @@ MonoBehaviour:
         MMChannelDefinition: {fileID: 0}
         Chance: 100
         Timing:
-          TimescaleMode: 0
+          TimescaleMode: 1
           ExcludeFromHoldingPauses: 0
           ContributeToTotalDuration: 1
           InitialDelay: 0
@@ -1793,7 +1796,7 @@ MonoBehaviour:
         DebugActive: 0
         RepeatUntilStopped: 0
         CameraShakeProperties:
-          Duration: 0.2
+          Duration: 0.6
           Amplitude: 0.8
           Frequency: 40
           AmplitudeX: 0
