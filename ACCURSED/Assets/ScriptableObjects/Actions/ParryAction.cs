@@ -4,11 +4,10 @@ using UnityEngine;
 public class ParryAction : ActionSO
 {
     [Header("Parry")]
-    public float parryTotalDuration = 1f;
-    public float perfectParryWindow = .3f;
+    public float parryDuration = .3f;
 
     public override void PlayerActionTrigger(ref PlayerReference playerRef)
     {
-        playerRef.hurtBox.Parry(parryTotalDuration, perfectParryWindow);
+        playerRef.hurtBox.Parry(parryDuration, playerRef.playerManager.GetDirection());
     }
 }

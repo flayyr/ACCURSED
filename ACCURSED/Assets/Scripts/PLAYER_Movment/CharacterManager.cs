@@ -186,16 +186,16 @@ public class CharacterManager : MonoBehaviour
     {
         moveInput = input;
 
-        if(moveInput != Vector2.zero)
-            currDir = moveInput;
-
-        if (combatState is ActionState.Idle or ActionState.Winding)
+        if (combatState is ActionState.Idle && moveInput != Vector2.zero)
+        {
             UpdateDirection();
+        }
     }
 
     //updates animator direction
     protected void UpdateDirection()
     {
+        currDir = moveInput;
         cAnim.SetFacingDirection(currDir);
     }
 

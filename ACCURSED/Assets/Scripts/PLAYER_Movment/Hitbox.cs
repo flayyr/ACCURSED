@@ -45,7 +45,7 @@ public class HitBox : MonoBehaviour
         }
     }
 
-    public void PerfectParried()
+    public void Parried()
     {
         cManager.Stun(perfectParryStunDuration, 0f);
     }
