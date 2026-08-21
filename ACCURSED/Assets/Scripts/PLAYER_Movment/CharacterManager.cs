@@ -113,22 +113,25 @@ public class CharacterManager : MonoBehaviour
 
             if (currAction != null)
             {
-                hitBox.SetAttackData(currAction.actionSO.attackData);//sets attack data into hitbox
-
-                //start winding
-                cAnim.SetWind(true);
-                combatState = ActionState.Winding;
-                windTimer = currAction.actionSO.windDuration;
-                cAnim.SwitchAnimationState(currAction.actionSO.windAnimationState);
-
-                //end wind immediately if released key early (set thru PlayerAttacker), or the action has no wind
-                if (currAction.skipWindWhenQueued || windTimer <= 0)
-                {
-                    EndWind();
-                }
-
-                return;
+                PlayCurrentAction();
             }
+        }
+    }
+
+    protected void PlayCurrentAction()
+    {
+        hitBox.SetAttackData(currAction.actionSO.attackData);//sets attack data into hitbox
+
+        //start winding
+        cAnim.SetWind(true);
+        combatState = ActionState.Winding;
+        windTimer = currAction.actionSO.windDuration;
+        cAnim.SwitchAnimationState(currAction.actionSO.windAnimationState);
+
+        //end wind immediately if released key early (set thru PlayerAttacker), or the action has no wind
+        if (currAction.skipWindWhenQueued || windTimer <= 0)
+        {
+            EndWind();
         }
     }
 
