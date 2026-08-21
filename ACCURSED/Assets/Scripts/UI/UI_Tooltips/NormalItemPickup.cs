@@ -32,27 +32,50 @@ public class NormalItemPickup : ItemPickup
     }
     public override void AddItem(ItemPickupSO item)
     {
+        Debug.Log("NormalItemPickup.AddItem called: " + item.itemName);
+
         itemPickupQueue.Enqueue(item);
 
-        // instantiate "OK" prompt
         //GetComponent<ToolTipManager>().Prompt("OK");
 
-        // instantiate normal item showcase
+        if (UINormalItemPickup == null)
+        {
+            Debug.LogError("NormalItemPickup: UINormalItemPickup prefab is NULL.");
 
+            return;
+        }
+
+        if (container == null)
+        {
+            Debug.LogError("NormalItemPickup: container is NULL.");
+
+            return;
+        }
+
+
+        Debug.Log("NormalItemPickup: instantiating UI_NormalItemPickup.");
+        
         GameObject itemShowcase = Instantiate(UINormalItemPickup, container, false);
+
         itemShowcase.transform.SetAsFirstSibling();
+
         addedNewObjectThisUpdate = true;
-
-
+        
         NormalItemPickupUI ui = itemShowcase.GetComponent<NormalItemPickupUI>();
+
+        if (ui == null)
+        {
+            Debug.LogError("UI_NormalItemPickup does not have " + "NormalItemPickupUI attached.");
+
+            return;
+        }
+
         ui.Initialize(item);
-        //ui.item = item;
         ui.manager = this;
-
-
-        // assign to item
+        
         item.itemShowcaseUIObj = itemShowcase;
-
+        
+        Debug.Log("NormalItemPickup: UI successfully created.");
     }
 
     public override void ConfirmItem()

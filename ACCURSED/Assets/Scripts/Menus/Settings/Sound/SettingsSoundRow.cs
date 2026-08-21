@@ -34,14 +34,21 @@ public class SettingsSoundRow : SettingsSliderSelectable
         setting = assignedSetting;
         hasBeenInitialized = true;
 
-        if (soundSlider == null)
+        if (soundManager == null)
         {
-            Debug.LogWarning(name + ": Sound Slider has not been assigned.");
+            Debug.LogError(name + ": SettingsSoundManager was not found. " + "Put SettingsSoundManager on an ancestor of the Sound page, " +
+                "preferably the SettingsPrefab root.", gameObject);
 
             return;
         }
 
-        // SettingsSliderSelectable uses this field when SettingsMenuNavigator calls AdjustSlider().
+        if (soundSlider == null)
+        {
+            Debug.LogError(name + ": No Unity Slider was found inside this row.", gameObject);
+
+            return;
+        }
+
         slider = soundSlider;
 
         soundSlider.minValue = 0f;
@@ -59,8 +66,7 @@ public class SettingsSoundRow : SettingsSliderSelectable
                 : customDisplayName;
         }
 
-        if (soundManager != null)
-            soundManager.RegisterRow(this);
+        soundManager.RegisterRow(this);
 
         RefreshDisplay();
         RefreshHighlight();
@@ -69,7 +75,7 @@ public class SettingsSoundRow : SettingsSliderSelectable
     private void FindReferences()
     {
         if (soundManager == null)
-            soundManager = GetComponentInParent <SettingsSoundManager>();
+            soundManager = GetComponentInParent<SettingsSoundManager>(true);
 
         if (soundSlider == null)
             soundSlider = GetComponentInChildren<Slider>(true);

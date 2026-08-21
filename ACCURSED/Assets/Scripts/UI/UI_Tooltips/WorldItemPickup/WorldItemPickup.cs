@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class WorldItemPickup : MonoBehaviour
 {
@@ -16,6 +17,14 @@ public class WorldItemPickup : MonoBehaviour
     [Header("Player")]
     [SerializeField] private Transform player;
     [SerializeField] private string playerTag = "Player";
+
+    [Header("World Identity")]
+    [SerializeField] private string worldPickupID;
+
+    private bool registeredWithItemManager;
+
+    public string WorldPickupID => worldPickupID;
+    public ItemPickupSO Item => item;
 
     private bool ownsPrompt;
     private bool pickedUp;
@@ -35,8 +44,16 @@ public class WorldItemPickup : MonoBehaviour
             FindPlayer();
     }
 
+    private void Start()
+    {
+        TryRegisterWithItemManager();
+    }
+
     private void Update()
     {
+        if (!registeredWithItemManager)
+            TryRegisterWithItemManager();
+
         if (pickedUp)
             return;
 
@@ -66,6 +83,20 @@ public class WorldItemPickup : MonoBehaviour
         }
     }
 
+    private void TryRegisterWithItemManager()
+    {
+        if (registeredWithItemManager)
+            return;
+
+        if (ItemManager.Instance == null)
+            return;
+
+
+        ItemManager.Instance.RegisterWorldItem(this);
+
+        registeredWithItemManager = true;
+    }
+
     private void TryOpenPrompt()
     {
         if (ownsPrompt)
@@ -74,25 +105,21 @@ public class WorldItemPickup : MonoBehaviour
         if (ToolTipManager.Instance == null)
             return;
 
-        // Another world pickup currently owns the prompt.
         if (activePickup != null && activePickup != this)
             return;
 
-        // A chest, NPC, etc. could already be using it.
         if (ToolTipManager.Instance.IsPromptOpen)
             return;
 
         if (GlobalUIController.Instance != null && GlobalUIController.Instance.CheckIfOtherUIOpen())
-        {
             return;
-        }
 
         activePickup = this;
         ownsPrompt = true;
 
-        ToolTipManager.Instance.Prompt(GetPromptText(), item, PickUpItem);
+        ToolTipManager.Instance.Prompt(GetPromptText(), PickUpItem);
     }
-    
+
     private void ClosePrompt()
     {
         if (!ownsPrompt)
@@ -106,22 +133,20 @@ public class WorldItemPickup : MonoBehaviour
         if (activePickup == this)
             activePickup = null;
     }
-    
+
     private void PickUpItem()
     {
         if (pickedUp)
             return;
 
-        pickedUp = true;
+        if (ItemManager.Instance == null)
+        {
+            Debug.LogError("Cannot pick up item because no ItemManager exists.", this);
 
-        ownsPrompt = false;
+            return;
+        }
 
-        if (activePickup == this)
-            activePickup = null;
-
-        Debug.Log("Picked up: " + gameObject.name);
-
-        gameObject.SetActive(false);
+        ItemManager.Instance.CollectWorldItem(this);
     }
 
     private string GetPromptText()
@@ -144,6 +169,17 @@ public class WorldItemPickup : MonoBehaviour
             player = playerObject.transform;
     }
 
+    public void ApplyCollectedState()
+    {
+        pickedUp = true;
+        ownsPrompt = false;
+
+
+        if (activePickup == this)
+            activePickup = null;
+        
+        gameObject.SetActive(false);
+    }
 
     private void ApplyItemVisual()
     {
@@ -159,10 +195,8 @@ public class WorldItemPickup : MonoBehaviour
         spriteRenderer.sprite = item.itemSpr;
     }
 
-
     private void OnDisable()
     {
-        // If something disables the item while the player is looking at it, don't leave its prompt behind.
         if (!pickedUp && ownsPrompt)
         {
             if (ToolTipManager.Instance != null)
@@ -171,16 +205,31 @@ public class WorldItemPickup : MonoBehaviour
 
         if (activePickup == this)
             activePickup = null;
-
+        
         ownsPrompt = false;
+
+        if (registeredWithItemManager && ItemManager.Instance != null)
+            ItemManager.Instance.UnregisterWorldItem(this);
+
+        registeredWithItemManager = false;
     }
 
-
 #if UNITY_EDITOR
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(transform.position, pickupDistance);
     }
+
+    private void OnValidate()
+    {
+        // Don't assign an ID to the prefab asset itself.
+        // Individual placed instances need their own IDs.
+        if (UnityEditor.PrefabUtility.IsPartOfPrefabAsset(gameObject))
+            return;
+
+        if (!gameObject.scene.IsValid())
+            return;
+    }
+
 #endif
 }
