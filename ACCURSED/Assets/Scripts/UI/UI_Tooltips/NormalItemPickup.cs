@@ -35,7 +35,7 @@ public class NormalItemPickup : ItemPickup
         itemPickupQueue.Enqueue(item);
 
         // instantiate "OK" prompt
-        GetComponent<ToolTipManager>().Prompt("OK");
+        //GetComponent<ToolTipManager>().Prompt("OK");
 
         // instantiate normal item showcase
 

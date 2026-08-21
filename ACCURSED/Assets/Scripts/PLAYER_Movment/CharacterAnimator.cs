@@ -87,7 +87,7 @@ public class CharacterAnimator : MonoBehaviour
         return anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
     }
 
-    
+
 
     ////////////////////////
     //Set Animator Properties
@@ -100,6 +100,11 @@ public class CharacterAnimator : MonoBehaviour
     public void SetStunned(bool stunned)
     {
         anim.SetBool("Stunned", stunned);
+    }
+
+    public void SetDashing()
+    {
+        anim.SetTrigger("Dashing");
     }
 
     public void SetMoveState(int moveState)
