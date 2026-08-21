@@ -21,6 +21,7 @@ public class ToolTipManager : MonoBehaviour
     private Queue<ItemPickupSO> items = new Queue<ItemPickupSO>();
 
     private static bool promptOpen;
+    public bool IsPromptOpen => promptOpen;
     private string promptText;
 
     [SerializeField] private CanvasGroup promptCanvas;
@@ -83,9 +84,10 @@ public class ToolTipManager : MonoBehaviour
     public void PromptDisappear()
     {
         StopCurrentTransition();
-        InteractableObjectManager.promptOpen = false;
 
+        InteractableObjectManager.promptOpen = false;
         promptOpen = false;
+
         menuAppear = StartCoroutine(MenuCloseRoutine());
     }
 
@@ -175,13 +177,24 @@ public class ToolTipManager : MonoBehaviour
     }
 
     // Singular item pickup, normal or special item
-    public void Prompt(string PromptText, ItemPickupSO item) 
+    public void Prompt(string promptText, ItemPickupSO item)
     {
-        promptText = PromptText;
+        Prompt(promptText, item, null);
+    }
+
+
+    // Singular item pickup with callback
+    public void Prompt(string promptText, ItemPickupSO item, Action onPickedUp)
+    {
+        this.promptText = promptText;
         PromptAppear();
 
         currentAction = () =>
         {
+            // Tell the world item it has been picked up FIRST.
+            onPickedUp?.Invoke();
+
+            // Then handle its pickup UI.
             if (item.isSpecialItem)
             {
                 GetComponent<SpecialItemPickup>().AddItem(item);
@@ -192,7 +205,6 @@ public class ToolTipManager : MonoBehaviour
             }
         };
     }
-
 
     public void Update()
     {
