@@ -6,10 +6,12 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField] private GameObject highlight;
 
     private bool isHighlighted;
+    public bool isEnabled;
     void Awake()
     {
         isHighlighted = false;
         highlight.SetActive(false);
+        isEnabled = true;
     }
 
     void Update()
@@ -19,7 +21,7 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!isHighlighted && highlight != null)
+        if (!isHighlighted && highlight != null && isEnabled)
         {
             ShowHighlight();
         }
@@ -27,7 +29,7 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isHighlighted && highlight != null)
+        if (isHighlighted && highlight != null && isEnabled)
         {
             HideHighlight();
         }
