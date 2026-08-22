@@ -32,15 +32,17 @@ public class NormalItemPickupUI : MonoBehaviour
     // Monobehaviors can't use constructors apparently so here's an initialize method instead
     public void Initialize(ItemPickupSO item)
     {
+        this.item = item;
+
         imgUI.GetComponent<Image>().sprite = item.itemSpr;
         nameUI.GetComponent<TextMeshProUGUI>().text = item.itemName;
-        quantityUI.GetComponent<TextMeshProUGUI>().text = item.itemQuantity > 0 ? $"x{item.itemQuantity}" : "x1";
+
+        quantityUI.GetComponent<TextMeshProUGUI>().text = item.itemQuantity > 0
+            ? $"x{item.itemQuantity}"
+            : "x1";
+
         manager = ToolTipManager.Instance.GetComponent<NormalItemPickup>();
 
-        //this.item = item;
-
-        //Debug.Log("Initialize");
-        //StartCoroutine(FadeTransformTransition());
         StartCoroutine(UITransitions.Instance.FadeTransition(canvas, 0f, 1f, 0.08f));
     }
 
@@ -56,6 +58,11 @@ public class NormalItemPickupUI : MonoBehaviour
         //Debug.Log("ConfirmedRoutine");
         yield return StartCoroutine(UITransitions.Instance.FadeTransformYTransition(canvas, 1f, 0f, 0f, -160f, 0.3f));
         Destroy(gameObject);
+    }
+
+    private void Awake()
+    {
+        // Item information is assigned in Initialize().
     }
 
     /*
