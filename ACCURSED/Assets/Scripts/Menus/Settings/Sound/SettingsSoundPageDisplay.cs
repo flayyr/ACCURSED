@@ -155,14 +155,25 @@ public class SettingsSoundPageDisplay : MonoBehaviour
     {
         SettingsSoundRow newRow = Instantiate(sliderRowPrefab, contentRoot);
 
+        // Make absolutely sure the generated row is enabled.
+        newRow.gameObject.SetActive(true);
+
+        // Reset prefab transform in case the prefab was saved with an unusual scale.
+        RectTransform rowRect = newRow.GetComponent<RectTransform>();
+
+        if (rowRect != null)
+        {
+            rowRect.localScale = Vector3.one;
+            rowRect.localRotation = Quaternion.identity;
+        }
+
         string rowName = string.IsNullOrWhiteSpace(entry.displayName)
             ? entry.setting.ToString()
             : entry.displayName;
 
         newRow.gameObject.name = "Slider - " + rowName;
 
-        newRow.Initialize(entry.setting, entry.displayName
-        );
+        newRow.Initialize(entry.setting, entry.displayName);
     }
 
     [ContextMenu("Clear Display")]

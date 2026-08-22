@@ -206,6 +206,16 @@ public class ToolTipManager : MonoBehaviour
         };
     }
 
+    // Generic action prompt
+    public void Prompt(string promptText, Action action)
+    {
+        this.promptText = promptText;
+
+        PromptAppear();
+
+        currentAction = action;
+    }
+
     public void Update()
     {
         ToolTipDebug(); //DEBUG
