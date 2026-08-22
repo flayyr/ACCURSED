@@ -102,6 +102,11 @@ public class CharacterAnimator : MonoBehaviour
         anim.SetBool("Stunned", stunned);
     }
 
+    public void SetDead(bool dead)
+    {
+        anim.SetBool("Dead", dead);
+    }
+
     public void SetDashing()
     {
         anim.SetTrigger("Dashing");

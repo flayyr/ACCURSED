@@ -19,6 +19,25 @@ public class PlayerManager : CharacterManager
     [SerializeField] PlayerReference playerRef;
     [SerializeField] ActionSO dashAction;
 
+    PlayerDeath playerDeath;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        playerDeath = GetComponent<PlayerDeath>();
+
+        playerDeath.OnDeath += OnDeath;
+        playerDeath.OnRevive += OnRevive;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+        playerDeath.OnDeath -= OnDeath;
+        playerDeath.OnRevive -= OnRevive;
+    }
+
     protected override void EndWind()
     {
         base.EndWind();
@@ -28,7 +47,6 @@ public class PlayerManager : CharacterManager
 
     public void Dash()
     {
-        //combatState = ActionState.Idle;
         UpdateDirection();
         cMove.Dash(moveInput);
         cAnim.SetStunned(false);
@@ -46,5 +64,25 @@ public class PlayerManager : CharacterManager
             return true;
         }
         return false;
+    }
+
+    public void CueStartRest()
+    {
+
+    }
+
+    public void CueStopRest()
+    {
+
+    }
+
+    private void OnDeath()
+    {
+        cAnim.SetDead(true);
+    }
+
+    private void OnRevive()
+    {
+        cAnim.SetDead(false);
     }
 }

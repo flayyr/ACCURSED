@@ -32,7 +32,7 @@ public class CharacterManager : MonoBehaviour
         cMove = GetComponent<CharacterMovement>();
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         combatState = ActionState.Idle;
         currAction = null;
@@ -42,7 +42,7 @@ public class CharacterManager : MonoBehaviour
         cAnim.OnActionFinished += OnActionFinish;
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         actionQueuer.OnActionQueued -= PlayNextAction;
         cAnim.OnActionFinished -= OnActionFinish;

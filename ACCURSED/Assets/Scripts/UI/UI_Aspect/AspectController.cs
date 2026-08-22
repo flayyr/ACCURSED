@@ -54,6 +54,7 @@ public class AspectController : MonoBehaviour
 
         menuAppear = StartCoroutine(MenuOpenRoutine());
         PersistentPlayer.controllerInstance.SetState(PlayerControlState.Disabled);
+        
     }
 
     public void CloseMenu()

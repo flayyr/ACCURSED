@@ -1,9 +1,11 @@
-using System.Collections;
+using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerDeath : CharacterDeath
 {
+    public Action OnDeath;
+    public Action OnRevive;
+
     [SerializeField] AspectSO respawnAspect;
     [SerializeField] float deathWaitBeforeFadeTime;
 
@@ -15,12 +17,12 @@ public class PlayerDeath : CharacterDeath
     public override void Die()
     {
         GetComponent<PlayerController>().SetState( PlayerControlState.Disabled);
+        OnDeath?.Invoke();
         Invoke("StartRespawnTransition", deathWaitBeforeFadeTime);
     }
 
     public void StartRespawnTransition()
     {
-        //RoomTransitionWithoutPlayer.Instance.BeginTransition(respawnAspect.sceneName, ResetPlayer);
         RoomTransitionManager.Instance.BeginTransition(respawnAspect.sceneName, ResetPlayer);
     }
 
@@ -29,5 +31,6 @@ public class PlayerDeath : CharacterDeath
         GetComponent<PlayerController>().SetState( PlayerControlState.Normal);
         transform.position = respawnAspect.position;
         GetComponent<PlayerStatistics>().Reset();
+        OnRevive?.Invoke();
     }
 }
