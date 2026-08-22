@@ -54,7 +54,7 @@ public class AspectController : MonoBehaviour
 
         menuAppear = StartCoroutine(MenuOpenRoutine());
         PersistentPlayer.controllerInstance.SetState(PlayerControlState.Disabled);
-        
+        PersistentPlayer.managerInstance.OnStartRest();
     }
 
     public void CloseMenu()
@@ -64,6 +64,7 @@ public class AspectController : MonoBehaviour
 
         menuAppear = StartCoroutine(MenuCloseRoutine());
         PersistentPlayer.controllerInstance.SetState(PlayerControlState.Normal);
+        PersistentPlayer.managerInstance.OnStopRest();
     }
     private IEnumerator MenuOpenRoutine()
     {

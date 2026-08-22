@@ -66,23 +66,32 @@ public class PlayerManager : CharacterManager
         return false;
     }
 
-    public void CueStartRest()
+    public void OnStartRest()
     {
+        currDir = Vector2.down;
+        UpdateDirection();
 
+        combatState = ActionState.Stunned;
+
+        cAnim.SetResting(true);
     }
 
-    public void CueStopRest()
+    public void OnStopRest()
     {
+        combatState = ActionState.Idle;
 
+        cAnim.SetResting(false);
     }
 
     private void OnDeath()
     {
+        combatState = ActionState.Stunned;
         cAnim.SetDead(true);
     }
 
     private void OnRevive()
     {
+        combatState = ActionState.Idle;
         cAnim.SetDead(false);
     }
 }

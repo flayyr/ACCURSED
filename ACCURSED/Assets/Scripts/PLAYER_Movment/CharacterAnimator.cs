@@ -107,6 +107,18 @@ public class CharacterAnimator : MonoBehaviour
         anim.SetBool("Dead", dead);
     }
 
+    public void SetResting(bool resting)
+    {
+        if (resting)
+        {
+            anim.SetTrigger("StartRest");
+        }
+        else
+        {
+            anim.SetTrigger("EndRest");
+        }
+    }
+
     public void SetDashing()
     {
         anim.SetTrigger("Dashing");
