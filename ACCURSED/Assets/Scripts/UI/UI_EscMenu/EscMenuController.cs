@@ -106,16 +106,23 @@ public class EscMenuController : MonoBehaviour
 
     public void OpenInventory()
     {
-        inventoryUI.SetActive(true);
+        InventoryController.Instance.OpenInventory();
     }
 
     private bool otherUIOpen()
     {
-        if (AspectController.Instance != null && (AspectController.Instance.getIsOpen() || AspectController.EscPressedThisFrame)
+        if (
+            // Aspect Menu
+            AspectController.Instance != null && (AspectController.Instance.getIsOpen() || AspectController.EscPressedThisFrame)
+
+            // Travel Menu
             || TravelMenuController.Instance != null && (TravelMenuController.Instance.getIsOpen() || TravelMenuController.EscPressedThisFrame)
 
-            || TutorialController.Instance != null && (TutorialController.Instance.getIsOpen() || TutorialController.EscPressedThisFrame)) 
-            //|| !inventoryUI.activeSelf && !statusUI.activeSelf;
+            // Tutorial Popup
+            || TutorialController.Instance != null && (TutorialController.Instance.getIsOpen() || TutorialController.EscPressedThisFrame)
+
+            // Inventory
+            || InventoryController.Instance != null && (InventoryController.Instance.getIsOpen() || InventoryController.EscPressedThisFrame)) 
         {
             return true;
         } 

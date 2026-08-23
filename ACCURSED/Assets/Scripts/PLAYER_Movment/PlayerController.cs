@@ -13,8 +13,6 @@ public enum PlayerControlState
 public class PlayerController : MonoBehaviour
 {
     #region References
-    //CharacterMovement cMovement;
-    CharacterCombat cCombat;
     PlayerAbilities playerAbilities;
 
     PlayerAttacker basicAttacker;
@@ -38,8 +36,6 @@ public class PlayerController : MonoBehaviour
 
     void RefrenceRetreival()
     {
-        //cMovement = GetComponent<CharacterMovement>();
-        cCombat = GetComponent<CharacterCombat>();
         playerAbilities = GetComponent<PlayerAbilities>();
         basicAttacker = GetComponent<PlayerAttacker>();
         playerManager = GetComponent<PlayerManager>();
@@ -48,19 +44,15 @@ public class PlayerController : MonoBehaviour
     #region Movement
     public void OnMove(InputValue value)
     {
-        //if (state is not PlayerControlState.Normal) return;
-
         playerManager.MoveInput(value.Get<Vector2>());
     }
     public void OnWalk(InputValue value)
     {
         playerManager.SetWalkInput(value.isPressed);
-        //cMovement.FigureOutMovementState();
     }
     public void OnSprint(InputValue value)
     {
         playerManager.SetSprintInput( value.isPressed);
-        //cMovement.FigureOutMovementState();
     }
     public void OnDash(InputValue value)
     {
@@ -76,6 +68,14 @@ public class PlayerController : MonoBehaviour
     {
         if (state is not PlayerControlState.Normal && value.isPressed) return;
         basicAttacker.CueAttack(value.isPressed);
+    }
+
+    public void OnParry(InputValue value)
+    {
+        if (state is not PlayerControlState.Normal) return;
+
+        if (value.isPressed)
+            playerAbilities.UseParry();
     }
 
     public void OnHeal(InputValue value)

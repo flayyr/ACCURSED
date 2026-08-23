@@ -21,7 +21,7 @@ public class PlayerAttacker : MonoBehaviour
         {
             currAttackInstance = actionQueuer.QueueAction(attack);
         }
-        else
+        else if(currAttackInstance != null)
         {
             //skip wind when let go
             currAttackInstance.skipWindWhenQueued = true;

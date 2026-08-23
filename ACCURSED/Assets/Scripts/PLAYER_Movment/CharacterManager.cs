@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Windows;
 
 public enum ActionState { Idle, Winding, Attacking, Stunned, StunnedCancellable }
-public enum BaseMoveState { None = 0, Walk=1, Run=2, Sprint=3}
+public enum BaseMoveState { None = 0, Walk = 1, Run = 2, Sprint = 3 }
 
 public class CharacterManager : MonoBehaviour
 {
@@ -32,7 +32,7 @@ public class CharacterManager : MonoBehaviour
         cMove = GetComponent<CharacterMovement>();
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         combatState = ActionState.Idle;
         currAction = null;
@@ -42,7 +42,7 @@ public class CharacterManager : MonoBehaviour
         cAnim.OnActionFinished += OnActionFinish;
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         actionQueuer.OnActionQueued -= PlayNextAction;
         cAnim.OnActionFinished -= OnActionFinish;
@@ -50,9 +50,9 @@ public class CharacterManager : MonoBehaviour
 
     private void Update()
     {
-        if(combatState is ActionState.Stunned or ActionState.StunnedCancellable)
+        if (combatState is ActionState.Stunned or ActionState.StunnedCancellable)
             UpdateStunTimer();
-        if(combatState is ActionState.Winding)
+        if (combatState is ActionState.Winding)
             UpdateWindTimer();
 
         UpdateMovement();
@@ -78,13 +78,13 @@ public class CharacterManager : MonoBehaviour
         if (stunCancelTimer > 0)
         {
             stunCancelTimer -= Time.deltaTime;
-            if(stunCancelTimer <= 0)
+            if (stunCancelTimer <= 0)
             {
                 stunCancelTimer = 0;
                 combatState = ActionState.StunnedCancellable;
             }
         }
-        
+
         if (stunTimer > 0)
         {
             stunTimer -= Time.deltaTime;
@@ -107,28 +107,31 @@ public class CharacterManager : MonoBehaviour
 
     protected void PlayNextAction()
     {
-        if(combatState is ActionState.Idle)//only perform actions when idle
+        if (combatState is ActionState.Idle)//only perform actions when idle
         {
             currAction = actionQueuer.GetNextAction();//gets next action from queuer, null if queue empty
 
             if (currAction != null)
             {
-                hitBox.SetAttackData(currAction.actionSO.attackData);//sets attack data into hitbox
-
-                //start winding
-                cAnim.SetWind(true);
-                combatState = ActionState.Winding;
-                windTimer = currAction.actionSO.windDuration;
-                cAnim.SwitchAnimationState(currAction.actionSO.windAnimationState);
-
-                //end wind immediately if released key early (set thru PlayerAttacker), or the action has no wind
-                if (currAction.skipWindWhenQueued || windTimer<=0)
-                {
-                    EndWind();
-                }
-
-                return;
+                PlayCurrentAction();
             }
+        }
+    }
+
+    protected void PlayCurrentAction()
+    {
+        hitBox.SetAttackData(currAction.actionSO.attackData);//sets attack data into hitbox
+
+        //start winding
+        cAnim.SetWind(true);
+        combatState = ActionState.Winding;
+        windTimer = currAction.actionSO.windDuration;
+        cAnim.SwitchAnimationState(currAction.actionSO.windAnimationState);
+
+        //end wind immediately if released key early (set thru PlayerAttacker), or the action has no wind
+        if (currAction.skipWindWhenQueued || windTimer <= 0)
+        {
+            EndWind();
         }
     }
 
@@ -160,7 +163,7 @@ public class CharacterManager : MonoBehaviour
 
         currAction = null;
 
-        if(stunTimer<stunDuration)
+        if (stunTimer < stunDuration)
             stunTimer = stunDuration;
         stunCancelTimer = timeBeforeCancellable;
 
@@ -186,7 +189,7 @@ public class CharacterManager : MonoBehaviour
     {
         moveInput = input;
 
-        if(moveInput != Vector2.zero)
+        if (moveInput != Vector2.zero)
             currDir = moveInput;
 
         if (combatState is ActionState.Idle or ActionState.Winding)
@@ -201,7 +204,7 @@ public class CharacterManager : MonoBehaviour
 
     protected void UpdateMovement()
     {
-        if(combatState is ActionState.Idle)
+        if (combatState is ActionState.Idle && cMove.movementState is CharacterMovement.MovementState.normal)
         {
             FigureOutMovementState();
 
@@ -229,8 +232,8 @@ public class CharacterManager : MonoBehaviour
     }
 
     protected void FigureOutMovementState()
-    { 
-        if(moveInput == Vector2.zero)
+    {
+        if (moveInput == Vector2.zero)
         {
             moveState = BaseMoveState.None;
             return;

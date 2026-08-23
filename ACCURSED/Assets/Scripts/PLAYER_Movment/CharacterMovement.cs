@@ -83,14 +83,15 @@ public class CharacterMovement : MonoBehaviour
     void TimerUpdates()
     {
         // dashing cooldown
-        if (dashCoolDownTimer <= 0) 
+        if (dashCoolDownTimer <= 0)
             canDash = true;
-        else 
+        else
             dashCoolDownTimer -= Time.deltaTime;
 
         // dashing length
         if (dashLengthTimer <= 0 && dashing == true)
         {
+
             dashing = false;
             movementState = MovementState.normal;
             BaseMove(rb.linearVelocity);
@@ -120,8 +121,8 @@ public class CharacterMovement : MonoBehaviour
 
     public void BaseMove(Vector2 moveInput)
     {
-        if(movementState is MovementState.normal)
-        rb.linearVelocity = moveInput.normalized * movementSpeed;
+        if (movementState is MovementState.normal)
+            rb.linearVelocity = moveInput.normalized * movementSpeed;
     }
     #endregion
 
