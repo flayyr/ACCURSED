@@ -3,91 +3,169 @@ using System.Collections.Generic;
 
 public class NormalItemPickup : ItemPickup
 {
-    [SerializeField] GameObject UIPromptPrefab;
-    [SerializeField] GameObject UINormalItemPickup;
+    [Header("UI")]
+    [SerializeField] private GameObject UINormalItemPickup;
     [SerializeField] private Transform container;
 
-    public Queue<ItemPickupSO> itemPickupQueue = new Queue<ItemPickupSO>();
-    bool addedNewObjectThisUpdate = false;
+    // The queue now contains the actual UI instances, rather than storing runtime UI references in ItemPickupSO.
+    public Queue<NormalItemPickupUI> itemPickupQueue = new Queue<NormalItemPickupUI>();
 
+    private bool addedNewObjectThisUpdate = false;
 
-    void Awake()
+    private PlayerController playerController;
+    private bool subscribedToPlayer;
+
+    private void Start()
     {
-        
+        TrySubscribeToPlayer();
     }
 
-    public void Update()
+    private void Update()
     {
-        if (itemPickupQueue.Count > 0 && Input.GetKeyDown(KeyCode.E) && !addedNewObjectThisUpdate)
+        // PersistentPlayer may not exist yet when Start runs.
+        if (!subscribedToPlayer)
         {
-            ConfirmItem();
+            TrySubscribeToPlayer();
         }
 
-
-        //keep this at the bottom of update, it stops the new object from getting deleted the same frame it's added
+        // Prevents the same Interact press used to pick up the item from immediately dismissing the newly-created UI.
         if (addedNewObjectThisUpdate)
         {
             addedNewObjectThisUpdate = false;
         }
     }
+
+    private void TrySubscribeToPlayer()
+    {
+        if (subscribedToPlayer)
+            return;
+
+        if (PersistentPlayer.Instance == null)
+            return;
+
+        playerController = PersistentPlayer.Instance.GetComponent<PlayerController>();
+
+        if (playerController == null)
+            return;
+
+        playerController.InteractKeyPressed += OnInteractPressed;
+
+        subscribedToPlayer = true;
+    }
+
+    private void OnInteractPressed()
+    {
+        if (itemPickupQueue.Count == 0)
+            return;
+
+        // This was the same button press that CREATED the pickup popup. Don't immediately remove it.
+        if (addedNewObjectThisUpdate)
+            return;
+
+        ConfirmItem();
+    }
+
     public override void AddItem(ItemPickupSO item)
     {
-        Debug.Log("NormalItemPickup.AddItem called: " + item.itemName);
+        if (item == null)
+        {
+            Debug.LogError("NormalItemPickup received a null ItemPickupSO.");
 
-        itemPickupQueue.Enqueue(item);
-
-        //GetComponent<ToolTipManager>().Prompt("OK");
+            return;
+        }
 
         if (UINormalItemPickup == null)
         {
-            Debug.LogError("NormalItemPickup: UINormalItemPickup prefab is NULL.");
+            Debug.LogError("UI_NormalItemPickup prefab is not assigned.", this);
 
             return;
         }
 
         if (container == null)
         {
-            Debug.LogError("NormalItemPickup: container is NULL.");
+            Debug.LogError("NormalItemPickup container is not assigned.", this);
 
             return;
         }
 
-
-        Debug.Log("NormalItemPickup: instantiating UI_NormalItemPickup.");
-        
         GameObject itemShowcase = Instantiate(UINormalItemPickup, container, false);
+
 
         itemShowcase.transform.SetAsFirstSibling();
 
-        addedNewObjectThisUpdate = true;
-        
+
         NormalItemPickupUI ui = itemShowcase.GetComponent<NormalItemPickupUI>();
+
 
         if (ui == null)
         {
-            Debug.LogError("UI_NormalItemPickup does not have " + "NormalItemPickupUI attached.");
+            Debug.LogError("UI_NormalItemPickup is missing NormalItemPickupUI.", itemShowcase);
+
+            Destroy(itemShowcase);
 
             return;
         }
 
-        ui.Initialize(item);
-        ui.manager = this;
-        
-        item.itemShowcaseUIObj = itemShowcase;
-        
-        Debug.Log("NormalItemPickup: UI successfully created.");
+        // Put it in the queue BEFORE initializing, so ManageStack can immediately find its position.
+        itemPickupQueue.Enqueue(ui);
+
+
+        ui.Initialize(item, this);
+
+
+        addedNewObjectThisUpdate = true;
+
+
+        // Creates the normal "OK" interaction prompt.
+        ToolTipManager tooltip = GetComponent<ToolTipManager>();
+
+        if (tooltip != null)
+        {
+            tooltip.Prompt("OK");
+        }
     }
 
     public override void ConfirmItem()
     {
-        ItemPickupSO item = itemPickupQueue.Dequeue();
+        if (itemPickupQueue.Count == 0)
+            return;
 
-        // pseudocode: add item to inventory
+        NormalItemPickupUI ui = itemPickupQueue.Dequeue();
 
-        // transition and destroy
-        NormalItemPickupUI ui = item.itemShowcaseUIObj.GetComponent<NormalItemPickupUI>();
-        ui.Confirmed();
+        if (ui == null)
+            return;
+
         ui.inQueue = false;
 
+        ui.Confirmed();
+    }
+
+    public int GetQueuePosition(NormalItemPickupUI target)
+    {
+        int index = 0;
+
+        foreach (NormalItemPickupUI ui in itemPickupQueue)
+        {
+            if (ui == target)
+            {
+                return index;
+            }
+
+            index++;
+        }
+
+        return -1;
+    }
+
+
+    private void OnDisable()
+    {
+        if (subscribedToPlayer && playerController != null)
+        {
+            playerController.InteractKeyPressed -= OnInteractPressed;
+        }
+
+        subscribedToPlayer = false;
+        playerController = null;
     }
 }

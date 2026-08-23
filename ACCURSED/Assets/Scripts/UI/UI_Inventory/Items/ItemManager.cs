@@ -35,6 +35,26 @@ public class ItemManager : MonoBehaviour
         RebuildCollectedItemLookup();
     }
 
+    private PlayerInventory FindPlayerInventory()
+    {
+        // Preferred method because your player is persistent.
+        if (PersistentPlayer.Instance != null)
+        {
+            PlayerInventory inventory = PersistentPlayer.Instance.GetComponent<PlayerInventory>();
+
+            if (inventory != null)
+                return inventory;
+        }
+
+        // Fallback.
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        
+        if (player != null)
+            return player.GetComponent<PlayerInventory>();
+
+        return null;
+    }
+
     // Called by WorldItemPickup when it becomes active.
     public void RegisterWorldItem(WorldItemPickup worldItem)
     {
@@ -49,7 +69,6 @@ public class ItemManager : MonoBehaviour
 
             return;
         }
-
 
         // Detect accidental duplicate IDs.
         if (registeredWorldItems.TryGetValue(id, out WorldItemPickup existing))
@@ -93,64 +112,96 @@ public class ItemManager : MonoBehaviour
                 registeredWorldItems.Remove(id);
         }
     }
-
-
+    
     // Called when the player successfully picks something up.
     public bool CollectWorldItem(WorldItemPickup worldItem)
     {
         if (worldItem == null)
             return false;
 
-        string id = worldItem.WorldPickupID;
-
-        if (string.IsNullOrEmpty(id))
-        {
-            Debug.LogError("Cannot collect '" + worldItem.gameObject.name + "' because it has no World Pickup ID.", worldItem);
-
-            return false;
-        }
-
-        // Already taken.
-        if (HasBeenCollected(id))
-        {
-            worldItem.ApplyCollectedState();
-            return false;
-        }
-        
         ItemPickupSO item = worldItem.Item;
 
         if (item == null)
         {
-            Debug.LogError("World pickup '" + worldItem.gameObject.name + "' does not have an ItemPickupSO.", worldItem);
+            Debug.LogError(worldItem.name + " has no ItemPickupSO.", worldItem);
 
             return false;
         }
         
-        collectedWorldItemIds.Add(id);
+        string worldID = worldItem.WorldPickupID;
 
+        if (string.IsNullOrWhiteSpace(worldID))
+        {
+            Debug.LogError(worldItem.name + " has no World Pickup ID.", worldItem);
+
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(item.itemID))
+        {
+            Debug.LogError(item.name + " has no itemID.", item);
+
+            return false;
+        }
+
+        if (HasBeenCollected(worldID))
+        {
+            worldItem.ApplyCollectedState();
+
+            return false;
+        }
+
+        PlayerInventory inventory = FindPlayerInventory();
+
+        if (inventory == null)
+        {
+            Debug.LogError("Cannot collect item because the Player does not have PlayerInventory.");
+
+            return false;
+        }
+
+        int quantity = item.itemQuantity > 0
+            ? item.itemQuantity
+            : 1;
+
+        // 1. RECORD WORLD PICKUP
         CollectedWorldItemRecord record = new CollectedWorldItemRecord
         {
-            worldPickupId = id, 
+            worldPickupID = worldID,
+            //itemID = item.itemID,
             item = item,
-
-            quantity = item.itemQuantity > 0
-                ? item.itemQuantity
-                : 1,
-
-            sceneName = SceneManager.GetActiveScene().name
+            quantity = quantity,
+            sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
         };
 
         collectedItems.Add(record);
 
-        Debug.Log("Collected: " + item.itemName + " + from " + worldItem.gameObject.name);
+        //collectedWorldPickupIDs.Add(worldID);
 
-        // Record is already saved at this point.
+        // 2. SEND TO INVENTORY
+        inventory.AddItem(item, quantity);
 
-        // First create the pickup indicator.
-        ShowNormalItemPickup(item);
-
-        // Then remove the world item.
+        // 3. REMOVE WORLD OBJECT
         worldItem.ApplyCollectedState();
+
+
+        // 4. SHOW PICKUP UI
+        if (ToolTipManager.Instance != null)
+        {
+            ToolTipManager.Instance.ShowNormalItemPickup(item);
+        }
+        else
+        {
+            Debug.LogWarning("Item collected successfully, but ToolTipManager does not exist.");
+        }
+
+
+        Debug.Log(
+            "Collected " + item.itemName + " | " +
+            "Item ID: " + item.itemID + " | " +
+            "World ID: " + worldID
+        );
+
 
         return true;
     }
@@ -180,10 +231,10 @@ public class ItemManager : MonoBehaviour
             if (record == null)
                 continue;
 
-            if (string.IsNullOrEmpty(record.worldPickupId))
+            if (string.IsNullOrEmpty(record.worldPickupID))
                 continue;
 
-            collectedWorldItemIds.Add(record.worldPickupId);
+            collectedWorldItemIds.Add(record.worldPickupID);
         }
     }
 
@@ -216,7 +267,7 @@ public class ItemManager : MonoBehaviour
 [Serializable]
 public class CollectedWorldItemRecord
 {
-    public string worldPickupId;
+    public string worldPickupID;
 
     public ItemPickupSO item;
 

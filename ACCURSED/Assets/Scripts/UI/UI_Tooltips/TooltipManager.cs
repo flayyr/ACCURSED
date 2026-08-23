@@ -223,6 +223,23 @@ public class ToolTipManager : MonoBehaviour
         // if (too far away) { PromptDisappear }
     }
 
+    public void ShowNormalItemPickup(ItemPickupSO item)
+    {
+        if (item == null)
+            return;
+
+        NormalItemPickup normalPickup = GetComponent<NormalItemPickup>();
+
+        if (normalPickup == null)
+        {
+            Debug.LogError("ToolTipManager requires NormalItemPickup " + "to display a normal item pickup.", this);
+
+            return;
+        }
+
+        normalPickup.AddItem(item);
+    }
+
     private void ToolTipDebug() 
     {
        
