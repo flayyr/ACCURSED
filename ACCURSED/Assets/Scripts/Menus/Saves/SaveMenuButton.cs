@@ -314,6 +314,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void DeleteActualSlotData()
     {
+        ChestStateSave.ClearSlot(SlotIndex);
         // Placeholder for future actual save-file deletion.
     }
     
