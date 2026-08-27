@@ -7,7 +7,6 @@ public class ItemInfoPanel : MonoBehaviour
     [SerializeField] public GameObject itemName;
     [SerializeField] public GameObject itemType;
     [SerializeField] public GameObject labelingText;
-    [SerializeField] public GameObject itemQuantity;
     [SerializeField] public GameObject itemDesc;
 
     public Inventory_ItemSO currentItemDisplay;
@@ -25,7 +24,7 @@ public class ItemInfoPanel : MonoBehaviour
 
             itemName.GetComponent<TextMeshProUGUI>().text = currentItemDisplay.itemName;
             itemType.GetComponent<TextMeshProUGUI>().text = currentItemDisplay.itemType;
-            itemQuantity.GetComponent<TextMeshProUGUI>().text = currentItemDisplay.itemQuantity.ToString() + " / " + currentItemDisplay.itemQuantityMax.ToString();
+            //itemQuantity.GetComponent<TextMeshProUGUI>().text = currentItemDisplay.currentItemDisplay..ToString() + " / " + currentItemDisplay.itemQuantityMax.ToString();
             itemDesc.GetComponent<TextMeshProUGUI>().text = currentItemDisplay.itemDesc;
         }
         else
@@ -34,7 +33,7 @@ public class ItemInfoPanel : MonoBehaviour
 
             itemName.GetComponent<TextMeshProUGUI>().text = "";
             itemType.GetComponent<TextMeshProUGUI>().text = "";
-            itemQuantity.GetComponent<TextMeshProUGUI>().text = "";
+            //itemQuantity.GetComponent<TextMeshProUGUI>().text = "";
             itemDesc.GetComponent<TextMeshProUGUI>().text = "";
         }
     }
