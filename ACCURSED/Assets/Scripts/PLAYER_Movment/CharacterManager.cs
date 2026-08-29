@@ -19,7 +19,7 @@ public class CharacterManager : MonoBehaviour
 
     public ActionInstance currAction = null;
 
-    protected ActionState combatState = ActionState.Idle;
+    [SerializeField]protected ActionState combatState = ActionState.Idle;
 
     protected float windTimer = 0;
     protected float stunTimer = 0;
