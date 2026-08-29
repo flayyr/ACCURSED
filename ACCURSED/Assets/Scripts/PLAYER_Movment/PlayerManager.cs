@@ -93,5 +93,6 @@ public class PlayerManager : CharacterManager
     {
         combatState = ActionState.Idle;
         cAnim.SetDead(false);
+        cAnim.SetStunned(false);
     }
 }

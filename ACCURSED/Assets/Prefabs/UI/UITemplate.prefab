@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NormalItemPickup
   UIPromptPrefab: {fileID: 1867375199657645726, guid: 54dbccd090fca71479d1d350f42ab4ff, type: 3}
-  UINormalItemPickup: {fileID: 5070106741136424123, guid: 619158c6ce5a292409a582a45eaa2d18, type: 3}
+  UINormalItemPickup: {fileID: 4476056163096311791, guid: b9876d9c484b4004796b3f82e09f8e50, type: 3}
   container: {fileID: 8754846115778038189}
 --- !u!114 &8300477451169168253
 MonoBehaviour:
@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 362312901878959975}
   - component: {fileID: 6727918487954859602}
   - component: {fileID: 56574312829044288}
+  - component: {fileID: 6971681869673029547}
   m_Layer: 0
   m_Name: GlobalController
   m_TagString: Untagged
@@ -263,6 +264,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialController
   ui: {fileID: 8551280876203057057}
   debugPopup: {fileID: 11400000, guid: ee077cde5586a1f48b280eb6e7f7b21d, type: 2}
+--- !u!114 &6971681869673029547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2166401946499799534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e961d885bbeecf24e80daeabd2e488c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryController
+  ui: {fileID: 0}
+  inventoryCG: {fileID: 0}
 --- !u!1 &2494375170945589841
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,6 +666,10 @@ PrefabInstance:
     - target: {fileID: 1043917438317174404, guid: 8693d451bf8e0ac4c931c3d85fd00582, type: 3}
       propertyPath: m_Name
       value: CombatHUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 1043917438317174404, guid: 8693d451bf8e0ac4c931c3d85fd00582, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5724254627860038530, guid: 8693d451bf8e0ac4c931c3d85fd00582, type: 3}
       propertyPath: m_Pivot.x
@@ -1103,7 +1122,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5461757611392906544, guid: b9876d9c484b4004796b3f82e09f8e50, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -159
+      value: -368
       objectReference: {fileID: 0}
     - target: {fileID: 5461757611392906544, guid: b9876d9c484b4004796b3f82e09f8e50, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1396,6 +1415,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 877068984029879009, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 34.399902
+      objectReference: {fileID: 0}
     - target: {fileID: 2520790225950997044, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1574,7 +1597,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6307979210297474111, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6473309406908834997, guid: 478ee02089bba71469dda88dfee8566a, type: 3}
       propertyPath: m_Enabled
