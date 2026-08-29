@@ -7,37 +7,63 @@ public class Inventory_ItemSlot : MonoBehaviour
     
     [SerializeField] public GameObject itemSlot;
     [SerializeField] public GameObject itemSprDisplay;
-    [SerializeField] public GameObject infoPanel;
+    [SerializeField] public GameObject itemBox;
+    //[SerializeField] public GameObject infoPanel;
     [SerializeField] public GameObject quantityText;
+    [SerializeField] public GameObject selectedHue;
 
     private Inventory_ItemSO item;
     private bool isEmpty;
     ButtonHighlight highlight;
 
+    public static GameObject selectedSlot;
+
     public Button b;
-    void Start()
+    void Awake()
     {
-        b = gameObject.GetComponent<Button>();
+        b = GetComponent<Button>();
         b.onClick.AddListener(ExecuteTask);
-        highlight = itemSlot.gameObject.GetComponent<ButtonHighlight>();
+
+        highlight = itemSlot.GetComponent<ButtonHighlight>();
+
+        selectedHue.SetActive(false);
+        selectedSlot = null;
+    }
+
+    public void SetItem(Inventory_ItemSO newItem)
+    {
+        item = newItem;
 
         if (item != null)
         {
             isEmpty = false;
-            itemSprDisplay.GetComponent<Image>().sprite = item.itemSpr;
-            
+
+            Image itemImage = itemSprDisplay.GetComponent<Image>();
+
+            itemImage.sprite = item.itemSpr;
+            itemImage.color = Color.white;
+            itemBox.GetComponent<Image>().color = new Color32(30, 30, 30, 255);
         }
         else
         {
             isEmpty = true;
-            itemSprDisplay.GetComponent<Image>().sprite = null;
-            itemSprDisplay.GetComponent<Image>().color = new Color(0f, 0f, 0f, 0f);
+
+            Image itemImage = itemSprDisplay.GetComponent<Image>();
+
+            itemImage.sprite = null;
+            itemImage.color = new Color(0f, 0f, 0f, 0f);
+            itemBox.GetComponent<Image>().color = Color.black;
         }
     }
 
     void ExecuteTask()
     {
-        infoPanel.GetComponent<ItemInfoPanel>().UpdateDisplay(item);
+        if (!isEmpty && !CheckIfSelected()) {
+            Debug.Log("Update Item Before");
+            ItemInfoPanel.Instance.UpdateDisplay(item);
+            SetSelected();
+            Debug.Log("Update Item");
+        }
     }
 
     void UpdateActivity()
@@ -54,21 +80,16 @@ public class Inventory_ItemSlot : MonoBehaviour
         }
     }
 
-
     // Update is called once per frame
     void Update()
     {
         UpdateActivity();
+        ManageSelectionProperties();
     }
 
     public Inventory_ItemSO GetItem()
     {
         return item;
-    }
-
-    public void SetItem(Inventory_ItemSO item)
-    {
-        this.item = item;
     }
 
     public bool CheckIfEmpty()
@@ -85,5 +106,28 @@ public class Inventory_ItemSlot : MonoBehaviour
     {
         quantityText.GetComponent<TextMeshProUGUI>().text = quantity.ToString();
     }
+
+    public bool CheckIfSelected()
+    {
+        return itemSlot == selectedSlot;
+    }
+
+    public void SetSelected()
+    {
+        selectedSlot = itemSlot;
+    }
+
+    public void ManageSelectionProperties()
+    {
+        if (CheckIfSelected())
+        {
+            selectedHue.SetActive(true);
+        }
+        else
+        {
+            selectedHue.SetActive(false);
+        }
+    }
+
 
 }
