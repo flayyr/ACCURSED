@@ -45,7 +45,7 @@ public class HurtBox : MonoBehaviour
         {
             // Identify Hitbox
             var hitBox = collision.gameObject.GetComponent<HitBox>();
-            Vector2 direction = hitBox.FindGlobalDirection().normalized;
+            Vector2 direction = hitBox.FindGlobalDirection(transform).normalized;
 
             if (hitBox.originObject != transform.root.gameObject)
             {
