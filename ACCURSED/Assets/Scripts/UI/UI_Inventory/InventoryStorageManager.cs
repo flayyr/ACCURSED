@@ -156,8 +156,6 @@ public class InventoryStorageManager : MonoBehaviour
                 storage.itemSlot.SetIfEmpty(false);
 
                 storage.itemSlot.SetItem(storage.item);
-
-                // You will need this method
                 storage.itemSlot.SetQuantity(storage.quantity);
             }
         }

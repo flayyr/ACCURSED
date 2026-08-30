@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class ItemInfoPanel : MonoBehaviour
 {
+    public static ItemInfoPanel Instance { get; private set; }
+
     [SerializeField] public GameObject itemName;
     [SerializeField] public GameObject itemType;
     [SerializeField] public GameObject labelingText;
@@ -13,13 +15,27 @@ public class ItemInfoPanel : MonoBehaviour
 
     private void Awake()
     {
+
+        // Singleton check
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
+        //Debug.Log("MY NAME IS INFO PANEL AND I EXIST");
+
         UpdateDisplay(null);
+
     }
     public void UpdateDisplay(Inventory_ItemSO item)
     {
         currentItemDisplay = item;
 
         if (item != null) {
+            Debug.Log(item.name);
             labelingText.SetActive(true);
 
             itemName.GetComponent<TextMeshProUGUI>().text = currentItemDisplay.itemName;
@@ -29,6 +45,7 @@ public class ItemInfoPanel : MonoBehaviour
         }
         else
         {
+            Debug.Log("null");
             labelingText.SetActive(false);
 
             itemName.GetComponent<TextMeshProUGUI>().text = "";
