@@ -21,7 +21,7 @@ public class PlayerStatistics : CharacterStatistics
 
         OnHealChargeUpdate?.Invoke();
         OnVitalityUpdate?.Invoke();
-        OnRemembranceChargeUpdate?.Invoke();
+        //OnRemembranceChargeUpdate?.Invoke();  commented because combatUI might not have initialized the UI in player abilities yet
     }
 
     public bool UseHealCharge()

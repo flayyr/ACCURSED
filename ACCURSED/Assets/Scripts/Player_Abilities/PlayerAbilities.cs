@@ -69,7 +69,9 @@ public class PlayerAbilities : MonoBehaviour
 
     void UpdateRemembranceChargeUI()
     {
-        remembranceUI.SetFrameFill(playerStatistics.currentRemembranceCharge / remembranceAbility.requiredCharge);
+        if (remembranceUI != null) {
+            remembranceUI.SetFrameFill(playerStatistics.currentRemembranceCharge / remembranceAbility.requiredCharge);
+        }
     }
 
 
