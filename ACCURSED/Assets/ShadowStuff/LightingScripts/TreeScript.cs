@@ -5,7 +5,7 @@ public class TreeScript: MonoBehaviour
 {
     [SerializeField] Sprite leafSprite;
 
-    [HideInInspector]public CustomDynamicLit leavesDynamicLit;
+    [HideInInspector] public CustomDynamicLit leavesDynamicLit;
 
     CustomDynamicLit treeDynamicLit;
 

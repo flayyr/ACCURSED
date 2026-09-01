@@ -8,7 +8,7 @@ public class ShadowScript : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         Bounds bounds = spriteRenderer.bounds;
-        bounds.Expand(/*spriteRenderer.size.y * LightManager.instance.ambientShadowSkew* */ 200f);
+        bounds.Expand(/*spriteRenderer.size.y * LightManager.instance.ambientShadowSkew* */ float.MaxValue);
         spriteRenderer.localBounds = bounds;
     }
 
