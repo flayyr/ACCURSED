@@ -1,0 +1,18 @@
+﻿using UnityEngine;
+
+namespace SaintsField.Samples.Scripts.ReadOnlyExamples
+{
+    public class DisableIfExample: MonoBehaviour
+    {
+        public bool bool1;
+        public bool bool2;
+
+        [FieldDisableIf] public string justDisable;
+
+        [FieldDisableIf(nameof(bool1))] public string d1;
+
+        [FieldDisableIf(nameof(bool1), nameof(bool2))] public string d1And2;
+
+        [FieldDisableIf(nameof(bool1)), FieldDisableIf(nameof(bool2))] public string d1Or2;
+    }
+}

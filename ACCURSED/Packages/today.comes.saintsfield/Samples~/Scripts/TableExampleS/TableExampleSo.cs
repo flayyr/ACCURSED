@@ -1,0 +1,52 @@
+using System;
+using SaintsField.Playa;
+using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+namespace SaintsField.Samples.Scripts.TableExampleS
+{
+    public class TableExampleSo : SaintsMonoBehaviour
+    {
+        [Table] public Scriptable[] scriptableArray;
+
+
+        [Serializable]
+        public struct MyStruct
+        {
+            public Bounds bounds;
+            public Vector2Int vector2Int;
+            public Vector3 vector3;
+            public Vector3Int vector3Int;
+            public Color color;
+
+            public GameObject gameObject;
+            public Scriptable so;
+            public Sprite sprite;
+            public Animator animator;
+            public AnimationCurve curve;
+        }
+
+        [Table] public MyStruct[] myStructs;
+
+        // [GetScriptableObject]
+        // public Scriptable scriptable;
+        // public Scriptable[] scriptables;
+
+        [Button]
+        private void Button()
+        {
+#if UNITY_EDITOR
+            Debug.Log(EditorGUIUtility.systemCopyBuffer);
+#endif
+        }
+
+
+
+        public MyStruct myStruct;
+
+        [GetScriptableObject, Expandable]
+        public Scriptable[] rawScriptableArray;
+    }
+}

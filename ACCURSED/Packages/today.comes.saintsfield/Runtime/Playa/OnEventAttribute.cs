@@ -1,0 +1,30 @@
+using System;
+using System.Diagnostics;
+using SaintsField.Interfaces;
+
+namespace SaintsField.Playa
+{
+    [Conditional("UNITY_EDITOR")]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class OnEventAttribute: Attribute, IPlayaAttribute, IPlayaMethodAttribute, IPlayaMethodBindAttribute, IPlayaAutoRunnerFix
+    {
+        public MethodBind MethodBind => MethodBind.UnityEvent;
+
+        public string EventTarget { get; }
+        public Type ComponentTypeOrNull => null;
+        public string ComponentEventName => null;
+        public object Value { get; }
+        public bool IsCallback { get; }
+
+        public OnEventAttribute(string eventTarget, object value=null, bool isCallback=false)
+        {
+            EventTarget = eventTarget;
+            Value = value;
+            IsCallback = isCallback;
+            if (isCallback)
+            {
+                Debug.Assert(value is string, $"{value} must be string when isCallback is true");
+            }
+        }
+    }
+}

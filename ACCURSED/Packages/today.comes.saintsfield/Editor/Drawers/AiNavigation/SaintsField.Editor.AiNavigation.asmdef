@@ -1,0 +1,30 @@
+{
+    "name": "SaintsField.Editor.AiNavigation",
+    "rootNamespace": "SaintsField",
+    "references": [
+        "SaintsField.Editor",
+        "SaintsField.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [
+        "Sirenix.OdinInspector.Editor.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "SAINTSFIELD_AI_NAVIGATION",
+        "!SAINTSFIELD_AI_NAVIGATION_DISABLED"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.ai.navigation",
+            "expression": "",
+            "define": "SAINTSFIELD_AI_NAVIGATION"
+        }
+    ],
+    "noEngineReferences": false
+}

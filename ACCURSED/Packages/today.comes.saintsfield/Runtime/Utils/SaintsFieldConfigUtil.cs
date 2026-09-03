@@ -1,0 +1,189 @@
+#if UNITY_EDITOR
+
+using System;
+using UnityEditor;
+using UnityEngine.Events;
+
+using System.IO;
+using UnityEngine;
+
+
+// ReSharper disable once CheckNamespace
+namespace SaintsField.Utils
+{
+
+// #if UNITY_EDITOR
+//     [InitializeOnLoad]
+// #pragma warning disable CS0618
+//     public class SaintsFieldConfigDeleteWatcher : AssetModificationProcessor
+// #pragma warning restore CS0618
+//     {
+//         // ReSharper disable once EmptyConstructor
+//         static SaintsFieldConfigDeleteWatcher()
+//         {
+//         }
+//
+//         public static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions rao)
+//         {
+//             // Debug.Log("deleted - unity callback: " + assetPath);
+//             // Debug.Log(rao);
+//             if (SaintsFieldConfigUtil.IsConfigLoaded && SaintsFieldConfigUtil.ConfigAssetPath == assetPath)
+//             {
+//                 SaintsFieldConfigUtil.IsConfigLoaded = false;
+//                 SaintsFieldConfigUtil.Config = null;
+//                 Debug.Log($"SaintsField config deleted: {assetPath}");
+//             }
+//
+//             return AssetDeleteResult.DidNotDelete;
+//         }
+//
+//     }
+// #endif
+
+    public static class SaintsFieldConfigUtil
+    {
+        public const string EditorResourcePath = "SaintsField/SaintsFieldConfig.asset";
+
+        public static SaintsFieldConfig Config;
+        private static string _configAssetPath = "";
+        public static bool IsConfigLoaded;
+
+        public static readonly UnityEvent<SaintsFieldConfig> OnConfigLoaded = new UnityEvent<SaintsFieldConfig>();
+
+#if UNITY_EDITOR
+// #if UNITY_2019_2_OR_NEWER
+//         [UnityEngine.RuntimeInitializeOnLoadMethod(UnityEngine.RuntimeInitializeLoadType.SubsystemRegistration)]
+// #endif
+        public static bool ReloadConfig()
+        {
+            ReloadConfigInternal();
+            return IsConfigLoaded;
+        }
+
+        [InitializeOnLoadMethod]
+        private static void ReloadConfigInternal()
+        {
+            // if (Config != null)
+            // {
+            //     return;
+            // }
+
+            // Debug.Log("Reload");
+// #if SAINTSFIELD_DEBUG
+//             Debug.Log("Load SaintsFieldConfig");
+// #endif
+            try
+            {
+                Config = (SaintsFieldConfig)EditorGUIUtility.Load(EditorResourcePath);
+            }
+#pragma warning disable CS0168
+            catch (Exception e)
+#pragma warning restore CS0168
+            {
+                // do nothing
+#if SAINTSFIELD_DEBUG
+                Debug.LogWarning(e);
+#endif
+            }
+
+            IsConfigLoaded = Config != null;
+            if (!IsConfigLoaded)
+            {
+                if (!Directory.Exists("Assets/Editor Default Resources"))
+                {
+                    Debug.Log("Create folder: Assets/Editor Default Resources");
+                    AssetDatabase.CreateFolder("Assets", "Editor Default Resources");
+                }
+
+                if (!Directory.Exists("Assets/Editor Default Resources/SaintsField"))
+                {
+                    Debug.Log("Create folder: Assets/Editor Default Resources/SaintsField");
+                    AssetDatabase.CreateFolder("Assets/Editor Default Resources", "SaintsField");
+                }
+
+                string fullPath = $"Assets/Editor Default Resources/{EditorResourcePath}";
+                if (File.Exists(fullPath))
+                {
+                    Debug.LogWarning($"File exists but failed to load as SaintsConfig: {fullPath}");
+                    return;
+                }
+
+                Config = ScriptableObject.CreateInstance<SaintsFieldConfig>();
+                Debug.Log($"Create saintsFieldConfig: {fullPath}");
+                AssetDatabase.CreateAsset(Config, fullPath);
+                AssetDatabase.SaveAssets();
+                IsConfigLoaded = true;
+            }
+
+            _configAssetPath = AssetDatabase.GetAssetPath(Config);
+            OnConfigLoaded.Invoke(Config);
+#if SAINTSFIELD_DEBUG
+            Debug.Log($"SaintsField config load: {IsConfigLoaded}, {_configAssetPath}");
+#endif
+        }
+#endif
+
+        public static int GetFoldoutSpaceImGui() => IsConfigLoaded? Config.foldoutSpaceImGui: SaintsFieldConfig.FoldoutSpaceImGuiDefault;
+
+        public static EXP GetComponentExp(EXP defaultValue) => IsConfigLoaded && Config.getComponentExpOverride? Config.getComponentExp: defaultValue;
+
+        public static EXP GetComponentInChildrenExp(EXP defaultValue) => IsConfigLoaded && Config.getComponentInChildrenExpOverride? Config.getComponentInChildrenExp: defaultValue;
+        public static EXP GetComponentInParentExp(EXP defaultValue) => IsConfigLoaded && Config.getComponentInParentExpOverride? Config.getComponentInParentExp: defaultValue;
+        public static EXP GetComponentInParentsExp(EXP defaultValue) => IsConfigLoaded && Config.getComponentInParentsExpOverride? Config.getComponentInParentsExp: defaultValue;
+        public static EXP GetComponentInSceneExp(EXP defaultValue) => IsConfigLoaded && Config.getComponentInSceneExpOverride? Config.getComponentInSceneExp: defaultValue;
+        public static EXP GetPrefabWithComponentExp(EXP defaultValue) => IsConfigLoaded && Config.getPrefabWithComponentExpOverride? Config.getPrefabWithComponentExp: defaultValue;
+        public static EXP GetScriptableObjectExp(EXP defaultValue) => IsConfigLoaded && Config.getScriptableObjectExpOverride? Config.getScriptableObjectExp: defaultValue;
+        public static EXP GetByXPathExp(EXP defaultValue) => IsConfigLoaded && Config.getByXPathExpOverride? Config.getByXPathExp: defaultValue;
+        public static EXP GetComponentByPathExp(EXP defaultValue) => IsConfigLoaded? Config.getComponentByPathExp: defaultValue;
+        public static EXP FindComponentExp(EXP defaultValue) => IsConfigLoaded? Config.findComponentExp: defaultValue;
+
+        public static int ResizableTextAreaMinRow() => IsConfigLoaded && Config.resizableTextAreaMinRowOverride? Config.resizableTextAreaMinRow: SaintsFieldConfig.ResizableTextAreaMinRowDefault;
+        public static bool DisableOnValueChangedWatchArrayFieldUIToolkit() => IsConfigLoaded && Config.disableOnValueChangedWatchArrayFieldUIToolkit;
+
+        // public static int GetByXPathDelayMs() => IsConfigLoaded? Config.getByXPathDelayMs: 0;
+        // public static int GetByXPathLoopIntervalMs() => IsConfigLoaded? Config.getByXPathLoopIntervalMs: SaintsFieldConfig.GetByXPathLoopIntervalDefaultMs;
+        // public static int GetByXPathLoopIntervalMsIMGUI() => IsConfigLoaded? Config.getByXPathLoopIntervalMsIMGUI: SaintsFieldConfig.GetByXPathLoopIntervalDefaultMsIMGUI;
+        // public static int GetByXPathFieldPassIMGUI() => IsConfigLoaded? Config.getByXPathFieldPassIMGUI: SaintsFieldConfig.GetByXPathDefaultFieldPassIMGUI;
+        // public static int GetByXPathArrayPassIMGUI() => IsConfigLoaded? Config.getByXPathArrayPassIMGUI: SaintsFieldConfig.GetByXPathDefaultArrayPassIMGUI;
+
+        // ReSharper disable once SimplifyConditionalTernaryExpression
+        public static bool GetValidateInputLoopCheckUIToolkit() => IsConfigLoaded? Config.validateInputLoopCheckUIToolkit: SaintsFieldConfig.ValidateInputLoopCheckDefault;
+        public static bool GetMonoBehaviorSearchable()
+        {
+            if (!IsConfigLoaded)
+            {
+                return SaintsFieldConfig.MonoBehaviorSearchableDefault;
+            }
+
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (Config.monoBehaviorSearchableOverride)
+            {
+                return Config.monoBehaviorSearchable;
+            }
+
+            return SaintsFieldConfig.MonoBehaviorSearchableDefault;
+        }
+
+        public static bool GetMonoBehaviorRuntimeSave()
+        {
+            if (!EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                return false;
+            }
+
+            if (!IsConfigLoaded)
+            {
+                return SaintsFieldConfig.MonoBehaviorRuntimeSaveDefault;
+            }
+
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (Config.monoBehaviorRuntimeSaveOverride)
+            {
+                return Config.monoBehaviorRuntimeSave;
+            }
+
+            return SaintsFieldConfig.MonoBehaviorRuntimeSaveDefault;
+        }
+    }
+}
+#endif

@@ -1,0 +1,52 @@
+name: Deploy Notifications
+
+on:
+  push:
+    branches:
+      - '**'
+
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+    branches:
+      - '**'
+
+  issues:
+    types:
+      - opened
+      - closed
+      - reopened
+
+  release:
+    types:
+      - published
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fake deploy
+        run: echo "Deploying..."
+
+      - name: Send Discord notification
+        if: always()
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          content: "Repository updated"
+          title: "deploy"
+          description: |
+            Event: ${{ github.event_name }}
+            Ref: ${{ github.ref_name }}
+            Actor: ${{ github.actor }}
+          color: 0x0000ff
+          username: GitHub Actions

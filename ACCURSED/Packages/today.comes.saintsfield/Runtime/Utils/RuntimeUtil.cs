@@ -1,0 +1,805 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using SaintsField.Playa;
+using UnityEngine;
+using Object = UnityEngine.Object;
+
+// ReSharper disable once CheckNamespace
+namespace SaintsField.Utils
+{
+    public static class RuntimeUtil
+    {
+        public const string MenuRoot =
+#if SAINTSFIELD_DEBUG
+                "Saints Field/"
+#else
+                "Tools/Saints Field/"
+#endif
+            ;
+
+
+        public static (string content, bool isCallback) ParseCallback(string content, bool isCallback=false)
+        {
+            if (isCallback || content is null)
+            {
+                return (content, isCallback);
+            }
+
+            if (content.StartsWith("\\"))
+            {
+                // ReSharper disable once ReplaceSubstringWithRangeIndexer
+                return (content.Substring(1, content.Length - 1), false);
+            }
+
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (content.StartsWith("$"))
+            {
+                return (content.Substring(1, content.Length - 1), true);
+            }
+            // // ReSharper disable once ConvertIfStatementToReturnStatement
+            // if (content.StartsWith(":"))
+            // {
+            //     return (content, true);
+            // }
+
+            return (content, false);
+        }
+
+        public static bool IsNull(object obj)
+        {
+            if (obj is Object uObject)
+            {
+                try
+                {
+                    return !uObject;
+                }
+                catch (InvalidOperationException)
+                {
+                    // ignore
+                }
+            }
+
+            return obj == null;
+        }
+
+        public static IEnumerable<string> SeparatePath(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                yield break;
+            }
+            List<RichTextParsedChunk> openTag = new List<RichTextParsedChunk>();
+            List<RichTextParsedChunk> acc = new List<RichTextParsedChunk>();
+            foreach (RichTextParsedChunk richTextParsedChunk in ParseRichXml(path))
+            {
+                if (richTextParsedChunk.ChunkType == ChunkType.NormalTag)
+                {
+                    if (richTextParsedChunk.TagType == TagType.StartTag)
+                    {
+                        openTag.Add(richTextParsedChunk);
+                    }
+                    else
+                    {
+                        // ReSharper disable once UseIndexFromEndExpression
+                        if (openTag.Count > 0 && openTag[openTag.Count - 1].TagName == richTextParsedChunk.TagName)
+                        {
+                            openTag.RemoveAt(openTag.Count - 1);
+                        }
+                    }
+
+                    // Debug.Log($"add tag {richTextParsedChunk}");
+
+                    acc.Add(richTextParsedChunk);
+                }
+                else if (richTextParsedChunk.ChunkType == ChunkType.IconTag)
+                {
+                    // Debug.Log($"add icon {richTextParsedChunk}");
+                    acc.Add(richTextParsedChunk);
+                }
+                else if (richTextParsedChunk.ChunkType == ChunkType.Text)
+                {
+                    // acc.Add(richTextParsedChunk);
+                    string rawContent = richTextParsedChunk.RawContent;
+                    // Debug.Log($"rawContent={rawContent}");
+                    // Debug.Log($"split={string.Join(":", split)}");
+                    string[] split = rawContent.Split(new[] { '/' });
+                    if (split.Length == 1)
+                    {
+                        acc.Add(richTextParsedChunk);
+                    }
+                    else
+                    {
+                        for (int index = 0; index < split.Length - 1; index++)
+                        {
+                            string splitSeg = split[index];
+
+                            StringBuilder sb = new StringBuilder();
+
+                            if (index != 0)
+                            {
+                                acc.AddRange(openTag);
+                            }
+
+                            if (acc.Count > 0)
+                            {
+                                foreach (RichTextParsedChunk accChunk in acc)
+                                {
+                                    // Debug.Log($"sb add={accChunk.RawContent}");
+                                    sb.Append(accChunk.RawContent);
+                                }
+                                acc.Clear();
+                            }
+
+                            // Debug.Log($"splitSeg={splitSeg}");
+                            sb.Append(splitSeg);
+
+                            if (openTag.Count > 0)
+                            {
+                                foreach (RichTextParsedChunk openTagChunk in openTag)
+                                {
+                                    // Debug.Log($"sb add close tag={openTagChunk.TagName}");
+                                    sb.Append($"</{openTagChunk.TagName}>");
+                                }
+                            }
+
+                            // Debug.Log($"sb={sb}");
+                            yield return sb.ToString();
+                        }
+
+                        acc.Clear();
+                        acc.AddRange(openTag);
+
+                        // ReSharper disable once UseIndexFromEndExpression
+                        string lastStr = split[split.Length - 1];
+                        // ReSharper disable once InvertIf
+                        if(!string.IsNullOrEmpty(lastStr))
+                        {
+                            // Debug.Log($"add last text={lastStr}");
+                            acc.Add(new RichTextParsedChunk(lastStr, ChunkType.Text));
+                        }
+                    }
+
+                }
+            }
+
+            if (acc.Count > 0)
+            {
+                if (openTag.Count > 0)
+                {
+                    acc.AddRange(openTag);
+                }
+
+                yield return string.Join("", acc.Select(each => each.RawContent));
+            }
+        }
+
+        private enum RichPartType
+        {
+            Content,
+            StartTag,
+            EndTag,
+        }
+
+        public enum ChunkType
+        {
+            Text,
+            NormalTag,
+            IconTag,
+        }
+
+        public enum TagType
+        {
+            None,
+            StartTag,
+            EndTag,
+        }
+
+        public readonly struct RichTextParsedChunk
+        {
+            public readonly string RawContent;
+
+            public readonly ChunkType ChunkType;
+
+            public readonly string TagName;
+            public readonly TagType TagType;
+            public readonly string TagValue;
+
+            public readonly string IconColor;
+
+            public RichTextParsedChunk(string rawContent, ChunkType chunkType, TagType tagType=TagType.None, string tagName="", string tagValue="", string iconColor="")
+            {
+                RawContent = rawContent;
+                ChunkType = chunkType;
+                TagName = tagName;
+                TagType = tagType;
+                TagValue = tagValue;
+                IconColor = iconColor;
+            }
+
+            public override string ToString()
+            {
+                // ReSharper disable once ConvertSwitchStatementToSwitchExpression
+                switch (ChunkType)
+                {
+                    case ChunkType.Text:
+                        return $"[TEXT = {RawContent}]";
+                    case ChunkType.IconTag:
+                        return $"[ICON = content={TagValue} color={IconColor}]";
+                    case ChunkType.NormalTag:
+                        return $"[{(TagType == TagType.EndTag ? "/" : "")}TAG = {TagName} {TagValue}]";
+                    default:
+                        return base.ToString();
+                }
+            }
+        }
+
+        public static IEnumerable<RichTextParsedChunk> ParseRichXml(string richXml)
+        {
+            if (!richXml.Contains("<") || !richXml.Contains(">"))
+            {
+                yield return new RichTextParsedChunk(richXml, ChunkType.Text);
+                yield break;
+            }
+
+            // Debug.Log($"get rich xml: `{richXml}`");
+            List<string> colors = new List<string>();
+
+            // Define a regular expression pattern to match the tags
+            // const string pattern = "(<[^>]+>)";
+            //
+            // // Use Regex.Split to split the string by tags
+            // string[] splitByTags = Regex.Split(richXml, pattern);
+            string[] splitByTags = SplitByTags(richXml).Select(each => each.stringChunk).ToArray();
+
+            // List<string> colorPresent = new List<string>();
+            // List<string> stringPresent = new List<string>();
+            List<(string tagName, string tagValueOrNull, string rawContent)> openTags =
+                new List<(string tagName, string tagValueOrNull, string rawContent)>();
+            List<(string tagName, string tagValueOrNull, string rawContent)> needReopenTags =
+                new List<(string tagName, string tagValueOrNull, string rawContent)>();
+            StringBuilder richText = new StringBuilder();
+            // List<RichTextChunk> richTextChunks = new List<RichTextChunk>();
+            foreach (string part in splitByTags.Where(each => each != ""))
+            {
+                foreach ((string tagName, string tagValueOrNull, string rawContent) reOpenTag in needReopenTags)
+                {
+                    yield return new RichTextParsedChunk(
+                        reOpenTag.rawContent,
+                        ChunkType.NormalTag,
+                        tagType: TagType.StartTag,
+                        tagName: reOpenTag.tagName,
+                        tagValue: reOpenTag.tagValueOrNull);
+                }
+
+                needReopenTags.Clear();
+
+                (RichPartType partType, string content, string value, bool isSelfClose) parsedResult =
+                    ParsePart(part);
+
+                // Debug.Log($"{parsedResult.partType}: {parsedResult.content}/{parsedResult.value}/{parsedResult.isSelfClose}");
+
+                // ReSharper disable once MergeIntoPattern
+                // ReSharper disable once ConvertIfStatementToSwitchStatement
+                if (parsedResult.partType == RichPartType.Content && parsedResult.value == null &&
+                    !parsedResult.isSelfClose)
+                {
+                    richText.Append(parsedResult.content);
+                }
+                // ReSharper disable once MergeIntoPattern
+                else if (parsedResult.partType == RichPartType.StartTag && !parsedResult.isSelfClose)
+                {
+                    string curContent = richText.ToString();
+                    if (curContent != "")
+                    {
+                        yield return new RichTextParsedChunk(curContent, ChunkType.Text);
+                    }
+
+                    richText = new StringBuilder();
+
+                    // Debug.Log($"parse={parsedResult.content}, {parsedResult.value}");
+                    openTags.Add((parsedResult.content, parsedResult.value, part));
+
+                    // ReSharper disable once MergeIntoPattern
+                    if (parsedResult.content == "color" && parsedResult.value != null)
+                    {
+                        // Debug.Log($"add color {parsedResult.value}");
+                        colors.Add(parsedResult.value);
+                    }
+
+                    yield return new RichTextParsedChunk(part, ChunkType.NormalTag, tagType: TagType.StartTag,
+                        parsedResult.content, parsedResult.value);
+                }
+                else if (parsedResult.partType == RichPartType.EndTag)
+                {
+                    if (!parsedResult.isSelfClose)
+                    {
+                        // ReSharper disable once UseIndexFromEndExpression
+                        if (openTags.Count > 0)
+                        {
+#if SAINTSFIELD_DEBUG
+                            Debug.Assert(openTags[openTags.Count - 1].tagName == parsedResult.content,
+                                parsedResult.content);
+#endif
+
+                            openTags.RemoveAt(openTags.Count - 1);
+                        }
+                    }
+
+                    if (parsedResult.content == "icon")
+                    {
+                        // Debug.Log("processing icon");
+                        Debug.Assert(parsedResult.value != null);
+                        // process ending
+                        string curContent = richText.ToString();
+                        if (curContent != "")
+                        {
+                            yield return new RichTextParsedChunk(curContent, ChunkType.Text);
+                        }
+
+                        // Debug.Log("processing richText");
+                        richText = new StringBuilder();
+                        List<(string tagName, string tagValueOrNull, string rawContent)> openTagsCopy =
+                            openTags.ToList();
+
+                        for (int index = 0; index < openTagsCopy.Count; index++)
+                        {
+                            (string tagName, string tagValueOrNull, string rawContent) closeTag =
+                                openTagsCopy[openTagsCopy.Count - index - 1];
+                            yield return new RichTextParsedChunk($"</{closeTag.tagName}>", ChunkType.NormalTag,
+                                tagType: TagType.EndTag, tagName: closeTag.tagName,
+                                tagValue: closeTag.tagValueOrNull);
+                        }
+
+                        var color = colors.Count > 0 ? colors[colors.Count - 1] : null;
+                        RichTextParsedChunk iconTag = new RichTextParsedChunk(part,
+                            ChunkType.IconTag,
+                            tagValue: parsedResult.value,
+                            // ReSharper disable once UseIndexFromEndExpression
+                            iconColor: color);
+                        // Debug.Log($"yield raw iconTag {iconTag}");
+                        // Debug.Log($"yield iconTag={iconTag}(color={color})");
+
+                        yield return iconTag;
+                        needReopenTags.AddRange(openTagsCopy);
+                    }
+                    else
+                    {
+                        if (parsedResult.content == "color")
+                        {
+                            if (colors.Count == 0)
+                            {
+#if SAINTSFIELD_DEBUG
+                                Debug.LogError($"missing open color tag for {richText}");
+#endif
+                            }
+                            else
+                            {
+                                colors.RemoveAt(colors.Count - 1);
+                            }
+                        }
+
+                        string curContent = richText.ToString();
+                        if (curContent != "")
+                        {
+                            yield return new RichTextParsedChunk(curContent, ChunkType.Text);
+                        }
+
+                        richText = new StringBuilder();
+
+                        yield return new RichTextParsedChunk(part, ChunkType.NormalTag,
+                            tagType: TagType.EndTag, tagName: parsedResult.content, tagValue: parsedResult.value);
+                    }
+                }
+                else
+                {
+                    richText.Append(part);
+                }
+            }
+
+            string leftContent = richText.ToString();
+
+            // ReSharper disable once InvertIf
+            if (leftContent != "")
+            {
+                yield return new RichTextParsedChunk(leftContent, ChunkType.Text);
+            }
+        }
+
+        public static IEnumerable<(bool isTag, string stringChunk)> SplitByTags(string richXml)
+        {
+            bool insideTag = false;
+            bool insideDoubleQuote = false;
+
+            StringBuilder contentBuilder = new StringBuilder();
+            StringBuilder tagBuilder = new StringBuilder();
+
+
+            foreach (char c in richXml)
+            {
+                if (c == '<')
+                {
+                    if (insideTag)
+                    {
+                        if (insideDoubleQuote)
+                        {
+                            tagBuilder.Append("<");
+                        }
+                        else  // abnormal inside tag, treat as content
+                        {
+                            string tagString = tagBuilder.ToString();
+                            if (!string.IsNullOrEmpty(tagString))
+                            {
+                                yield return (false, tagString);
+                                tagBuilder.Clear();
+                            }
+                            tagBuilder.Append("<");
+                        }
+                    }
+                    else
+                    {
+                        string contentString = contentBuilder.ToString();
+                        if (!string.IsNullOrEmpty(contentString))
+                        {
+                            yield return (false, contentString);
+                            contentBuilder.Clear();
+                        }
+                        string tagString = tagBuilder.ToString();
+                        if (!string.IsNullOrEmpty(tagString))
+                        {
+                            yield return (false, tagString);
+                            tagBuilder.Clear();
+                        }
+
+                        insideTag = true;
+                        tagBuilder.Append("<");
+                    }
+                }
+                else if (c == '"')
+                {
+                    insideDoubleQuote = !insideDoubleQuote;
+                    if (insideTag)
+                    {
+                        tagBuilder.Append("\"");
+                    }
+                    else
+                    {
+                        contentBuilder.Append("\"");
+                    }
+                }
+                else if (c == '>')
+                {
+                    if (insideDoubleQuote)
+                    {
+                        if (insideTag)
+                        {
+                            tagBuilder.Append(c);
+                        }
+                        else
+                        {
+                            contentBuilder.Append(c);
+                        }
+                    }
+                    else
+                    {
+                        if (insideTag)
+                        {
+                            tagBuilder.Append(">");
+                            yield return (true, tagBuilder.ToString());
+                            tagBuilder.Clear();
+                            insideTag = false;
+                        }
+                        else
+                        {
+                            contentBuilder.Append(">");
+                        }
+                    }
+                }
+                else
+                {
+                    if (insideTag)
+                    {
+                        tagBuilder.Append(c);
+                    }
+                    else
+                    {
+                        contentBuilder.Append(c);
+                    }
+                }
+            }
+
+
+            string contentStringFinal = contentBuilder.ToString();
+            if (!string.IsNullOrEmpty(contentStringFinal))
+            {
+                yield return (false, contentStringFinal);
+                contentBuilder.Clear();
+            }
+
+            if(insideTag)  // abnormal insiding tag
+            {
+                string tagString = tagBuilder.ToString();
+                if (!string.IsNullOrEmpty(tagString))
+                {
+                    yield return (false, tagString);
+                    tagBuilder.Clear();
+                }
+            }
+            // const string pattern = "(<[^>]+>)";
+            //
+            // // Use Regex.Split to split the string by tags
+            // string[] splitByTags = Regex.Split(richXml, pattern);
+        }
+
+        private static (RichPartType partType, string content, string value, bool isSelfClose) ParsePart(string part)
+        {
+            if (!part.StartsWith("<") || !part.EndsWith(">"))  // content
+            {
+                return (RichPartType.Content, part, null, false);
+            }
+
+            if (part.StartsWith("</"))  // close
+            {
+                string endTagRawContent = part.Substring(2, part.Length - 3).Trim();
+                if (endTagRawContent.Length > 0)
+                {
+                    // Debug.Log($"part `{part}` is EndTag (StartsWith={part.StartsWith("</")})");
+                    return (RichPartType.EndTag, endTagRawContent.Trim(), null, false);
+                }
+                return (RichPartType.Content, part, null, false);
+            }
+            if (part.EndsWith("/>"))  // self close
+            {
+                string endTagRawContent = part.Substring(1, part.Length - 3).Trim();
+                (string endTagName, string endTagValue) = ParseTag(endTagRawContent);
+                // ReSharper disable once InvertIf
+                if (endTagName.Length > 0)
+                {
+                    // Debug.Log($"part `{part}` is EndTag");
+                    return (RichPartType.EndTag, endTagName, endTagValue, true);
+                }
+
+                return (RichPartType.Content, part, null, false);
+            }
+
+            // open tag
+            string tagRawContent = part.Substring(1, part.Length - 2);
+            (string tagName, string tagValue) = ParseTag(tagRawContent);
+            return tagName.Length > 0
+                ? (RichPartType.StartTag, tagName, tagValue, false)
+                : (RichPartType.Content, part, null, false);
+        }
+
+        private static (string tagName, string tagValue) ParseTag(string tagRaw)
+        {
+            // const string reg = @"(\w+)=(.+)";
+            const string reg = @"([^\=]+)=(.+)";
+            Match match = Regex.Match(tagRaw, reg);
+            if (!match.Success)
+            {
+                return (tagRaw.Trim(), null);
+            }
+
+            string tagName = match.Groups[1].Value;
+            string tagValue = match.Groups[2].Value;
+            if ((tagValue.StartsWith("'") && tagValue.EndsWith("'")) ||
+                (tagValue.StartsWith("\"") && tagValue.EndsWith("\"")))
+            {
+                tagValue = tagValue.Substring(1, tagValue.Length - 2);
+            }
+
+            string tagNameStrip = tagName.Trim();
+
+            if (tagNameStrip == "color")
+            {
+                tagValue = Colors.ToHtmlHexString(Colors.GetColorByStringPresent(tagValue));
+                // Debug.Log(tagValue);
+            }
+            return (tagNameStrip, tagValue);
+        }
+
+        public static bool SimpleSearch(string sourceContent, IReadOnlyList<ListSearchToken> tokens)
+        {
+            string sourceLow = sourceContent.ToLower();
+            foreach (ListSearchToken token in tokens)
+            {
+                string tokenLow = token.Token.ToLower();
+                if (token.Type == ListSearchType.Exclude && sourceLow.Contains(tokenLow))
+                {
+                    return false;
+                }
+
+                if (token.Type == ListSearchType.Include && !sourceLow.Contains(tokenLow))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static string GetAutoPropertyName(string propName)
+        {
+            return $"<{propName}>k__BackingField";
+        }
+
+        /// <summary>
+        /// Checks if the <paramref name="memberName"/> value is equal to the automatically generated C# backing field name for the given <paramref name="basePropName"/> without gc allocation.
+        /// </summary>
+        /// <param name="basePropName"> Original C# property name </param>
+        /// <param name="memberName"> Auto-generated backing field name candidate to check </param>
+        /// <returns> True if <paramref name="memberName"/> is equal to the auto generated backing field name for <paramref name="basePropName"/> </returns>
+        public static bool IsAutoPropertyNoAlloc(string basePropName, string memberName)
+        {
+            const string initialPart    = "<";                // Length: 1
+            const string finalPart = ">k__BackingField"; // Lenght: 16
+            if (1 + 16 + basePropName.Length != memberName.Length)
+            {
+                return false;
+            }
+
+            return string.Compare(memberName,   0,                      initialPart,    0, 1) == 0
+                && string.Compare(memberName,   memberName.Length - 16, finalPart, 0, 16) == 0
+                && string.Compare(basePropName, 0,                      memberName,      1, basePropName.Length) == 0;
+        }
+
+        public static ResponsiveLength ParseResponsiveLength(string content)
+        {
+            if (string.IsNullOrEmpty(content))
+            {
+                return new ResponsiveLength(ResponsiveType.None, -1);
+            }
+            string trimContent = content.Trim();
+            if (trimContent.EndsWith("%"))
+            {
+                // ReSharper disable once ReplaceSubstringWithRangeIndexer
+                // ReSharper disable once ConvertIfStatementToReturnStatement
+                if (float.TryParse(trimContent.Substring(0, trimContent.Length - 1), out float number))
+                {
+                    return new ResponsiveLength(ResponsiveType.Percent, number);
+                }
+                throw new ArgumentException($"{content} is not a valid percent length");
+            }
+
+            string pxContent = trimContent;
+            if (trimContent.ToLower().EndsWith("px"))
+            {
+                // ReSharper disable once ReplaceSubstringWithRangeIndexer
+                pxContent = trimContent.Substring(0, trimContent.Length - 2);
+            }
+
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (float.TryParse(pxContent, out float pxNumber))
+            {
+                return new ResponsiveLength(ResponsiveType.Pixel, pxNumber);
+            }
+            throw new ArgumentException($"{content} is not a valid pixel length");
+        }
+
+        public static bool IsSubFieldUnitySerializable(Type t)
+        {
+            if (t == null)
+            {
+                return false;
+            }
+
+            // Check this first for abstract MonoBehaviour/ScriptableObject types
+            // UnityEngine.Object (MonoBehaviour, ScriptableObject, Texture, etc.) are serialized as references
+            if (typeof(Object).IsAssignableFrom(t) || typeof(AnimationCurve).IsAssignableFrom(t) || typeof(Gradient).IsAssignableFrom(t) || typeof(RectOffset).IsAssignableFrom(t))
+            {
+                return true;
+            }
+
+            if (t.IsAbstract || t.IsInterface)
+            {
+                return false;
+            }
+
+            // Unity built-in structs
+            if(t == typeof(Vector2) || t == typeof(Vector2Int)
+               || t == typeof(Vector3) || t == typeof(Vector3Int)
+               || t == typeof(Vector4)
+               || t == typeof(Quaternion) || t == typeof(Matrix4x4)
+               || t == typeof(Color) || t == typeof(Color32)
+               || t == typeof(Rect) || t == typeof(RectInt)
+               || t == typeof(Bounds) || t == typeof(BoundsInt)
+               || t == typeof(LayerMask))
+            {
+                return true;
+            }
+
+            // primitives, strings and enums
+            if (t.IsPrimitive || t == typeof(string))
+            {
+                return true;
+            }
+
+            if (t.IsEnum)
+            {
+                Type underType = t.GetEnumUnderlyingType();
+                if(underType == typeof(long) || underType == typeof(ulong))
+                {
+                    return false; // Unity does not support long/ulong enums
+                }
+                return true;
+            }
+
+
+            if (t.IsArray)
+            {
+                return false;
+            }
+
+            // List<T> is supported if T is serializable
+            // if (t.IsGenericType)
+            // {
+            //     var def = t.GetGenericTypeDefinition();
+            //     if (def == typeof(List<>))
+            //     {
+            //         return false;
+            //     }
+            //     return false; // Unity does not serialize arbitrary generic types
+            // }
+
+            // types marked [Serializable] (includes built-in structs like Vector3, Rect, etc.)
+            return t.IsSerializable;
+        }
+
+        public static string TrimScenePath(string scenePath, bool fullPath)
+        {
+            string preTrimScenePath = scenePath;
+            if(preTrimScenePath.StartsWith("/Assets/"))
+            {
+                // ReSharper disable once ReplaceSubstringWithRangeIndexer
+                preTrimScenePath = preTrimScenePath.Substring("/Assets/".Length);
+            }
+            else if(preTrimScenePath.StartsWith("Assets/"))
+            {
+                // ReSharper disable once ReplaceSubstringWithRangeIndexer
+                preTrimScenePath = preTrimScenePath.Substring("Assets/".Length);
+            }
+
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            // ReSharper disable once InvertIf
+            if (preTrimScenePath.EndsWith(".unity"))
+            {
+                if(fullPath)
+                {
+                    // ReSharper disable once ReplaceSubstringWithRangeIndexer
+                    return preTrimScenePath.Substring(0, preTrimScenePath.Length - ".unity".Length);
+                }
+                return Path.GetFileNameWithoutExtension(preTrimScenePath);
+            }
+
+            return fullPath? preTrimScenePath : Path.GetFileNameWithoutExtension(preTrimScenePath);
+        }
+
+#if UNITY_EDITOR
+        public static WrapType EditorWrapMigrateFrom1<T>(List<SaintsWrap<T>> wrapList)
+        {
+            if (wrapList.Count == 0)
+            {
+                return WrapType.T;
+            }
+
+            WrapType r = wrapList[0].wrapType;
+
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (SaintsWrap<T> wrap in wrapList)
+            {
+                // ReSharper disable once RedundantCheckBeforeAssignment
+                if (wrap.wrapType != r)
+                {
+                    Debug.Log($"Migrate 1 set wrap type to {r}");
+                    wrap.wrapType = r;
+                }
+            }
+
+            return r;
+        }
+#endif
+    }
+}

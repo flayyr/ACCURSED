@@ -1,0 +1,23 @@
+#if UNITY_2021_3_OR_NEWER
+using SaintsField.Editor.UIToolkitElements.ValueButtons;
+
+namespace SaintsField.Editor.Drawers.ValueButtonsDrawer
+{
+    public class ValueButtonsArrangeElement: AbsValueButtonsArrangeElement<ValueButton>
+    {
+        public ValueButtonsArrangeElement(AbsValueButtonsCalcElement valueButtonsCalcElement) : base(valueButtonsCalcElement, MakeRow())
+        {
+        }
+
+        protected override AbsValueButtonsRow<ValueButton> MakeValueButtonsRow()
+        {
+            return MakeRow();
+        }
+
+        private static AbsValueButtonsRow<ValueButton> MakeRow()
+        {
+            return new ValueButtonsRow();
+        }
+    }
+}
+#endif

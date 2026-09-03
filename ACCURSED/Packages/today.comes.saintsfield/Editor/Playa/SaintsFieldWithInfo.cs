@@ -1,0 +1,59 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using SaintsField.Playa;
+using UnityEditor;
+
+namespace SaintsField.Editor.Playa
+{
+    public struct SaintsFieldWithInfo
+    {
+        public int InherentDepth;
+        // public int Order;
+
+        // public IReadOnlyList<ISaintsLayoutBase> LayoutBases;
+        public IReadOnlyList<IPlayaAttribute> PlayaAttributes;
+        public object TargetParent;
+        public MemberInfo TargetMemberInfo;
+        public int TargetMemberIndex;
+        public IReadOnlyList<object> Targets;
+
+        public SaintsRenderType RenderType;
+
+        public SerializedProperty SerializedProperty;
+
+        public string MemberId;
+        public FieldInfo FieldInfo;
+        public MethodInfo MethodInfo;
+        public PropertyInfo PropertyInfo;
+
+        public Type ClassStructType;  // only for RenderType.ClassStruct
+
+        // public List<IPlayaAttribute> PlayaAttributesQueue;
+
+        public override string ToString()
+        {
+            return $"<SaintsFieldWithInfo {RenderType} {FieldInfo?.Name} {PropertyInfo?.Name} {MethodInfo?.Name} {SerializedProperty?.propertyPath}/>";
+        }
+
+        public SaintsFieldWithInfo RefreshTargets(object[] targets)
+        {
+            return new SaintsFieldWithInfo
+            {
+                InherentDepth = InherentDepth,
+                PlayaAttributes = PlayaAttributes,
+                TargetParent = TargetParent,
+                TargetMemberInfo = TargetMemberInfo,
+                TargetMemberIndex = TargetMemberIndex,
+                Targets = targets,
+                RenderType = RenderType,
+                SerializedProperty = SerializedProperty,
+                MemberId = MemberId,
+                FieldInfo = FieldInfo,
+                MethodInfo = MethodInfo,
+                PropertyInfo = PropertyInfo,
+                ClassStructType = ClassStructType,
+            };
+        }
+    }
+}

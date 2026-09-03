@@ -1,0 +1,44 @@
+{
+    "name": "SaintsField.Editor.Spine",
+    "rootNamespace": "SaintsField",
+    "references": [
+        "SaintsField.Editor",
+        "SaintsField.Runtime.Spine",
+        "SaintsField.Runtime",
+        "spine-unity",
+        "spine-csharp"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [
+        "Sirenix.OdinInspector.Editor.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "SAINTSFIELD_SPINE_CSHARP",
+        "SAINTSFIELD_SPINE_UNITY",
+        "!SAINTSFIELD_SPINE_DISABLE"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.esotericsoftware.spine.spine-csharp",
+            "expression": "",
+            "define": "SAINTSFIELD_SPINE_CSHARP"
+        },
+        {
+            "name": "com.esotericsoftware.spine.spine-unity",
+            "expression": "",
+            "define": "SAINTSFIELD_SPINE_UNITY"
+        },
+        {
+            "name": "com.esotericsoftware.spine.spine-unity",
+            "expression": "4.3.0",
+            "define": "SAINTSFIELD_SPINE_UNITY_4_3_0_OR_NEWER"
+        }
+    ],
+    "noEngineReferences": false
+}

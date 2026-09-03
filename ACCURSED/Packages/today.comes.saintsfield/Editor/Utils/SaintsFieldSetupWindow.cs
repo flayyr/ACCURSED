@@ -1,0 +1,441 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using SaintsField.Playa;
+using SaintsField.Utils;
+using UnityEditor;
+using UnityEditor.PackageManager;
+using UnityEditor.PackageManager.Requests;
+using UnityEngine;
+#if SAINTSFIELD_NEWTONSOFT_JSON
+using Newtonsoft.Json;
+#endif
+
+namespace SaintsField.Editor.Utils
+{
+    public class SaintsFieldSetupWindow: SaintsEditorWindow
+    {
+// #if SAINTSFIELD_DEBUG
+//         [MenuItem(RuntimeUtil.MenuRoot + "/SaintsField Setup")]
+// #endif
+        public static void Open()
+        {
+            GetWindow<SaintsFieldSetupWindow>("SaintsField Setup").Show();
+        }
+
+        [InitializeOnLoadMethod]
+        private static void WatchConfigLoad()
+        {
+
+            if (SaintsFieldConfigUtil.Config != null)
+            {
+                CheckConfigOpen(SaintsFieldConfigUtil.Config);
+            }
+            else
+            {
+                SaintsFieldConfigUtil.OnConfigLoaded.AddListener(CheckConfigOpen);
+            }
+        }
+
+        // Note: if user installed the package with unity closed, then open the UnityEditor
+        // the window will not pop up no matter what
+        // This is acceptable, because without this static, the window will pop up many times with blank window
+        // as the UnityEditor processing
+        private static bool _pop;
+
+        private static void CheckConfigOpen(SaintsFieldConfig config)
+        {
+            if (_pop)
+            {
+                return;
+            }
+
+            _pop = true;
+            if (!config.GetSetupWindowPopOnce())
+            {
+                Debug.Log($"setupWindowPopOnce false, pop setup window for SaintsField");
+                EditorApplication.delayCall += () =>
+                {
+                    GetWindow<SaintsFieldSetupWindow>("SaintsField Setup").Show();
+                };
+            }
+        }
+
+
+#pragma warning disable CS0414 // Type or member is only assigned
+        private bool _loadingSaintsEditor;
+        private bool _loadingCodeAnalysis;
+#pragma warning restore CS0414 // Type or member is only assigned
+        // private bool _loadingUnitySerialization;
+
+        // private static readonly ICollection<string> scopeScopes = new List<string>
+        // {
+        //     "org.nuget.microsoft.codeanalysis.analyzers",
+        //     "org.nuget.microsoft.codeanalysis.common",
+        //     "org.nuget.microsoft.codeanalysis.csharp",
+        //     "org.nuget.system.buffers",
+        //     "org.nuget.system.collections.immutable",
+        //     "org.nuget.system.memory",
+        //     "org.nuget.system.numerics.vectors",
+        //     "org.nuget.system.reflection.metadata",
+        //     "org.nuget.system.runtime.compilerservices.unsafe",
+        //     "org.nuget.system.text.encoding.codepages",
+        //     "org.nuget.system.threading.tasks.extensions",
+        // };
+
+        public override void OnEditorEnable()
+        {
+            _loadingSaintsEditor = false;
+            _loadingCodeAnalysis = false;
+            // _loadingUnitySerialization = false;
+        }
+
+        public override void OnEditorDestroy()
+        {
+            SaintsFieldConfig config = SaintsFieldConfigUtil.Config;
+            if(config != null && !config.setupWindowPopOnce)
+            {
+                EditorUtility.SetDirty(config);
+                config.setupWindowPopOnce = true;
+            }
+        }
+
+        #region Saints Editor
+
+        [LayoutStart("SaintsEditor", ELayout.TitleBox)]
+
+        [AboveText(
+            "<u>SaintsEditor</u> enables many functions for this plugin. <color=yellow>Note</color>: if you have other inspector like OdinInspector, Tri-Inspector, EditorAttributes enabled, only one will actually work",
+            5, 5)]
+        [Separator(5)]
+        [AboveText(
+            "<u>SaintsEditor</u> is " +
+#if SAINTSFIELD_SAINTS_EDITOR_APPLY
+            "<color=green>enabled</color>"
+#else
+            "<color=brown>not enabled</color>"
+#endif
+        + " in this project", 5, 5)]
+
+#if UNITY_6000_0_OR_NEWER && !SAINTSFIELD_SAINTS_EDITOR_APPLY
+        [Separator(5)]
+        [InfoBox("<size=+1>If you're using <b>custom \"Build Profile\"</b> with custom \"Player Settings\", please add `SAINTSFIELD_SAINTS_EDITOR_APPLY` in \"Scripting Define Symbols\" manually", EMessageType.Warning)]
+#endif
+
+        [InfoBox("Loading, please wait...", show: nameof(_loadingSaintsEditor))]
+
+        [LayoutStart("./SaintsEditor Buttons", ELayout.Horizontal)]
+#if SAINTSFIELD_SAINTS_EDITOR_APPLY
+        [PlayaDisableIf(true)]
+#endif
+        [Button("Enable")]
+        // ReSharper disable once UnusedMember.Local
+        private void EnableSaintsEditor()
+        {
+            _loadingSaintsEditor = true;
+            SaintsMenu.AddCompileDefine(SaintsMenu.SAINTSFIELD_SAINTS_EDITOR_APPLY);
+        }
+
+
+#if !SAINTSFIELD_SAINTS_EDITOR_APPLY
+        [DisableIf(true)]
+#endif
+        [Button("Disable")]
+        // ReSharper disable once UnusedMember.Local
+        private void DisableSaintsEditor()
+        {
+            _loadingSaintsEditor = true;
+            SaintsMenu.RemoveCompileDefine(SaintsMenu.SAINTSFIELD_SAINTS_EDITOR_APPLY);
+        }
+
+        [LayoutEnd]
+
+        #endregion
+
+        #region Unity Serialization
+
+
+        private (EMessageType, string) InstallUnitySerializationStatus = (EMessageType.None, "");
+
+
+        [Separator(10)]
+        [LayoutStart("SaintsEvent", ELayout.TitleBox)]
+        [AboveText("SaintsEvent requires <u>Unity Serialization</u> to be installed in this project.", 5, 5)]
+        [Separator(5)]
+        [AboveText(
+            "<u>SaintsEvent</u> is " +
+#if SAINTSFIELD_SERIALIZATION
+            "<color=green>enabled</color>"
+#else
+            "<color=brown>not enabled</color>"
+#endif
+            + " in this project", 5, 5)]
+        [Separator(5)]
+
+        [InfoBox("$" + nameof(InstallUnitySerializationStatus))]
+
+        // [InfoBox("Loading, please wait...", show: nameof(_loadingUnitySerialization))]
+
+        [LayoutStart("./SaintsEvent Install Buttons", ELayout.Horizontal)]
+#if SAINTSFIELD_SERIALIZATION
+        [DisableIf(true)]
+#endif
+        [Button("Install")]
+        // ReSharper disable once UnusedMember.Local
+        private IEnumerator InstallUnitySerialization()
+        {
+            const string packageName = "com.unity.serialization";
+            AddRequest _addRequest = Client.Add(packageName);
+            int counter = 0;
+            bool wait = true;
+            while (wait)
+            {
+                counter = (counter + 1) % 4;
+                switch (_addRequest.Status)
+                {
+                    case StatusCode.InProgress:
+                        InstallUnitySerializationStatus = (EMessageType.Warning, $"Installing {packageName}, please wait{new string('.', counter)}");
+                        break;
+                    case StatusCode.Success:
+                        InstallUnitySerializationStatus = (EMessageType.Info, $"{packageName} Installed");
+                        wait = false;
+                        break;
+                    case StatusCode.Failure:
+                        InstallUnitySerializationStatus = (EMessageType.Error, $"{packageName} install failed: {_addRequest.Error.message}");
+                        wait = false;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                yield return null;
+            }
+        }
+
+
+        [Button("Uninstall")]
+#if !SAINTSFIELD_SERIALIZATION
+        [PlayaDisableIf(true)]
+#endif
+        // ReSharper disable once UnusedMember.Local
+        private IEnumerator UninstallUnitySerialization()
+        {
+            const string packageName = "com.unity.serialization";
+            RemoveRequest removeRequest = Client.Remove(packageName);
+            int counter = 0;
+            bool wait = true;
+            while (wait)
+            {
+                counter = (counter + 1) % 4;
+                switch (removeRequest.Status)
+                {
+                    case StatusCode.InProgress:
+                        InstallUnitySerializationStatus = (EMessageType.Warning, $"Uninstalling {packageName}, please wait{new string('.', counter)}");
+                        break;
+                    case StatusCode.Success:
+                        InstallUnitySerializationStatus = (EMessageType.Info, $"{packageName} Uninstalled");
+                        wait = false;
+                        break;
+                    case StatusCode.Failure:
+                        InstallUnitySerializationStatus = (EMessageType.Error, $"{packageName} uninstall failed: {removeRequest.Error.message}");
+                        wait = false;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                yield return null;
+            }
+        }
+
+        #endregion
+
+        #region Debug
+
+#if SAINTSFIELD_DEBUG
+
+        [LayoutStart("Debug", ELayout.FoldoutBox)]
+
+#if !SAINTSFIELD_UNITY_MATHEMATICS
+        [Button("Install com.unity.mathematics")]
+        private IEnumerator InstallComUnityMathematics() => DebugInstall("com.unity.mathematics");
+#else
+        [Button("Remove com.unity.mathematics")]
+        private IEnumerator RemoveComUnityMathematics() => DebugRemove("com.unity.mathematics");
+#endif
+
+#if !SAINTSFIELD_ADDRESSABLE
+        [Button("Install com.unity.addressables")]
+        private IEnumerator InstallComAddressables() => DebugInstall("com.unity.addressables");
+#else
+        [Button("Remove com.unity.addressables")]
+        private IEnumerator RemoveComAddressables() => DebugRemove("com.unity.addressables");
+#endif
+
+        private const string AINavigationPackage = "com.unity.ai.navigation";
+#if !SAINTSFIELD_AI_NAVIGATION
+        [Button("Install " + AINavigationPackage)]
+        private IEnumerator InstalAINavigation() => DebugInstall(AINavigationPackage);
+#else
+        [Button("Remove " + AINavigationPackage)]
+        private IEnumerator RemoveAINavigation() => DebugRemove(AINavigationPackage);
+#endif
+
+        // com.unity.transport
+#if !SAINTSFIELD_NETCODE_GAMEOBJECTS
+        [Button("Install com.unity.transport")]
+        private IEnumerator InstallTransport() => DebugInstall("com.unity.transport");
+        [Button("Install com.unity.netcode.gameobjects")]
+        private IEnumerator InstallComNetCode() => DebugInstall("com.unity.netcode.gameobjects");
+#else
+        [Button("Remove com.unity.transport")]
+        private IEnumerator RemoveTransport() => DebugRemove("com.unity.transport");
+        [Button("Remove com.unity.netcode.gameobjects")]
+        private IEnumerator RemoveComNetcode() => DebugRemove("com.unity.netcode.gameobjects");
+#endif
+
+        private static IEnumerator DebugInstall(string packageName)
+        {
+            return DebugRequest(Client.Add(packageName));
+        }
+        private static IEnumerator DebugRemove(string packageName)
+        {
+            return DebugRequest(Client.Remove(packageName));
+        }
+
+        private static IEnumerator DebugRequest(Request request)
+        {
+            while (true)
+            {
+                switch (request.Status)
+                {
+                    case StatusCode.InProgress:
+                        yield return null;
+                        break;
+                    case StatusCode.Success:
+                        yield break;
+                    case StatusCode.Failure:
+                        throw new Exception(request.Error.message);
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+
+        [Separator(5)]
+
+        private const string JsonPackage = "com.unity.nuget.newtonsoft-json";
+#if !SAINTSFIELD_NEWTONSOFT_JSON
+        [Button("Install " + JsonPackage)]
+        private IEnumerator InstallJson() => DebugInstall(JsonPackage);
+#else
+        [Button("Remove " + JsonPackage)]
+        private IEnumerator RemoveJson() => DebugRemove(JsonPackage);
+#endif
+
+
+#if SAINTSFIELD_NEWTONSOFT_JSON
+        // ReSharper disable InconsistentNaming
+        private struct ScopedRegistries
+        {
+            public string name;
+            public string url;
+            public List<string> scopes;
+        }
+
+        private class ManifestBase
+        {
+            // ReSharper disable once CollectionNeverQueried.Local
+            public Dictionary<string, string> dependencies;
+        }
+
+        private class Manifest: ManifestBase
+        {
+            public List<ScopedRegistries> scopedRegistries;
+        }
+
+        private const string ManifestFile = "Packages/manifest.json";
+        private const string scopeName = "package.openupm.com";
+        private const string scopeUrl = "https://package.openupm.com";
+        // ReSharper restore InconsistentNaming
+
+        private static void InstallUpmPackage(string upmName, string version)
+        {
+            Manifest manifest = JsonConvert.DeserializeObject<Manifest>(System.IO.File.ReadAllText(ManifestFile)) ?? new Manifest();
+            manifest.dependencies ??= new Dictionary<string, string>();
+            manifest.scopedRegistries ??= new List<ScopedRegistries>();
+
+            int registryIndex = manifest.scopedRegistries.FindIndex(each => each.url == scopeUrl);
+            ScopedRegistries openUpmRegistry = registryIndex == -1
+                ? new ScopedRegistries
+                {
+                    name = scopeName,
+                    url = scopeUrl,
+                    scopes = new List<string>(),
+                }
+                : manifest.scopedRegistries[registryIndex];
+
+            openUpmRegistry.scopes ??= new List<string>();
+            if (!openUpmRegistry.scopes.Contains(upmName))
+            {
+                openUpmRegistry.scopes.Add(upmName);
+            }
+
+            if (registryIndex == -1)
+            {
+                manifest.scopedRegistries.Add(openUpmRegistry);
+            }
+            else
+            {
+                manifest.scopedRegistries[registryIndex] = openUpmRegistry;
+            }
+
+            manifest.dependencies[upmName] = version;
+            System.IO.File.WriteAllText(ManifestFile, JsonConvert.SerializeObject(manifest, Formatting.Indented, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+            }));
+        }
+
+        private static void UninstallUpmPackage(string upmName)
+        {
+            Manifest manifest = JsonConvert.DeserializeObject<Manifest>(System.IO.File.ReadAllText(ManifestFile)) ?? new Manifest();
+            manifest.dependencies?.Remove(upmName);
+
+            if (manifest.scopedRegistries != null)
+            {
+                for (int index = manifest.scopedRegistries.Count - 1; index >= 0; index--)
+                {
+                    ScopedRegistries scopedRegistry = manifest.scopedRegistries[index];
+                    if (scopedRegistry.url != scopeUrl || scopedRegistry.scopes == null)
+                    {
+                        continue;
+                    }
+
+                    scopedRegistry.scopes.Remove(upmName);
+                    if (scopedRegistry.scopes.Count == 0)
+                    {
+                        manifest.scopedRegistries.RemoveAt(index);
+                    }
+                }
+            }
+
+            System.IO.File.WriteAllText(ManifestFile, JsonConvert.SerializeObject(manifest, Formatting.Indented, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+            }));
+        }
+
+        private const string UniTaskPackage = "com.cysharp.unitask";
+#if !SAINTSFIELD_UNITASK
+        [Button("Install " + UniTaskPackage)]
+        private void InstallUniTask() => InstallUpmPackage(UniTaskPackage, "2.5.11");
+#else
+        [Button("Remove " + UniTaskPackage)]
+        private void InstallUniTask() => UninstallUpmPackage(UniTaskPackage);
+#endif
+#endif
+
+#endif
+
+        #endregion
+    }
+}

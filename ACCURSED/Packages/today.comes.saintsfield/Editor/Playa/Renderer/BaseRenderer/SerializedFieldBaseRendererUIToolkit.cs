@@ -1,0 +1,308 @@
+#if UNITY_2021_3_OR_NEWER
+using System;
+using System.Linq;
+using System.Reflection;
+using SaintsField.Editor.Core;
+using SaintsField.Editor.Utils;
+using SaintsField.Playa;
+using UnityEditor;
+using UnityEditor.UIElements;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace SaintsField.Editor.Playa.Renderer.BaseRenderer
+{
+    public partial class SerializedFieldBaseRenderer
+    {
+        // private PropertyField _result;
+
+        private class UserDataPayload
+        {
+            public string XML;
+            // public Label Label;
+            // public string FriendlyName;
+            public RichTextDrawer RichTextDrawer = new RichTextDrawer();
+
+            public bool TableHasSize;
+        }
+
+        private VisualElement _container;
+        private bool _arraySizeCondition;
+        private bool _richLabelCondition;
+        private bool _tableCondition;
+
+        private PropertyField _imguiFallbackPropertyField;
+        private Label _imGuiFallbackLabel;
+
+        private class BindableWrapper: VisualElement, IBindable
+        {
+            public IBinding binding { get; set; }
+            public string bindingPath { get; set; }
+
+            public BindableWrapper(SerializedProperty property)
+            {
+                bindingPath = property.propertyPath;
+            }
+
+#if UNITY_2023_2_OR_NEWER
+            // [EventInterest(new System.Type[] {typeof (SerializedPropertyBindEvent)})]
+            protected override void HandleEventBubbleUp(EventBase evt)
+            {
+                base.HandleEventBubbleUp(evt);
+                if (evt.ToString() != "UnityEditor.UIElements.SerializedPropertyBindEvent")
+                    return;
+                // this.Reset(evt1);
+                evt.StopPropagation();
+            }
+#else
+            // [EventInterest(new System.Type[] {typeof (SerializedPropertyBindEvent)})]
+            protected override void ExecuteDefaultActionAtTarget(EventBase evt)
+            {
+                base.ExecuteDefaultActionAtTarget(evt);
+                if (evt.ToString() != "UnityEditor.UIElements.SerializedPropertyBindEvent")
+                    return;
+                // this.Reset(evt1);
+                evt.StopPropagation();
+            }
+#endif
+        }
+
+        protected override (VisualElement target, bool needUpdate) CreateTargetUIToolkit(VisualElement inspectorRoot,
+            VisualElement container)
+        {
+            UserDataPayload userDataPayload = new UserDataPayload
+            {
+                // FriendlyName = FieldWithInfo.SerializedProperty.displayName,
+            };
+
+            (VisualElement result, bool serializedUpdate) = CreateSerializedUIToolkit();
+
+            if(result != null)
+            {
+                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+                if (FieldWithInfo.SerializedProperty == null)
+                {
+                    _container = new VisualElement();
+                }
+                else
+                {
+                    _container = new BindableWrapper(FieldWithInfo.SerializedProperty);
+                }
+                _container.userData = userDataPayload;
+
+                if (result is PropertyField pf &&
+                    result.ClassListContains(UIToolkitUtils.PropertyFieldIMGUIFallbackClass))
+                {
+                    _imguiFallbackPropertyField = pf;
+                    _imGuiFallbackLabel = new Label
+                    {
+                        pickingMode = PickingMode.Ignore,
+                    };
+                    if (InAnyHorizontalLayout)
+                    {
+                        _imguiFallbackPropertyField.label = "";
+                        string oriName = FieldWithInfo.SerializedProperty!.displayName;
+                        UIToolkitUtils.SetLabelChildren(_imGuiFallbackLabel,
+                            new []
+                            {
+                                new RichTextDrawer.RichTextChunk(oriName, false, oriName),
+                            },
+                            userDataPayload.RichTextDrawer);
+                    }
+                    else
+                    {
+                        _imGuiFallbackLabel.style.position = Position.Absolute;
+                        _imGuiFallbackLabel.style.left = 4;
+                        _imGuiFallbackLabel.style.top = 0;
+                        _imGuiFallbackLabel.style.right = 0;
+                        _imGuiFallbackLabel.style.height = EditorGUIUtility.singleLineHeight;
+                    }
+                    _container.Add(_imGuiFallbackLabel);
+                }
+                _container.Add(result);
+            }
+            else
+            {
+                _container = null;
+            }
+
+#pragma warning disable CS0618 // Type or member is obsolete
+            OnArraySizeChangedAttribute onArraySizeChangedAttribute = FieldWithInfo.PlayaAttributes.OfType<OnArraySizeChangedAttribute>().FirstOrDefault();
+#pragma warning restore CS0618 // Type or member is obsolete
+            if (onArraySizeChangedAttribute != null)
+            {
+                OnArraySizeChangedUIToolkit(onArraySizeChangedAttribute.Callback, result, FieldWithInfo.SerializedProperty, (MemberInfo)FieldWithInfo.FieldInfo ?? FieldWithInfo.PropertyInfo);
+            }
+
+            // disable/enable/show/hide
+            bool ifCondition = FieldWithInfo.PlayaAttributes.Count(each => each is ShowIfAttribute
+                                                                           // ReSharper disable once MergeIntoLogicalPattern
+                                                                           || each is EnableIfAttribute
+                                                                           // ReSharper disable once MergeIntoLogicalPattern
+                                                                           || each is DisableIfAttribute) > 0;
+            _arraySizeCondition = FieldWithInfo.PlayaAttributes.Any(each => each is IPlayaArraySizeAttribute);
+            _richLabelCondition = FieldWithInfo.PlayaAttributes.Any(each => each is LabelTextAttribute);
+#if SAINTSFIELD_DEBUG && SAINTSFIELD_DEBUG_SAINTS_EDITOR_SERIALIZED_FIELD_RENDERER
+            Debug.Log(
+                $"SerField: {FieldWithInfo.SerializedProperty.displayName}({FieldWithInfo.SerializedProperty.propertyPath}); if={ifCondition}; arraySize={_arraySizeCondition}, richLabel={_richLabelCondition}");
+#endif
+
+            bool needUpdate = result != null && (
+                serializedUpdate || ifCondition || _arraySizeCondition || _richLabelCondition || _tableCondition
+            );
+
+            return (_container, needUpdate);
+        }
+
+        protected abstract (VisualElement target, bool needUpdate) CreateSerializedUIToolkit();
+
+        private static void OnArraySizeChangedUIToolkit(string callback, VisualElement result, SerializedProperty property, MemberInfo memberInfo)
+        {
+            if (!property.isArray)
+            {
+                Debug.LogWarning($"{property.propertyPath} is no an array/list");
+                return;
+            }
+
+            int arraySize = property.arraySize;
+            // don't use TrackPropertyValue because if you remove anything from list, it gives error
+            // this is Unity's fault
+            // result.TrackPropertyValue(property, p =>
+            result.TrackSerializedObjectValue(property.serializedObject, _ =>
+            {
+                int newSize;
+                try
+                {
+                    newSize = property.arraySize;
+                }
+                catch (ObjectDisposedException)
+                {
+                    return;
+                }
+                catch (NullReferenceException)
+                {
+                    return;
+                }
+
+                if (newSize == arraySize)
+                {
+                    return;
+                }
+
+                arraySize = newSize;
+                InvokeArraySizeCallback(callback, property, memberInfo);
+            });
+        }
+
+        protected override PreCheckResult OnUpdateUIToolKit(VisualElement root)
+        {
+            PreCheckResult preCheckResult = base.OnUpdateUIToolKit(root);
+            if (_container == null)
+            {
+                return preCheckResult;
+            }
+
+            if(_arraySizeCondition)
+            {
+
+#if SAINTSFIELD_DEBUG && SAINTSFIELD_DEBUG_SAINTS_EDITOR_SERIALIZED_FIELD_RENDERER
+                Debug.Log(
+                    $"SerField: {FieldWithInfo.SerializedProperty.displayName}->{FieldWithInfo.SerializedProperty.propertyPath}; preCheckResult.ArraySize={preCheckResult.ArraySize}, curSize={FieldWithInfo.SerializedProperty.arraySize}");
+#endif
+                // Debug.Log(preCheckResult.ArraySize);
+                if (preCheckResult.ArraySize.min != -1 || preCheckResult.ArraySize.max != -1)
+                {
+                    int sizeMin = preCheckResult.ArraySize.min;
+                    int sizeMax = preCheckResult.ArraySize.max;
+
+                    bool changed = false;
+                    // Debug.Log($"sizeMin={sizeMin}, sizeMax={sizeMax}, arraySize={FieldWithInfo.SerializedProperty.arraySize}");
+                    if (sizeMin >= 0 && FieldWithInfo.SerializedProperty.arraySize < sizeMin)
+                    {
+                        FieldWithInfo.SerializedProperty.arraySize = sizeMin;
+                        changed = true;
+                    }
+                    if(sizeMax >= 0 && FieldWithInfo.SerializedProperty.arraySize > sizeMax)
+                    {
+                        FieldWithInfo.SerializedProperty.arraySize = sizeMax;
+                        // Debug.Log($"size to {sizeMax} for min");
+                        changed = true;
+                    }
+
+                    if (changed)
+                    {
+                        FieldWithInfo.SerializedProperty.serializedObject.ApplyModifiedProperties();
+                    }
+                }
+            }
+
+            if (_richLabelCondition)
+            {
+                string xml = preCheckResult.RichLabelXml;
+                // Debug.Log(xml);
+                UserDataPayload userDataPayload = (UserDataPayload) _container.userData;
+                if (xml != userDataPayload.XML || (xml ?? "").Contains("<field"))
+                {
+                    // ReSharper disable once ConvertIfStatementToNullCoalescingAssignment
+                    if (userDataPayload.RichTextDrawer == null)
+                    {
+                        userDataPayload.RichTextDrawer = new RichTextDrawer();
+                    }
+                    userDataPayload.XML = xml;
+
+                    // check imgui
+                    if (_imguiFallbackPropertyField is null)
+                    {
+                        VisualElement saintsFieldContainer =
+                            _container.Q<VisualElement>(className: SaintsPropertyDrawer.ClassLabelFieldUIToolkit)
+                            ?? _container;
+                        UIToolkitUtils.ChangeLabelLoop(saintsFieldContainer,
+                            RichTextDrawer.ParseRichXmlWithProvider(xml, this), userDataPayload.RichTextDrawer);
+                    }
+                    else
+                    {
+                        if(!InAnyHorizontalLayout)
+                        {
+                            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+                            if (xml is "" or null)
+                            {
+                                _imguiFallbackPropertyField.label = "";
+                            }
+                            else
+                            {
+                                _imguiFallbackPropertyField.label = " ";
+                            }
+                        }
+
+                        UIToolkitUtils.SetLabelChildren(_imGuiFallbackLabel, RichTextDrawer.ParseRichXmlWithProvider(xml, this),  userDataPayload.RichTextDrawer);
+                    }
+                }
+            }
+
+            return preCheckResult;
+        }
+
+        protected static bool DropUIToolkit(Type elementType, SerializedProperty property)
+        {
+            DragAndDrop.AcceptDrag();
+
+            UnityEngine.Object[] acceptItems = CanDrop(DragAndDrop.objectReferences, elementType).ToArray();
+            if (acceptItems.Length == 0)
+            {
+                return false;
+            }
+
+            int startIndex = property.arraySize;
+            int totalCount = acceptItems.Length;
+            property.arraySize += totalCount;
+            foreach ((SerializedProperty prop, UnityEngine.Object obj) in Enumerable.Range(startIndex, totalCount).Select(property.GetArrayElementAtIndex).Zip(acceptItems, (prop, obj) =>
+                         (prop, obj)))
+            {
+                prop.objectReferenceValue = obj;
+            }
+
+            return true;
+        }
+    }
+}
+#endif

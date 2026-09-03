@@ -2,8 +2,10 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
-  tags: []
+  serializedVersion: 3
+  tags:
+  - Fade
+  - TempNavMeshItemDestroyable
   layers:
   - Default
   - TransparentFX
@@ -11,16 +13,16 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - PlayerHitBox
+  - HurtBox
+  - Wall
+  - Reflection
+  - Stationary
+  - LandCollider
+  - LightData
+  - LightColor
+  - Ignore
+  - EnemyHitBox
   - 
   - 
   - 
@@ -38,6 +40,29 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 468988589
+    locked: 0
+  - name: AmbientShadow
+    uniqueID: 1985876909
+    locked: 0
+  - name: Hidden
+    uniqueID: 1402985439
+    locked: 0
+  - name: Tile
+    uniqueID: 1032049669
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Player
+    uniqueID: 1485925271
+    locked: 0
+  - name: Altar
+    uniqueID: 4221107295
+    locked: 0
+  - name: Particles
+    uniqueID: 2735013757
+    locked: 0
+  m_RenderingLayers:
+  - Default

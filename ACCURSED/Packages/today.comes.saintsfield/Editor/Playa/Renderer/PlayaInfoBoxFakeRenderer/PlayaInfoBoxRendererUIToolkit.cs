@@ -1,0 +1,216 @@
+#if UNITY_2021_3_OR_NEWER
+using System;
+using System.Reflection;
+using SaintsField.Editor.Core;
+using SaintsField.Editor.Utils;
+using UnityEngine.UIElements;
+
+namespace SaintsField.Editor.Playa.Renderer.PlayaInfoBoxFakeRenderer
+{
+    public partial class PlayaInfoBoxRenderer
+    {
+        private class InfoBoxUserData
+        {
+            public string XmlContent;
+            public EMessageType MessageType;
+
+            public InfoBoxAttribute InfoBoxAttribute;
+            public SaintsFieldWithInfo FieldWithInfo;
+            public RichTextDrawer RichTextDrawer;
+        }
+
+        public override void OnDestroyUIToolkit()
+        {
+        }
+
+        protected override (VisualElement target, bool needUpdate) CreateTargetUIToolkit(VisualElement inspectorRoot,
+            VisualElement container)
+        {
+            (HelpBox helpBox, bool needUpdate) = CreateInfoBox(FieldWithInfo, _playaInfoBoxAttribute, this);
+            helpBox.name = FieldWithInfo.MemberId;
+            return (helpBox, needUpdate);
+        }
+
+        protected override PreCheckResult OnUpdateUIToolKit(VisualElement root)
+        {
+            PreCheckResult result = base.OnUpdateUIToolKit(root);
+            HelpBox helpBox = root.Q<HelpBox>(FieldWithInfo.MemberId);
+            UpdateInfoBox(helpBox, this);
+            return result;
+        }
+
+        private static (HelpBox helpBox, bool needUpdate) CreateInfoBox(SaintsFieldWithInfo fieldWithInfo, InfoBoxAttribute infoBoxAttribute, IRichTextTagProvider provider)
+        {
+            RichTextDrawer richTextDrawer = new RichTextDrawer();
+            InfoBoxUserData infoBoxUserData = new InfoBoxUserData
+            {
+                XmlContent = "",
+                MessageType = infoBoxAttribute.MessageType,
+
+                InfoBoxAttribute = infoBoxAttribute,
+                FieldWithInfo = fieldWithInfo,
+                RichTextDrawer = richTextDrawer,
+            };
+
+            HelpBox helpBox = new HelpBox
+            {
+                userData = infoBoxUserData,
+                messageType = infoBoxAttribute.MessageType.GetUIToolkitMessageType(),
+                style =
+                {
+                    display = DisplayStyle.None,
+                    flexGrow = 1,
+                    flexShrink = 0,
+                },
+            };
+
+            UpdateInfoBox(helpBox, provider);
+
+            bool needUpdate = !string.IsNullOrEmpty(infoBoxAttribute.ShowCallback)  // need callback to control the visibility
+                              || infoBoxAttribute.IsCallback  // dynamic content
+                              || (!string.IsNullOrEmpty(infoBoxAttribute.Content) && infoBoxAttribute.Content.Contains("<field"))  // contains <field/>
+                              ;
+            return (helpBox, needUpdate);
+        }
+
+        private static void UpdateInfoBox(HelpBox helpBox, IRichTextTagProvider provider)
+        {
+            InfoBoxUserData infoBoxUserData = (InfoBoxUserData)helpBox.userData;
+
+            bool willShow = true;
+            bool showHasError = false;
+            if (!string.IsNullOrEmpty(infoBoxUserData.InfoBoxAttribute.ShowCallback))
+            {
+                (string showError, bool show) = UpdateInfoBoxShow(helpBox, infoBoxUserData);
+                showHasError = showError != "";
+                willShow = show;
+            }
+            if (!showHasError)
+            {
+                UpdateInfoBoxContent(willShow, helpBox, infoBoxUserData, provider);
+            }
+        }
+
+        private static (string error, bool show) UpdateInfoBoxShow(HelpBox helpBox,
+            InfoBoxUserData infoBoxUserData)
+        {
+            (string showError, MemberInfo _, object showResult) = Util.GetOf<object>(
+                infoBoxUserData.InfoBoxAttribute.ShowCallback,
+                true,
+                infoBoxUserData.FieldWithInfo.SerializedProperty,
+                infoBoxUserData.FieldWithInfo.FieldInfo ?? (MemberInfo)infoBoxUserData.FieldWithInfo.PropertyInfo ?? infoBoxUserData.FieldWithInfo.MethodInfo,
+                infoBoxUserData.FieldWithInfo.Targets[0],
+                Array.Empty<object>());
+            if (showError != "")
+            {
+                infoBoxUserData.XmlContent = showError;
+                infoBoxUserData.MessageType = EMessageType.Error;
+
+                helpBox.text = showError;
+                helpBox.style.display = DisplayStyle.Flex;
+                return (showError, true);
+            }
+
+            bool willShow = ReflectUtils.Truly(showResult);
+            helpBox.style.display = willShow ? DisplayStyle.Flex : DisplayStyle.None;
+            if (!willShow)
+            {
+                infoBoxUserData.XmlContent = "";
+            }
+
+            return ("", willShow);
+        }
+
+        private static void UpdateInfoBoxContent(bool willShow, HelpBox helpBox, InfoBoxUserData infoBoxUserData, IRichTextTagProvider provider)
+        {
+            if (!willShow)
+            {
+                if (helpBox.style.display != DisplayStyle.None)
+                {
+                    helpBox.style.display = DisplayStyle.None;
+                }
+                return;
+            }
+
+            string xmlContent = ((InfoBoxUserData)helpBox.userData).InfoBoxAttribute.Content;
+
+            if (infoBoxUserData.InfoBoxAttribute.IsCallback)
+            {
+                (string error, object rawResult) =
+                    GetCallback(infoBoxUserData.FieldWithInfo, infoBoxUserData.InfoBoxAttribute.Content);
+
+                if (error != "")
+                {
+                    infoBoxUserData.XmlContent = error;
+                    infoBoxUserData.MessageType = EMessageType.Error;
+
+                    helpBox.text = error;
+                    helpBox.style.display = DisplayStyle.Flex;
+                    return;
+                }
+
+                if (rawResult is ValueTuple<EMessageType, string> resultTuple)
+                {
+                    infoBoxUserData.MessageType = resultTuple.Item1;
+                    HelpBoxMessageType helpBoxType = infoBoxUserData.MessageType.GetUIToolkitMessageType();
+                    if (helpBoxType != helpBox.messageType)
+                    {
+                        helpBox.messageType = helpBoxType;
+                    }
+
+                    xmlContent = resultTuple.Item2;
+                }
+                else
+                {
+                    xmlContent = rawResult?.ToString() ?? "";
+                }
+            }
+
+            // Debug.Log($"{infoBoxUserData.XmlContent} == {xmlContent}: {infoBoxUserData.XmlContent == xmlContent}");
+            if (infoBoxUserData.XmlContent == xmlContent && !xmlContent.Contains("<field"))
+            {
+                return;
+            }
+
+            bool notShow = string.IsNullOrEmpty(xmlContent);
+            DisplayStyle style = notShow
+                ? DisplayStyle.None
+                : DisplayStyle.Flex;
+
+            if (helpBox.style.display != style)
+            {
+                helpBox.style.display = style;
+            }
+
+            if (notShow)
+            {
+                return;
+            }
+
+            infoBoxUserData.XmlContent = xmlContent;
+            Label label = helpBox.Q<Label>();
+            label.text = "";
+            label.style.flexDirection = FlexDirection.Row;
+
+            // if (infoBoxUserData.FieldWithInfo.RenderType == SaintsRenderType.ClassStruct)
+            // {
+            //     ObjectNames.NicifyVariableName(infoBoxUserData.FieldWithInfo.Targets[0].GetType().Name);
+            // }
+            // else
+            // {
+            //     MemberInfo member = GetMemberInfo(infoBoxUserData.FieldWithInfo);
+            //     ObjectNames.NicifyVariableName(member.Name);
+            // }
+
+            label.Clear();
+            foreach (VisualElement richTextElement in infoBoxUserData.RichTextDrawer.DrawChunksUIToolKit(
+                         RichTextDrawer.ParseRichXmlWithProvider(xmlContent, provider))
+                     )
+            {
+
+                label.Add(richTextElement);
+            }
+        }
+    }
+}
+#endif
