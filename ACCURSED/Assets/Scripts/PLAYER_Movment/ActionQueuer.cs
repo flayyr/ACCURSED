@@ -25,6 +25,8 @@ public class ActionQueuer : MonoBehaviour
 
     Queue<ActionInstance> actionQueue;
 
+    ActionInstance latestIntance;
+
     private void Awake()
     {
         actionQueue = new Queue<ActionInstance>();
@@ -37,6 +39,8 @@ public class ActionQueuer : MonoBehaviour
 
         //broadcasts event for character manager, which will process the next attack
         OnActionQueued?.Invoke();
+
+        latestIntance = instance;
 
         return instance;
     }
@@ -52,14 +56,23 @@ public class ActionQueuer : MonoBehaviour
         //if no actions in queue
         if (actionQueue.Count == 0)
         {
+            latestIntance = null;
             return null;
         }
 
-        return actionQueue.Dequeue();
+        ActionInstance nextInstance= actionQueue.Dequeue();
+
+        if (nextInstance == latestIntance)
+            latestIntance = null;
+
+        return nextInstance;
     }
 
     public void ClearActions()
     {
         actionQueue.Clear();
+        latestIntance = null;
     }
+
+    public ActionInstance GetLatestAction() { return latestIntance; }
 }

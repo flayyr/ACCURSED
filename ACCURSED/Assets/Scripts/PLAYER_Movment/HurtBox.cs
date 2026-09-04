@@ -14,6 +14,7 @@ public class HurtBox : MonoBehaviour
     [SerializeField] float durationUntilDodgeCancellable = 0.5f;
     [Space]
     [SerializeField] private MMF_Player hurtFeedback;
+    [SerializeField] private MMF_Player parryFeedback;
 
     [SerializeField] List<GameObject> personalHurtBoxes = new List<GameObject>();
     [SerializeField] List<GameObject> personalHitBoxes = new List<GameObject>();
@@ -45,7 +46,7 @@ public class HurtBox : MonoBehaviour
         {
             // Identify Hitbox
             var hitBox = collision.gameObject.GetComponent<HitBox>();
-            Vector2 direction = hitBox.FindGlobalDirection().normalized;
+            Vector2 direction = hitBox.FindGlobalDirection(transform).normalized;
 
             if (hitBox.originObject != transform.root.gameObject)
             {
@@ -55,6 +56,8 @@ public class HurtBox : MonoBehaviour
                 if (parrying && parryAccuracy<=attackData.parryLeniency)
                 {
                     hitBox.Parried();
+
+                    parryFeedback.PlayFeedbacks();
 
                     Debug.Log("successful parry, accuracy: "+(1f-parryAccuracy));
                 }

@@ -176,14 +176,13 @@ public class ItemManager : MonoBehaviour
 
         collectedItems.Add(record);
 
-        //collectedWorldPickupIDs.Add(worldID);
+        collectedWorldItemIds.Add(worldID); 
 
         // 2. SEND TO INVENTORY
         inventory.AddItem(item, quantity);
 
         // 3. REMOVE WORLD OBJECT
         worldItem.ApplyCollectedState();
-
 
         // 4. SHOW PICKUP UI
         if (ToolTipManager.Instance != null)

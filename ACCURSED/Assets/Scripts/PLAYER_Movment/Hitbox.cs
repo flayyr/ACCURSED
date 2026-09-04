@@ -26,8 +26,11 @@ public class HitBox : MonoBehaviour
         originObject = transform.root.gameObject;
     }
 
-    public Vector3 FindGlobalDirection()
+    public Vector3 FindGlobalDirection(Transform targetTransform)
     {
+        if(direction == Vector3.zero) {
+            return (targetTransform.position - transform.position).normalized;
+        }
         PostAnimDirection = transform.TransformDirection(direction);
         return PostAnimDirection.normalized;
     }
