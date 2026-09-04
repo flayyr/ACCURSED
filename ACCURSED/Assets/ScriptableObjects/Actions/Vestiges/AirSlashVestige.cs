@@ -16,7 +16,8 @@ public class AirSlashVestige : VestigeSO
         playerRef.particleSystem.Play();
 
         Vector2 position = playerRef.hitBox.transform.position;
-        Vector2 direction = playerRef.playerManager.GetDirection();
+        //Vector2 direction = playerRef.playerManager.GetDirection();
+        Vector2 direction = playerRef.playerManager.GetMouseDirection();
 
         Projectile projectileInstance = Instantiate(projectileObj, position, Quaternion.identity);
         projectileInstance.Initialize(moveSpeed, lifetime, direction, attackData, playerRef.playerStats, playerRef.hitFeedback);
