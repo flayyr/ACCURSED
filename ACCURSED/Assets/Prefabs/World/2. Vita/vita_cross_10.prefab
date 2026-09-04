@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4124848473929783822}
   - component: {fileID: 4565924780873824430}
   m_Layer: 8
-  m_Name: vita_cross_1
+  m_Name: vita_cross_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 71
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -661063483, guid: e1c0e01c227ff7846b62b9e000027bea, type: 3}
+  m_Sprite: {fileID: 2104559813, guid: 9d74f87aa90322e4a9907ab1351781ed, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -161,8 +161,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 86203442545491795}
-  - component: {fileID: 2127762315825872461}
   - component: {fileID: 1904609428648644694}
+  - component: {fileID: 2884728147380505088}
   m_Layer: 8
   m_Name: BlockCollider
   m_TagString: Untagged
@@ -179,14 +179,30 @@ Transform:
   m_GameObject: {fileID: 5902500370090307849}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.317, y: 2.3, z: 0}
+  m_LocalPosition: {x: 0.2, y: 0.39, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2321214191396461982}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &2127762315825872461
-CapsuleCollider2D:
+--- !u!114 &1904609428648644694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5902500370090307849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
+--- !u!60 &2884728147380505088
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -195,7 +211,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: dbd5baa13f26b164e8e9b784df1a66b0, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -219,22 +235,20 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.31271026, y: -2.0405107}
-  m_Size: {x: 1.0197011, y: 0.649304}
-  m_Direction: 1
---- !u!114 &1904609428648644694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5902500370090307849}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
-  m_OverrideArea: 1
-  m_Area: 1
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.13554192, y: -0.17675018}
+      - {x: -0.26359224, y: -0.17365837}
+      - {x: -0.63091224, y: -0.76589}
+      - {x: -0.17617834, y: -0.7966955}
+  m_UseDelaunayMesh: 1
