@@ -107,4 +107,10 @@ public class PlayerController : MonoBehaviour
         if (value.isPressed)
             InteractKeyPressed?.Invoke();
     }
+
+    public void OnMousePosition(InputValue value) {
+        Vector2 screePos = value.Get<Vector2>();
+        Vector2 worldPos = Camera.main.ScreenToWorldPoint(screePos);
+        playerManager.UpdateMouseDirection(worldPos);
+    }
 }

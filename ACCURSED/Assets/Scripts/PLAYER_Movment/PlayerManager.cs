@@ -21,6 +21,8 @@ public class PlayerManager : CharacterManager
 
     PlayerDeath playerDeath;
 
+    Vector2 toMouseDirection;
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -95,4 +97,10 @@ public class PlayerManager : CharacterManager
         cAnim.SetDead(false);
         cAnim.SetStunned(false);
     }
+
+    public void UpdateMouseDirection(Vector2 mousePosition) {
+        toMouseDirection = (mousePosition - (Vector2)transform.position).normalized;
+    }
+
+    public Vector2 GetMouseDirection() {  return toMouseDirection; }
 }

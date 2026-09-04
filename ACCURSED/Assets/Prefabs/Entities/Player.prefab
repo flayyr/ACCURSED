@@ -1263,7 +1263,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDeath
   respawnAspect: {fileID: 0}
-  deathWaitBeforeFadeTime: 1
+  deathWaitBeforeFadeTime: 2
+  hurtBoxCollider: {fileID: 4240068660205235035}
 --- !u!114 &3428935267664869359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1342,7 +1343,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ad080a36fe65924db5a4803e6becc84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHitter
-  attack: {fileID: 11400000, guid: c5fdfd0220b3d7442a91ef9138e47b0f, type: 2}
   attackList:
   - {fileID: 11400000, guid: c5fdfd0220b3d7442a91ef9138e47b0f, type: 2}
   - {fileID: 11400000, guid: 809a3f891621f62459b9d75032bfb332, type: 2}

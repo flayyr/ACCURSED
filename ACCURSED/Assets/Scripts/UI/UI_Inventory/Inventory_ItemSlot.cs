@@ -109,7 +109,7 @@ public class Inventory_ItemSlot : MonoBehaviour
 
     public bool CheckIfSelected()
     {
-        return itemSlot == selectedSlot;
+        return itemSlot.Equals(selectedSlot);
     }
 
     public void SetSelected()

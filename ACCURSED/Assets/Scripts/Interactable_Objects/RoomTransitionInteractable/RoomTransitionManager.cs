@@ -13,6 +13,7 @@ public class RoomTransitionManager : MonoBehaviour
 
     [Header("Fade Settings")]
     [Min(0f)][SerializeField] private float fadeOutDuration = 0.25f;
+    [Min(0f)][SerializeField] private float deathFadeOutDuration = 0.25f;
     [Min(0f)][SerializeField] private float fadeInDuration = 0.35f;
     [Min(0f)][SerializeField] private float holdBlackAfterSceneLoad = 0.1f;
 
@@ -60,9 +61,9 @@ public class RoomTransitionManager : MonoBehaviour
     /// Same as BeginTransition(sceneName), with an optional action invoked after
     /// the new scene loads while the screen is still black.
     /// </summary>
-    public bool BeginTransition(string sceneName, Action afterSceneLoaded)
+    public bool BeginTransition(string sceneName, Action afterSceneLoaded, bool isDeath = true)
     {
-        return BeginTransitionInternal(sceneName, string.Empty, null, afterSceneLoaded);
+        return BeginTransitionInternal(sceneName, string.Empty, null, afterSceneLoaded, isDeath);
     }
 
     /// <summary>
@@ -75,7 +76,7 @@ public class RoomTransitionManager : MonoBehaviour
         return BeginTransitionInternal(sceneName, spawnID, playerToMove, null);
     }
 
-    private bool BeginTransitionInternal(string sceneName, string spawnID, Transform playerToMove, Action afterSceneLoaded)
+    private bool BeginTransitionInternal(string sceneName, string spawnID, Transform playerToMove, Action afterSceneLoaded, bool isDeath = true)
     {
         if (isTransitioning)
             return false;
@@ -99,11 +100,11 @@ public class RoomTransitionManager : MonoBehaviour
             return false;
         }
 
-        StartCoroutine(TransitionRoutine(sceneName, spawnID, playerToMove, afterSceneLoaded));
+        StartCoroutine(TransitionRoutine(sceneName, spawnID, playerToMove, afterSceneLoaded, isDeath));
         return true;
     }
 
-    private IEnumerator TransitionRoutine(string sceneName, string spawnID, Transform playerToMove, Action afterSceneLoaded)
+    private IEnumerator TransitionRoutine(string sceneName, string spawnID, Transform playerToMove, Action afterSceneLoaded, bool isDeath = true)
     {
         isTransitioning = true;
 
@@ -112,7 +113,7 @@ public class RoomTransitionManager : MonoBehaviour
 
         Transform carriedPlayer = PreparePlayerForSceneLoad(playerToMove);
 
-        yield return activeFadeOverlay.FadeToBlack(fadeOutDuration);
+        yield return activeFadeOverlay.FadeToBlack(isDeath ? deathFadeOutDuration : fadeOutDuration);
 
         yield return new WaitForSeconds(0.6f);
 
