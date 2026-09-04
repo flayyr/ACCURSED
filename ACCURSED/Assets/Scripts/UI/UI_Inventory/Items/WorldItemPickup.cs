@@ -31,8 +31,7 @@ public class WorldItemPickup : MonoBehaviour
 
     // Prevent two nearby world pickups from both trying to control the pickup prompt at the same time.
     private static WorldItemPickup activePickup;
-
-
+    
     private void Awake()
     {
         if (spriteRenderer == null)
@@ -51,13 +50,17 @@ public class WorldItemPickup : MonoBehaviour
 
     private void Update()
     {
-        if (!registeredWithItemManager)
-            TryRegisterWithItemManager();
-
+        // This pickup has already been collected locally.
         if (pickedUp)
             return;
 
-        // Same as the camera
+        // Extra protection: ItemManager already knows this exact world pickup was taken.
+        if (ItemManager.Instance != null && ItemManager.Instance.HasBeenCollected(worldPickupID))
+        {
+            ApplyCollectedState();
+            return;
+        }
+
         if (player == null)
         {
             FindPlayer();
@@ -70,10 +73,7 @@ public class WorldItemPickup : MonoBehaviour
 
         float pickupDistanceSqr = pickupDistance * pickupDistance;
 
-        bool playerIsClose = distanceSqr <= pickupDistanceSqr;
-
-
-        if (playerIsClose)
+        if (distanceSqr <= pickupDistanceSqr)
         {
             TryOpenPrompt();
         }
@@ -99,6 +99,13 @@ public class WorldItemPickup : MonoBehaviour
 
     private void TryOpenPrompt()
     {
+        // Never let a collected pickup create another prompt.
+        if (pickedUp)
+            return;
+
+        if (ItemManager.Instance != null && ItemManager.Instance.HasBeenCollected(worldPickupID))
+            return;
+
         if (ownsPrompt)
             return;
 

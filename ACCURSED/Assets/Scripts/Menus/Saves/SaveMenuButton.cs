@@ -314,6 +314,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void DeleteActualSlotData()
     {
+        ChestStateSave.ClearSlot(SlotIndex);
         // Placeholder for future actual save-file deletion.
     }
     
@@ -555,9 +556,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             return;
         }
 
-
         arrowInstance.SetActive(true);
-
 
         // Center anchor lets us calculate its position relative to the center of the slot.
         arrowRect.anchorMin = new Vector2(0.5f, 0.5f);
@@ -568,7 +567,6 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
 
         arrowRect.sizeDelta = new Vector2(arrowWidth, arrowHeight);
-
 
         /*
         Position at the bottom edge of the slot.
