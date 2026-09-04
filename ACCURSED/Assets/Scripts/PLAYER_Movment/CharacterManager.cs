@@ -317,4 +317,5 @@ public class CharacterManager : MonoBehaviour
     public ActionState GetCombatState() => combatState;
     public BaseMoveState GetMoveState() => moveState;
     public Vector2 GetDirection() => currDir;
+    public ActionInstance GetCurrAction()=>currAction;
 }
