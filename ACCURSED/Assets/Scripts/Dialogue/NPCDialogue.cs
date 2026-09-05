@@ -9,7 +9,6 @@ public class NPCDialogue : ScriptableObject
     public string npcName;
     public Sprite npcPortrait;
     public AudioSourceOrWhatever npcTalkSound;
-
     */
 
     [Header("Insert dialogue here; press the plus arrow, \n each array spot is a line of dialogue.")]

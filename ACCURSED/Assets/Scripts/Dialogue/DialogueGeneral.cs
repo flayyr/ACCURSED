@@ -17,9 +17,6 @@ public class Textbox : MonoBehaviour
 
     public int index = 0;
     private bool typing = true;
-    //0 is fast, 1 is really really slow
-    //[SerializeField]
-    //private float typeSpeed = 0.05f;
 
     [SerializeField]
     private KeyCode inputKey;
@@ -67,7 +64,6 @@ public class Textbox : MonoBehaviour
             int i = 0;
             foreach (GameObject button in buttons)
             {
-                //Debug.Log(i);
                 button.gameObject.GetComponent<DialogueOption>().branchedText = npcTextBranches[i];
                 i++;
             }
@@ -134,9 +130,6 @@ public class Textbox : MonoBehaviour
 
     void Update()
     {
-
-        //Debug.Log(textDisplay.maxVisibleCharacters);
-        //Debug.Log(index);   
 
         if (Input.GetKeyDown(inputKey))
         {
