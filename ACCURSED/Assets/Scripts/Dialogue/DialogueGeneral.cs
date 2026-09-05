@@ -1,11 +1,16 @@
 using TMPro;
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class Textbox : MonoBehaviour
 {
     [Header("References")]
+    [Header("This stores the main text")]
     public NPCDialogue npcText;
+    [Header("This stores branching dialogue")]
+    public NPCDialogue[] npcTextBranches;
+    [Header("This stores the text object to display unto")]
     [SerializeField]
     private TextMeshProUGUI textDisplay;
     private AudioSource source;
@@ -13,11 +18,26 @@ public class Textbox : MonoBehaviour
     public int index = 0;
     private bool typing = true;
     //0 is fast, 1 is really really slow
+    //[SerializeField]
+    //private float typeSpeed = 0.05f;
+
     [SerializeField]
-    private float typeSpeed = 0.05f;
+    private KeyCode inputKey;
 
     [SerializeField]
     private bool stopAudio;
+
+    [Header("This holds the parent object for the buttons")]
+    [SerializeField]
+    private GameObject options;
+
+    [Header("Usually this hides the text and background of the textbox \n but you can change it to just hide \n one or the other")]
+    [SerializeField]
+    private GameObject textBoxAndText;
+
+    [Header("These are the button objects for multiple choices")]
+    [SerializeField]
+    private GameObject[] buttons;
 
     /*
     private Color off = Color.black;
@@ -41,9 +61,17 @@ public class Textbox : MonoBehaviour
 
     private void OnEnable()
     {
-        //off.a = 0f;
-        //textDisplay.color = off;
-        textDisplay.maxVisibleCharacters = 0;
+
+        if (npcText.branching)
+        {
+            int i = 0;
+            foreach (GameObject button in buttons)
+            {
+                //Debug.Log(i);
+                button.gameObject.GetComponent<DialogueOption>().branchedText = npcTextBranches[i];
+                i++;
+            }
+        }
 
         index = 0;
         typing = false;
@@ -52,13 +80,10 @@ public class Textbox : MonoBehaviour
     }
 
 
-    void nextSentence()
+    public void nextSentence()
     {
         if (index < npcText.dialogueList.Length)
         {
-            //refreshes text to start writing next sentence
-            //textDisplay.text = "";
-            textDisplay.maxVisibleCharacters = 0;
             runningCo = StartCoroutine(WriteSentence());
         }
         else
@@ -71,53 +96,39 @@ public class Textbox : MonoBehaviour
 
     IEnumerator WriteSentence()
     {
-
         textDisplay.text = npcText.dialogueList[index];
-
-        foreach (char Character in npcText.dialogueList[index].ToCharArray())
-        {
-            if (textDisplay.maxVisibleCharacters % 3 == 0)
-            {
-                if (stopAudio)
-                {
-                    source.Stop();
-                }
-                source.PlayOneShot(npcText.sound);
-            }
-            textDisplay.maxVisibleCharacters++;
-            yield return new WaitForSeconds(typeSpeed);
-        }
         index++;
-        typing = true;
+
+        yield return null;
     }
 
     void nextSentenceSkip()
     {
         if (index < npcText.dialogueList.Length)
         {
-            //textDisplay.text = "";
-            textDisplay.maxVisibleCharacters = 0;
             StartCoroutine(SkipSentence());
         }
-        else
+
+        else if(npcText.branching && index == npcText.branchNum)
         {
             index = 0;
-            //textDisplay.text = "";
-            textDisplay.maxVisibleCharacters = 0;
+            npcText = null;
+            textBoxAndText.SetActive(false);
+            options.SetActive(true);
+        }
+
+        else if (!npcText.branching) 
+        {
+            index = 0;
             gameObject.SetActive(false);
         }
     }
 
     IEnumerator SkipSentence()
     {
-        StopCoroutine(runningCo);
-        typing = true;
-        //textDisplay.text = "";
-        //textDisplay.maxVisibleCharacters = 0;
         textDisplay.text = npcText.dialogueList[index];
-        textDisplay.maxVisibleCharacters = npcText.dialogueList[index].Length;
-        yield return new WaitForSeconds(typeSpeed);
         index++;
+        yield return null;
     }
 
 
@@ -127,7 +138,7 @@ public class Textbox : MonoBehaviour
         //Debug.Log(textDisplay.maxVisibleCharacters);
         //Debug.Log(index);   
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(inputKey))
         {
             if (typing)
             {
@@ -141,5 +152,6 @@ public class Textbox : MonoBehaviour
                 nextSentenceSkip();
             }
         }
+
     }
 }
