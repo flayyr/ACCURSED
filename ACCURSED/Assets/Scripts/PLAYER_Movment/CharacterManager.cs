@@ -101,6 +101,7 @@ public class CharacterManager : MonoBehaviour
     protected void OnActionFinish()
     {
         combatState = ActionState.Idle;
+        currAction.finishTime = Time.time;
         UpdateDirection();
         PlayNextAction();
     }
@@ -120,6 +121,8 @@ public class CharacterManager : MonoBehaviour
 
     protected void PlayCurrentAction()
     {
+        currAction.played = true;
+
         hitBox.SetAttackData(currAction.actionSO.attackData);//sets attack data into hitbox
 
         //start winding
