@@ -7,32 +7,34 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WaveMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: 906718ef8b3824d99b664a871827119f, type: 3}
+  m_Name: RibbonWave
+  m_Shader: {fileID: -6465566751694194690, guid: 7077cd2556965ce40a0e3a6ec41455dc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SHAKEINTERACT
+  - _USEWIND
+  - _WINDAFFECTTOP
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses:
-  - MOTIONVECTORS
+  disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _AlphaTex:
+    - _LightColorTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LightDataTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MaskTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -54,21 +56,53 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Amplitude: 0.64
-    - _EnableExternalAlpha: 0
-    - _HeightWaveFrequency: 0
-    - _MaxMask: -0.51
-    - _MinMask: -5.95
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    - _WaveSpeed: 0.54
-    - _ZWrite: 0
+    - _AmbientLightIntensity: 0
+    - _BackLitDimmingStrength: 4
+    - _BackLitFadeDistance: 1
+    - _BendAmount: 0
+    - _DOWNWARDSHADOW: 0
+    - _Depth: 0
+    - _LightIntensity0: 0
+    - _LightIntensity1: 0
+    - _LightIntensity2: 0
+    - _LightIntensity3: 0
+    - _LightRadius0: 4
+    - _LightRadius1: 4
+    - _LightRadius2: 4
+    - _LightRadius3: 4
+    - _NormalMapStrength: 0.5
+    - _SHAKEINTERACT: 1
+    - _ShadowFadeInRate: 1
+    - _ShakeAmount: 0
+    - _SpriteStartHeight: 0
+    - _SpriteTotalHeight: 1
+    - _SwayOffset: 0
+    - _TOPSWAY: 0
+    - _TextureSize: 1
+    - _TopSwayFallOff: 1
+    - _TopSwaySpeed: 0.3
+    - _TopSwayStrength: 0.1
+    - _USEWIND: 1
+    - _WINDAFFECTTOP: 1
+    - _WindSpeed: 0.08
+    - _WindStrength: 0.009
+    - _WindTopAffectance: 0.87
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+    - White: {r: 1, g: 1, b: 1, a: 1}
+    - _AmbientLightColor: {r: 0, g: 0, b: 0, a: 1}
+    - _AmbientShadowColor: {r: 0.6509804, g: 0.454902, b: 0.39607847, a: 1}
+    - _LightHue0: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue1: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue2: {r: 0, g: 0, b: 0, a: 1}
+    - _LightHue3: {r: 0, g: 0, b: 0, a: 1}
+    - _LightPosition0: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition1: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition2: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition3: {r: 0, g: 0, b: 0, a: 0}
+    - _PositionOffset: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &7406009068529031526
+--- !u!114 &6892516467585284036
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
