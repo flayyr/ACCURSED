@@ -62,7 +62,7 @@ public class ActionQueuer : MonoBehaviour
         //if no actions in queue
         if (actionQueue.Count == 0)
         {
-            if(!lastQueuedInstance.played)//if latest wasnt played, meaning it was dequeued
+            if(lastQueuedInstance != null && !lastQueuedInstance.played)//if latest wasnt played, meaning it was dequeued
                 lastQueuedInstance = null;
             return null;
         }
@@ -74,7 +74,7 @@ public class ActionQueuer : MonoBehaviour
     public void ClearActions()
     {
         actionQueue.Clear();
-        if (!lastQueuedInstance.played)//if latest wasnt played, meaning it was dequeued
+        if (lastQueuedInstance != null && !lastQueuedInstance.played)//if latest wasnt played, meaning it was dequeued
             lastQueuedInstance = null;
     }
 

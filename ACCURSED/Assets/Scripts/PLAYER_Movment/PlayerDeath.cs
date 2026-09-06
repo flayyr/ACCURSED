@@ -25,14 +25,17 @@ public class PlayerDeath : CharacterDeath
 
     public void StartRespawnTransition()
     {
-        RoomTransitionManager.Instance.BeginTransition(respawnAspect.sceneName, ResetPlayer, true);
+        RoomTransitionManager.Instance.BeginTransition(respawnAspect.sceneName, ResetPlayerPosition, ResetPlayerStates, true);
     }
 
-    private void ResetPlayer()
+    private void ResetPlayerPosition() {
+        transform.position = respawnAspect.position;
+    }
+
+    private void ResetPlayerStates()
     {
         hurtBoxCollider.enabled = true;
         GetComponent<PlayerController>().SetState( PlayerControlState.Normal);
-        transform.position = respawnAspect.position;
         GetComponent<PlayerStatistics>().Reset();
         OnRevive?.Invoke();
     }

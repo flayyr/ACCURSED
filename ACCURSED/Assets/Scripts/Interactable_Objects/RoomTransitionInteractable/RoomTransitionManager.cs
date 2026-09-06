@@ -61,9 +61,9 @@ public class RoomTransitionManager : MonoBehaviour
     /// Same as BeginTransition(sceneName), with an optional action invoked after
     /// the new scene loads while the screen is still black.
     /// </summary>
-    public bool BeginTransition(string sceneName, Action afterSceneLoaded, bool isDeath = true)
+    public bool BeginTransition(string sceneName, Action afterSceneLoaded, Action afterFade=null, bool isDeath = true)
     {
-        return BeginTransitionInternal(sceneName, string.Empty, null, afterSceneLoaded, isDeath);
+        return BeginTransitionInternal(sceneName, string.Empty, null, afterSceneLoaded, afterFade, isDeath);
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public class RoomTransitionManager : MonoBehaviour
         return BeginTransitionInternal(sceneName, spawnID, playerToMove, null);
     }
 
-    private bool BeginTransitionInternal(string sceneName, string spawnID, Transform playerToMove, Action afterSceneLoaded, bool isDeath = true)
+    private bool BeginTransitionInternal(string sceneName, string spawnID, Transform playerToMove, Action afterSceneLoaded, Action afterFade = null, bool isDeath = true)
     {
         if (isTransitioning)
             return false;
@@ -100,11 +100,11 @@ public class RoomTransitionManager : MonoBehaviour
             return false;
         }
 
-        StartCoroutine(TransitionRoutine(sceneName, spawnID, playerToMove, afterSceneLoaded, isDeath));
+        StartCoroutine(TransitionRoutine(sceneName, spawnID, playerToMove, afterSceneLoaded, afterFade, isDeath));
         return true;
     }
 
-    private IEnumerator TransitionRoutine(string sceneName, string spawnID, Transform playerToMove, Action afterSceneLoaded, bool isDeath = true)
+    private IEnumerator TransitionRoutine(string sceneName, string spawnID, Transform playerToMove, Action afterSceneLoaded, Action afterFade = null, bool isDeath = true)
     {
         isTransitioning = true;
 
@@ -179,6 +179,14 @@ public class RoomTransitionManager : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
 
         yield return activeFadeOverlay.FadeFromBlack(fadeInDuration);
+
+        if (afterFade != null) {
+            try {
+                afterFade.Invoke();
+            } catch (Exception exception) {
+                Debug.LogException(exception);
+            }
+        }
 
         Destroy(activeFadeOverlay.gameObject);
         activeFadeOverlay = null;

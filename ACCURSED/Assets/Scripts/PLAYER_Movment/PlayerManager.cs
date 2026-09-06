@@ -93,6 +93,8 @@ public class PlayerManager : CharacterManager
 
     private void OnRevive()
     {
+        currDir = Vector2.down;
+        UpdateDirection();
         combatState = ActionState.Idle;
         cAnim.SetDead(false);
         cAnim.SetStunned(false);
