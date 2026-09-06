@@ -50,7 +50,7 @@ public class PlayerManager : CharacterManager
     public void Dash()
     {
         UpdateDirection();
-        cMove.Dash(moveInput);
+        cMove.Dash(currDir);
         cAnim.SetStunned(false);
         cAnim.SetMoveState(0);
         cAnim.SetDashing();
@@ -59,7 +59,7 @@ public class PlayerManager : CharacterManager
     //called by player controller, skips the action queue because it needs to also be called during StunnedCancellable state
     public bool CueDash()
     {
-        if ((combatState is ActionState.Idle or ActionState.StunnedCancellable) && moveInput != Vector2.zero)
+        if ((combatState is ActionState.Idle or ActionState.StunnedCancellable))
         {
             currAction = new ActionInstance(dashAction, Time.time);
             PlayCurrentAction();
