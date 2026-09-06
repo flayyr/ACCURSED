@@ -4,11 +4,13 @@ using UnityEngine;
 public class PlayerDeath : CharacterDeath
 {
     public Action OnDeath;
-    public Action OnRevive;
+    public Action OnReviveAnimStarted;
+    public Action OnReviveAnimFinished;
 
     [SerializeField] AspectSO respawnAspect;
     [SerializeField] float deathWaitBeforeFadeTime;
     [SerializeField] Collider2D hurtBoxCollider;
+    [SerializeField] AnimationClip reviveClip;
 
     public void SetRespawnAspect(AspectSO aspect)
     {
@@ -25,18 +27,23 @@ public class PlayerDeath : CharacterDeath
 
     public void StartRespawnTransition()
     {
-        RoomTransitionManager.Instance.BeginTransition(respawnAspect.sceneName, ResetPlayerPosition, ResetPlayerStates, true);
+        RoomTransitionManager.Instance.BeginTransition(respawnAspect.sceneName, ResetPlayerPosition, StartReviveAnimation, true);
     }
 
     private void ResetPlayerPosition() {
         transform.position = respawnAspect.position;
     }
 
-    private void ResetPlayerStates()
+    private void StartReviveAnimation()
     {
+        OnReviveAnimStarted?.Invoke();
+        Invoke("ResetPlayerStates", reviveClip.length);
+    }
+
+    private void ResetPlayerStates() {
+        OnReviveAnimFinished?.Invoke();
         hurtBoxCollider.enabled = true;
-        GetComponent<PlayerController>().SetState( PlayerControlState.Normal);
+        GetComponent<PlayerController>().SetState(PlayerControlState.Normal);
         GetComponent<PlayerStatistics>().Reset();
-        OnRevive?.Invoke();
     }
 }

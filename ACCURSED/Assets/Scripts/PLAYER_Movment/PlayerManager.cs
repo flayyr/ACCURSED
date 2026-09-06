@@ -29,7 +29,8 @@ public class PlayerManager : CharacterManager
         playerDeath = GetComponent<PlayerDeath>();
 
         playerDeath.OnDeath += OnDeath;
-        playerDeath.OnRevive += OnRevive;
+        playerDeath.OnReviveAnimStarted += PlayReviveAnim;
+        playerDeath.OnReviveAnimFinished += OnReviveFinish;
     }
 
     protected override void OnDisable()
@@ -37,7 +38,8 @@ public class PlayerManager : CharacterManager
         base.OnDisable();
 
         playerDeath.OnDeath -= OnDeath;
-        playerDeath.OnRevive -= OnRevive;
+        playerDeath.OnReviveAnimStarted -= PlayReviveAnim;
+        playerDeath.OnReviveAnimFinished -= OnReviveFinish;
     }
 
     protected override void EndWind()
@@ -91,13 +93,16 @@ public class PlayerManager : CharacterManager
         cAnim.SetDead(true);
     }
 
-    private void OnRevive()
+    private void PlayReviveAnim()
     {
         currDir = Vector2.down;
         UpdateDirection();
-        combatState = ActionState.Idle;
         cAnim.SetDead(false);
         cAnim.SetStunned(false);
+    }
+
+    private void OnReviveFinish() {
+        combatState = ActionState.Idle;
     }
 
     public void UpdateMouseDirection(Vector2 mousePosition) {
