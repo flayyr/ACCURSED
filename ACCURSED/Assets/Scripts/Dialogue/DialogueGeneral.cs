@@ -100,7 +100,7 @@ public class Textbox : MonoBehaviour
 
     void nextSentenceSkip()
     {
-        if (index < npcText.dialogueList.Length)
+        if (index < npcText.dialogueList.Length && index != npcText.branchNum)
         {
             StartCoroutine(SkipSentence());
         }
