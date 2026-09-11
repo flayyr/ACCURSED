@@ -110,7 +110,25 @@ public class Textbox : MonoBehaviour
             index = 0;
             npcText = null;
             textBoxAndText.SetActive(false);
-            options.SetActive(true);
+
+            int i = 0;
+            foreach (GameObject button in buttons)
+            {
+                button.gameObject.SetActive(true);
+                button.gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = button.gameObject.GetComponent<DialogueOption>().branchedText.ButtonText;
+
+                if (buttons.Length == 3)
+                {
+                    if (i == 2)
+                    {
+                        button.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0f, button.gameObject.GetComponent<RectTransform>().anchoredPosition.y);
+                    }
+                }
+
+                i++;
+            }
+
+            //options.SetActive(true);
         }
 
         else if (!npcText.branching) 
@@ -133,18 +151,21 @@ public class Textbox : MonoBehaviour
 
         if (Input.GetKeyDown(inputKey))
         {
-            if (typing)
+            if (textBoxAndText.activeInHierarchy)
             {
-                //skips to the end of the sentence
-                typing = false;
-                nextSentence();
+                if (typing)
+                {
+                    //skips to the end of the sentence
+                    typing = false;
+                    nextSentence();
+                }
+                else if (!typing)
+                {
+                    //goes to the next sentence
+                    nextSentenceSkip();
+                }
             }
-            else if (!typing)
-            {
-                //goes to the next sentence
-                nextSentenceSkip();
             }
-        }
 
-    }
+        }
 }
