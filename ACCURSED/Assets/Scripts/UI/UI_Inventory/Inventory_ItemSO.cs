@@ -9,7 +9,7 @@ public class Inventory_ItemSO : ScriptableObject
     public string itemDesc;
 
     public bool isSpecialItem;
-    public int itemQuantityMax = 10;
+    public int itemQuantityMax;
 
     //public string itemID;
 

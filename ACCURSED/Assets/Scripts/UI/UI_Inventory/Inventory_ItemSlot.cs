@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
-public class Inventory_ItemSlot : MonoBehaviour
+public class Inventory_ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     
     [SerializeField] public GameObject itemSlot;
@@ -15,8 +16,11 @@ public class Inventory_ItemSlot : MonoBehaviour
     private Inventory_ItemSO item;
     private bool isEmpty;
     ButtonHighlight highlight;
+    private int quantity;
+    bool isMouseHovering;
 
     public static GameObject selectedSlot;
+    public static GameObject rightClickOptions;
 
     public Button b;
     void Awake()
@@ -28,8 +32,10 @@ public class Inventory_ItemSlot : MonoBehaviour
 
         selectedHue.SetActive(false);
         selectedSlot = null;
+        isMouseHovering = false;
     }
 
+    // Registers there is an item in this item slot
     public void SetItem(Inventory_ItemSO newItem)
     {
         item = newItem;
@@ -56,16 +62,18 @@ public class Inventory_ItemSlot : MonoBehaviour
         }
     }
 
+    // Executes when the ItemSlot is left-clicked, updates the Info Panel
     void ExecuteTask()
     {
         if (!isEmpty && !CheckIfSelected()) {
-            Debug.Log("Update Item Before");
-            ItemInfoPanel.Instance.UpdateDisplay(item);
+            //Debug.Log("Update Item Before");
+            ItemInfoPanel.Instance.UpdateDisplay(item, quantity);
             SetSelected();
-            Debug.Log("Update Item");
+            //Debug.Log("Update Item");
         }
     }
 
+    // Makes sure the selected item 
     void UpdateActivity()
     {
         if (isEmpty)
@@ -105,6 +113,7 @@ public class Inventory_ItemSlot : MonoBehaviour
     public void SetQuantity(int quantity)
     {
         quantityText.GetComponent<TextMeshProUGUI>().text = quantity.ToString();
+        this.quantity = quantity;
     }
 
     public bool CheckIfSelected()
@@ -129,5 +138,22 @@ public class Inventory_ItemSlot : MonoBehaviour
         }
     }
 
+    //Right Click
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        isMouseHovering = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        isMouseHovering = false;
+    }
+
+    public void CheckRightClick()
+    {
+        if (isMouseHovering && Input.GetMouseButtonDown(1)) {
+            RightClickOptions.Instance.GetIsOpen();
+        }
+    }
 }
