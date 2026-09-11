@@ -29,7 +29,8 @@ public class PlayerManager : CharacterManager
         playerDeath = GetComponent<PlayerDeath>();
 
         playerDeath.OnDeath += OnDeath;
-        playerDeath.OnRevive += OnRevive;
+        playerDeath.OnReviveAnimStarted += PlayReviveAnim;
+        playerDeath.OnReviveAnimFinished += OnReviveFinish;
     }
 
     protected override void OnDisable()
@@ -37,7 +38,8 @@ public class PlayerManager : CharacterManager
         base.OnDisable();
 
         playerDeath.OnDeath -= OnDeath;
-        playerDeath.OnRevive -= OnRevive;
+        playerDeath.OnReviveAnimStarted -= PlayReviveAnim;
+        playerDeath.OnReviveAnimFinished -= OnReviveFinish;
     }
 
     protected override void EndWind()
@@ -50,7 +52,7 @@ public class PlayerManager : CharacterManager
     public void Dash()
     {
         UpdateDirection();
-        cMove.Dash(moveInput);
+        cMove.Dash(currDir);
         cAnim.SetStunned(false);
         cAnim.SetMoveState(0);
         cAnim.SetDashing();
@@ -59,7 +61,7 @@ public class PlayerManager : CharacterManager
     //called by player controller, skips the action queue because it needs to also be called during StunnedCancellable state
     public bool CueDash()
     {
-        if ((combatState is ActionState.Idle or ActionState.StunnedCancellable) && moveInput != Vector2.zero)
+        if ((combatState is ActionState.Idle or ActionState.StunnedCancellable))
         {
             currAction = new ActionInstance(dashAction, Time.time);
             PlayCurrentAction();
@@ -91,11 +93,16 @@ public class PlayerManager : CharacterManager
         cAnim.SetDead(true);
     }
 
-    private void OnRevive()
+    private void PlayReviveAnim()
     {
-        combatState = ActionState.Idle;
+        currDir = Vector2.down;
+        UpdateDirection();
         cAnim.SetDead(false);
         cAnim.SetStunned(false);
+    }
+
+    private void OnReviveFinish() {
+        combatState = ActionState.Idle;
     }
 
     public void UpdateMouseDirection(Vector2 mousePosition) {

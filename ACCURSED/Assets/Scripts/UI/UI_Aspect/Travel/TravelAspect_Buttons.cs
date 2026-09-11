@@ -31,13 +31,17 @@ public class TravelAspect_Buttons : MonoBehaviour
         }
 
         //RoomTransitionWithoutPlayer.Instance.BeginTransition(asp.sceneName);
-        RoomTransitionManager.Instance.BeginTransition(asp.sceneName, SetPlayerAfterTransition);
+        RoomTransitionManager.Instance.BeginTransition(asp.sceneName, SetPlayerAfterTransition, StopPlayerFromResting);
     }
 
     void SetPlayerAfterTransition()
     {
         PersistentPlayer.Instance.transform.position = asp.position;
         PersistentPlayer.controllerInstance.SetState(PlayerControlState.Normal);
+    }
+
+    void StopPlayerFromResting() {
+        PersistentPlayer.managerInstance.OnStopRest();
     }
 
     //private IEnumerator TransitionBlack()

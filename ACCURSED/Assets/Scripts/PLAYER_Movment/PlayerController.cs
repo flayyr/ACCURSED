@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     #region Movement
     public void OnMove(InputValue value)
     {
-        playerManager.MoveInput(value.Get<Vector2>());
+        playerManager.MoveInput(state == PlayerControlState.Normal ? value.Get<Vector2>() : Vector2.zero);
     }
     public void OnWalk(InputValue value)
     {
