@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DialogueOption : MonoBehaviour
 {
@@ -9,7 +10,10 @@ public class DialogueOption : MonoBehaviour
     private GameObject parent;
 
     [SerializeField]
-    private GameObject textDisplay;
+    private GameObject[] friends;
+
+    [SerializeField]
+    public GameObject textDisplay;
 
     public NPCDialogue branchedText;
 
@@ -29,7 +33,17 @@ public class DialogueOption : MonoBehaviour
         textBox.GetComponent<Textbox>().npcText = branchedText;
         textBox.GetComponent<Textbox>().nextSentence();
         textDisplay.SetActive(true);
-        parent.SetActive(false);
+
+        foreach (GameObject friend in friends)
+        {
+            if (friend.activeInHierarchy)
+            {
+                friend.SetActive(false);
+            }
+        }
+
+        //gameObject.SetActive(false);
+        //parent.SetActive(false);
     }
 
 }

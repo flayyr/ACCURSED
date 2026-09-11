@@ -24,5 +24,8 @@ public class NPCDialogue : ScriptableObject
     [Header("This holds all the branching dialogues.")]
     public NPCDialogue[] branches;
 
+    [Header("If you need a button to have a thing to say")]
+    public string ButtonText;
+
     public AudioClip sound;
 }
