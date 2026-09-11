@@ -1536,7 +1536,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000023737111}
+  m_AnchoredPosition: {x: 0, y: 0.00079928734}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &4746463243789469602
@@ -2016,7 +2016,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3176981525340437898}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99908006
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3506,6 +3506,7 @@ GameObject:
   - component: {fileID: 5956795803763654009}
   - component: {fileID: 4512525023345430444}
   - component: {fileID: 8743696241900919171}
+  - component: {fileID: 5843764926739690897}
   m_Layer: 5
   m_Name: UI_Inventory
   m_TagString: Untagged
@@ -3641,6 +3642,19 @@ MonoBehaviour:
   testItem: {fileID: 11400000, guid: 3cbb02f223cf8ad4ca25bb9b1e36bd8c, type: 2}
   itemContent: {fileID: 3281124334865049538}
   itemSlotPrefab: {fileID: 1373347014439606224, guid: dffb6ed8d13796348b120048afd084bb, type: 3}
+--- !u!114 &5843764926739690897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8269450814097592461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294fc43081b245e4c9de9b196cbb5a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RightClickOptions
+  ui: {fileID: 7900020931325242077}
 --- !u!1 &8381476784748709511
 GameObject:
   m_ObjectHideFlags: 0
