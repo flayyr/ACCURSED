@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SunrayMat
+  m_Name: SunrayMat 2
   m_Shader: {fileID: -6465566751694194690, guid: 91b41927a5ece1c41b5e4a330c9d0508, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -40,9 +40,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _AnimationSpeed: 0.73
     m_Colors:
     - White: {r: 1, g: 1, b: 1, a: 1}
+    - _AnimationThreshold: {r: 0.17, g: 0.37, b: 0, a: 0}
     - _Dodge_Color: {r: 0.32298127, g: 0.5188679, b: 0.31572622, a: 1}
     - _RayColor: {r: 0.5660378, g: 0.5531094, b: 0.504628, a: 1}
   m_BuildTextureStacks: []
