@@ -47,7 +47,7 @@ public class ItemInfoPanel : MonoBehaviour
         }
         else
         {
-            Debug.Log("null");
+            //Debug.Log("null");
             labelingText.SetActive(false);
 
             itemName.GetComponent<TextMeshProUGUI>().text = "";

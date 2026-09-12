@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
-public class Inventory_ItemSlot : MonoBehaviour
+public class Inventory_ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     
     [SerializeField] public GameObject itemSlot;
@@ -16,8 +17,10 @@ public class Inventory_ItemSlot : MonoBehaviour
     private bool isEmpty;
     ButtonHighlight highlight;
     private int quantity;
+    bool isMouseHovering;
 
     public static GameObject selectedSlot;
+    public static GameObject rightClickOptions;
 
     public Button b;
     void Awake()
@@ -29,6 +32,7 @@ public class Inventory_ItemSlot : MonoBehaviour
 
         selectedHue.SetActive(false);
         selectedSlot = null;
+        isMouseHovering = false;
     }
 
     // Registers there is an item in this item slot
@@ -134,5 +138,22 @@ public class Inventory_ItemSlot : MonoBehaviour
         }
     }
 
+    //Right Click
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        isMouseHovering = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        isMouseHovering = false;
+    }
+
+    public void CheckRightClick()
+    {
+        if (isMouseHovering && Input.GetMouseButtonDown(1)) {
+            RightClickOptions.Instance.GetIsOpen();
+        }
+    }
 }
