@@ -40,14 +40,12 @@ public class CharacterManager : MonoBehaviour
 
         actionQueuer.OnActionQueued += PlayNextAction;
         cAnim.OnActionFinished += OnActionFinish;
-        cAnim.OnDodgeCancellable += OnDodgeCancellable;
     }
 
     protected virtual void OnDisable()
     {
         actionQueuer.OnActionQueued -= PlayNextAction;
         cAnim.OnActionFinished -= OnActionFinish;
-        cAnim.OnDodgeCancellable -= OnDodgeCancellable;
     }
 
     private void Update()
@@ -106,14 +104,6 @@ public class CharacterManager : MonoBehaviour
         currAction.finishTime = Time.time;
         UpdateDirection();
         PlayNextAction();
-    }
-
-    protected void OnDodgeCancellable()
-    {
-        if (combatState != ActionState.Idle)
-        {
-            combatState = ActionState.StunnedCancellable;
-        }
     }
 
     protected void PlayNextAction()

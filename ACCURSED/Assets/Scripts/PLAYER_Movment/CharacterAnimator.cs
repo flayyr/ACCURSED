@@ -10,7 +10,6 @@ using UnityEngine.U2D.Animation;
 public class CharacterAnimator : MonoBehaviour
 {
     public Action OnActionFinished;
-    public Action OnDodgeCancellable;
 
     [SerializeField] private int direction = 5;
     [SerializeField] private bool eightDirections;
@@ -64,11 +63,6 @@ public class CharacterAnimator : MonoBehaviour
     {
         //invokes function in CharacterManager
         OnActionFinished?.Invoke();
-    }
-    public void OnMakeActionCancellable()
-    {
-        //invokes function in CharacterManager
-        OnDodgeCancellable?.Invoke();
     }
 
     public void SwitchAnimationState(string baseName)
