@@ -10,6 +10,7 @@ public class AttackData
     public float knockbackPower;
     public float stunDuration;
     public float vitalityBuildUp = 1;
+    [Range(0,1)]public float parryLeniency = 0.5f;
 }
 
 [CreateAssetMenu(fileName = "ActionSO", menuName = "Actions/ActionSO")]

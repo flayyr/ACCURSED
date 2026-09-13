@@ -10,12 +10,11 @@ public class HurtBox : MonoBehaviour
     [SerializeField] LayerMask lm_hurtbox;
 
     [Space]
-    bool invincible = false;
     [SerializeField] float afterHurtInvincibleDuration = 0.2f;
-    //[SerializeField] float afterHurtStunDuration = 1.2f;
     [SerializeField] float durationUntilDodgeCancellable = 0.5f;
     [Space]
     [SerializeField] private MMF_Player hurtFeedback;
+    [SerializeField] private MMF_Player parryFeedback;
 
     [SerializeField] List<GameObject> personalHurtBoxes = new List<GameObject>();
     [SerializeField] List<GameObject> personalHitBoxes = new List<GameObject>();
@@ -23,6 +22,11 @@ public class HurtBox : MonoBehaviour
     CharacterMovement cMovement;
     CharacterStatistics cStatistics;
     CharacterManager combatManager;
+    
+    bool invincible = false;
+    bool parrying = false;
+    Vector2 parryDirection;
+    Coroutine parryCoroutine;
 
     void Start()
     {
@@ -38,31 +42,53 @@ public class HurtBox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((lm_hitbox & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer && !personalHitBoxes.Contains(collision.gameObject) && invincible == false)
+        if ((lm_hitbox & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer && !personalHitBoxes.Contains(collision.gameObject))
         {
             // Identify Hitbox
             var hitBox = collision.gameObject.GetComponent<HitBox>();
-            Vector2 direction = hitBox.FindGlobalDirection();
+            Vector2 direction = hitBox.FindGlobalDirection(transform).normalized;
 
             if (hitBox.originObject != transform.root.gameObject)
             {
-                InvincibleForSeconds(afterHurtInvincibleDuration);
-                
-
-                // Use Hitbox info to affect me
+                float parryAccuracy = Vector2.Dot(parryDirection, direction)*.5f + .5f;//between 0 and 1, 0 is full accurate
                 AttackData attackData = hitBox.GetAttackSO();
 
-                combatManager.Stun(attackData.stunDuration, durationUntilDodgeCancellable);
+                if (parrying && parryAccuracy<=attackData.parryLeniency)
+                {
+                    hitBox.Parried();
 
-                combatManager.Launch(direction, attackData.knockbackPower, true);
-                cStatistics.UpdateHealth( -attackData.attackDamage);
+                    parryFeedback.PlayFeedbacks();
 
-                if(hurtFeedback!=null)
-                    hurtFeedback.PlayFeedbacks();
+                    Debug.Log("successful parry, accuracy: "+(1f-parryAccuracy));
+                }
+                else if (!invincible)
+                {
+                    InvincibleForSeconds(afterHurtInvincibleDuration);
 
-                hitBox.Hit();
+
+                    // Use Hitbox info to affect me
+                    combatManager.Stun(attackData.stunDuration, durationUntilDodgeCancellable);
+
+                    combatManager.Launch(direction, attackData.knockbackPower, true);
+                    cStatistics.UpdateHealth(-attackData.attackDamage);
+
+                    if (hurtFeedback != null)
+                        hurtFeedback.PlayFeedbacks();
+
+                    hitBox.Hit();
+                }
             }
         }
+    }
+
+    public void Parry(float parryTime, Vector2 direction)
+    {
+        if(parryCoroutine != null)
+            StopCoroutine(parryCoroutine);
+
+        parryCoroutine = StartCoroutine(ParryTime(parryTime));
+
+        parryDirection = direction.normalized;
     }
 
     public void InvincibleForSeconds(float seconds)
@@ -75,5 +101,12 @@ public class HurtBox : MonoBehaviour
         invincible = true;
         yield return new WaitForSeconds(duration);
         invincible = false;
+    }
+
+    IEnumerator ParryTime(float duration)
+    {
+        parrying = true;
+        yield return new WaitForSeconds(duration);
+        parrying = false;
     }
 }

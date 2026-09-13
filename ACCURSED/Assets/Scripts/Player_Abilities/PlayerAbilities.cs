@@ -6,6 +6,7 @@ public class PlayerAbilities : MonoBehaviour
     [SerializeField] private VestigeSO vestigeAbility;
     [SerializeField] private RemembranceSO remembranceAbility;
     [SerializeField] private ActionSO healAction;
+    [SerializeField] private ActionSO parryAction;
 
 
     [HideInInspector] public event Action OnAbilityUsed;
@@ -68,7 +69,9 @@ public class PlayerAbilities : MonoBehaviour
 
     void UpdateRemembranceChargeUI()
     {
-        remembranceUI.SetFrameFill(playerStatistics.currentRemembranceCharge / remembranceAbility.requiredCharge);
+        if (remembranceUI != null) {
+            remembranceUI.SetFrameFill(playerStatistics.currentRemembranceCharge / remembranceAbility.requiredCharge);
+        }
     }
 
 
@@ -105,6 +108,12 @@ public class PlayerAbilities : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public bool UseParry()
+    {
+        actionQueuer.QueueAction(parryAction);
+        return true;
     }
 
 }

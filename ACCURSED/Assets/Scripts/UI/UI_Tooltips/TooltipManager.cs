@@ -63,19 +63,36 @@ public class ToolTipManager : MonoBehaviour
 
     public void PromptAppear()
     {
-        
-        if (promptOpen) { return; }
+        if (promptOpen)
+            return;
 
-        if (GlobalUIController.Instance.CheckIfOtherUIOpen()) { return; }
+        if (GlobalUIController.Instance.CheckIfOtherUIOpen())
+            return;
 
+        // This can interrupt a previous prompt's closing animation.
         StopCurrentTransition();
+        
+        // If the previous prompt's close coroutine was interrupted, its GameObject still exists.
+        // Remove it before creating the replacement prompt.
+        if (currentPrompt != null)
+        {
+            currentPrompt.SetActive(false);
+            Destroy(currentPrompt);
+            currentPrompt = null;
+        }
+
         promptOpen = true;
 
         currentPrompt = Instantiate(UIPromptPrefab, parentCanvas, false);
+
+
         RectTransform rt = currentPrompt.GetComponent<RectTransform>();
+
         rt.anchoredPosition = new Vector2(0, 280);
 
+
         PromptUI ui = currentPrompt.GetComponent<PromptUI>();
+
         ui.SetText(promptText);
 
         menuAppear = StartCoroutine(MenuOpenRoutine());
@@ -93,21 +110,30 @@ public class ToolTipManager : MonoBehaviour
 
     private IEnumerator MenuOpenRoutine()
     {
-
         promptCanvas.alpha = 0f;
+
         yield return UITransitions.Instance.FadeTransition(promptCanvas, 0f, 1f, 0.1f);
+
+        menuAppear = null;
     }
 
     private IEnumerator MenuCloseRoutine()
     {
         promptCanvas.alpha = 1f;
+
         yield return UITransitions.Instance.FadeTransition(promptCanvas, 1f, 0f, 0.1f);
+
 
         if (currentPrompt != null)
         {
-            Destroy(currentPrompt);
+            GameObject promptToDestroy = currentPrompt;
+
             currentPrompt = null;
+
+            Destroy(promptToDestroy);
         }
+        
+        menuAppear = null;
     }
 
     private void CheckPromptTrigger()
@@ -125,6 +151,8 @@ public class ToolTipManager : MonoBehaviour
 
     public void ManuallyRemovePrompt() // if prompt interaction goes out of bounds
     {
+        currentAction = null;
+
         if (promptOpen)
         {
             PromptDisappear();
@@ -136,6 +164,10 @@ public class ToolTipManager : MonoBehaviour
     public void Prompt(string promptText)
     {
         this.promptText = promptText;
+
+        // This prompt is display/confirmation only. Never retain an action from the previous prompt.
+        currentAction = null;
+
         PromptAppear();
     }
 
@@ -206,11 +238,38 @@ public class ToolTipManager : MonoBehaviour
         };
     }
 
+    // Generic action prompt
+    public void Prompt(string promptText, Action action)
+    {
+        this.promptText = promptText;
+
+        PromptAppear();
+
+        currentAction = action;
+    }
+
     public void Update()
     {
         ToolTipDebug(); //DEBUG
 
         // if (too far away) { PromptDisappear }
+    }
+
+    public void ShowNormalItemPickup(ItemPickupSO item)
+    {
+        if (item == null)
+            return;
+
+        NormalItemPickup normalPickup = GetComponent<NormalItemPickup>();
+
+        if (normalPickup == null)
+        {
+            Debug.LogError("ToolTipManager requires NormalItemPickup " + "to display a normal item pickup.", this);
+
+            return;
+        }
+
+        normalPickup.AddItem(item);
     }
 
     private void ToolTipDebug() 

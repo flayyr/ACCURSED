@@ -9,19 +9,28 @@ public class HitBox : MonoBehaviour
     [Space]
     [SerializeField] private PlayerStatistics playerStats;
     [SerializeField] private MMF_Player hitFeedback;
+    [Header("Parried")]
+    [SerializeField] private float perfectParryStunDuration =1f;
 
     [HideInInspector]public GameObject originObject;
+
     CircleCollider2D c_cc;
+    CharacterManager cManager;
 
     AttackData attackData;
 
     private void Start()
     {
         c_cc = GetComponent<CircleCollider2D>();
+        cManager = GetComponentInParent<CharacterManager>();
+        originObject = transform.root.gameObject;
     }
 
-    public Vector3 FindGlobalDirection()
+    public Vector3 FindGlobalDirection(Transform targetTransform)
     {
+        if(direction == Vector3.zero) {
+            return (targetTransform.position - transform.position).normalized;
+        }
         PostAnimDirection = transform.TransformDirection(direction);
         return PostAnimDirection.normalized;
     }
@@ -39,12 +48,17 @@ public class HitBox : MonoBehaviour
         }
     }
 
+    public void Parried()
+    {
+        cManager.Stun(perfectParryStunDuration, 0f);
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position, transform.position + direction);
-        if(GetComponent<CircleCollider2D>()!=null)
-        Gizmos.DrawWireSphere(transform.position, GetComponent<CircleCollider2D>().radius);
+        if(c_cc!=null)
+        Gizmos.DrawWireSphere(transform.position, c_cc.radius);
     }
 
     public void SetAttackData(AttackData attackData) { this.attackData = attackData; }

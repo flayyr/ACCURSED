@@ -19,7 +19,7 @@ public class CharacterManager : MonoBehaviour
 
     public ActionInstance currAction = null;
 
-    protected ActionState combatState = ActionState.Idle;
+    [SerializeField]protected ActionState combatState = ActionState.Idle;
 
     protected float windTimer = 0;
     protected float stunTimer = 0;
@@ -32,7 +32,7 @@ public class CharacterManager : MonoBehaviour
         cMove = GetComponent<CharacterMovement>();
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         combatState = ActionState.Idle;
         currAction = null;
@@ -40,12 +40,14 @@ public class CharacterManager : MonoBehaviour
 
         actionQueuer.OnActionQueued += PlayNextAction;
         cAnim.OnActionFinished += OnActionFinish;
+        cAnim.OnDodgeCancellable += OnDodgeCancellable;
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         actionQueuer.OnActionQueued -= PlayNextAction;
         cAnim.OnActionFinished -= OnActionFinish;
+        cAnim.OnDodgeCancellable -= OnDodgeCancellable;
     }
 
     private void Update()
@@ -101,8 +103,17 @@ public class CharacterManager : MonoBehaviour
     protected void OnActionFinish()
     {
         combatState = ActionState.Idle;
+        currAction.finishTime = Time.time;
         UpdateDirection();
         PlayNextAction();
+    }
+
+    protected void OnDodgeCancellable()
+    {
+        if (combatState != ActionState.Idle)
+        {
+            combatState = ActionState.StunnedCancellable;
+        }
     }
 
     protected void PlayNextAction()
@@ -113,22 +124,27 @@ public class CharacterManager : MonoBehaviour
 
             if (currAction != null)
             {
-                hitBox.SetAttackData(currAction.actionSO.attackData);//sets attack data into hitbox
-
-                //start winding
-                cAnim.SetWind(true);
-                combatState = ActionState.Winding;
-                windTimer = currAction.actionSO.windDuration;
-                cAnim.SwitchAnimationState(currAction.actionSO.windAnimationState);
-
-                //end wind immediately if released key early (set thru PlayerAttacker), or the action has no wind
-                if (currAction.skipWindWhenQueued || windTimer <= 0)
-                {
-                    EndWind();
-                }
-
-                return;
+                PlayCurrentAction();
             }
+        }
+    }
+
+    protected void PlayCurrentAction()
+    {
+        currAction.played = true;
+
+        hitBox.SetAttackData(currAction.actionSO.attackData);//sets attack data into hitbox
+
+        //start winding
+        cAnim.SetWind(true);
+        combatState = ActionState.Winding;
+        windTimer = currAction.actionSO.windDuration;
+        cAnim.SwitchAnimationState(currAction.actionSO.windAnimationState);
+
+        //end wind immediately if released key early (set thru PlayerAttacker), or the action has no wind
+        if (currAction.skipWindWhenQueued || windTimer <= 0)
+        {
+            EndWind();
         }
     }
 
@@ -314,4 +330,5 @@ public class CharacterManager : MonoBehaviour
     public ActionState GetCombatState() => combatState;
     public BaseMoveState GetMoveState() => moveState;
     public Vector2 GetDirection() => currDir;
+    public ActionInstance GetCurrAction()=>currAction;
 }

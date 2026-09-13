@@ -17,6 +17,30 @@ public struct PlayerReference
 public class PlayerManager : CharacterManager
 {
     [SerializeField] PlayerReference playerRef;
+    [SerializeField] ActionSO dashAction;
+
+    PlayerDeath playerDeath;
+
+    Vector2 toMouseDirection;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        playerDeath = GetComponent<PlayerDeath>();
+
+        playerDeath.OnDeath += OnDeath;
+        playerDeath.OnReviveAnimStarted += PlayReviveAnim;
+        playerDeath.OnReviveAnimFinished += OnReviveFinish;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+        playerDeath.OnDeath -= OnDeath;
+        playerDeath.OnReviveAnimStarted -= PlayReviveAnim;
+        playerDeath.OnReviveAnimFinished -= OnReviveFinish;
+    }
 
     protected override void EndWind()
     {
@@ -25,19 +49,65 @@ public class PlayerManager : CharacterManager
         currAction.actionSO.PlayerActionTrigger(ref playerRef);
     }
 
-    //called by player controller, queues a dash action. Ideally manager doesnt queue actions, but I'll allow dashing
+    public void Dash()
+    {
+        UpdateDirection();
+        cMove.Dash(currDir);
+        cAnim.SetStunned(false);
+        cAnim.SetMoveState(0);
+        cAnim.SetDashing();
+    }
+
+    //called by player controller, skips the action queue because it needs to also be called during StunnedCancellable state
     public bool CueDash()
     {
-        if ((combatState is ActionState.Idle or ActionState.StunnedCancellable) && moveInput != Vector2.zero)
+        if ((combatState is ActionState.Idle or ActionState.StunnedCancellable))
         {
-            combatState = ActionState.Idle;
-            UpdateDirection();
-            cMove.Dash(moveInput);
-            cAnim.SetStunned(false);
-            cAnim.SetMoveState(0);
-            cAnim.SetDashing();
+            currAction = new ActionInstance(dashAction, Time.time);
+            PlayCurrentAction();
             return true;
         }
         return false;
     }
+
+    public void OnStartRest()
+    {
+        currDir = Vector2.down;
+        UpdateDirection();
+
+        combatState = ActionState.Stunned;
+
+        cAnim.SetResting(true);
+    }
+
+    public void OnStopRest()
+    {
+        combatState = ActionState.Idle;
+
+        cAnim.SetResting(false);
+    }
+
+    private void OnDeath()
+    {
+        combatState = ActionState.Stunned;
+        cAnim.SetDead(true);
+    }
+
+    private void PlayReviveAnim()
+    {
+        currDir = Vector2.down;
+        UpdateDirection();
+        cAnim.SetDead(false);
+        cAnim.SetStunned(false);
+    }
+
+    private void OnReviveFinish() {
+        combatState = ActionState.Idle;
+    }
+
+    public void UpdateMouseDirection(Vector2 mousePosition) {
+        toMouseDirection = (mousePosition - (Vector2)transform.position).normalized;
+    }
+
+    public Vector2 GetMouseDirection() {  return toMouseDirection; }
 }
