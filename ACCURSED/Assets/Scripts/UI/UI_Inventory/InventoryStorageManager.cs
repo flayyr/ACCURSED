@@ -139,7 +139,7 @@ public class InventoryStorageManager : MonoBehaviour
         return null;
     }
 
-
+    // Takes everything from the inventory (right now is debugged) and initalizes avaliable item slots
     public void InitializeInventory()
     {
 
@@ -166,6 +166,6 @@ public class InventoryStorageManager : MonoBehaviour
     {
         Debug.Log("Adding test items");
 
-        AddToInventory(testItem, 100);
+        AddToInventory(testItem, 167);
     }
 }

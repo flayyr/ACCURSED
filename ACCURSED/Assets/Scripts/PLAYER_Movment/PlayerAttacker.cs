@@ -22,12 +22,8 @@ public class PlayerAttacker : MonoBehaviour
     {
         if (pressed)
         {
-            if (currAttackInstance != null && playerManager.GetCurrAction() == currAttackInstance) {//player is currently attacking with this basic attack
-                ActionSO playingSO = currAttackInstance.actionSO;
-                QueueNextAttackInSequence(playingSO);
-            } else {
-                QueueAttack(0);
-            }
+            ActionInstance lastPlayed = actionQueuer.GetLastPlayedInstance();
+            QueueNextAttackInSequence(lastPlayed != null ? lastPlayed.actionSO : null);
         }
         else if(currAttackInstance != null)
         {
@@ -45,10 +41,17 @@ public class PlayerAttacker : MonoBehaviour
                 return true;
             }
         }
+        QueueAttack(0);
         return false;
     }
 
     private void QueueAttack(int index) {
+        ActionInstance lastQueued = actionQueuer.GetLastQueuedInstance();
+        if (lastQueued != null && attackList[index] == lastQueued.actionSO) {//dont queue new attack if target attack is already the latest queued attack
+            currAttackInstance.UpdateQueueTime();
+            return;
+        }
+
         currAttackInstance = actionQueuer.QueueAction(attackList[index]);
     }
 }

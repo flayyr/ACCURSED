@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 1742895147833066541}
   - component: {fileID: 5159458472057002787}
   - component: {fileID: 7247048160220040790}
+  - component: {fileID: 2844906436741859797}
+  - component: {fileID: 5025604255710411091}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -203,10 +205,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DepthSort
   sortRenderer: {fileID: 0}
-  sortOrderOffset: 0
+  sortOrderOffset: 3
   useParticle: 0
   baseTransform: {fileID: 0}
   selfUpdate: 0
+--- !u!114 &2844906436741859797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542515410809968922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
+--- !u!114 &5025604255710411091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542515410809968922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7011d57e41589024fb444d8773c926bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
+  canMove: 0
+  isAnimated: 0
+  normalMap: {fileID: -2197359250157334493, guid: 64fb19783aa572947b90c9b3d4f499f4, type: 3}
+  refTransform: {fileID: 0}
+  useAmbientShadow: 1
+  ambientShadowSprite: {fileID: 0}
+  ambientShadowLength: 0.5
+  useAdditionalShadow: 0
+  shadowMat: {fileID: 0}
+  ShadowSprite: {fileID: 0}
+  shadowSize: {x: 1, y: 1}
+  useWind: 0
+  windStrength: 0.006
+  topSway: 0
+  topSwayStrength: 0.1
 --- !u!1 &549912525863102387
 GameObject:
   m_ObjectHideFlags: 0
