@@ -10,6 +10,9 @@ public class Textbox : MonoBehaviour
     public NPCDialogue npcText;
     [Header("This stores branching dialogue")]
     public NPCDialogue[] npcTextBranches;
+
+    private int npcTextBranchNum;
+
     [Header("This stores the text object to display unto")]
     [SerializeField]
     private TextMeshProUGUI textDisplay;
@@ -61,11 +64,16 @@ public class Textbox : MonoBehaviour
 
         if (npcText.branching)
         {
-            int i = 0;
-            foreach (GameObject button in buttons)
+
+            npcTextBranches = npcText.branches;
+            npcTextBranchNum = npcTextBranches.Length;
+
+            //int i = 0;
+            //foreach (GameObject button in buttons)
+            //foreach(NPCDialogue branches in npcTextBranches)
+            for(var i = 0; i < npcTextBranchNum; i++)
             {
-                button.gameObject.GetComponent<DialogueOption>().branchedText = npcTextBranches[i];
-                i++;
+                buttons[i].gameObject.GetComponent<DialogueOption>().branchedText = npcTextBranches[i];
             }
         }
 
@@ -110,7 +118,26 @@ public class Textbox : MonoBehaviour
             index = 0;
             npcText = null;
             textBoxAndText.SetActive(false);
-            options.SetActive(true);
+
+            //int i = 0;
+            //foreach (GameObject button in buttons)
+            //foreach(NPCDialogue branches in npcTextBranches)
+            for (var i = 0; i < npcTextBranchNum; i++)
+            {
+                buttons[i].gameObject.SetActive(true);
+                buttons[i].gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = buttons[i].gameObject.GetComponent<DialogueOption>().branchedText.ButtonText;
+
+                if (buttons.Length == 3)
+                {
+                    if (i == 2)
+                    {
+                        buttons[i].gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0f, buttons[i].gameObject.GetComponent<RectTransform>().anchoredPosition.y);
+                    }
+                }
+
+            }
+
+            //options.SetActive(true);
         }
 
         else if (!npcText.branching) 
@@ -133,18 +160,21 @@ public class Textbox : MonoBehaviour
 
         if (Input.GetKeyDown(inputKey))
         {
-            if (typing)
+            if (textBoxAndText.activeInHierarchy)
             {
-                //skips to the end of the sentence
-                typing = false;
-                nextSentence();
+                if (typing)
+                {
+                    //skips to the end of the sentence
+                    typing = false;
+                    nextSentence();
+                }
+                else if (!typing)
+                {
+                    //goes to the next sentence
+                    nextSentenceSkip();
+                }
             }
-            else if (!typing)
-            {
-                //goes to the next sentence
-                nextSentenceSkip();
             }
-        }
 
-    }
+        }
 }
