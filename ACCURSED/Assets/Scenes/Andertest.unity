@@ -119,6 +119,61 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &905592396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 905592397}
+  - component: {fileID: 905592398}
+  m_Layer: 0
+  m_Name: Textbox Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &905592397
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905592396}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1913.7477, y: 1007.7632, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &905592398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905592396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f26966d975414640a14ff47f55d249e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueSpawner
+  questOrNot: 0
+  questNotStarted: exampleQuestStarted
+  questStarted: 
+  questFinished: 
+  questNum: 0
+  textBoxPrefab: {fileID: 1521584742}
+  baseText: {fileID: 11400000, guid: b57317d95ec5cf94f93efad45e9d451d, type: 2}
+  questNotStartedText: {fileID: 11400000, guid: ba07580b644fbb54fa8cdd951cdd7d9b, type: 2}
+  questStartedText: {fileID: 11400000, guid: 51d31197b8518f64bbfa0fff49ba52b7, type: 2}
+  questFinishedText: {fileID: 11400000, guid: d32a4165f8e008243a7c9184791a9d33, type: 2}
+  branchingDialogue: []
 --- !u!1 &1222891152
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,6 +305,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI_Dialogue
       objectReference: {fileID: 0}
+    - target: {fileID: 1867375199657645726, guid: 1a6ceca103f7c0e48aa068ce33dbc43a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1963999858027368735, guid: 1a6ceca103f7c0e48aa068ce33dbc43a, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -1000
@@ -349,7 +408,7 @@ PrefabInstance:
     - target: {fileID: 8432451869248215465, guid: 1a6ceca103f7c0e48aa068ce33dbc43a, type: 3}
       propertyPath: npcText
       value: 
-      objectReference: {fileID: 11400000, guid: b57317d95ec5cf94f93efad45e9d451d, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8432451869248215465, guid: 1a6ceca103f7c0e48aa068ce33dbc43a, type: 3}
       propertyPath: buttons.Array.size
       value: 4
@@ -368,7 +427,7 @@ PrefabInstance:
       objectReference: {fileID: 1852474252}
     - target: {fileID: 8432451869248215465, guid: 1a6ceca103f7c0e48aa068ce33dbc43a, type: 3}
       propertyPath: npcTextBranches.Array.size
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8432451869248215465, guid: 1a6ceca103f7c0e48aa068ce33dbc43a, type: 3}
       propertyPath: 'npcTextBranches.Array.data[0]'
@@ -394,6 +453,11 @@ PrefabInstance:
 --- !u!224 &1521584741 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6051638506156449207, guid: 1a6ceca103f7c0e48aa068ce33dbc43a, type: 3}
+  m_PrefabInstance: {fileID: 1521584740}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1521584742 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1867375199657645726, guid: 1a6ceca103f7c0e48aa068ce33dbc43a, type: 3}
   m_PrefabInstance: {fileID: 1521584740}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1754154947
@@ -475,6 +539,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1790544188
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1790544189}
+  - component: {fileID: 1790544190}
+  m_Layer: 0
+  m_Name: Quest Holder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1790544189
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790544188}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1913.7477, y: 1007.7632, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1790544190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790544188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05029a177eebb7b42bfa8430d0e20139, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestVarHolder
+  trueOrFalseBools: 000000
 --- !u!1 &1852474252 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6719721275885914696, guid: 1a6ceca103f7c0e48aa068ce33dbc43a, type: 3}
@@ -629,3 +738,5 @@ SceneRoots:
   - {fileID: 2121372351}
   - {fileID: 1754154950}
   - {fileID: 1222891156}
+  - {fileID: 1790544189}
+  - {fileID: 905592397}
