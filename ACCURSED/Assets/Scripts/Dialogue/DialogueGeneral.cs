@@ -10,6 +10,9 @@ public class Textbox : MonoBehaviour
     public NPCDialogue npcText;
     [Header("This stores branching dialogue")]
     public NPCDialogue[] npcTextBranches;
+
+    private int npcTextBranchNum;
+
     [Header("This stores the text object to display unto")]
     [SerializeField]
     private TextMeshProUGUI textDisplay;
@@ -61,11 +64,16 @@ public class Textbox : MonoBehaviour
 
         if (npcText.branching)
         {
-            int i = 0;
-            foreach (GameObject button in buttons)
+
+            npcTextBranches = npcText.branches;
+            npcTextBranchNum = npcTextBranches.Length;
+
+            //int i = 0;
+            //foreach (GameObject button in buttons)
+            //foreach(NPCDialogue branches in npcTextBranches)
+            for(var i = 0; i < npcTextBranchNum; i++)
             {
-                button.gameObject.GetComponent<DialogueOption>().branchedText = npcTextBranches[i];
-                i++;
+                buttons[i].gameObject.GetComponent<DialogueOption>().branchedText = npcTextBranches[i];
             }
         }
 
@@ -111,21 +119,22 @@ public class Textbox : MonoBehaviour
             npcText = null;
             textBoxAndText.SetActive(false);
 
-            int i = 0;
-            foreach (GameObject button in buttons)
+            //int i = 0;
+            //foreach (GameObject button in buttons)
+            //foreach(NPCDialogue branches in npcTextBranches)
+            for (var i = 0; i < npcTextBranchNum; i++)
             {
-                button.gameObject.SetActive(true);
-                button.gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = button.gameObject.GetComponent<DialogueOption>().branchedText.ButtonText;
+                buttons[i].gameObject.SetActive(true);
+                buttons[i].gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = buttons[i].gameObject.GetComponent<DialogueOption>().branchedText.ButtonText;
 
                 if (buttons.Length == 3)
                 {
                     if (i == 2)
                     {
-                        button.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0f, button.gameObject.GetComponent<RectTransform>().anchoredPosition.y);
+                        buttons[i].gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0f, buttons[i].gameObject.GetComponent<RectTransform>().anchoredPosition.y);
                     }
                 }
 
-                i++;
             }
 
             //options.SetActive(true);
