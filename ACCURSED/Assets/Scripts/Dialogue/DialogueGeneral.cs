@@ -62,21 +62,22 @@ public class Textbox : MonoBehaviour
     private void OnEnable()
     {
 
-        if (npcText.branching)
+        //if (npcText.branching)
         {
-
-            npcTextBranches = npcText.branches;
-            npcTextBranchNum = npcTextBranches.Length;
-
-            //int i = 0;
-            //foreach (GameObject button in buttons)
-            //foreach(NPCDialogue branches in npcTextBranches)
-            for(var i = 0; i < npcTextBranchNum; i++)
+            if (npcText.branches != null)
             {
-                buttons[i].gameObject.GetComponent<DialogueOption>().branchedText = npcTextBranches[i];
+                npcTextBranches = npcText.branches;
+                npcTextBranchNum = npcTextBranches.Length;
+
+                //int i = 0;
+                //foreach (GameObject button in buttons)
+                //foreach(NPCDialogue branches in npcTextBranches)
+                for (var i = 0; i < npcTextBranchNum; i++)
+                {
+                    buttons[i].gameObject.GetComponent<DialogueOption>().branchedText = npcTextBranches[i];
+                }
             }
         }
-
         index = 0;
         typing = false;
 
