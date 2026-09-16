@@ -13,6 +13,7 @@ public class ItemInfoPanel : MonoBehaviour
     [SerializeField] public GameObject itemDesc;
 
     public Inventory_ItemSO currentItemDisplay;
+    [SerializeField] private Image itemDisplay;
 
     private void Awake()
     {
@@ -58,7 +59,39 @@ public class ItemInfoPanel : MonoBehaviour
         }
     }
 
-  
+    public void Display(ItemPickupSO item, int totalHeld)
+    {
+        if (item == null)
+            return;
 
+        currentItemDisplay = null;
 
+        if (labelingText != null)
+            labelingText.SetActive(true);
+
+        SetText(itemName, item.itemName);
+
+        SetText(itemType, item.itemCategory.ToString());
+
+        SetText(labelingText, "No. Held: " + totalHeld);
+
+        SetText(itemDesc, item.itemDesc);
+
+        if (itemDisplay != null)
+        {
+            itemDisplay.sprite = item.itemSpr;
+            itemDisplay.enabled = item.itemSpr != null;
+        }
+    }
+
+    private void SetText(GameObject target, string value)
+    {
+        if (target == null)
+            return;
+
+        TMP_Text text = target.GetComponent<TMP_Text>();
+
+        if (text != null)
+            text.text = value;
+    }
 }

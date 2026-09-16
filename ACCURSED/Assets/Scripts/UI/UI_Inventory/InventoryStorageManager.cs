@@ -1,171 +1,169 @@
+using System.Collections;
 using UnityEngine;
-using System.Collections.Generic;
-using static UnityEditor.Progress;
-
-[System.Serializable]
-public class InventoryStorage
-{
-    public Inventory_ItemSO item;
-    public Inventory_ItemSlot itemSlot;
-    public int quantity;
-}
 
 public class InventoryStorageManager : MonoBehaviour
 {
-    public static InventoryStorageManager Instance { get; private set; }
+    [Header("Inventory UI")]
+    [SerializeField]
+    private GameObject itemContent;
 
-    private List<InventoryStorage> inventory = new List<InventoryStorage>();
+    [SerializeField]
+    private GameObject itemSlotPrefab;
 
-    [SerializeField] private Inventory_ItemSO testItem;
+    [SerializeField]
+    private ItemInfoPanel infoPanel;
 
-    private List<Inventory_ItemSlot> itemSlots = new List<Inventory_ItemSlot>();
+    private PlayerInventory playerInventory;
 
-    [SerializeField] private GameObject itemContent;
-    [SerializeField] private GameObject itemSlotPrefab;
+    private Coroutine bindRoutine;
 
-
-    void Awake()
+    private void OnEnable()
     {
-        // Singleton check
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-
-        InitializeItemSlots(40);
-
-        // Debug
-        DebugAddTestItems();
+        bindRoutine = StartCoroutine(BindWhenPlayerExists());
     }
 
-
-    void InitializeItemSlots(int quantity)
+    private void OnDisable()
     {
-        for (int i = 0; i < quantity; i++)
+        if (bindRoutine != null)
         {
-            GameObject newItemSlot = Instantiate(itemSlotPrefab, itemContent.transform);
+            StopCoroutine(bindRoutine);
+            bindRoutine = null;
+        }
 
-            Inventory_ItemSlot slot = newItemSlot.GetComponent<Inventory_ItemSlot>();
-
-            itemSlots.Add(slot);
+        if (playerInventory != null)
+        {
+            playerInventory.InventoryChanged
+                -= RebuildInventory;
         }
     }
 
-    public List<InventoryStorage> GetInventory()
+    private IEnumerator BindWhenPlayerExists()
     {
-        return inventory;
-    }
-
-
-    public void AddToInventory(Inventory_ItemSO item,int quantity)
-    {
-        int remainingQuantity = quantity;
-
-        foreach (InventoryStorage storage in inventory)
+        while (playerInventory == null)
         {
-            if (storage.item != item)
-                continue;
-            if (storage.quantity >= item.itemQuantityMax)
-                continue;
-
-
-            int spaceLeft = item.itemQuantityMax - storage.quantity;
-            int amountToAdd = Mathf.Min(spaceLeft, remainingQuantity);
-
-            storage.quantity += amountToAdd;
-
-            remainingQuantity -= amountToAdd;
-
-            if (remainingQuantity <= 0)
+            // Preferred:
+            // your persistent player.
+            if (PersistentPlayer.Instance != null)
             {
-                InitializeInventory();
-                return;
-            }
-        }
-
-        while (remainingQuantity > 0)
-        {
-            Inventory_ItemSlot emptySlot = GetEmptySlot();
-
-            if (emptySlot == null)
-            {
-                break;
+                playerInventory =
+                    PersistentPlayer.Instance
+                        .GetComponent<PlayerInventory>();
             }
 
-            int amountToAdd = Mathf.Min(item.itemQuantityMax, remainingQuantity);
-
-
-            InventoryStorage newStorage = new InventoryStorage {
-                item = item,
-                itemSlot = emptySlot,
-                quantity = amountToAdd };
-
-
-            inventory.Add(newStorage);
-
-            remainingQuantity -= amountToAdd;
-        }
-
-
-        // Update UI
-        InitializeInventory();
-    }
-
-
-    Inventory_ItemSlot GetEmptySlot()
-    {
-        foreach (Inventory_ItemSlot itemSlot in itemSlots)
-        {
-            bool slotIsUsed = false;
-            foreach (InventoryStorage storage in inventory)
+            // Fallback for scene testing.
+            if (playerInventory == null)
             {
-                if (storage.itemSlot == itemSlot)
+                GameObject player =
+                    GameObject
+                        .FindGameObjectWithTag(
+                            "Player"
+                        );
+
+                if (player != null)
                 {
-                    slotIsUsed = true;
-                    break;
+                    playerInventory =
+                        player.GetComponent<
+                            PlayerInventory>();
                 }
             }
 
-
-            if (!slotIsUsed)
-            {
-                return itemSlot;
-            }
+            if (playerInventory == null)
+                yield return null;
         }
 
-        return null;
+        playerInventory.InventoryChanged
+            -= RebuildInventory;
+
+        playerInventory.InventoryChanged
+            += RebuildInventory;
+
+        RebuildInventory();
+
+        bindRoutine = null;
     }
 
-    // Takes everything from the inventory (right now is debugged) and initalizes avaliable item slots
-    public void InitializeInventory()
+    public void RebuildInventory()
     {
+        if (playerInventory == null)
+            return;
 
-        foreach (Inventory_ItemSlot itemSlot in itemSlots)
+        if (itemContent == null)
         {
-            itemSlot.SetIfEmpty(true);
-            itemSlot.SetItem(null);
+            Debug.LogError(
+                "InventoryStorageManager: " +
+                "Item Content is not assigned.",
+                this
+            );
+
+            return;
         }
 
-        foreach (InventoryStorage storage in inventory)
+        if (itemSlotPrefab == null)
         {
-            if (storage.item != null)
+            Debug.LogError(
+                "InventoryStorageManager: " +
+                "Item Slot Prefab is not assigned.",
+                this
+            );
+
+            return;
+        }
+
+        Transform content =
+            itemContent.transform;
+
+        // Remove currently displayed slots.
+        for (int i = content.childCount - 1;
+             i >= 0;
+             i--)
+        {
+            Destroy(
+                content.GetChild(i).gameObject
+            );
+        }
+
+        // Newest stacks first.
+        for (int i =
+                 playerInventory.Stacks.Count - 1;
+             i >= 0;
+             i--)
+        {
+            InventoryStack stack =
+                playerInventory.Stacks[i];
+
+            if (stack == null ||
+                stack.item == null)
             {
-                storage.itemSlot.SetIfEmpty(false);
-
-                storage.itemSlot.SetItem(storage.item);
-                storage.itemSlot.SetQuantity(storage.quantity);
+                continue;
             }
+
+            GameObject slotObject =
+                Instantiate(
+                    itemSlotPrefab,
+                    content
+                );
+
+            Inventory_ItemSlot slot =
+                slotObject.GetComponent<
+                    Inventory_ItemSlot>();
+
+            if (slot == null)
+            {
+                Debug.LogError(
+                    "Inventory slot prefab " +
+                    "does not contain " +
+                    "Inventory_ItemSlot.",
+                    slotObject
+                );
+
+                continue;
+            }
+
+            slot.Bind(
+                stack,
+                playerInventory,
+                infoPanel
+            );
         }
-    }
-
-
-    void DebugAddTestItems()
-    {
-        Debug.Log("Adding test items");
-
-        AddToInventory(testItem, 167);
     }
 }
