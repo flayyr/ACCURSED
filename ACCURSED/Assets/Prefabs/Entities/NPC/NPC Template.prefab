@@ -974,6 +974,13 @@ MonoBehaviour:
   animator: {fileID: 3523492011210569476}
   interactKey: 102
   playerTag: Player
+  currentState:
+    animationName: 
+    position: {x: 0, y: 0}
+    chanceOfState: 1
+    promptAction: 
+    onInteract: 0
+    animationTrigger: 
 --- !u!95 &3523492011210569476
 Animator:
   serializedVersion: 7
@@ -1538,7 +1545,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 2
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 4128393131384882967, guid: becce0d24804a448d8745c77baea2f31, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
