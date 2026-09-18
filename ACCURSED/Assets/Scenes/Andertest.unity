@@ -163,17 +163,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f26966d975414640a14ff47f55d249e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueSpawner
-  questOrNot: 0
-  questNotStarted: exampleQuestStarted
-  questStarted: 
-  questFinished: 
+  questOrNot: 1
+  questNotStarted: tempQuest
+  questStarted: tempQuestStarted
+  questFinished: tempQuestFinished
   questNum: 0
+  questRef: {fileID: 1790544188}
   textBoxPrefab: {fileID: 1521584742}
   baseText: {fileID: 11400000, guid: b57317d95ec5cf94f93efad45e9d451d, type: 2}
   questNotStartedText: {fileID: 11400000, guid: ba07580b644fbb54fa8cdd951cdd7d9b, type: 2}
   questStartedText: {fileID: 11400000, guid: 51d31197b8518f64bbfa0fff49ba52b7, type: 2}
   questFinishedText: {fileID: 11400000, guid: d32a4165f8e008243a7c9184791a9d33, type: 2}
-  branchingDialogue: []
 --- !u!1 &1222891152
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,6 +15,7 @@ public class QuestVarHolder : MonoBehaviour
 
     public bool[] trueOrFalseBools;
 
+    public Dictionary<string, bool> questBools = new Dictionary<string, bool>();
 
 
     private void Awake()
@@ -34,7 +35,31 @@ public class QuestVarHolder : MonoBehaviour
 
     private void Start()
     {
+        //questBools.Add("tempQuest", false);
+        questBools.Add("tempQuestStarted", false);
+        questBools.Add("tempQuestFinished", false);
+    }
 
+    private void Update()
+    {
+        /*
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            questBools["tempQuest"] = true;
+            Debug.Log(questBools["tempQuest"]);
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            questBools["tempQuestStarted"] = true;
+            Debug.Log(questBools["tempQuestStarted"]);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            questBools["tempQuestFinished"] = true;
+            Debug.Log(questBools["tempQuestFinished"]);
+        }
+        */
     }
 
 }
