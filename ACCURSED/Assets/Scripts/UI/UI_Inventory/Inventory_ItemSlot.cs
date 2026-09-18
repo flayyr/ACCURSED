@@ -153,7 +153,7 @@ public class Inventory_ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void CheckRightClick()
     {
-        if (isMouseHovering && Input.GetMouseButtonDown(1)) {
+        if (isMouseHovering && Input.GetMouseButtonDown(1) && item != null) {
             //Debug.Log("MenuCalledOpen");
             RightClickOptions.Instance.Open(this);
         }
