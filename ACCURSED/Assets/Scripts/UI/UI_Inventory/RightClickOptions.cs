@@ -23,13 +23,14 @@ public class RightClickOptions : MonoBehaviour
         ui.SetActive(false);
     }
 
-    void Open()
+    public void Open()
     {
+ 
         ui.SetActive(true);
         isOpen = true;
     }
 
-    void Close()
+    public void Close()
     {
         ui.SetActive(false);
         isOpen = false;
@@ -38,6 +39,14 @@ public class RightClickOptions : MonoBehaviour
     public bool GetIsOpen()
     {
         return isOpen;
+    }
+
+    private Vector3 SetPosition()
+    {
+        Vector3 pos = Input.mousePosition;
+        pos.y += 200f;
+        pos.x += 200f;
+        return pos;
     }
 
     void Update()
