@@ -23,13 +23,27 @@ public class RightClickOptions : MonoBehaviour
         ui.SetActive(false);
     }
 
-    void Open()
+    public void Open(Inventory_ItemSlot slot)
     {
+        //Debug.Log("Called");
+        Vector3 uiPos = GetPosition(slot);
+        if (ui.TryGetComponent<RectTransform>(out RectTransform rectTransform))
+        {
+            rectTransform.position = uiPos;
+        }
         ui.SetActive(true);
         isOpen = true;
     }
 
-    void Close()
+    private Vector3 GetPosition(Inventory_ItemSlot slot)
+    {
+        Vector3 pos = slot.GetComponent<Transform>().position;
+        pos.y -= 200f;
+        pos.x += 400f;
+        return pos;
+    }
+
+    public void Close()
     {
         ui.SetActive(false);
         isOpen = false;
@@ -40,8 +54,17 @@ public class RightClickOptions : MonoBehaviour
         return isOpen;
     }
 
+    void CheckLeftClick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Close();
+        }
+    }
+
+
     void Update()
     {
-        
+        CheckLeftClick();
     }
 }
