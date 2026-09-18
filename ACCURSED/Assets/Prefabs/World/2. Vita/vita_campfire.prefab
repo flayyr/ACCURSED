@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 8882467058511871267}
   - component: {fileID: 722251666519125515}
   - component: {fileID: 4085555500613300548}
+  - component: {fileID: 5001552294450930708}
+  - component: {fileID: 1279505992416698757}
+  - component: {fileID: 5239259875035181854}
   m_Layer: 0
   m_Name: vita_campfireanim
   m_TagString: Untagged
@@ -27,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3772101755678728164}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.181, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -114,6 +117,63 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5001552294450930708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3772101755678728164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
+--- !u!114 &1279505992416698757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3772101755678728164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cf5f29b7fb9574c982a65643d421cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSort
+  sortRenderer: {fileID: 0}
+  sortOrderOffset: 0
+  useParticle: 0
+  baseTransform: {fileID: 0}
+  selfUpdate: 0
+--- !u!114 &5239259875035181854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3772101755678728164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7011d57e41589024fb444d8773c926bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
+  canMove: 0
+  isAnimated: 0
+  normalMap: {fileID: 0}
+  refTransform: {fileID: 8756750464896222114}
+  useAmbientShadow: 1
+  ambientShadowSprite: {fileID: 0}
+  ambientShadowLength: 0.5
+  useAdditionalShadow: 0
+  shadowMat: {fileID: 0}
+  ShadowSprite: {fileID: 0}
+  shadowSize: {x: 1, y: 1}
+  useWind: 0
+  windStrength: 0.006
+  topSway: 0
+  topSwayStrength: 0.1
 --- !u!1 &4692578749323136734
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,6 +205,7 @@ Transform:
   m_Children:
   - {fileID: 8882467058511871267}
   - {fileID: 8790625309968168335}
+  - {fileID: 1163239068591128281}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4733912845599255725
@@ -173,7 +234,7 @@ Transform:
   m_GameObject: {fileID: 4733912845599255725}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.05, y: -0.48, z: 0}
+  m_LocalPosition: {x: -0.05, y: 0.70099974, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -232,3 +293,65 @@ PolygonCollider2D:
       - {x: 0.58778536, y: -0.80901694}
       - {x: 0.86583614, y: -0.07444388}
   m_UseDelaunayMesh: 1
+--- !u!1001 &146769859903980639
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8756750464896222114}
+    m_Modifications:
+    - target: {fileID: 1309924815317334662, guid: ba31a65680a1faa43ae1df36f28f5ed7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1309924815317334662, guid: ba31a65680a1faa43ae1df36f28f5ed7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.1809998
+      objectReference: {fileID: 0}
+    - target: {fileID: 1309924815317334662, guid: ba31a65680a1faa43ae1df36f28f5ed7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1309924815317334662, guid: ba31a65680a1faa43ae1df36f28f5ed7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1309924815317334662, guid: ba31a65680a1faa43ae1df36f28f5ed7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1309924815317334662, guid: ba31a65680a1faa43ae1df36f28f5ed7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1309924815317334662, guid: ba31a65680a1faa43ae1df36f28f5ed7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1309924815317334662, guid: ba31a65680a1faa43ae1df36f28f5ed7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1309924815317334662, guid: ba31a65680a1faa43ae1df36f28f5ed7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1309924815317334662, guid: ba31a65680a1faa43ae1df36f28f5ed7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128636474194023197, guid: ba31a65680a1faa43ae1df36f28f5ed7, type: 3}
+      propertyPath: m_Name
+      value: TestLight
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ba31a65680a1faa43ae1df36f28f5ed7, type: 3}
+--- !u!4 &1163239068591128281 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1309924815317334662, guid: ba31a65680a1faa43ae1df36f28f5ed7, type: 3}
+  m_PrefabInstance: {fileID: 146769859903980639}
+  m_PrefabAsset: {fileID: 0}
