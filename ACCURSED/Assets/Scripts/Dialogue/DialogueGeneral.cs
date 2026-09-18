@@ -104,6 +104,8 @@ public class Textbox : MonoBehaviour
         textDisplay.text = npcText.dialogueList[index];
         index++;
 
+        //Debug.Log("happening");
+
         yield return null;
     }
 

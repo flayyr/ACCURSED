@@ -42,7 +42,7 @@ public class QuestVarHolder : MonoBehaviour
 
     private void Update()
     {
-        /*
+        
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             questBools["tempQuest"] = true;
@@ -59,7 +59,7 @@ public class QuestVarHolder : MonoBehaviour
             questBools["tempQuestFinished"] = true;
             Debug.Log(questBools["tempQuestFinished"]);
         }
-        */
+        
     }
 
 }
