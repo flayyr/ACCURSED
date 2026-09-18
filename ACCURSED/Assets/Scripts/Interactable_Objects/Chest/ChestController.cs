@@ -21,7 +21,6 @@ public class ChestController : MonoBehaviour
 
 
     [Header("Interaction")]
-    [SerializeField] private KeyCode interactKey = KeyCode.F;
     [SerializeField] private string promptText = "[F] Open";
     [SerializeField] private string playerTag = "Player";
 
@@ -94,11 +93,16 @@ public class ChestController : MonoBehaviour
 
         if (!promptOpen && !InteractableObjectManager.promptOpen && !GlobalUIController.Instance.CheckIfOtherUIOpen())
             ShowPrompt();
-
-        if (promptOpen && Input.GetKeyDown(interactKey))
-            StartCoroutine(OpenChestRoutine());
     }
-    
+
+    private void TryOpenChest()
+    {
+        if (isOpen || isOpening)
+            return;
+
+        StartCoroutine(OpenChestRoutine());
+    }
+
     // Starting State
     private void ApplyStartingState()
     {
@@ -290,11 +294,14 @@ public class ChestController : MonoBehaviour
 
         if (InteractableObjectManager.promptOpen)
             return;
+        
+        if (ToolTipManager.Instance.IsPromptOpen)
+            return;
 
         promptOpen = true;
-        InteractableObjectManager.promptOpen = true;
 
-        ToolTipManager.Instance.Prompt(promptText);
+        ToolTipManager.Instance.Prompt("Open", TryOpenChest);
+        InteractableObjectManager.promptOpen = true;
     }
 
     private void HidePrompt()

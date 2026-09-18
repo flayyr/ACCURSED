@@ -6,8 +6,10 @@ public class RightClickOptions : MonoBehaviour
     public static RightClickOptions Instance { get; private set; }
 
     [SerializeField] public GameObject ui;
+    [SerializeField] public GameObject back;
 
     private bool isOpen;
+    //public bool escPressedThisFrame;
     void Awake()
     {
         isOpen = false;
@@ -17,10 +19,11 @@ public class RightClickOptions : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+   
         Instance = this;
 
         ui.SetActive(false);
+        back.SetActive(false);
     }
 
     public void Open(Inventory_ItemSlot slot)
@@ -33,6 +36,7 @@ public class RightClickOptions : MonoBehaviour
         }
         ui.SetActive(true);
         isOpen = true;
+        back.SetActive(true);
     }
 
     private Vector3 GetPosition(Inventory_ItemSlot slot)
@@ -47,6 +51,7 @@ public class RightClickOptions : MonoBehaviour
     {
         ui.SetActive(false);
         isOpen = false;
+        back.SetActive(false);
     }
 
     public bool GetIsOpen()
@@ -56,10 +61,11 @@ public class RightClickOptions : MonoBehaviour
 
     void CheckLeftClick()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (GetIsOpen() && Input.GetMouseButtonDown(0))
         {
             Close();
         }
+
     }
 
 
