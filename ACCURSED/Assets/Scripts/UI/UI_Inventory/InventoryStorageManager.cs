@@ -32,8 +32,7 @@ public class InventoryStorageManager : MonoBehaviour
 
         if (playerInventory != null)
         {
-            playerInventory.InventoryChanged
-                -= RebuildInventory;
+            playerInventory.InventoryChanged -= RebuildInventory;
         }
     }
 
@@ -41,41 +40,25 @@ public class InventoryStorageManager : MonoBehaviour
     {
         while (playerInventory == null)
         {
-            // Preferred:
-            // your persistent player.
             if (PersistentPlayer.Instance != null)
-            {
-                playerInventory =
-                    PersistentPlayer.Instance
-                        .GetComponent<PlayerInventory>();
-            }
+                playerInventory = PersistentPlayer.Instance.GetComponent<PlayerInventory>();
 
             // Fallback for scene testing.
             if (playerInventory == null)
             {
-                GameObject player =
-                    GameObject
-                        .FindGameObjectWithTag(
-                            "Player"
-                        );
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
 
                 if (player != null)
-                {
-                    playerInventory =
-                        player.GetComponent<
-                            PlayerInventory>();
-                }
+                    playerInventory = player.GetComponent<PlayerInventory>();
             }
 
             if (playerInventory == null)
                 yield return null;
         }
 
-        playerInventory.InventoryChanged
-            -= RebuildInventory;
+        playerInventory.InventoryChanged -= RebuildInventory;
 
-        playerInventory.InventoryChanged
-            += RebuildInventory;
+        playerInventory.InventoryChanged += RebuildInventory;
 
         RebuildInventory();
 
@@ -89,63 +72,37 @@ public class InventoryStorageManager : MonoBehaviour
 
         if (itemContent == null)
         {
-            Debug.LogError(
-                "InventoryStorageManager: " +
-                "Item Content is not assigned.",
-                this
-            );
+            Debug.LogError("InventoryStorageManager: " + "Item Content is not assigned.", this);
 
             return;
         }
 
         if (itemSlotPrefab == null)
         {
-            Debug.LogError(
-                "InventoryStorageManager: " +
-                "Item Slot Prefab is not assigned.",
-                this
-            );
+            Debug.LogError("InventoryStorageManager: " + "Item Slot Prefab is not assigned.", this);
 
             return;
         }
 
-        Transform content =
-            itemContent.transform;
+        Transform content = itemContent.transform;
 
         // Remove currently displayed slots.
-        for (int i = content.childCount - 1;
-             i >= 0;
-             i--)
+        for (int i = content.childCount - 1; i >= 0; i--)
         {
-            Destroy(
-                content.GetChild(i).gameObject
-            );
+            Destroy(content.GetChild(i).gameObject);
         }
 
         // Newest stacks first.
-        for (int i =
-                 playerInventory.Stacks.Count - 1;
-             i >= 0;
-             i--)
+        for (int i = playerInventory.Stacks.Count - 1; i >= 0; i--)
         {
-            InventoryStack stack =
-                playerInventory.Stacks[i];
+            InventoryStack stack = playerInventory.Stacks[i];
 
-            if (stack == null ||
-                stack.item == null)
-            {
+            if (stack == null || stack.item == null)
                 continue;
-            }
 
-            GameObject slotObject =
-                Instantiate(
-                    itemSlotPrefab,
-                    content
-                );
+            GameObject slotObject = Instantiate(itemSlotPrefab, content);
 
-            Inventory_ItemSlot slot =
-                slotObject.GetComponent<
-                    Inventory_ItemSlot>();
+            Inventory_ItemSlot slot = slotObject.GetComponent<Inventory_ItemSlot>();
 
             if (slot == null)
             {
@@ -159,11 +116,7 @@ public class InventoryStorageManager : MonoBehaviour
                 continue;
             }
 
-            slot.Bind(
-                stack,
-                playerInventory,
-                infoPanel
-            );
+            slot.Bind(stack, playerInventory, infoPanel);
         }
     }
 }

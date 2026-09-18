@@ -193,8 +193,7 @@ public class Inventory_ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
             selectedHue.SetActive(false);
         }
     }
-
-    //Right Click
+    
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -206,6 +205,7 @@ public class Inventory_ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
         isMouseHovering = false;
     }
 
+    //Right Click
     public void CheckRightClick()
     {
         if (isMouseHovering && Input.GetMouseButtonDown(1) && item != null) {
@@ -306,12 +306,21 @@ public class Inventory_ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (isEmpty)
             return;
 
+        if (stack == null || stack.item == null)
+            return;
+
         if (eventData.button != PointerEventData.InputButton.Right)
             return;
 
         SetSelected();
 
         if (RightClickOptions.Instance != null)
-            RightClickOptions.Instance.GetIsOpen();
+        {
+            RightClickOptions.Instance.Open(this);
+        }
+        else
+        {
+            Debug.LogError("RightClickOptions.Instance is NULL.");
+        }
     }
 }
