@@ -93,6 +93,7 @@ public class Inventory_ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         UpdateActivity();
         ManageSelectionProperties();
+        CheckRightClick();
     }
 
     public Inventory_ItemSO GetItem()
@@ -152,8 +153,9 @@ public class Inventory_ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void CheckRightClick()
     {
-        if (isMouseHovering && Input.GetMouseButtonDown(1)) {
-            RightClickOptions.Instance.GetIsOpen();
+        if (isMouseHovering && Input.GetMouseButtonDown(1) && item != null) {
+            //Debug.Log("MenuCalledOpen");
+            RightClickOptions.Instance.Open(this);
         }
     }
 }
