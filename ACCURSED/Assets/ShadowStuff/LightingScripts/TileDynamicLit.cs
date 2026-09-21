@@ -15,7 +15,8 @@ public class TileDynamicLit : MonoBehaviour
     private void Awake()
     {
         tilemapRenderer = GetComponent<TilemapRenderer>();
-        tilemapRenderer.material.SetTexture("_NormalMap", normalMap.texture);
+        if(normalMap != null )
+            tilemapRenderer.material.SetTexture("_NormalMap", normalMap.texture);
         mat = tilemapRenderer.material;
     }
 
