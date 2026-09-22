@@ -26,7 +26,7 @@ public class DialogueSpawner : MonoBehaviour
     //[SerializeField]
     //private int questNum;
 
-    [Header("This is the object that holds quest variables")]
+    [Header("This is the object that holds quest variables \n only need to fill it out if this NPC has quests to give \n or info to reference")]
     [SerializeField]
     private GameObject questRef;
 
@@ -79,6 +79,11 @@ public class DialogueSpawner : MonoBehaviour
     //[SerializeField]
     //private NPCDialogue[] branchingDialogue;
 
+    private void Start()
+    {
+
+    }
+
     public void spawnSideBar()
     {
         /*int i = 0;
@@ -118,29 +123,30 @@ public class DialogueSpawner : MonoBehaviour
     {
         if (questOrNot)
         {
-
-            //checks if quest has been completed
-            if (questRef.GetComponent<QuestVarHolder>().questBools[questFinished] == true)
+            if (questRef != null)
             {
-                textBoxPrefab.GetComponent<Textbox>().index = 0;
-                textBoxPrefab.GetComponent<Textbox>().npcText = questFinishedText;
-                //Debug.Log("quest hasnt been started yet");
+                //checks if quest has been completed
+                if (questRef.GetComponent<QuestVarHolder>().questBools[questFinished] == true)
+                {
+                    textBoxPrefab.GetComponent<Textbox>().index = 0;
+                    textBoxPrefab.GetComponent<Textbox>().npcText = questFinishedText;
+                    //Debug.Log("quest hasnt been started yet");
+                }
+                //checks if quest is in progress
+                else if (questRef.GetComponent<QuestVarHolder>().questBools[questStarted] == true)
+                {
+                    textBoxPrefab.GetComponent<Textbox>().index = 0;
+                    textBoxPrefab.GetComponent<Textbox>().npcText = questStartedText;
+                    //Debug.Log("quest has been started");
+                }
+                //checks if quest has been started          
+                else if (questRef.GetComponent<QuestVarHolder>().questBools[questStarted] == false)
+                {
+                    textBoxPrefab.GetComponent<Textbox>().index = 0;
+                    textBoxPrefab.GetComponent<Textbox>().npcText = questNotStartedText;
+                    //Debug.Log("quest has been finished");
+                }
             }
-            //checks if quest is in progress
-            else if (questRef.GetComponent<QuestVarHolder>().questBools[questStarted] == true)
-            {
-                textBoxPrefab.GetComponent<Textbox>().index = 0;
-                textBoxPrefab.GetComponent<Textbox>().npcText = questStartedText;
-                //Debug.Log("quest has been started");
-            }
-            //checks if quest has been started          
-            else if (questRef.GetComponent<QuestVarHolder>().questBools[questStarted] == false)
-            {
-                textBoxPrefab.GetComponent<Textbox>().index = 0;
-                textBoxPrefab.GetComponent<Textbox>().npcText = questNotStartedText;
-                //Debug.Log("quest has been finished");
-            }
-            
         } 
         else
         {
@@ -156,7 +162,27 @@ public class DialogueSpawner : MonoBehaviour
         }
     }
 
+    public void checkInput()
+    {
+        if (!sideBarOrNot && !textBoxPrefab.activeInHierarchy)
+        {
+            //if (Input.GetKeyDown(KeyCode.F))
+            {
+                spawnText();
+            }
+        }
+        else if (sideBarOrNot && !textBoxPrefab.activeInHierarchy)
+        {
+            //if (Input.GetKeyDown(KeyCode.F))
+            {
+                spawnSideBar();
+            }
+
+        }
+    }
+
     // Update is called once per frame
+    /*
     void Update()
     {
         //this will summon the textbox upon interacting if sidebar is not attached to NPC
@@ -178,4 +204,23 @@ public class DialogueSpawner : MonoBehaviour
 
         }
     }
+    */
+    /*
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("NPC"))
+        {
+            checkInput();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("NPC"))
+        {
+            checkInput();
+        }
+    }
+    */
 }
