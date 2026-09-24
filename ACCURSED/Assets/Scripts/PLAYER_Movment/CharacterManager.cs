@@ -103,7 +103,10 @@ public class CharacterManager : MonoBehaviour
     protected void OnActionFinish()
     {
         combatState = ActionState.Idle;
-        currAction.finishTime = Time.time;
+        if (currAction != null)
+            currAction.finishTime = Time.time;
+        else
+            Debug.Log("CURR ACTION NULL");
         UpdateDirection();
         PlayNextAction();
     }
