@@ -27,13 +27,17 @@ public class DialogueOption : MonoBehaviour
         StartCoroutine(load());
     }
 
+    private void OnEnable()
+    {
+        tempHolder = textBox.GetComponent<Textbox>().npcText[textBox.GetComponent<Textbox>().baseIndex];
+    }
+
     private IEnumerator load()
     {
         yield return null;
         //textBox.GetComponent<Textbox>().npcText = null;
         textBox.GetComponent<Textbox>().index = 0;
         //Debug.Log(textBox.GetComponent<Textbox>().npcText[textBox.GetComponent<Textbox>().baseIndex]);
-        tempHolder = textBox.GetComponent<Textbox>().npcText[textBox.GetComponent<Textbox>().baseIndex];
         textBox.GetComponent<Textbox>().npcText[textBox.GetComponent<Textbox>().baseIndex] = branchedText;
         textBox.GetComponent<Textbox>().nextSentence();
         textDisplay.SetActive(true);
@@ -42,6 +46,7 @@ public class DialogueOption : MonoBehaviour
         {
             if (friend.activeInHierarchy)
             {
+                tempHolder = null;
                 friend.SetActive(false);
             }
         }

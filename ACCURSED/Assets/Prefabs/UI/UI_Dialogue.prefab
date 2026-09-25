@@ -291,6 +291,7 @@ MonoBehaviour:
   - {fileID: 6719721275885914696}
   textDisplay: {fileID: 2632024948950155211}
   branchedText: {fileID: 0}
+  tempHolder: {fileID: 0}
   textBox: {fileID: 1867375199657645726}
 --- !u!1 &1488788682165890745
 GameObject:
@@ -697,6 +698,7 @@ MonoBehaviour:
   - {fileID: 6719721275885914696}
   textDisplay: {fileID: 2632024948950155211}
   branchedText: {fileID: 0}
+  tempHolder: {fileID: 0}
   textBox: {fileID: 1867375199657645726}
 --- !u!1 &1762048170099677123
 GameObject:
@@ -852,6 +854,7 @@ MonoBehaviour:
   - {fileID: 6719721275885914696}
   textDisplay: {fileID: 2632024948950155211}
   branchedText: {fileID: 0}
+  tempHolder: {fileID: 0}
   textBox: {fileID: 1867375199657645726}
 --- !u!1 &1867375199657645726
 GameObject:
@@ -905,10 +908,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9df083cbba90e474996d1b73549fb074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Textbox
-  npcText: {fileID: 0}
+  npcText: []
   npcTextBranches: []
   textDisplay: {fileID: 6178743393726811894}
   index: 0
+  baseIndex: 0
+  baseQuest1Index: 0
+  baseQuest2Index: 0
+  baseQuest3Index: 0
   inputKey: 102
   stopAudio: 0
   options: {fileID: 1488788682165890745}
@@ -1559,4 +1566,5 @@ MonoBehaviour:
   - {fileID: 6719721275885914696}
   textDisplay: {fileID: 2632024948950155211}
   branchedText: {fileID: 0}
+  tempHolder: {fileID: 0}
   textBox: {fileID: 1867375199657645726}

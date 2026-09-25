@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class QuestVarHolder : MonoBehaviour
 
     //public string[] varNames;
 
-    public bool[] trueOrFalseBools;
+    //public bool[] trueOrFalseBools;
 
     public Dictionary<string, bool> questBools = new Dictionary<string, bool>();
 
@@ -36,12 +37,13 @@ public class QuestVarHolder : MonoBehaviour
     {
         //questBools.Add("tempQuest", false);
         questBools.Add("tempQuestStarted", false);
+        questBools.Add("tempQuestinProgress", false);
         questBools.Add("tempQuestFinished", false);
     }
 
     private void Update()
     {
-        
+        /*
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             questBools["tempQuest"] = true;
@@ -58,7 +60,14 @@ public class QuestVarHolder : MonoBehaviour
             questBools["tempQuestFinished"] = true;
             Debug.Log(questBools["tempQuestFinished"]);
         }
-        
+        */
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            questBools["tempQuestinProgress"] = true;
+            Debug.Log(questBools["tempQuestinProgress"]);
+        }
+
     }
 
 }

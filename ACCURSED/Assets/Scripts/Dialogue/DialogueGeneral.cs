@@ -85,24 +85,28 @@ public class Textbox : MonoBehaviour
     private void OnEnable()
     {
 
+        //Debug.Log(npcText[baseIndex].varName);
+
         //refQuest = GameObject.Find("Quest Holder");
 
         //if (npcText.branching)
-        {
-            if (npcText[baseIndex].branches != null)
-            {
-                npcTextBranches = npcText[baseIndex].branches;
-                npcTextBranchNum = npcTextBranches.Length;
 
-                //int i = 0;
-                //foreach (GameObject button in buttons)
-                //foreach(NPCDialogue branches in npcTextBranches)
-                for (var i = 0; i < npcTextBranchNum; i++)
-                {
-                    buttons[i].gameObject.GetComponent<DialogueOption>().branchedText = npcTextBranches[i];
-                }
+        //Debug.Log(npcText[baseIndex].branches != null);
+
+        if (npcText[baseIndex].branches != null)
+        {
+            npcTextBranches = npcText[baseIndex].branches;
+            npcTextBranchNum = npcTextBranches.Length;
+
+            //int i = 0;
+            //foreach (GameObject button in buttons)
+            //foreach(NPCDialogue branches in npcTextBranches)
+            for (var i = 0; i < npcTextBranchNum; i++)
+            {
+                buttons[i].gameObject.GetComponent<DialogueOption>().branchedText = npcTextBranches[i];
             }
         }
+
         index = 0;
         typing = false;
 
@@ -170,20 +174,38 @@ public class Textbox : MonoBehaviour
 
         else if (!npcText[baseIndex].branching) 
         {
-            index = 0;
-            if (npcText[baseIndex].varName != null)
-            {
-                var temp = npcText[baseIndex].varName;
-                //refQuest.questBools[temp] = true;
-                //refQuest.questBools[npcText[baseIndex].varName] = true;
-                QuestVarHolder.instance.questBools[temp] = true;
 
-            }
+            index = 0;
+
+            npcTextBranches = null;
 
             if (baseIndex < npcText.Length - 1)
             {
                 baseIndex += 1;
             }
+
+            if (npcText[baseIndex].varName != "")
+            {
+                //Debug.Log("yo");
+                //Debug.Log(npcText[baseIndex]);
+                //Debug.Log(npcText[baseIndex].varName);
+                var temp = npcText[baseIndex].varName;
+                QuestVarHolder.instance.questBools[temp] = true;
+                baseIndex = 0;
+            }
+
+            //foreach(GameObject button in buttons)
+            {
+                //  if(button.GetComponent<DialogueOption>().isActiveAndEnabled)
+                if (buttons[0].GetComponent<DialogueOption>().tempHolder != null)
+                {
+                    //Debug.Log(button.GetComponent<DialogueOption>().tempHolder);
+                    //Debug.Log("happening");
+                    npcText[baseIndex] = buttons[0].GetComponent<DialogueOption>().tempHolder;
+                }
+            }
+
+            //npcText = null;
             gameObject.SetActive(false);
         }
     }
@@ -198,6 +220,14 @@ public class Textbox : MonoBehaviour
 
     void Update()
     {
+
+        //if (npcText[baseIndex].varName != "")
+        /*
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+           Debug.Log(npcText[baseIndex].varName);
+        }
+        */
 
         if (Input.GetKeyDown(inputKey))
         {

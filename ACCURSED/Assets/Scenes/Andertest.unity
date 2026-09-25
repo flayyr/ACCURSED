@@ -443,6 +443,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1790544188}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: questStarted
+      value: tempQuestStarted
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: questFinished
+      value: tempQuestFinished
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: sideBarPrefab
       value: 
       objectReference: {fileID: 1569521115}
@@ -451,13 +459,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1521584742}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: questInProgress
+      value: tempQuestinProgress
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: baseText.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: varNames.Array.size
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'baseText.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: ec79a63b14a520c4388dfbf4cf914e6c, type: 2}
+      objectReference: {fileID: 11400000, guid: 8a0a4c9c4e522504ca95fd5d73ae86b5, type: 2}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'baseText.Array.data[1]'
       value: 
@@ -467,13 +483,65 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: df81f0f9c8d2f004bb5534baf0078077, type: 2}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
-      propertyPath: questNotStartedText.Array.size
+      propertyPath: 'varNames.Array.data[0]'
+      value: tempQuestStarted
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'varNames.Array.data[1]'
+      value: tempQuestinProgress
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'varNames.Array.data[2]'
+      value: tempQuestFinished
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: questStartedText.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: questFinishedText.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: triggeredDialgoues.Array.size
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
-      propertyPath: 'questNotStartedText.Array.data[0]'
+      propertyPath: triggeredDialogues.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: questNotStartedText.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'questStartedText.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: be7ac977be0ee4c408eeab722c8b9748, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'questStartedText.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 36c9ffd49d9165f4b9e234d025bb1cda, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'questStartedText.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: be7ac977be0ee4c408eeab722c8b9748, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'questStartedText.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: ec79a63b14a520c4388dfbf4cf914e6c, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'questFinishedText.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a0a4c9c4e522504ca95fd5d73ae86b5, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'questFinishedText.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ec79a63b14a520c4388dfbf4cf914e6c, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'questNotStartedText.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: be7ac977be0ee4c408eeab722c8b9748, type: 2}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'questNotStartedText.Array.data[1]'
       value: 
@@ -482,6 +550,42 @@ PrefabInstance:
       propertyPath: 'questNotStartedText.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 2c02b85c2f5edc144aa814de8fcc5109, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: triggeredDialogues.Array.data[0].questText.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: triggeredDialogues.Array.data[1].questText.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: triggeredDialogues.Array.data[2].questText.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'triggeredDialogues.Array.data[0].questText.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ec79a63b14a520c4388dfbf4cf914e6c, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'triggeredDialogues.Array.data[0].questText.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: be7ac977be0ee4c408eeab722c8b9748, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'triggeredDialogues.Array.data[1].questText.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 36c9ffd49d9165f4b9e234d025bb1cda, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'triggeredDialogues.Array.data[1].questText.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: df81f0f9c8d2f004bb5534baf0078077, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'triggeredDialogues.Array.data[2].questText.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a0a4c9c4e522504ca95fd5d73ae86b5, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'triggeredDialogues.Array.data[2].questText.Array.data[1]'
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8908204610867080782, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: m_Name
       value: Textbox Spawner
@@ -503,6 +607,10 @@ PrefabInstance:
       propertyPath: refQuest
       value: 
       objectReference: {fileID: 1790544188}
+    - target: {fileID: 1453253182387950357, guid: bdc1df054914a0f43b3734861c392f32, type: 3}
+      propertyPath: npcText.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4541013391774761572, guid: bdc1df054914a0f43b3734861c392f32, type: 3}
       propertyPath: m_Name
       value: UI_Dialogue&Sidebar
