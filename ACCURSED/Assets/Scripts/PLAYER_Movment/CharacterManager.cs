@@ -232,6 +232,12 @@ public class CharacterManager : MonoBehaviour
         {
             moveState = BaseMoveState.None;
             cAnim.SetMoveState(0);
+
+            if (currAction != null && currAction.startTime != -1)
+            {
+                float timeSincePlayed = Time.time - currAction.startTime;
+                transform.localPosition += (Vector3)currDir * currAction.actionSO.HorizontalVelocity.Evaluate(timeSincePlayed) * Time.deltaTime;
+            }
         }
     }
 

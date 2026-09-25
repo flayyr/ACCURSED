@@ -17,6 +17,48 @@ MonoBehaviour:
   windAnimationState: Vestige2Wind
   actionAnimationState: Vestige2
   windDuration: 0.5
+  HorizontalVelocity:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 92.432495
+      outSlope: 92.432495
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.16264641
+      value: 15.033813
+      inSlope: 51.950893
+      outSlope: 51.950893
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.45588043
+      value: 18.397
+      inSlope: -12.914959
+      outSlope: -12.914959
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.16165435
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.49517822
+      value: 0
+      inSlope: -468.14337
+      outSlope: -468.14337
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   VerticalMovement:
     serializedVersion: 2
     m_Curve:
@@ -52,7 +94,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   attackData:
     attackDamage: 1
-    stepAmount: 20
+    stepAmount: 0
     knockbackPower: 10
     stunDuration: 0
     vitalityBuildUp: 1
