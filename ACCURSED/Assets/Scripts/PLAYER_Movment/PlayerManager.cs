@@ -16,6 +16,7 @@ public struct PlayerReference
 
 public class PlayerManager : CharacterManager
 {
+    [SerializeField] Transform playerOffset;
     [SerializeField] PlayerReference playerRef;
     [SerializeField] ActionSO dashAction;
 
@@ -40,6 +41,21 @@ public class PlayerManager : CharacterManager
         playerDeath.OnDeath -= OnDeath;
         playerDeath.OnReviveAnimStarted -= PlayReviveAnim;
         playerDeath.OnReviveAnimFinished -= OnReviveFinish;
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        if (currAction != null && currAction.startTime != -1)
+        {
+            float timeSincePlayed = Time.time - currAction.startTime;
+            playerOffset.localPosition = Vector3.up * currAction.actionSO.attackData.VerticalMovement.Evaluate(timeSincePlayed);
+        }
+        else
+        {
+            playerOffset.localPosition = Vector3.zero;
+        }
     }
 
     protected override void EndWind()

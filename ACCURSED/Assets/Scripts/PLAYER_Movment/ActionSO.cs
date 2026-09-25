@@ -11,6 +11,7 @@ public class AttackData
     public float stunDuration;
     public float vitalityBuildUp = 1;
     [Range(0,1)]public float parryLeniency = 0.5f;
+    public AnimationCurve VerticalMovement;
 }
 
 [CreateAssetMenu(fileName = "ActionSO", menuName = "Actions/ActionSO")]

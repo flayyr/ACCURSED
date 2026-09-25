@@ -1,8 +1,4 @@
-using System;
-using System.ComponentModel;
-using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.Windows;
 
 public enum ActionState { Idle, Winding, Attacking, Stunned, StunnedCancellable }
 public enum BaseMoveState { None = 0, Walk = 1, Run = 2, Sprint = 3 }
@@ -50,7 +46,7 @@ public class CharacterManager : MonoBehaviour
         cAnim.OnDodgeCancellable -= OnDodgeCancellable;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (combatState is ActionState.Stunned or ActionState.StunnedCancellable)
             UpdateStunTimer();
@@ -160,6 +156,8 @@ public class CharacterManager : MonoBehaviour
 
     protected virtual void EndWind()
     {
+        currAction.startTime = Time.time;
+
         windTimer = 0;
         cAnim.SetWind(false);
         combatState = ActionState.Attacking;
