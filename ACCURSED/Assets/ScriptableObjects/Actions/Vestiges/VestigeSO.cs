@@ -7,6 +7,8 @@ public class VestigeSO : AbilitySO
     public float vestigeCoolDown = 1f;
     public override void PlayerActionTrigger(ref PlayerReference playerRef)
     {
+        base.PlayerActionTrigger(ref playerRef);
+
         ParticleSystem.MainModule mainModule = playerRef.particleSystem.main;
         mainModule.startColor = Color.red;
         playerRef.particleSystem.Play();

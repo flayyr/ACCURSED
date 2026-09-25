@@ -23,7 +23,7 @@ public class HurtBox : MonoBehaviour
     CharacterStatistics cStatistics;
     CharacterManager combatManager;
     
-    bool invincible = false;
+    [SerializeField]bool invincible = false;
     bool parrying = false;
     Vector2 parryDirection;
     Coroutine parryCoroutine;
