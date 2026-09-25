@@ -11,7 +11,6 @@ public class AttackData
     public float stunDuration;
     public float vitalityBuildUp = 1;
     [Range(0,1)]public float parryLeniency = 0.5f;
-    public AnimationCurve VerticalMovement;
 }
 
 [CreateAssetMenu(fileName = "ActionSO", menuName = "Actions/ActionSO")]
@@ -22,6 +21,7 @@ public class ActionSO : ScriptableObject
     [SerializeField] public string windAnimationState;
     [SerializeField] public string actionAnimationState;
     [SerializeField] public float windDuration;
+    [SerializeField] public AnimationCurve VerticalMovement;
 
     [Header("Attack Data")]
     [SerializeField] public AttackData attackData;

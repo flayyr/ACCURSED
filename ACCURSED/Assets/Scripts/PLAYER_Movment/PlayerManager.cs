@@ -50,7 +50,7 @@ public class PlayerManager : CharacterManager
         if (currAction != null && currAction.startTime != -1)
         {
             float timeSincePlayed = Time.time - currAction.startTime;
-            playerOffset.localPosition = Vector3.up * currAction.actionSO.attackData.VerticalMovement.Evaluate(timeSincePlayed);
+            playerOffset.localPosition = Vector3.up * currAction.actionSO.VerticalMovement.Evaluate(timeSincePlayed);
         }
         else
         {
