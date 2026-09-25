@@ -17,7 +17,6 @@ public class QuestVarHolder : MonoBehaviour
 
     public Dictionary<string, bool> questBools = new Dictionary<string, bool>();
 
-
     private void Awake()
     {
         if (instance == null)

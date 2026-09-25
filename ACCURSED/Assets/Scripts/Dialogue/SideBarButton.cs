@@ -17,7 +17,7 @@ public class SideBarButton : MonoBehaviour
         {
             sideBar.GetComponent<SideBar>().greatQuestHighway = giveQuest;
         }
-        sideBar.GetComponent<SideBar>().tempDialogue = tempHolder;
+        sideBar.GetComponent<SideBar>().tempDialogue[sideBar.GetComponent<SideBar>().tempRefIndex] = tempHolder;
         sideBar.GetComponent<SideBar>().buttonClicked = buttonNum;
     }
 

@@ -15,7 +15,7 @@ public class SideBar : MonoBehaviour
 
     public GameObject refTextbox;
 
-    public NPCDialogue tempDialogue;
+    public NPCDialogue[] tempDialogue;
 
     public GameObject refParent;
 
@@ -40,6 +40,7 @@ public class SideBar : MonoBehaviour
 
     public bool[] questBoolsSideBar;
 
+    public int tempRefIndex;
 
     public NPCDialogue[] bunchaDialogues;
 
@@ -68,6 +69,8 @@ public class SideBar : MonoBehaviour
         buttonPrefab[buttonName.Length].GetComponent<SideBarButton>().buttonNum = -2;
         buttonPrefab[buttonName.Length].SetActive(true);
 
+        tempRefIndex = refParent.GetComponent<DialogueSpawner>().baseIndexRef;
+
     }
 
     private void Update()
@@ -88,7 +91,7 @@ public class SideBar : MonoBehaviour
                 {
                     refParent.GetComponent<DialogueSpawner>().questOrNot = greatQuestHighway;
                 }
-                refParent.GetComponent<DialogueSpawner>().baseText = tempDialogue;
+                refParent.GetComponent<DialogueSpawner>().baseText[tempRefIndex] = tempDialogue[tempRefIndex];
                 refParent.GetComponent<DialogueSpawner>().spawnText();
                 this.gameObject.SetActive(false);
             }

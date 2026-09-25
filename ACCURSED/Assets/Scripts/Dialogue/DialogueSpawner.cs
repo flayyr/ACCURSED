@@ -37,17 +37,17 @@ public class DialogueSpawner : MonoBehaviour
     [SerializeField]
     private GameObject sideBarPrefab;
 
-    [Header("base text if no looping dialogue")]
+    [Header("main dialogue, not quest")]
     [SerializeField]
-    public NPCDialogue baseText;
+    public NPCDialogue[] baseText;
 
     [Header("Use this section if this is quest related dialogue")]
     [SerializeField]
-    private NPCDialogue questNotStartedText;
+    private NPCDialogue[] questNotStartedText;
     [SerializeField]
-    private NPCDialogue questStartedText;
+    private NPCDialogue[] questStartedText;
     [SerializeField]
-    private NPCDialogue questFinishedText;
+    private NPCDialogue[] questFinishedText;
 
 
     [Header("Tick this box if there should be a side bar pop-up")]
@@ -74,7 +74,9 @@ public class DialogueSpawner : MonoBehaviour
     [SerializeField]
     private NPCDialogue[] sidebarDialogues;
 
-
+    public int baseIndexRef;
+    public int questIndexRef1;
+    public int questIndexRef2;
 
     //[SerializeField]
     //private NPCDialogue[] branchingDialogue;
@@ -104,7 +106,7 @@ public class DialogueSpawner : MonoBehaviour
         sideBarPrefab.GetComponent<SideBar>().buttonName = sideBarButtonNames;
         sideBarPrefab.GetComponent<SideBar>().refTextbox = textBoxPrefab;
         sideBarPrefab.GetComponent<SideBar>().refParent = gameObject;
-
+        //baseIndexRef = textBoxPrefab.GetComponent<Textbox>().baseIndex;
 
         /*
         if (sidebarDialogues != null)
@@ -121,6 +123,7 @@ public class DialogueSpawner : MonoBehaviour
 
     public void spawnText()
     {
+
         if (questOrNot)
         {
             if (questRef != null)
@@ -129,21 +132,21 @@ public class DialogueSpawner : MonoBehaviour
                 if (questRef.GetComponent<QuestVarHolder>().questBools[questFinished] == true)
                 {
                     textBoxPrefab.GetComponent<Textbox>().index = 0;
-                    textBoxPrefab.GetComponent<Textbox>().npcText = questFinishedText;
+                    textBoxPrefab.GetComponent<Textbox>().npcText[textBoxPrefab.GetComponent<Textbox>().baseIndex] = questFinishedText[textBoxPrefab.GetComponent<Textbox>().baseQuest1Index];
                     //Debug.Log("quest hasnt been started yet");
                 }
                 //checks if quest is in progress
                 else if (questRef.GetComponent<QuestVarHolder>().questBools[questStarted] == true)
                 {
                     textBoxPrefab.GetComponent<Textbox>().index = 0;
-                    textBoxPrefab.GetComponent<Textbox>().npcText = questStartedText;
+                    textBoxPrefab.GetComponent<Textbox>().npcText[textBoxPrefab.GetComponent<Textbox>().baseIndex] = questFinishedText[textBoxPrefab.GetComponent<Textbox>().baseQuest2Index];
                     //Debug.Log("quest has been started");
                 }
                 //checks if quest has been started          
                 else if (questRef.GetComponent<QuestVarHolder>().questBools[questStarted] == false)
                 {
                     textBoxPrefab.GetComponent<Textbox>().index = 0;
-                    textBoxPrefab.GetComponent<Textbox>().npcText = questNotStartedText;
+                    textBoxPrefab.GetComponent<Textbox>().npcText[textBoxPrefab.GetComponent<Textbox>().baseIndex] = questFinishedText[textBoxPrefab.GetComponent<Textbox>().baseQuest3Index];
                     //Debug.Log("quest has been finished");
                 }
             }
@@ -153,6 +156,7 @@ public class DialogueSpawner : MonoBehaviour
             //if there is no quest, it will just do a default textbox
             textBoxPrefab.GetComponent<Textbox>().index = 0;
             textBoxPrefab.GetComponent<Textbox>().npcText = baseText;
+            //textBoxPrefab.GetComponent<Textbox>().npcText[textBoxPrefab.GetComponent<Textbox>().baseIndex] = baseText[baseIndexRef];
             //Debug.Log("No quest to be had");
         }
 
@@ -164,32 +168,11 @@ public class DialogueSpawner : MonoBehaviour
 
     public void checkInput()
     {
+
+        baseIndexRef = textBoxPrefab.GetComponent<Textbox>().baseIndex;
+
         if (!sideBarOrNot && !textBoxPrefab.activeInHierarchy)
         {
-            //if (Input.GetKeyDown(KeyCode.F))
-            {
-                spawnText();
-            }
-        }
-        else if (sideBarOrNot && !textBoxPrefab.activeInHierarchy)
-        {
-            //if (Input.GetKeyDown(KeyCode.F))
-            {
-                spawnSideBar();
-            }
-
-        }
-    }
-
-    // Update is called once per frame
-    /*
-    void Update()
-    {
-        //this will summon the textbox upon interacting if sidebar is not attached to NPC
-        //if (gameObject.GetComponent<SideBar>() == null)
-        //if(!sidebar.activeInHierarchy)
-        if(!sideBarOrNot && !textBoxPrefab.activeInHierarchy)
-        {
             if (Input.GetKeyDown(KeyCode.F))
             {
                 spawnText();
@@ -204,23 +187,33 @@ public class DialogueSpawner : MonoBehaviour
 
         }
     }
-    */
-    /*
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    //COMMENT OUT LATER THIS IS FOR TESTING PURPOSES
+    public void Update()
     {
-        if (collision.gameObject.CompareTag("NPC"))
+        baseIndexRef = textBoxPrefab.GetComponent<Textbox>().baseIndex;
+
+        if (!sideBarOrNot && !textBoxPrefab.activeInHierarchy)
         {
-            checkInput();
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                /*
+                if (baseText[baseIndexRef].GetComponent<NPCDialogue>().varName != null)
+                {
+                    questOrNot = true;
+                }
+                */
+                spawnText();
+            }
+        }
+        else if (sideBarOrNot && !textBoxPrefab.activeInHierarchy)
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                spawnSideBar();
+            }
+
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("NPC"))
-        {
-            checkInput();
-        }
-    }
-    */
 }

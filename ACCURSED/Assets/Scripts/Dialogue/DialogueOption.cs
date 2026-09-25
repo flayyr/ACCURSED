@@ -17,6 +17,8 @@ public class DialogueOption : MonoBehaviour
 
     public NPCDialogue branchedText;
 
+    public NPCDialogue tempHolder;
+
     [SerializeField]
     private GameObject textBox;
 
@@ -28,9 +30,11 @@ public class DialogueOption : MonoBehaviour
     private IEnumerator load()
     {
         yield return null;
-        textBox.GetComponent<Textbox>().npcText = null;
+        //textBox.GetComponent<Textbox>().npcText = null;
         textBox.GetComponent<Textbox>().index = 0;
-        textBox.GetComponent<Textbox>().npcText = branchedText;
+        //Debug.Log(textBox.GetComponent<Textbox>().npcText[textBox.GetComponent<Textbox>().baseIndex]);
+        tempHolder = textBox.GetComponent<Textbox>().npcText[textBox.GetComponent<Textbox>().baseIndex];
+        textBox.GetComponent<Textbox>().npcText[textBox.GetComponent<Textbox>().baseIndex] = branchedText;
         textBox.GetComponent<Textbox>().nextSentence();
         textDisplay.SetActive(true);
 
@@ -44,6 +48,11 @@ public class DialogueOption : MonoBehaviour
 
         //gameObject.SetActive(false);
         //parent.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        //textBox.GetComponent<Textbox>().npcText[textBox.GetComponent<Textbox>().baseIndex] = tempHolder;
     }
 
 }

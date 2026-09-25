@@ -2,12 +2,13 @@ using TMPro;
 using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager.Requests;
 
 public class Textbox : MonoBehaviour
 {
     [Header("References")]
     [Header("This stores the main text")]
-    public NPCDialogue npcText;
+    public NPCDialogue[] npcText;
     [Header("This stores branching dialogue")]
     public NPCDialogue[] npcTextBranches;
 
@@ -19,6 +20,18 @@ public class Textbox : MonoBehaviour
     private AudioSource source;
 
     public int index = 0;
+
+    /*
+    private bool checkQuest1;
+    private bool checkQuest2;
+    private bool checkQuest3;
+    */
+
+    public int baseIndex;
+    public int baseQuest1Index;
+    public int baseQuest2Index;
+    public int baseQuest3Index;
+
     private bool typing = true;
 
     [SerializeField]
@@ -38,6 +51,16 @@ public class Textbox : MonoBehaviour
     [Header("These are the button objects for multiple choices")]
     [SerializeField]
     private GameObject[] buttons;
+
+    //[SerializeField]
+    private GameObject refQuest;
+
+    private NPCDialogue tempHolder;
+
+    /*
+    [SerializeField]
+    private GameObject parent;
+    */
 
     /*
     private Color off = Color.black;
@@ -62,11 +85,13 @@ public class Textbox : MonoBehaviour
     private void OnEnable()
     {
 
+        //refQuest = GameObject.Find("Quest Holder");
+
         //if (npcText.branching)
         {
-            if (npcText.branches != null)
+            if (npcText[baseIndex].branches != null)
             {
-                npcTextBranches = npcText.branches;
+                npcTextBranches = npcText[baseIndex].branches;
                 npcTextBranchNum = npcTextBranches.Length;
 
                 //int i = 0;
@@ -87,21 +112,21 @@ public class Textbox : MonoBehaviour
 
     public void nextSentence()
     {
-        if (index < npcText.dialogueList.Length)
+        if (index < npcText[baseIndex].dialogueList.Length)
         {
             runningCo = StartCoroutine(WriteSentence());
         }
         else
         {
             index = 0;
-            npcText = null;
+            //npcText = null;
             gameObject.SetActive(false);
         }
     }
 
     IEnumerator WriteSentence()
     {
-        textDisplay.text = npcText.dialogueList[index];
+        textDisplay.text = npcText[baseIndex].dialogueList[index];
         index++;
 
         //Debug.Log("happening");
@@ -111,15 +136,15 @@ public class Textbox : MonoBehaviour
 
     void nextSentenceSkip()
     {
-        if (index < npcText.dialogueList.Length && index != npcText.branchNum)
+        if (index < npcText[baseIndex].dialogueList.Length && index != npcText[baseIndex].branchNum)
         {
             StartCoroutine(SkipSentence());
         }
 
-        else if(npcText.branching && index == npcText.branchNum)
+        else if(npcText[baseIndex].branching && index == npcText[baseIndex].branchNum)
         {
             index = 0;
-            npcText = null;
+            //npcText = null;
             textBoxAndText.SetActive(false);
 
             //int i = 0;
@@ -143,16 +168,29 @@ public class Textbox : MonoBehaviour
             //options.SetActive(true);
         }
 
-        else if (!npcText.branching) 
+        else if (!npcText[baseIndex].branching) 
         {
             index = 0;
+            if (npcText[baseIndex].varName != null)
+            {
+                var temp = npcText[baseIndex].varName;
+                //refQuest.questBools[temp] = true;
+                //refQuest.questBools[npcText[baseIndex].varName] = true;
+                QuestVarHolder.instance.questBools[temp] = true;
+
+            }
+
+            if (baseIndex < npcText.Length - 1)
+            {
+                baseIndex += 1;
+            }
             gameObject.SetActive(false);
         }
     }
 
     IEnumerator SkipSentence()
     {
-        textDisplay.text = npcText.dialogueList[index];
+        textDisplay.text = npcText[baseIndex].dialogueList[index];
         index++;
         yield return null;
     }
