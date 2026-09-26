@@ -1,8 +1,4 @@
-using System;
-using System.ComponentModel;
-using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.Windows;
 
 public enum ActionState { Idle, Winding, Attacking, Stunned, StunnedCancellable }
 public enum BaseMoveState { None = 0, Walk = 1, Run = 2, Sprint = 3 }
@@ -50,7 +46,7 @@ public class CharacterManager : MonoBehaviour
         cAnim.OnDodgeCancellable -= OnDodgeCancellable;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (combatState is ActionState.Stunned or ActionState.StunnedCancellable)
             UpdateStunTimer();
@@ -160,6 +156,8 @@ public class CharacterManager : MonoBehaviour
 
     protected virtual void EndWind()
     {
+        currAction.startTime = Time.time;
+
         windTimer = 0;
         cAnim.SetWind(false);
         combatState = ActionState.Attacking;
@@ -196,6 +194,8 @@ public class CharacterManager : MonoBehaviour
 
     protected Vector2 moveInput;
     protected Vector2 currDir = Vector2.down;
+    protected Vector2 moveDir = Vector2.down;
+
 
     protected bool walkInput;
     protected bool sprintInput;
@@ -208,14 +208,15 @@ public class CharacterManager : MonoBehaviour
         if (moveInput != Vector2.zero)
             currDir = moveInput;
 
-        if (combatState is ActionState.Idle or ActionState.Winding)
+        if (combatState is ActionState.Idle)
             UpdateDirection();
     }
 
     //updates animator direction
     protected void UpdateDirection()
     {
-        cAnim.SetFacingDirection(currDir);
+        moveDir = currDir;
+        cAnim.SetFacingDirection(moveDir);
     }
 
     protected void UpdateMovement()
@@ -234,6 +235,12 @@ public class CharacterManager : MonoBehaviour
         {
             moveState = BaseMoveState.None;
             cAnim.SetMoveState(0);
+
+            if (currAction != null && currAction.startTime != -1)
+            {
+                float timeSincePlayed = Time.time - currAction.startTime;
+                transform.localPosition += (Vector3)moveDir * currAction.actionSO.HorizontalVelocity.Evaluate(timeSincePlayed) * Time.deltaTime;
+            }
         }
     }
 
