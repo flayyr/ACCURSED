@@ -8,6 +8,8 @@ public class CharacterManager : MonoBehaviour
     //This script processes actions from actionQueuer. It handles both movement and combat
 
     [SerializeField] protected HitBox hitBox;
+    [SerializeField] protected Collider2D characterCollider;
+    [SerializeField] protected ContactFilter2D contactFilter;
 
     protected ActionQueuer actionQueuer;
     protected CharacterAnimator cAnim;
@@ -15,6 +17,7 @@ public class CharacterManager : MonoBehaviour
 
     public ActionInstance currAction = null;
 
+    [Header("Exposed for Debug")]
     [SerializeField]protected ActionState combatState = ActionState.Idle;
 
     protected float windTimer = 0;
@@ -26,6 +29,7 @@ public class CharacterManager : MonoBehaviour
         actionQueuer = GetComponent<ActionQueuer>();
         cAnim = GetComponent<CharacterAnimator>();
         cMove = GetComponent<CharacterMovement>();
+        characterCollider = GetComponent<Collider2D>();
     }
 
     protected virtual void OnEnable()
@@ -239,7 +243,13 @@ public class CharacterManager : MonoBehaviour
             if (currAction != null && currAction.startTime != -1)
             {
                 float timeSincePlayed = Time.time - currAction.startTime;
-                transform.localPosition += (Vector3)moveDir * currAction.actionSO.HorizontalVelocity.Evaluate(timeSincePlayed) * Time.deltaTime;
+                Vector3 moveAmount = (Vector3)moveDir * currAction.actionSO.HorizontalVelocity.Evaluate(timeSincePlayed) * Time.deltaTime;
+                RaycastHit2D[] raycastInfos = new RaycastHit2D[10];
+                if (characterCollider.Cast(moveAmount, raycastInfos, moveAmount.magnitude)>0)
+                {
+
+                }
+                transform.position += moveAmount;
             }
         }
     }
