@@ -29,7 +29,6 @@ public class CharacterManager : MonoBehaviour
         actionQueuer = GetComponent<ActionQueuer>();
         cAnim = GetComponent<CharacterAnimator>();
         cMove = GetComponent<CharacterMovement>();
-        characterCollider = GetComponent<Collider2D>();
     }
 
     protected virtual void OnEnable()
@@ -244,12 +243,11 @@ public class CharacterManager : MonoBehaviour
             {
                 float timeSincePlayed = Time.time - currAction.startTime;
                 Vector3 moveAmount = (Vector3)moveDir * currAction.actionSO.HorizontalVelocity.Evaluate(timeSincePlayed) * Time.deltaTime;
-                RaycastHit2D[] raycastInfos = new RaycastHit2D[10];
-                if (characterCollider.Cast(moveAmount, raycastInfos, moveAmount.magnitude)>0)
-                {
 
+                RaycastHit2D[] raycastInfos = new RaycastHit2D[10];
+                if (characterCollider.Cast(moveAmount, contactFilter, raycastInfos, moveAmount.magnitude) == 0) {
+                    transform.position += moveAmount;
                 }
-                transform.position += moveAmount;
             }
         }
     }
