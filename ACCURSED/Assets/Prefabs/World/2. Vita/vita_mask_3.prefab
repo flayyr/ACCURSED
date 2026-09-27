@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7461906215779942825}
   - component: {fileID: 4124848473929783822}
   - component: {fileID: 4565924780873824430}
-  - component: {fileID: 5504142741669620503}
+  - component: {fileID: 1146354044043571506}
   m_Layer: 8
   m_Name: vita_mask_3
   m_TagString: Untagged
@@ -154,7 +154,7 @@ MonoBehaviour:
   useParticle: 0
   baseTransform: {fileID: 0}
   selfUpdate: 0
---- !u!114 &5504142741669620503
+--- !u!114 &1146354044043571506
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,10 +170,11 @@ MonoBehaviour:
   triggerCondition: 0
   toggleOnTrigger: 1
   animatedChild: {fileID: 7963842385665525858}
-  animator: {fileID: 3859196714580036904}
-  inactiveIdleAnimation: InactivateIdle
+  animator: {fileID: 6301369515836957135}
+  inactiveIdleAnimation: InactiveIdle
   activationAnimation: Activate
-  activeIdleAnimation: ActivateIdle
+  activeIdleAnimation: ActiveIdle
+  deactivationAnimation: InactiveIdle
   healDetectionRadius: 4
   allowRuntimeInspectorControls: 1
   inspectorActivate: 0
@@ -298,7 +299,7 @@ GameObject:
   - component: {fileID: 8322526870712760046}
   - component: {fileID: 3196070899469952432}
   - component: {fileID: 2332566767427157694}
-  - component: {fileID: 3859196714580036904}
+  - component: {fileID: 6301369515836957135}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -437,7 +438,7 @@ MonoBehaviour:
   windStrength: 0.006
   topSway: 0
   topSwayStrength: 0.1
---- !u!95 &3859196714580036904
+--- !u!95 &6301369515836957135
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -445,7 +446,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7963842385665525858}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 4fea36d361fcc78429dbc8fa92bd92b0, type: 2}
   m_CullingMode: 0
