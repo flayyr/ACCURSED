@@ -180,6 +180,7 @@ MonoBehaviour:
   parryFeedback: {fileID: 0}
   personalHurtBoxes: []
   personalHitBoxes: []
+  invincible: 0
 --- !u!1 &838227547138820842
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,6 +488,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterManager
   hitBox: {fileID: 7154117247340023451}
+  characterCollider: {fileID: 8593666626741018183}
+  contactFilter:
+    useTriggers: 0
+    useLayerMask: 1
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 262144
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
   combatState: 0
 --- !u!114 &4224283445472444351
 MonoBehaviour:

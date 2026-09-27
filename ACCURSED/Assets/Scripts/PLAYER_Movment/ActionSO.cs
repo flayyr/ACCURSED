@@ -22,6 +22,10 @@ public class ActionSO : ScriptableObject
     [SerializeField] public string actionAnimationState;
     [SerializeField] public float windDuration;
 
+    [Header("Movement")]
+    [SerializeField] public AnimationCurve HorizontalVelocity;
+    [SerializeField] public AnimationCurve VerticalMovement;
+
     [Header("Attack Data")]
     [SerializeField] public AttackData attackData;
 
