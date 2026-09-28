@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7461906215779942825}
   - component: {fileID: 4124848473929783822}
   - component: {fileID: 4565924780873824430}
+  - component: {fileID: 8125991366486811508}
   m_Layer: 8
   m_Name: vita_mask_2
   m_TagString: Untagged
@@ -153,6 +154,32 @@ MonoBehaviour:
   useParticle: 0
   baseTransform: {fileID: 0}
   selfUpdate: 0
+--- !u!114 &8125991366486811508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2193317838383195861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c37e78723ab33f4e941302a4184e97b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityTriggeredSwitch
+  startActivated: 0
+  triggerCondition: 0
+  toggleOnTrigger: 1
+  animatedChild: {fileID: 7963842385665525858}
+  animator: {fileID: 4476928544703032490}
+  inactiveIdleAnimation: InactivateIdle
+  activationAnimation: Activate
+  activeIdleAnimation: ActivateIdle
+  healDetectionRadius: 4
+  allowRuntimeInspectorControls: 1
+  inspectorActivate: 0
+  inspectorDeactivate: 0
+  inspectorToggle: 0
+  isActivated: 0
 --- !u!1 &5902500370090307849
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,6 +298,7 @@ GameObject:
   - component: {fileID: 8284235197648161758}
   - component: {fileID: 3953708998081189780}
   - component: {fileID: 1836473321447496587}
+  - component: {fileID: 4476928544703032490}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -409,3 +437,25 @@ MonoBehaviour:
   windStrength: 0.006
   topSway: 0
   topSwayStrength: 0.1
+--- !u!95 &4476928544703032490
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7963842385665525858}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4fea36d361fcc78429dbc8fa92bd92b0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
