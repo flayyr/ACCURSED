@@ -11,6 +11,6 @@ public class VestigeSO : AbilitySO
 
         ParticleSystem.MainModule mainModule = playerRef.particleSystem.main;
         mainModule.startColor = Color.red;
-        playerRef.particleSystem.Play();
+        //playerRef.particleSystem.Play();
     }
 }
