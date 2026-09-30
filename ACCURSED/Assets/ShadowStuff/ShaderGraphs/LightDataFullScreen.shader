@@ -58,8 +58,6 @@ Shader "Custom/LightDataFullScreen"
             float2 _CameraMin;
             float2 _CameraSize;
 
-            //-----------------------------------------
-
             Varyings Vert(Attributes input)
             {
                 Varyings output;
@@ -88,8 +86,6 @@ Shader "Custom/LightDataFullScreen"
                 return output;
             }
 
-            //-----------------------------------------
-
             float3 EvaluateLight(Light light, float2 worldPos)
             {
                 float2 delta = worldPos - light.position;
@@ -105,11 +101,8 @@ Shader "Custom/LightDataFullScreen"
                 float2 screenPos = (light.position - _CameraMin) / _CameraSize;
 
 
-                return
-                    float3(screenPos,0);
+                return float3(screenPos,0);
             }
-
-            //-----------------------------------------
 
             float3 CalculateLighting(float2 worldPos)
             {
@@ -117,9 +110,7 @@ Shader "Custom/LightDataFullScreen"
 
                 for(int i = 0; i < _LightCount; i++)
                 {
-                    float3 lightData = EvaluateLight(
-                        _Lights[i],
-                        worldPos);
+                    float3 lightData = EvaluateLight(_Lights[i],worldPos);
 
                     if(lightData.y<lighting.y){
                         lighting = lightData;
@@ -129,19 +120,14 @@ Shader "Custom/LightDataFullScreen"
                 return lighting;
             }
 
-            //-----------------------------------------
-
             half4 Frag(Varyings input) : SV_Target
             {
                 float2 uv = input.uv;
                 uv.y = 1.0 - uv.y;
 
-                float2 worldPos =
-                    _CameraMin +
-                    uv * _CameraSize;
+                float2 worldPos =_CameraMin + uv * _CameraSize;
 
-                float3 lighting =
-                    CalculateLighting(worldPos);
+                float3 lighting = CalculateLighting(worldPos);
 
                 return half4(lighting,1);
             }

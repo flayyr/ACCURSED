@@ -50,7 +50,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightMap:
-        m_Texture: {fileID: 2800000, guid: f1d51ed493a42ad4789ff2be401e8b43, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7a884c7bc95af004ba754d4e95358c7a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _LightColorTexture:
@@ -107,7 +107,7 @@ Material:
     - _CausticScale: 0.155
     - _CausticSpeed: 0.8
     - _CausticSquashAmount: 1.32
-    - _DepthTextureScale: 0.0055
+    - _DepthTextureScale: 0.001
     - _FoamBlurAmount: 0.27
     - _FoamScale: 0.34
     - _ISWATER: 1
@@ -191,5 +191,8 @@ Material:
     - _LightPosition9: {r: 0, g: 0, b: 0, a: 0}
     - _ReflectionColor: {r: 0.6944642, g: 0.80604756, b: 0.9622642, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _WaterColorBlendThreshold: {r: 0, g: 0, b: 0, a: 0}
+    - _WaterColorBottom: {r: 0, g: 0, b: 0, a: 1}
+    - _WaterColorTop: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

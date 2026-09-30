@@ -2,21 +2,20 @@ using UnityEngine;
 
 public class LightBehavior : MonoBehaviour
 {
-    //[SerializeField] private float lightRadius;
-    //[SerializeField] private float lightIntensity;
     //[SerializeField] private Color lightColor;
 
     private Vector2 lightPosition;
 
     [Header("Parent")]
-    [SerializeField] SpriteRenderer parentRenderer;
+    [SerializeField] Transform refTransform;
 
     [SerializeField] public GPULight lightData;
 
 
     private void Awake()
     {
-        //lightData = new GPULight(lightPosition, 0f, lightRadius, lightIntensity, lightColor);
+        //if(refTransform == null) 
+            refTransform = transform;
         UpdateDepth();
     }
 
@@ -30,19 +29,14 @@ public class LightBehavior : MonoBehaviour
 
     private void UpdateDepth()
     {
-        float depth = (parentRenderer == null) ? transform.position.y * -10f : parentRenderer.sortingOrder;
+        float depth = transform.position.y * -10f;
         if (depth != prevDepth)
         {
             prevDepth = depth;
-            lightData.position = new Vector2(transform.position.x, transform.position.y);
+            lightData.position = new Vector2(refTransform.position.x, refTransform.position.y);
             lightData.depth = depth;
         }
     }
-
-    //private void OnValidate()
-    //{
-    //    lightData = new CustomLight(lightRadius, lightIntensity, lightColor, lightPosition, parentRenderer);
-    //}
 
 
 }

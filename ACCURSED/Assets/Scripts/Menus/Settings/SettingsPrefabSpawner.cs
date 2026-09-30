@@ -64,6 +64,7 @@ public class SettingsPrefabSpawner : MonoBehaviour
     private void Update()
     {
         GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
+
         if (playerObject != null)
         {
             CharacterMovement scriptToDisable = playerObject.GetComponent<CharacterMovement>();
@@ -72,6 +73,7 @@ public class SettingsPrefabSpawner : MonoBehaviour
             //Debug.Log("ScriptToDisable = " + scriptToDisable.enabled);
             //Debug.Log("PlayerInput = " + playerObject.GetComponent<PlayerInput>().enabled);
 
+            /*
             if (!isOpen)
             {
                 scriptToDisable.enabled = true;
@@ -83,6 +85,7 @@ public class SettingsPrefabSpawner : MonoBehaviour
                 scriptToDisable.enabled = false;
                 playerObject.GetComponent<PlayerInput>().enabled = false;
             }
+            */
         }
 
         if (!isOpen)
@@ -164,6 +167,12 @@ public class SettingsPrefabSpawner : MonoBehaviour
 
         isOpen = true;
 
+        GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
+        CharacterMovement scriptToDisable = playerObject.GetComponent<CharacterMovement>();
+
+        scriptToDisable.enabled = false;
+        playerObject.GetComponent<PlayerInput>().enabled = false;
+
         if (startMenuManager != null)
             startMenuManager.SetSettingsInputBlocked(true);
 
@@ -217,6 +226,12 @@ public class SettingsPrefabSpawner : MonoBehaviour
         }
 
         isOpen = false;
+
+        GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
+        CharacterMovement scriptToDisable = playerObject.GetComponent<CharacterMovement>();
+
+        scriptToDisable.enabled = true;
+        playerObject.GetComponent<PlayerInput>().enabled = true;
 
         if (startMenuManager != null)
             startMenuManager.SetSettingsInputBlocked(false);

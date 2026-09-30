@@ -85,6 +85,7 @@ public class LightManager : MonoBehaviour
         unusedLightBehaviors = new List<LightBehavior>();
         LightBehavior[] lightBehaviorsArray =  FindObjectsByType<LightBehavior>(FindObjectsSortMode.None);
         lightBehaviors = new List<LightBehavior>(lightBehaviorsArray);
+        Debug.Log("Number of Light found in Scene: "+lightBehaviors.Count);
         cullTimer = 0;
         OnAmbientUpdate?.Invoke(this);
     }

@@ -130,6 +130,8 @@ public class NPCManager : MonoBehaviour
 
             case OnInteractType.Dialog:
                 // IMPLEMENT DIALOG SYSTEM START
+                Debug.Log("happening");
+                GameObject.Find("NPC Text Controller").GetComponent<DialogueSpawner>().checkInput();
                 break;
         }
     }

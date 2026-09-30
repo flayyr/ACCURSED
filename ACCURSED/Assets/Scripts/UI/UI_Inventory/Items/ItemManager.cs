@@ -8,13 +8,12 @@ public class ItemManager : MonoBehaviour
     public static ItemManager Instance { get; private set; }
 
     [Header("Collected Items")]
-    [SerializeField]
-    private List<CollectedWorldItemRecord> collectedItems = new List<CollectedWorldItemRecord>();
+    [SerializeField] private List<CollectedWorldItemRecord> collectedItems = new List<CollectedWorldItemRecord>();
 
-    // All currently loaded/active world pickups.
+    // All currently loaded / active world pickups
     private Dictionary<string, WorldItemPickup> registeredWorldItems = new Dictionary<string, WorldItemPickup>();
 
-    // Faster way of checking whether something was already collected.
+    // Faster way of checking whether something was already collected
     private HashSet<string> collectedWorldItemIds = new HashSet<string>();
 
     public IReadOnlyList<CollectedWorldItemRecord> CollectedItems => collectedItems;
@@ -31,7 +30,6 @@ public class ItemManager : MonoBehaviour
         Instance = this;
 
         DontDestroyOnLoad(gameObject);
-
         RebuildCollectedItemLookup();
     }
 
@@ -46,7 +44,6 @@ public class ItemManager : MonoBehaviour
                 return inventory;
         }
 
-        // Fallback.
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         
         if (player != null)
@@ -65,23 +62,21 @@ public class ItemManager : MonoBehaviour
 
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogError("World item '" + worldItem.gameObject.name + "' has no World Pickup ID.", worldItem);
-
+            Debug.LogError("World item '" + worldItem.gameObject.name + "' has no World Pickup ID. ", worldItem);
             return;
         }
 
-        // Detect accidental duplicate IDs.
+        // Detect accidental duplicate IDs
         if (registeredWorldItems.TryGetValue(id, out WorldItemPickup existing))
         {
             if (existing != null && existing != worldItem)
             {
                 Debug.LogError(
-                    $"Duplicate world pickup ID found!\n" +
-                    $"{existing.gameObject.name}\n" +
-                    $"{worldItem.gameObject.name}\n" +
-                    $"ID: {id}",
-                    worldItem
-                );
+                    "Duplicate world pickup ID found!" +
+                    existing.gameObject.name +
+                    worldItem.gameObject.name +
+                    "ID: " + id,
+                    worldItem);
 
                 return;
             }
@@ -89,12 +84,12 @@ public class ItemManager : MonoBehaviour
 
         registeredWorldItems[id] = worldItem;
 
-        // This object was collected during an earlier visit to this scene.
+        // This object was collected during an earlier visit to this scene
         if (HasBeenCollected(id))
             worldItem.ApplyCollectedState();
     }
 
-    // Called when a world item is disabled or its scene unloads.
+    // Called when a world item is disabled or its scene unloads
     public void UnregisterWorldItem(WorldItemPickup worldItem)
     {
         if (worldItem == null)
@@ -107,13 +102,12 @@ public class ItemManager : MonoBehaviour
 
         if (registeredWorldItems.TryGetValue(id, out WorldItemPickup registeredItem))
         {
-            // Only remove it if this is actually the same object.
             if (registeredItem == worldItem)
                 registeredWorldItems.Remove(id);
         }
     }
-    
-    // Called when the player successfully picks something up.
+
+    // Called when the player successfully picks something up
     public bool CollectWorldItem(WorldItemPickup worldItem)
     {
         if (worldItem == null)
@@ -127,7 +121,7 @@ public class ItemManager : MonoBehaviour
 
             return false;
         }
-        
+
         string worldID = worldItem.WorldPickupID;
 
         if (string.IsNullOrWhiteSpace(worldID))
@@ -140,14 +134,12 @@ public class ItemManager : MonoBehaviour
         if (string.IsNullOrWhiteSpace(item.itemID))
         {
             Debug.LogError(item.name + " has no itemID.", item);
-
             return false;
         }
 
         if (HasBeenCollected(worldID))
         {
             worldItem.ApplyCollectedState();
-
             return false;
         }
 
@@ -156,51 +148,31 @@ public class ItemManager : MonoBehaviour
         if (inventory == null)
         {
             Debug.LogError("Cannot collect item because the Player does not have PlayerInventory.");
-
             return false;
         }
 
-        int quantity = item.itemQuantity > 0
-            ? item.itemQuantity
-            : 1;
+        int quantity = Mathf.Max(1, item.itemQuantity);
 
-        // 1. RECORD WORLD PICKUP
+        if (!inventory.AddItem(item, quantity))
+            return false;
+
         CollectedWorldItemRecord record = new CollectedWorldItemRecord
         {
             worldPickupID = worldID,
-            //itemID = item.itemID,
             item = item,
             quantity = quantity,
-            sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+            sceneName = SceneManager.GetActiveScene().name
         };
 
         collectedItems.Add(record);
+        collectedWorldItemIds.Add(worldID);
 
-        collectedWorldItemIds.Add(worldID); 
-
-        // 2. SEND TO INVENTORY
-        inventory.AddItem(item, quantity);
-
-        // 3. REMOVE WORLD OBJECT
         worldItem.ApplyCollectedState();
 
-        // 4. SHOW PICKUP UI
         if (ToolTipManager.Instance != null)
-        {
             ToolTipManager.Instance.ShowNormalItemPickup(item);
-        }
-        else
-        {
-            Debug.LogWarning("Item collected successfully, but ToolTipManager does not exist.");
-        }
 
-
-        Debug.Log(
-            "Collected " + item.itemName + " | " +
-            "Item ID: " + item.itemID + " | " +
-            "World ID: " + worldID
-        );
-
+        Debug.Log("Collected " + item.itemName + " x" + quantity + " | Item ID: " + item.itemID + " | World ID: " + worldID);
 
         return true;
     }

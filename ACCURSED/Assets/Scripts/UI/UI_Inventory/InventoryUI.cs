@@ -25,7 +25,14 @@ public class InventoryUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            gameObject.SetActive(false);
+            if (RightClickOptions.Instance.GetIsOpen())
+            {
+                RightClickOptions.Instance.Close();
+            }
+            else
+            {
+                InventoryController.Instance.CloseInventory();
+            }
         }
     }
 

@@ -39,7 +39,7 @@ public class SpecialItemPickup : ItemPickup
         NormalItemPickupUI normalItemShowcaseProperties = itemShowcase.GetComponent<NormalItemPickupUI>(); // this line might be useless but keeping here for security
         
         addedNewObjectThisUpdate = true;
-
+        
         itemShowcase.GetComponent<SpecialItemPickupUI>().Initialize(item);
 
         // assign to item
