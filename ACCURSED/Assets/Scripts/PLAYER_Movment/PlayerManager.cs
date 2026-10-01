@@ -47,15 +47,15 @@ public class PlayerManager : CharacterManager
     {
         base.Update();
 
-        if (currAction != null && currAction.startTime != -1)
-        {
-            float timeSincePlayed = Time.time - currAction.startTime;
-            playerOffset.localPosition = Vector3.up * currAction.actionSO.VerticalMovement.Evaluate(timeSincePlayed);
-        }
-        else
-        {
-            playerOffset.localPosition = Vector3.zero;
-        }
+        //if (currAction != null && currAction.startTime != -1)
+        //{
+        //    float timeSincePlayed = Time.time - currAction.startTime;
+        //    playerOffset.localPosition = Vector3.up * currAction.actionSO.VerticalMovement.Evaluate(timeSincePlayed);
+        //}
+        //else
+        //{
+        //    playerOffset.localPosition = Vector3.zero;
+        //}
     }
 
     protected override void EndWind()
