@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
@@ -11,11 +10,14 @@ public class CharacterAnimator : MonoBehaviour
 {
     public Action OnActionFinished;
     public Action OnDodgeCancellable;
+    public Action OnSpawnVFX;
 
     [SerializeField] private int direction = 5;
     [SerializeField] private bool eightDirections;
     [SerializeField] private Transform attackRotator;
     [SerializeField] private List<SpriteLibraryAsset> libraryAssets = new List<SpriteLibraryAsset>();
+
+    [SerializeField] VFXSpawner vfxSpawner;
     SpriteLibrary spriteLibrary;
     Animator anim;
 
@@ -70,6 +72,13 @@ public class CharacterAnimator : MonoBehaviour
         //invokes function in CharacterManager
         OnDodgeCancellable?.Invoke();
     }
+    public void OnSpawnVFXTrigger() {
+        //invokes function in SFXSpawner
+        OnSpawnVFX?.Invoke();
+    }
+
+
+
 
     public void SwitchAnimationState(string baseName)
     {

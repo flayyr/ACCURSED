@@ -10,16 +10,17 @@ public class DepthSort : MonoBehaviour
     [SerializeField] bool selfUpdate;
     
     float depth;
-    
 
-    private void Awake()
+    bool isSetUp;
+
+    private void Start()
     {
         if (useParticle)
         {
             sortRenderer = GetComponent<ParticleSystemRenderer>();
         }
 
-        if (sortRenderer!=null)
+        if (!isSetUp && sortRenderer!=null)
         {
             SetUp(sortRenderer);
         }
@@ -41,6 +42,8 @@ public class DepthSort : MonoBehaviour
             baseTransform = transform;
         }
 
+        isSetUp = true;
+
         return UpdateSortOrder();
     }
 
@@ -48,6 +51,8 @@ public class DepthSort : MonoBehaviour
     {
         sortRenderer = renderer;
         baseTransform = refTransform;
+
+        isSetUp = true;
 
         return UpdateSortOrder();
     }

@@ -6,7 +6,8 @@ public class ShadowScript : MonoBehaviour
 
     private void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
         Bounds bounds = spriteRenderer.bounds;
         bounds.Expand(/*spriteRenderer.size.y * LightManager.instance.ambientShadowSkew* */ float.MaxValue);
         spriteRenderer.localBounds = bounds;
@@ -15,6 +16,8 @@ public class ShadowScript : MonoBehaviour
     public void SetShadowOffset(Vector3 targetPosition)
     {
         Vector2 offset = targetPosition - transform.position;
+        if(spriteRenderer==null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.material.SetVector("_PositionOffset", offset);
     }
 }

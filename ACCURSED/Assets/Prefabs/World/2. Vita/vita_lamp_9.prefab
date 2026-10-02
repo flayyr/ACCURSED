@@ -97,9 +97,6 @@ GameObject:
   - component: {fileID: 4612045110163264438}
   - component: {fileID: 3049694616284256424}
   - component: {fileID: 4572452559190703963}
-  - component: {fileID: 5874552015700841838}
-  - component: {fileID: 7305762593687059023}
-  - component: {fileID: 8620197589564387254}
   - component: {fileID: 5546033597365316671}
   - component: {fileID: 5533053727258298748}
   - component: {fileID: 5161390450801531675}
@@ -210,70 +207,8 @@ MonoBehaviour:
   shadowSize: {x: 1, y: 1}
   useWind: 0
   windStrength: 0.006
-  topSway: 1
+  topSway: 0
   topSwayStrength: 0.03
---- !u!114 &5874552015700841838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2724694932623616528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a8e313b4f63bcb49b193ce62941d653, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TreeScript
-  leafSprite: {fileID: 5086624359907680684, guid: 11df9e46d99047940bb15bd4e3c3a032, type: 3}
-  leavesDynamicLit: {fileID: 0}
---- !u!114 &7305762593687059023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2724694932623616528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22e04467385db3f4abd424b7b04ae1bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteractNew
-  shakeDuration: 0.35
-  shakeMagnitude: 0.1
-  shakeFrequency: 1
-  shakeOnTriggerEnter: 1
-  TagsToInteract: []
-  interactionLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  bendAmountMax: 0
-  bendLerpDuration: 0.1
-  allowKeyboardTest: 0
-  testKey: 0
-  invertShakeDirection: 0
---- !u!114 &8620197589564387254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2724694932623616528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c705f07d0ffed784292f58f4dfbcbb26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TreeHitParticleBurst
-  hitboxLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  treeHitCollider: {fileID: 0}
-  hitCooldown: 0.05
-  hitParticles: {fileID: 0}
-  burstAmount: 7
-  burstMaxParticles: 25
-  maxParticleResetDelay: 0.2
-  burstAtHitPoint: 0
-  particleOffset: {x: -1, y: 0, z: 0}
 --- !u!114 &5546033597365316671
 MonoBehaviour:
   m_ObjectHideFlags: 0

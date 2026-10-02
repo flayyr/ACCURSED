@@ -10,6 +10,7 @@ public class PlayerAbilities : MonoBehaviour
 
 
     [HideInInspector] public event Action OnAbilityUsed;
+    [HideInInspector] public event Action OnHealUsed;
 
     private ActionQueuer actionQueuer;
     private PlayerStatistics playerStatistics;
@@ -104,7 +105,8 @@ public class PlayerAbilities : MonoBehaviour
         if (playerStatistics.CanHeal())
         {
             actionQueuer.QueueAction(healAction);
-
+            OnHealUsed?.Invoke();
+            
             return true;
         }
         return false;

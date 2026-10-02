@@ -9,6 +9,7 @@ public class ActionInstance
     public bool skipWindWhenQueued = false;
     public bool played = false;
     public float finishTime = -1;
+    public float startTime = -1;
 
     public ActionInstance(ActionSO actionSO, float currTime)
     {
