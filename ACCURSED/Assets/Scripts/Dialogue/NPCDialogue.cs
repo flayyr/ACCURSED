@@ -29,6 +29,12 @@ public class NPCDialogue : ScriptableObject
 
     public AudioClip sound;
 
+    [Header("This should be at which point ni the conversation \n you want to summon a sidebar; otehrwise leave 0")]
+    public int summonSidebar;
+
+    [Header("tick this if the object switches a variable to true")]
+    public bool questSwitch;
+
     [Header("Name of variable this should flag (for quest)")]
     public string varName;
 }

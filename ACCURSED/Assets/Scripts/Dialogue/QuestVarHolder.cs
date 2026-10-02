@@ -31,41 +31,30 @@ public class QuestVarHolder : MonoBehaviour
 
         //Dictionary<bool, QuestVarHolder> questbools = new Dictionary<bool, QuestVarHolder>();
         DontDestroyOnLoad(gameObject);
+
+        questBools.Add("tempQuestStarted", false);
+        questBools.Add("tempQuestinProgress", false);
+        questBools.Add("tempQuestFinished", false);
+
     }
 
     private void Start()
     {
         //questBools.Add("tempQuest", false);
-        questBools.Add("tempQuestStarted", false);
-        questBools.Add("tempQuestinProgress", false);
-        questBools.Add("tempQuestFinished", false);
     }
 
     private void Update()
     {
-        /*
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            questBools["tempQuest"] = true;
-            Debug.Log(questBools["tempQuest"]);
-        }
-        
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            questBools["tempQuestStarted"] = true;
-            Debug.Log(questBools["tempQuestStarted"]);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            questBools["tempQuestFinished"] = true;
-            Debug.Log(questBools["tempQuestFinished"]);
-        }
-        */
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             questBools["tempQuestinProgress"] = true;
             Debug.Log(questBools["tempQuestinProgress"]);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            questBools["tempQuestFinished"] = true;
+            Debug.Log(questBools["tempQuestFinished"]);
         }
 
     }

@@ -29,7 +29,7 @@ public class DialogueOption : MonoBehaviour
 
     private void OnEnable()
     {
-        tempHolder = textBox.GetComponent<Textbox>().npcText[textBox.GetComponent<Textbox>().baseIndex];
+        tempHolder = textBox.GetComponent<Textbox>().npcText[textBox.GetComponent<Textbox>().baseIndexRef];
     }
 
     private IEnumerator load()
@@ -38,7 +38,7 @@ public class DialogueOption : MonoBehaviour
         //textBox.GetComponent<Textbox>().npcText = null;
         textBox.GetComponent<Textbox>().index = 0;
         //Debug.Log(textBox.GetComponent<Textbox>().npcText[textBox.GetComponent<Textbox>().baseIndex]);
-        textBox.GetComponent<Textbox>().npcText[textBox.GetComponent<Textbox>().baseIndex] = branchedText;
+        textBox.GetComponent<Textbox>().npcText[textBox.GetComponent<Textbox>().baseIndexRef] = branchedText;
         textBox.GetComponent<Textbox>().nextSentence();
         textDisplay.SetActive(true);
 

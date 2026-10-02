@@ -69,7 +69,7 @@ public class SideBar : MonoBehaviour
         buttonPrefab[buttonName.Length].GetComponent<SideBarButton>().buttonNum = -2;
         buttonPrefab[buttonName.Length].SetActive(true);
 
-        tempRefIndex = refParent.GetComponent<DialogueSpawner>().baseIndexRef;
+        tempRefIndex = refParent.GetComponent<DialogueSpawner>().baseIndex;
 
     }
 
@@ -88,9 +88,11 @@ public class SideBar : MonoBehaviour
             if (!dialogueOrShop[buttonClicked])
             {
                 //if (greatQuestHighway)
+                /*
                 {
                     refParent.GetComponent<DialogueSpawner>().questOrNot = greatQuestHighway;
                 }
+                */
                 refParent.GetComponent<DialogueSpawner>().baseText[tempRefIndex] = tempDialogue[tempRefIndex];
                 refParent.GetComponent<DialogueSpawner>().spawnText();
                 this.gameObject.SetActive(false);
