@@ -242,11 +242,14 @@ public class CharacterManager : MonoBehaviour
             if (currAction != null && currAction.startTime != -1)
             {
                 float timeSincePlayed = Time.time - currAction.startTime;
-                Vector3 moveAmount = (Vector3)moveDir * currAction.actionSO.HorizontalVelocity.Evaluate(timeSincePlayed) * Time.deltaTime;
+                float moveAmt = currAction.actionSO.HorizontalDisplacement.Evaluate(timeSincePlayed+Time.deltaTime)
+                    - currAction.actionSO.HorizontalDisplacement.Evaluate(timeSincePlayed);
+
+                Vector3 moveDist = (Vector3)moveDir * moveAmt;
 
                 RaycastHit2D[] raycastInfos = new RaycastHit2D[10];
-                if (characterCollider.Cast(moveAmount, contactFilter, raycastInfos, moveAmount.magnitude) == 0) {
-                    transform.position += moveAmount;
+                if (characterCollider.Cast(moveDist, contactFilter, raycastInfos, moveDist.magnitude) == 0) {
+                    transform.position += moveDist;
                 }
             }
         }
