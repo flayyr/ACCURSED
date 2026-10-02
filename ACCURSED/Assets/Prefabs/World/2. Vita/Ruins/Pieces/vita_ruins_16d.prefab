@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 7461906215779942825}
   - component: {fileID: 4124848473929783822}
   - component: {fileID: 4565924780873824430}
-  m_Layer: 18
-  m_Name: vita_ruins_15b
+  m_Layer: 8
+  m_Name: vita_ruins_16d
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,12 +85,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 71
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -6298083005472743202, guid: 9a765c88323794c4397749be4ab507a5, type: 3}
+  m_Sprite: {fileID: 5773805237514608288, guid: bd6a6036ea86b0d4186180f2748add69, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 17.184649, y: 10.56}
+  m_Size: {x: 6.3343234, y: 9.886666}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -161,9 +161,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 86203442545491795}
-  - component: {fileID: 3309106099123904209}
+  - component: {fileID: 1963328235560938656}
   - component: {fileID: 1904609428648644694}
-  m_Layer: 18
+  m_Layer: 8
   m_Name: BlockCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,13 +179,13 @@ Transform:
   m_GameObject: {fileID: 5902500370090307849}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13, y: 0.85, z: 0}
+  m_LocalPosition: {x: 4.28, y: -2.31, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2321214191396461982}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &3309106099123904209
+--- !u!60 &1963328235560938656
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -195,7 +195,7 @@ PolygonCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: dbd5baa13f26b164e8e9b784df1a66b0, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -231,10 +231,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 12.938524, y: -1.6914043}
-      - {x: 13.83946, y: -0.72770214}
-      - {x: 13.091483, y: -0.20439863}
-      - {x: 12.239554, y: -0.91773415}
+    - - {x: -3.9809704, y: 0.42643142}
+      - {x: -3.9880419, y: 1.9770608}
+      - {x: -4.55889, y: 1.9897351}
+      - {x: -4.5776753, y: 0.40468335}
+      - {x: -4.3952436, y: 0.29677796}
   m_UseDelaunayMesh: 1
 --- !u!114 &1904609428648644694
 MonoBehaviour:

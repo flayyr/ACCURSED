@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7461906215779942825}
   - component: {fileID: 4124848473929783822}
   - component: {fileID: 4565924780873824430}
-  m_Layer: 18
+  m_Layer: 8
   m_Name: vita_ruins_16b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,12 +85,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 71
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 1793437810330365117, guid: 9a765c88323794c4397749be4ab507a5, type: 3}
+  m_Sprite: {fileID: -5965743357827728803, guid: 89d330ad554efbb40a80642e2ae5ece1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 17.184649, y: 10.56}
+  m_Size: {x: 6.3343234, y: 9.886666}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -161,9 +161,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 86203442545491795}
-  - component: {fileID: 3309106099123904209}
+  - component: {fileID: 1963328235560938656}
   - component: {fileID: 1904609428648644694}
-  m_Layer: 18
+  m_Layer: 8
   m_Name: BlockCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,13 +179,13 @@ Transform:
   m_GameObject: {fileID: 5902500370090307849}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13, y: 0.85, z: 0}
+  m_LocalPosition: {x: -2.56, y: -0.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2321214191396461982}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &3309106099123904209
+--- !u!60 &1963328235560938656
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -195,7 +195,7 @@ PolygonCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: dbd5baa13f26b164e8e9b784df1a66b0, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -231,10 +231,14 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 13.277196, y: -1.3161201}
-      - {x: 13.418409, y: -0.81008196}
-      - {x: 12.615512, y: -0.68952227}
-      - {x: 12.495847, y: -1.1923327}
+    - - {x: -3.6706553, y: 0.44141722}
+      - {x: -3.9239714, y: 0.9565072}
+      - {x: -4.1106215, y: 1.0362296}
+      - {x: -4.973048, y: 0.19480658}
+      - {x: -4.6155972, y: -0.3024068}
+      - {x: -3.9422083, y: -0.12473369}
+      - {x: 9.953376, y: -0.08216405}
+      - {x: 9.945936, y: 0.5752821}
   m_UseDelaunayMesh: 1
 --- !u!114 &1904609428648644694
 MonoBehaviour:
