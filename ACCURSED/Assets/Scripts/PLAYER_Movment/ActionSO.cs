@@ -1,3 +1,4 @@
+using MoreMountains.Feedbacks;
 using System;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class AttackData
     public float stunDuration;
     public float vitalityBuildUp = 1;
     [Range(0,1)]public float parryLeniency = 0.5f;
+    public MMF_Player attackHitFeedback;
 }
 
 [CreateAssetMenu(fileName = "ActionSO", menuName = "Actions/ActionSO")]

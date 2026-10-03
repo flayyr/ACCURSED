@@ -25,7 +25,6 @@ public class Projectile : MonoBehaviour
 
         hitBox.SetAttackData(attackData);
         hitBox.SetPlayerStats(playerStats);
-        hitBox.SetHitFeedback(hitFeedback);
     }
 
     private void Update()
