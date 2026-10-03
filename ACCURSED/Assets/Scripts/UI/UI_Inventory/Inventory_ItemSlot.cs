@@ -28,6 +28,10 @@ public class Inventory_ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
     private InventoryStack stack;
     private PlayerInventory inventory;
 
+    public InventoryStack BoundStack => stack;
+    public PlayerInventory BoundInventory => inventory;
+    public ItemPickupSO BoundItem => stack != null ? stack.item : null;
+
     public Button b;
 
     void Awake()

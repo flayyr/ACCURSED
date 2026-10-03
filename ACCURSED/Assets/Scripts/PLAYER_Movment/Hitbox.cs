@@ -8,7 +8,6 @@ public class HitBox : MonoBehaviour
     [SerializeField] public Vector3 PostAnimDirection;
     [Space]
     [SerializeField] private PlayerStatistics playerStats;
-    [SerializeField] private MMF_Player hitFeedback;
     [Header("Parried")]
     [SerializeField] private float perfectParryStunDuration =1f;
 
@@ -42,9 +41,9 @@ public class HitBox : MonoBehaviour
             playerStats.UpdateVitality(attackData.vitalityBuildUp);
             playerStats.UpdateRemembranceCharge(attackData.vitalityBuildUp);
         }
-        if (hitFeedback != null)
+        if (attackData.attackHitFeedback != null)
         {
-            hitFeedback.PlayFeedbacks();
+            Instantiate(attackData.attackHitFeedback);
         }
     }
 
@@ -64,6 +63,5 @@ public class HitBox : MonoBehaviour
     public void SetAttackData(AttackData attackData) { this.attackData = attackData; }
     public AttackData GetAttackSO() { return attackData; }
     public void SetPlayerStats(PlayerStatistics playerStats) {  this.playerStats = playerStats; }
-    public void SetHitFeedback(MMF_Player hitFeedback) {  this.hitFeedback = hitFeedback; }
     public void SetDirection(Vector2 direction) {  this.direction = direction; }
 }

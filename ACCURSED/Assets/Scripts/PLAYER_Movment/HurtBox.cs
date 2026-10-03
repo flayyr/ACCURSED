@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using MoreMountains.Feedbacks;
+using UnityEditor.Presets;
 
 public class HurtBox : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class HurtBox : MonoBehaviour
     [Space]
     [SerializeField] private MMF_Player hurtFeedback;
     [SerializeField] private MMF_Player parryFeedback;
+    [SerializeField] private Preset hurtFeedbackPreset;
 
     [SerializeField] List<GameObject> personalHurtBoxes = new List<GameObject>();
     [SerializeField] List<GameObject> personalHitBoxes = new List<GameObject>();

@@ -13,10 +13,33 @@ MonoBehaviour:
   m_Name: ParryAction
   m_EditorClassIdentifier: Assembly-CSharp::ParryAction
   actionName: Parry
-  animatorController: {fileID: 9100000, guid: 52fb3bbb4e8a496469ac4cb5b421105f, type: 2}
   windAnimationState: Parry
   actionAnimationState: Parry
   windDuration: 0
+  HorizontalDisplacement:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.20228577
+      value: 0.0075683594
+      inSlope: 19.218065
+      outSlope: 19.218065
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.032570157
+    - serializedVersion: 3
+      time: 0.4869995
+      value: 1.5129738
+      inSlope: 0.30774006
+      outSlope: 0.30774006
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.05329449
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   attackData:
     attackDamage: 1
     stepAmount: 0

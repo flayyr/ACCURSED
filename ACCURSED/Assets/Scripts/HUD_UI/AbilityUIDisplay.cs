@@ -4,18 +4,19 @@ using UnityEngine.UI;
 
 public class AbilityUIDisplay : MonoBehaviour
 {
-    [SerializeField] Image iconImage;
     [SerializeField] TextMeshProUGUI inputPromptText;
     [SerializeField] string inputBind;
-    [SerializeField] Image frameImage;
+    [SerializeField] Image abilityImage;
+    [SerializeField] Image abilityBackgroundImage;
     public void Initialize(Sprite abilityIcon)
     {
-        iconImage.sprite = abilityIcon;
+        abilityImage.sprite = abilityIcon;
+        abilityBackgroundImage.sprite = abilityIcon;
         inputPromptText.text = inputBind;
     }
 
     public void SetFrameFill(float fillAmt)
     {
-        frameImage.fillAmount = fillAmt;
+        abilityImage.fillAmount = fillAmt;
     }
 }

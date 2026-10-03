@@ -13,48 +13,29 @@ MonoBehaviour:
   m_Name: Bounding Strike
   m_EditorClassIdentifier: Assembly-CSharp::TestVestige
   actionName: Bounding Strike
-  animatorController: {fileID: 9100000, guid: 52fb3bbb4e8a496469ac4cb5b421105f, type: 2}
   windAnimationState: Vestige2Wind
   actionAnimationState: Vestige2
   windDuration: 0.5
-  HorizontalVelocity:
+  HorizontalDisplacement:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 92.432495
-      outSlope: 92.432495
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.16264641
-      value: 15.033813
-      inSlope: 51.950893
-      outSlope: 51.950893
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.45588043
-      value: 18.397
-      inSlope: -12.914959
-      outSlope: -12.914959
+      inSlope: 30.67144
+      outSlope: 30.67144
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.16165435
-      outWeight: 1
+      inWeight: 0
+      outWeight: 0.041252397
     - serializedVersion: 3
-      time: 0.49517822
-      value: 0
-      inSlope: -468.14337
-      outSlope: -468.14337
-      tangentMode: 34
+      time: 0.4974578
+      value: 6.5627956
+      inSlope: 1.7140518
+      outSlope: 1.7140518
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.100706
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -66,6 +47,7 @@ MonoBehaviour:
     stunDuration: 1
     vitalityBuildUp: 1
     parryLeniency: 0.5
-  abilityIcon: {fileID: -6545669481088976041, guid: 56edaa2169cb8884cbfbb53452296f1b, type: 3}
+    attackHitFeedback: {fileID: 4295910257228934014, guid: 76b324bc3b2c75d4cab30fb7147dc994, type: 3}
+  abilityIcon: {fileID: 21300000, guid: 53ee11e161a908c45bf633b904c5a777, type: 3}
   invincibleDuration: 0.5
-  vestigeCoolDown: 1
+  vestigeCoolDown: 5

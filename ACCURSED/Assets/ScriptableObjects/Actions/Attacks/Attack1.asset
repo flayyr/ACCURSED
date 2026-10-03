@@ -13,13 +13,20 @@ MonoBehaviour:
   m_Name: Attack1
   m_EditorClassIdentifier: Assembly-CSharp::ActionSO
   actionName: Attack 1
-  animatorController: {fileID: 9100000, guid: 52fb3bbb4e8a496469ac4cb5b421105f, type: 2}
   windAnimationState: Attack1Wind
   actionAnimationState: Attack1
   windDuration: 1.5
+  HorizontalDisplacement:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   attackData:
     attackDamage: 1
     stepAmount: 5
     knockbackPower: 10
     stunDuration: 0
     vitalityBuildUp: 1
+    parryLeniency: 0.5
+    attackHitFeedback: {fileID: 4424486401545001967, guid: 1a970bcb20abf8f4293737620fbe5166, type: 3}

@@ -13,16 +13,23 @@ MonoBehaviour:
   m_Name: KnockBackRemembrance
   m_EditorClassIdentifier: Assembly-CSharp::TestRemembrance
   actionName: Test Rememberance
-  animatorController: {fileID: 9100000, guid: 52fb3bbb4e8a496469ac4cb5b421105f, type: 2}
   windAnimationState: Remembrance1Wind
   actionAnimationState: Remembrance1
   windDuration: 0.5
+  HorizontalDisplacement:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   attackData:
     attackDamage: 1
     stepAmount: 0
     knockbackPower: 20
     stunDuration: 3
     vitalityBuildUp: 1
+    parryLeniency: 0.5
+  attackFeedbackPreset: {fileID: 2655988077585873504, guid: 0e7c6dfa8dffe8947ba20941c5af1fb6, type: 2}
   abilityIcon: {fileID: 4315179464032735879, guid: 56edaa2169cb8884cbfbb53452296f1b, type: 3}
   invincibleDuration: 2
   requiredCharge: 8

@@ -1,5 +1,5 @@
+using MoreMountains.Feedbacks;
 using System;
-using UnityEditor.Animations;
 using UnityEngine;
 
 [Serializable]
@@ -11,19 +11,19 @@ public class AttackData
     public float stunDuration;
     public float vitalityBuildUp = 1;
     [Range(0,1)]public float parryLeniency = 0.5f;
+    public MMF_Player attackHitFeedback;
 }
 
 [CreateAssetMenu(fileName = "ActionSO", menuName = "Actions/ActionSO")]
 public class ActionSO : ScriptableObject
 {
     [SerializeField] public string actionName;
-    [SerializeField] public AnimatorController animatorController;
     [SerializeField] public string windAnimationState;
     [SerializeField] public string actionAnimationState;
     [SerializeField] public float windDuration;
 
     [Header("Movement")]
-    [SerializeField] public AnimationCurve HorizontalVelocity;
+    [SerializeField] public AnimationCurve HorizontalDisplacement;
 
     [Header("Attack Data")]
     [SerializeField] public AttackData attackData;

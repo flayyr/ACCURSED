@@ -11,7 +11,7 @@ public class DepthSort : MonoBehaviour
     
     float depth;
 
-    bool isSetUp;
+    bool isSetUp = false;
 
     private void Start()
     {
