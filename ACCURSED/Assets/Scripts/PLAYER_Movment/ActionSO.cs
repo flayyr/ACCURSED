@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.Animations;
 using UnityEngine;
 
 [Serializable]
@@ -17,7 +16,6 @@ public class AttackData
 public class ActionSO : ScriptableObject
 {
     [SerializeField] public string actionName;
-    [SerializeField] public AnimatorController animatorController;
     [SerializeField] public string windAnimationState;
     [SerializeField] public string actionAnimationState;
     [SerializeField] public float windDuration;

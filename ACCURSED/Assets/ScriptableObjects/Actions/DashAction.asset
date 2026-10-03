@@ -13,30 +13,29 @@ MonoBehaviour:
   m_Name: DashAction
   m_EditorClassIdentifier: Assembly-CSharp::DashAction
   actionName: Dash
-  animatorController: {fileID: 9100000, guid: 52fb3bbb4e8a496469ac4cb5b421105f, type: 2}
   windAnimationState: Dash
   actionAnimationState: Dash
   windDuration: 0
-  HorizontalVelocity:
+  HorizontalDisplacement:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2.6982105
+      outSlope: 2.6982105
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.05387931
     - serializedVersion: 3
-      time: 0.5307617
-      value: 4.999275
-      inSlope: 0
-      outSlope: 0
+      time: 0.66031086
+      value: 8.063537
+      inSlope: 1.7407805
+      outSlope: 1.7407805
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.066810355
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
