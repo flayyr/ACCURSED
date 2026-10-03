@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 148752548379624649}
   - component: {fileID: 5711188180160745901}
   - component: {fileID: 5503362426465041459}
+  - component: {fileID: -8176650396148897872}
   m_Layer: 0
   m_Name: ExecuteSlashVFX
   m_TagString: Untagged
@@ -130,3 +131,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-8176650396148897872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6461826627765858636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cf5f29b7fb9574c982a65643d421cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSort
+  sortRenderer: {fileID: 148752548379624649}
+  sortOrderOffset: 0
+  useParticle: 0
+  baseTransform: {fileID: 8546093576752501297}
+  selfUpdate: 1

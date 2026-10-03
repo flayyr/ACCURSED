@@ -24,7 +24,6 @@ public class VFXSpawner : MonoBehaviour
         }
         Transform vfxTransform = Instantiate(vfxPrefab).transform;
         vfxTransform.position = transform.position;
-        vfxTransform.parent = transform;
 
         VFX vfx = vfxTransform.GetComponent<VFX>();
         if (vfx.doNotRotate)
