@@ -13,6 +13,7 @@ public class TutorialPlatformScript : MonoBehaviour
     [SerializeField] AspectObject aspect;
     [Space]
     [SerializeField] ScreenFadeOverlay screenFadePrefab;
+    [SerializeField] Collider2D platformCollider;
     int numEnemies;
 
     private void Awake()
@@ -40,17 +41,16 @@ public class TutorialPlatformScript : MonoBehaviour
         PlayerController playerController = PersistentPlayer.Instance.GetComponent<PlayerController>();
         //fade to black
         ScreenFadeOverlay screenFade = Instantiate(screenFadePrefab);
-        screenFade.FadeToBlack(fadeDuration);
+        yield return screenFade.FadeToBlack(fadeDuration);
         yield return new WaitForSeconds(fadeDuration);
         //teleport player to position and fade from black
         playerController.transform.position = playerSnapPosition.position;
-        screenFade.FadeFromBlack(fadeDuration);
-        yield return new WaitForSeconds(fadeDuration);
+        yield return screenFade.FadeFromBlack(fadeDuration);
         Destroy(screenFade.gameObject);
         //lower platform and all objects
         playerController.SetState(PlayerControlState.Disabled);
 
-        while(transform.position.y > lowerYLevel)
+        while(transform.localPosition.y > lowerYLevel)
         {
             Vector3 moveAmount = -Vector3.up * loweringSpeed * Time.deltaTime;
             transform.position += moveAmount;
@@ -58,9 +58,10 @@ public class TutorialPlatformScript : MonoBehaviour
             aspect.Move(moveAmount);
             yield return new WaitForEndOfFrame();
         }
-        transform.position = new Vector3(transform.position.x, lowerYLevel, transform.position.z);
+        transform.localPosition = new Vector3(transform.localPosition.x, lowerYLevel, transform.localPosition.z);
 
         playerController.SetState(PlayerControlState.Normal);
+        platformCollider.enabled = false;
 
     }
 
