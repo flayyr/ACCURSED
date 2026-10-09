@@ -10,7 +10,7 @@ public class AttackData
     public float knockbackPower;
     public float stunDuration;
     public float vitalityBuildUp = 1;
-    [Range(0,1)]public float parryLeniency = 0.5f;
+    [Range(0, 1)] public float parryLeniency = 0.5f;
     public MMF_Player attackHitFeedback;
 }
 
@@ -28,10 +28,13 @@ public class ActionSO : ScriptableObject
     [Header("Attack Data")]
     [SerializeField] public AttackData attackData;
 
+    [Header("Attack Data")]
+    [SerializeField] public AttackData onHitParticleEffect;
+
 
     //only triggered for the player. Ideally id have it so that enemy actions don't have this
     public virtual void PlayerActionTrigger(ref PlayerReference playerRef)
     {
-        
+
     }
 }
