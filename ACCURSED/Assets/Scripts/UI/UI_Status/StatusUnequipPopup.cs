@@ -1,80 +1,106 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-// A small context menu using the SAME interaction pattern/styling as Use/Drop.
-// Its visuals can be duplicated from the existing RightClickOptions prefab.
-// This intentionally does NOT change the existing RightClickOptions implementation.
 public class StatusUnequipPopup : MonoBehaviour
 {
-    public static StatusUnequipPopup Instance { get; private set; }
+    public static StatusUnequipPopup Instance 
+    { 
+        get; 
+        private set; 
+    }
 
-    [Header("Hierarchy: Root (fullscreen overlay) -> Backdrop/Button + Menu/Unequip Button")]
+    [Header("Hierarchy")]
     [SerializeField] private GameObject popupRoot;
     [SerializeField] private RectTransform menuRect;
     [SerializeField] private Button unequipButton;
     [SerializeField] private Button backdropButton;
 
+    [Header("Position")]
+    [Tooltip("Offset from the bottom-center of the equipped Status slot.")]
+    [SerializeField] private Vector2 menuOffset = new Vector2(0f, -10f);
+
     private StatusItemSlot selectedSlot;
+
     public bool IsOpen => popupRoot != null && popupRoot.activeSelf;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this) 
-        { 
-            Destroy(this); 
-            return; 
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+            return;
         }
 
         Instance = this;
 
-        if (unequipButton != null) 
+        if (unequipButton != null)
             unequipButton.onClick.AddListener(OnUnequipClicked);
 
-        if (backdropButton != null) 
+        if (backdropButton != null)
             backdropButton.onClick.AddListener(Close);
 
-        if (popupRoot != null) 
+        if (popupRoot != null)
             popupRoot.SetActive(false);
     }
 
     private void OnDestroy()
     {
-        if (unequipButton != null) 
+        if (unequipButton != null)
             unequipButton.onClick.RemoveListener(OnUnequipClicked);
 
-        if (backdropButton != null) 
+        if (backdropButton != null)
             backdropButton.onClick.RemoveListener(Close);
 
-        if (Instance == this) 
+        if (Instance == this)
             Instance = null;
     }
 
     public void Open(StatusItemSlot slot, Vector2 screenPosition)
     {
-        if (slot == null || popupRoot == null || menuRect == null) 
+        if (slot == null || popupRoot == null || menuRect == null)
             return;
 
         selectedSlot = slot;
+
         popupRoot.SetActive(true);
         popupRoot.transform.SetAsLastSibling();
 
-        RectTransform parentRect = menuRect.parent as RectTransform;
+        PositionBelowSlot(slot);
+    }
 
-        if (parentRect == null) 
+    private void PositionBelowSlot(StatusItemSlot slot)
+    {
+        RectTransform slotRect = slot.GetComponent<RectTransform>();
+
+        if (slotRect == null)
+        {
+            Debug.LogError("StatusUnequipPopup: StatusItemSlot " + "does not have a RectTransform.", slot);
+
             return;
+        }
 
-        Canvas canvas = menuRect.GetComponentInParent<Canvas>();
-        Camera eventCamera = canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay ? canvas.worldCamera : null;
-        Vector2 point;
+        menuRect.pivot = new Vector2(0.5f, 1f);
 
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, screenPosition, eventCamera, out point))
-            menuRect.anchoredPosition = point;
+        Vector3[] corners = new Vector3[4];
+        slotRect.GetWorldCorners(corners);
+
+        // RectTransform corners:
+        // 0 = bottom-left
+        // 1 = top-left
+        // 2 = top-right
+        // 3 = bottom-right
+
+        Vector3 bottomCenter = (corners[0] + corners[3]) * 0.5f;
+
+        menuRect.position = bottomCenter;
+        menuRect.anchoredPosition += menuOffset;
     }
 
     private void OnUnequipClicked()
     {
-        if (selectedSlot != null) selectedSlot.Unequip();
-        
+        if (selectedSlot != null)
+            selectedSlot.Unequip();
+
         Close();
     }
 
@@ -82,6 +108,7 @@ public class StatusUnequipPopup : MonoBehaviour
     {
         selectedSlot = null;
 
-        if (popupRoot != null) popupRoot.SetActive(false);
+        if (popupRoot != null)
+            popupRoot.SetActive(false);
     }
 }

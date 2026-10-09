@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-// Attach to the clickable root Button of each of the six ITEMS slots.
 [RequireComponent(typeof(Button))]
 public class StatusItemSlot : MonoBehaviour, IPointerClickHandler
 {
@@ -37,7 +36,11 @@ public class StatusItemSlot : MonoBehaviour, IPointerClickHandler
 
     private IEnumerator FindManager()
     {
-        while (StatusEquipmentManager.Instance == null) yield return null;
+        while (StatusEquipmentManager.Instance == null) 
+        {
+            yield return null;
+        }
+
         manager = StatusEquipmentManager.Instance;
         manager.EquipmentChanged += Refresh;
 
@@ -48,20 +51,21 @@ public class StatusItemSlot : MonoBehaviour, IPointerClickHandler
     private void OnDisable()
     {
         if (bindRoutine != null) 
-        { 
-            StopCoroutine(bindRoutine); 
-            bindRoutine = null; 
+        {
+            StopCoroutine(bindRoutine);
+            bindRoutine = null;
         }
 
         if (manager != null) 
             manager.EquipmentChanged -= Refresh;
-
+        
         manager = null;
     }
 
     private void OnDestroy()
     {
-        if (button != null) button.onClick.RemoveListener(OnLeftClick);
+        if (button != null) 
+            button.onClick.RemoveListener(OnLeftClick);
     }
 
     private void OnLeftClick()
@@ -87,23 +91,27 @@ public class StatusItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void Unequip()
     {
-        if (manager != null) 
-            manager.Unequip(category, slotIndex);
+        if (manager != null) manager.Unequip(category, slotIndex);
     }
 
     public void Refresh()
     {
-        ItemPickupSO item = manager != null ? manager.GetEquippedItem(category, slotIndex) : null;
+        ItemPickupSO item = manager != null 
+            ? manager.GetEquippedItem(category, slotIndex) : null;
 
-        int count = manager != null ? manager.GetEquippedQuantity(category, slotIndex) : 0;
+        int count = manager != null 
+            ? manager.GetEquippedQuantity(category, slotIndex) : 0;
 
         if (itemIcon != null)
         {
             itemIcon.sprite = item != null ? item.itemSpr : null;
             itemIcon.enabled = item != null && item.itemSpr != null;
         }
-
+        
         if (quantityText != null)
-            quantityText.text = item != null && count > 0 && (count != 1 || showQuantityWhenOne) ? count.ToString() : "";
+        {    
+            quantityText.text = item != null && count > 0 && (count != 1 || showQuantityWhenOne)
+                ? count.ToString() : "";
+        }
     }
 }

@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Persistent gameplay data only. Put this on the same persistent Player as PlayerInventory.
 public enum StatusEquipmentCategory { Items, Soulbinds, Talismans, Remembrance, Fable, Vestige }
 
 [Serializable]
 public class StatusEquipmentEntry
 {
     public StatusEquipmentCategory category = StatusEquipmentCategory.Items;
+
     [Min(0)] public int slotIndex;
     public string itemID;
 }
@@ -31,10 +31,10 @@ public class StatusEquipmentManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            // Do not destroy a Player GameObject belonging to some other system.
             Destroy(this);
             return;
         }
+
         Instance = this;
     }
 
@@ -42,17 +42,14 @@ public class StatusEquipmentManager : MonoBehaviour
     {
         if (Instance != this) 
             return;
-
+        
         if (inventory != null)
         {
             inventory.InventoryChanged -= OnInventoryChanged;
             inventory.InventoryChanged += OnInventoryChanged;
             OnInventoryChanged();
         }
-        else 
-        {
-            findInventoryRoutine = StartCoroutine(FindInventory());
-        }
+        else findInventoryRoutine = StartCoroutine(FindInventory());
     }
 
     private IEnumerator FindInventory()
@@ -60,7 +57,6 @@ public class StatusEquipmentManager : MonoBehaviour
         while (inventory == null)
         {
             PlayerInventory found = GetComponent<PlayerInventory>();
-
             if (found == null && PersistentPlayer.Instance != null)
                 found = PersistentPlayer.Instance.GetComponent<PlayerInventory>();
 
@@ -68,11 +64,13 @@ public class StatusEquipmentManager : MonoBehaviour
             {
                 BindInventory(found);
                 findInventoryRoutine = null;
+
                 yield break;
             }
 
             yield return null;
         }
+
         findInventoryRoutine = null;
     }
 
@@ -83,7 +81,6 @@ public class StatusEquipmentManager : MonoBehaviour
 
         inventory = found;
         inventory.InventoryChanged += OnInventoryChanged;
-        
         OnInventoryChanged();
     }
 
@@ -106,7 +103,6 @@ public class StatusEquipmentManager : MonoBehaviour
 
     private void OnInventoryChanged()
     {
-        // Consumables reaching zero are automatically unequipped.
         if (inventory != null)
         {
             for (int i = equipped.Count - 1; i >= 0; --i)
@@ -145,7 +141,9 @@ public class StatusEquipmentManager : MonoBehaviour
 
     public bool IsEquipped(string itemID)
     {
-        if (string.IsNullOrEmpty(itemID)) return false;
+        if (string.IsNullOrEmpty(itemID)) 
+            return false;
+        
         foreach (StatusEquipmentEntry entry in equipped)
         {
             if (entry != null && entry.itemID == itemID)
@@ -155,21 +153,28 @@ public class StatusEquipmentManager : MonoBehaviour
         return false;
     }
 
-    public bool TryEquip(StatusEquipmentCategory category, int slotIndex,
-                         ItemPickupSO item, out string reason)
+    public bool TryEquip(StatusEquipmentCategory category, int slotIndex, ItemPickupSO item, out string reason)
     {
         reason = "";
+
         if (category != StatusEquipmentCategory.Items)
         {
             reason = "Only ITEMS slots are implemented in this version.";
             return false;
         }
-        if (slotIndex < 0)  
-            reason = "Invalid slot index."; return false; 
+
+        if (slotIndex < 0) 
+        { 
+            reason = "Invalid slot index."; 
+            return false; 
+        }
 
         if (inventory == null) 
-            reason = "PlayerInventory has not been found."; return false; 
-        
+        { 
+            reason = "PlayerInventory has not been found."; 
+            return false; 
+        }
+
         if (item == null || !item.canUse || string.IsNullOrEmpty(item.itemID))
         {
             reason = "Only inventory items with canUse enabled can be equipped.";
@@ -184,7 +189,6 @@ public class StatusEquipmentManager : MonoBehaviour
 
         if (IsEquipped(item.itemID))
         {
-            // Clicking the already-equipped item in its own slot is harmless.
             if (GetEquippedItemID(category, slotIndex) == item.itemID) 
                 return true;
 
@@ -192,10 +196,11 @@ public class StatusEquipmentManager : MonoBehaviour
             return false;
         }
 
-        // Replacing a slot does not consume the old item or the new item.
         for (int i = equipped.Count - 1; i >= 0; --i)
+        {
             if (equipped[i] != null && equipped[i].category == category && equipped[i].slotIndex == slotIndex)
                 equipped.RemoveAt(i);
+        }
 
         equipped.Add(new StatusEquipmentEntry 
         {
@@ -209,7 +214,7 @@ public class StatusEquipmentManager : MonoBehaviour
     public void Unequip(StatusEquipmentCategory category, int slotIndex)
     {
         bool removed = false;
-        
+
         for (int i = equipped.Count - 1; i >= 0; --i)
         {
             StatusEquipmentEntry entry = equipped[i];

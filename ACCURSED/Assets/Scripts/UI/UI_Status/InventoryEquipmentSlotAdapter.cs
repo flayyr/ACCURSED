@@ -1,14 +1,15 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-// ADD TO THE EXISTING INVENTORY ITEM SLOT PREFAB (alongside Inventory_ItemSlot).
-// Does not require changes to Inventory_ItemSlot or RightClickOptions.
+// Attach beside Inventory_ItemSlot on the RUNTIME inventory slot prefab.
 [RequireComponent(typeof(Inventory_ItemSlot))]
 [RequireComponent(typeof(Button))]
-public class InventoryEquipmentSlotAdapter : MonoBehaviour
+public class InventoryEquipmentSlotAdapter : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private GameObject equippedBadge;  // child icon with Raycast Target OFF
-    [SerializeField] private Image itemImage;            // existing itemSprDisplay Image
+    [Header("Equipped visuals")]
+    [SerializeField] private GameObject equippedBadge;
+    [SerializeField] private Image itemImage;
     [SerializeField] private Color normalTint = Color.white;
     [SerializeField] private Color equippedTint = new Color(0.42f, 0.42f, 0.42f, 1f);
 
@@ -22,7 +23,9 @@ public class InventoryEquipmentSlotAdapter : MonoBehaviour
     {
         slot = GetComponent<Inventory_ItemSlot>();
         button = GetComponent<Button>();
-        button.onClick.AddListener(HandleClick);
+
+        if (button != null)
+            button.onClick.AddListener(HandleButtonClick);
     }
 
     private void OnEnable()
@@ -34,22 +37,26 @@ public class InventoryEquipmentSlotAdapter : MonoBehaviour
 
     private void Update()
     {
-        ItemPickupSO item = slot != null ? slot.BoundItem : null;
+        if (slot == null) 
+            return;
+
+        ItemPickupSO item = slot.BoundItem;
         string itemID = item != null ? item.itemID : null;
-        bool equipped = item != null && StatusEquipmentManager.Instance != null && StatusEquipmentManager.Instance.IsEquipped(itemID);
-        bool selecting = StatusEquipmentSelection.Instance != null && StatusEquipmentSelection.Instance.IsSelecting;
+        StatusEquipmentManager equipmentManager = StatusEquipmentManager.Instance;
+        StatusEquipmentSelection selection = StatusEquipmentSelection.Instance;
+
+        bool equipped = item != null && equipmentManager != null && equipmentManager.IsEquipped(itemID);
+        bool selecting = selection != null && selection.IsSelecting;
         bool blockNormalRightClick = equipped || selecting;
 
-        // This disables only Inventory_ItemSlot's Update and pointer callbacks - these are the two paths that call RightClickOptions.Open().
-        // The Button's onClick listeners still work for normal left-click selection.
-        if (slot != null && slot.enabled != !blockNormalRightClick)
+        if (slot.enabled == blockNormalRightClick)
             slot.enabled = !blockNormalRightClick;
 
         if (lastEquipped != equipped || lastItemID != itemID || lastBlocked != blockNormalRightClick)
         {
-            if (equippedBadge != null) 
+            if (equippedBadge != null)
                 equippedBadge.SetActive(equipped);
-            
+
             if (itemImage != null && item != null)
                 itemImage.color = equipped ? equippedTint : normalTint;
 
@@ -59,20 +66,35 @@ public class InventoryEquipmentSlotAdapter : MonoBehaviour
         }
     }
 
-    private void HandleClick()
+    public void OnPointerClick(PointerEventData eventData)
     {
-        if (StatusEquipmentSelection.Instance != null && StatusEquipmentSelection.Instance.IsSelecting)
-            StatusEquipmentSelection.Instance.OnInventorySlotClicked(slot);
+        if (eventData.button == PointerEventData.InputButton.Left)
+            TrySelectForEquipment();
+    }
+
+    private void HandleButtonClick()
+    {
+        TrySelectForEquipment();
+    }
+
+    private void TrySelectForEquipment()
+    {
+        StatusEquipmentSelection selection = StatusEquipmentSelection.Instance;
+        if (selection == null || !selection.IsSelecting || slot == null)
+            return;
+
+        selection.OnInventorySlotClicked(slot);
     }
 
     private void OnDisable()
     {
-        // Never leave the original script disabled when switching menus.
-        if (slot != null) slot.enabled = true;
+        if (slot != null)
+            slot.enabled = true;
     }
 
     private void OnDestroy()
     {
-        if (button != null) button.onClick.RemoveListener(HandleClick);
+        if (button != null)
+            button.onClick.RemoveListener(HandleButtonClick);
     }
 }

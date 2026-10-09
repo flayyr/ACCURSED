@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 
-// Put this on an always-active scene UI/controller GameObject, NOT the StatusPanel itself.
 public class StatusPanelController : MonoBehaviour
 {
     [SerializeField] private GameObject statusPanel;
@@ -20,13 +19,11 @@ public class StatusPanelController : MonoBehaviour
 
     private void Update()
     {
-        // InventoryController handles Esc in equipment selection mode.
         if (StatusEquipmentSelection.Instance != null &&
             StatusEquipmentSelection.Instance.IsSelecting) return;
 
         if (IsOpen && Input.GetKeyDown(KeyCode.Escape))
         {
-            // Close the right-click menu first, then the Status panel on a later Esc.
             if (StatusUnequipPopup.Instance != null && StatusUnequipPopup.Instance.IsOpen)
             {
                 StatusUnequipPopup.Instance.Close();
@@ -76,9 +73,8 @@ public class StatusPanelController : MonoBehaviour
 
     private IEnumerator ShowEscMenuNextFrame()
     {
-        // Avoid delivering this same Esc key press to EscMenu's own Update method.
         yield return null;
-        
+
         if (escMenuRoot != null) 
             escMenuRoot.SetActive(true);
     }
