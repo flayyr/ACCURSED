@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 public class CharacterDeath : MonoBehaviour
 {
+    public Action<CharacterDeath> OnCharacterDead;
+
     public virtual void Die()
     {
-        Destroy(gameObject);
+        OnCharacterDead?.Invoke(this);
     }
 }
