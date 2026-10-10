@@ -463,35 +463,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: baseText.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: varNames.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'baseText.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 8a0a4c9c4e522504ca95fd5d73ae86b5, type: 2}
+      objectReference: {fileID: 11400000, guid: 1a172a1e18a668849af78251c56ca229, type: 2}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'baseText.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: 36c9ffd49d9165f4b9e234d025bb1cda, type: 2}
+      objectReference: {fileID: 11400000, guid: bf562e4d32213a44e87cd0e73dc881fd, type: 2}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'baseText.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: df81f0f9c8d2f004bb5534baf0078077, type: 2}
+      objectReference: {fileID: 11400000, guid: 77cd431961a61184dbd53cb3ef8f4299, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'baseText.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: dcbbc141e2f44be45a1c3c225f301115, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'baseText.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 77cd431961a61184dbd53cb3ef8f4299, type: 2}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'varNames.Array.data[0]'
-      value: tempQuestStarted
+      value: reckonerDefeat
       objectReference: {fileID: 0}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'varNames.Array.data[1]'
-      value: tempQuestinProgress
+      value: gotEye
       objectReference: {fileID: 0}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'varNames.Array.data[2]'
       value: tempQuestFinished
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: sideBarFirst.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: sideBarVarNames.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: questStartedText.Array.size
@@ -500,6 +516,14 @@ PrefabInstance:
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: questFinishedText.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarVarNames.Array.data[0]'
+      value: reckonerDefeat
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarVarNames.Array.data[1]'
+      value: gotEye
       objectReference: {fileID: 0}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: triggeredDialgoues.Array.size
@@ -538,6 +562,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ec79a63b14a520c4388dfbf4cf914e6c, type: 2}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: sideBarCustomizations.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'questNotStartedText.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: be7ac977be0ee4c408eeab722c8b9748, type: 2}
@@ -550,33 +578,61 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2c02b85c2f5edc144aa814de8fcc5109, type: 2}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: sideBarFirst.Array.data[0].sideBarNPCName
+      value: Rimelight Merchant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: sideBarCustomizations.Array.data[0].sideBarNPCName
+      value: Rimelight Merchant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: sideBarCustomizations.Array.data[1].sideBarNPCName
+      value: Rimelight Merchant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: sideBarFirst.Array.data[0].sidebarOptions.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: triggeredDialogues.Array.data[0].questText.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: triggeredDialogues.Array.data[1].questText.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: triggeredDialogues.Array.data[2].questText.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: sideBarFirst.Array.data[0].sidebarDialogues.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarFirst.Array.data[0].sidebarOptions.Array.data[0]'
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: sideBarFirst.Array.data[0].sideBarButtonNames.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'triggeredDialogues.Array.data[0].questText.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: ec79a63b14a520c4388dfbf4cf914e6c, type: 2}
+      objectReference: {fileID: 11400000, guid: cdb3943c1c9f9d145b119852ab1b19ee, type: 2}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'triggeredDialogues.Array.data[0].questText.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: be7ac977be0ee4c408eeab722c8b9748, type: 2}
+      objectReference: {fileID: 11400000, guid: da2726a20e66e1d49aa30c30cd124f8e, type: 2}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'triggeredDialogues.Array.data[1].questText.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 36c9ffd49d9165f4b9e234d025bb1cda, type: 2}
+      objectReference: {fileID: 11400000, guid: 8ca1bea729b5317418cd8d399a32bc3c, type: 2}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'triggeredDialogues.Array.data[1].questText.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: df81f0f9c8d2f004bb5534baf0078077, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'triggeredDialogues.Array.data[2].questText.Array.data[0]'
       value: 
@@ -584,6 +640,122 @@ PrefabInstance:
     - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: 'triggeredDialogues.Array.data[2].questText.Array.data[1]'
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarFirst.Array.data[0].sidebarDialogues.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 45c8ad880a999f547b136e2a62313412, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarFirst.Array.data[0].sidebarDialogues.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c22258b20e638be4d9a5d6b19f19ff3f, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarFirst.Array.data[0].sidebarDialogues.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: bc62177807ed84849aa47848609d93ba, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarFirst.Array.data[0].sideBarButtonNames.Array.data[0]'
+      value: Shop
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarFirst.Array.data[0].sideBarButtonNames.Array.data[1]'
+      value: Your Eye
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarFirst.Array.data[0].sideBarButtonNames.Array.data[2]'
+      value: The Unbecoming
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarFirst.Array.data[0].sideBarButtonNames.Array.data[3]'
+      value: Soulward
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: sideBarCustomizations.Array.data[0].sidebarOptions.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: sideBarCustomizations.Array.data[1].sidebarOptions.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: sideBarCustomizations.Array.data[0].sidebarDialogues.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: sideBarCustomizations.Array.data[1].sidebarDialogues.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[0].sidebarOptions.Array.data[0]'
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[1].sidebarOptions.Array.data[0]'
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: sideBarCustomizations.Array.data[0].sideBarButtonNames.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: sideBarCustomizations.Array.data[1].sideBarButtonNames.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[0].sidebarDialogues.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c22258b20e638be4d9a5d6b19f19ff3f, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[0].sidebarDialogues.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a070646e1b26a24408df162d0a7e9be0, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[0].sidebarDialogues.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: bc62177807ed84849aa47848609d93ba, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[1].sidebarDialogues.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c0d2762f8bc02634a83036676b1bd248, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[1].sidebarDialogues.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fcd0cf9ff9e20e24ebaa4f3868d57da3, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[1].sidebarDialogues.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: bc62177807ed84849aa47848609d93ba, type: 2}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[0].sideBarButtonNames.Array.data[0]'
+      value: Shop
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[0].sideBarButtonNames.Array.data[1]'
+      value: The Unbecoming
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[0].sideBarButtonNames.Array.data[2]'
+      value: Making the Soulward See
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[0].sideBarButtonNames.Array.data[3]'
+      value: Soulward
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[1].sideBarButtonNames.Array.data[0]'
+      value: Shop
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[1].sideBarButtonNames.Array.data[1]'
+      value: The Unbecoming
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[1].sideBarButtonNames.Array.data[2]'
+      value: Making the Soulward See
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005831532728604542, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
+      propertyPath: 'sideBarCustomizations.Array.data[1].sideBarButtonNames.Array.data[3]'
+      value: Soulward
       objectReference: {fileID: 0}
     - target: {fileID: 8908204610867080782, guid: b39649979cba4e14fa5de006cbc630df, type: 3}
       propertyPath: m_Name
@@ -609,6 +781,10 @@ PrefabInstance:
     - target: {fileID: 1453253182387950357, guid: bdc1df054914a0f43b3734861c392f32, type: 3}
       propertyPath: npcText.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2848109703021590785, guid: bdc1df054914a0f43b3734861c392f32, type: 3}
+      propertyPath: buttonNum
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 4541013391774761572, guid: bdc1df054914a0f43b3734861c392f32, type: 3}
       propertyPath: m_Name

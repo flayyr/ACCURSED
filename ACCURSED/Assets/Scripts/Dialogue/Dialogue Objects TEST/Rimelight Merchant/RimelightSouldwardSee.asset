@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac237efeeb0f6044cb8fb8c56455004c, type: 3}
+  m_Name: RimelightSouldwardSee
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  dialogueList:
+  - Oh?
+  - 'Do you believe you can defeat her? '
+  - She is mighty, traveler.
+  - But I will not stop you. You must promise your success, though.
+  - I will soon forget, and be blinded again, should you fail.
+  - Can I trust you?
+  branchNum: 6
+  branching: 1
+  branches:
+  - {fileID: 11400000, guid: bc62177807ed84849aa47848609d93ba, type: 2}
+  - {fileID: 0}
+  ButtonText: 
+  sound: {fileID: 0}
+  sideBarOrNot: 0
+  summonSidebar: 0
+  questSwitch: 0
+  varName: 

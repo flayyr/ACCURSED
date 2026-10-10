@@ -284,8 +284,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SideBarButton
   buttonNum: 1
+  parent: {fileID: 0}
   tempHolder: {fileID: 0}
-  giveQuest: 0
   sideBar: {fileID: 6746708241942469159}
 --- !u!1 &4428493501810684337
 GameObject:
@@ -571,8 +571,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SideBarButton
   buttonNum: 2
+  parent: {fileID: 0}
   tempHolder: {fileID: 0}
-  giveQuest: 0
   sideBar: {fileID: 6746708241942469159}
 --- !u!1 &5170643031407983656
 GameObject:
@@ -721,8 +721,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SideBarButton
   buttonNum: 0
+  parent: {fileID: 0}
   tempHolder: {fileID: 0}
-  giveQuest: 0
   sideBar: {fileID: 6746708241942469159}
 --- !u!1 &5892549878733809596
 GameObject:
@@ -1333,10 +1333,10 @@ MonoBehaviour:
   - {fileID: 4537308319766018854}
   - {fileID: 8339705522716149529}
   - {fileID: 8456666158695177512}
+  error: {fileID: 11400000, guid: 96360b307a15e924f94a53504487415d, type: 2}
   nameDisplay: {fileID: 1971502872763193920}
   refTextbox: {fileID: 0}
-  tempDialogue:
-  - {fileID: 0}
+  tempDialogue: {fileID: 0}
   refParent: {fileID: 0}
   NPCName: 
   greatQuestHighway: 0
@@ -1589,8 +1589,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SideBarButton
   buttonNum: 3
+  parent: {fileID: 0}
   tempHolder: {fileID: 0}
-  giveQuest: 0
   sideBar: {fileID: 6746708241942469159}
 --- !u!1 &8456666158695177512
 GameObject:
@@ -1738,7 +1738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce5c60713cc5c748843bfbfb42d5e0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SideBarButton
-  buttonNum: 4
-  tempHolder: {fileID: 0}
-  giveQuest: 0
+  buttonNum: -2
+  parent: {fileID: 0}
+  tempHolder: {fileID: 11400000, guid: 96360b307a15e924f94a53504487415d, type: 2}
   sideBar: {fileID: 6746708241942469159}

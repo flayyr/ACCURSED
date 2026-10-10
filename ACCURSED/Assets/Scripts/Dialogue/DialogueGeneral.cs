@@ -34,6 +34,8 @@ public class Textbox : MonoBehaviour
     public int baseQuest3Index;
     */
 
+    private NPCDialogue tempRefRef;
+
     private bool typing = true;
 
     [SerializeField]
@@ -74,6 +76,8 @@ public class Textbox : MonoBehaviour
     {
         baseIndexRef = refSpawner.GetComponent<DialogueSpawner>().baseIndex;
 
+        tempRefRef = npcText[0];
+
         if(baseIndexRef >= npcText.Length)
         {
             baseIndexRef = npcText.Length - 1;
@@ -83,10 +87,6 @@ public class Textbox : MonoBehaviour
         {
             npcTextBranches = npcText[baseIndexRef].branches;
             npcTextBranchNum = npcTextBranches.Length;
-
-            //int i = 0;
-            //foreach (GameObject button in buttons)
-            //foreach(NPCDialogue branches in npcTextBranches)
             for (var i = 0; i < npcTextBranchNum; i++)
             {
                 buttons[i].gameObject.GetComponent<DialogueOption>().branchedText = npcTextBranches[i];
@@ -101,6 +101,12 @@ public class Textbox : MonoBehaviour
 
     private void OnDisable()
     {
+        /*
+        if (npcText[0] != tempRefRef)
+        {
+            npcText[0] = tempRefRef;
+        }
+        */
         index = 0;
     }
 
@@ -141,9 +147,6 @@ public class Textbox : MonoBehaviour
             //npcText = null;
             textBoxAndText.SetActive(false);
 
-            //int i = 0;
-            //foreach (GameObject button in buttons)
-            //foreach(NPCDialogue branches in npcTextBranches)
             for (var i = 0; i < npcTextBranchNum; i++)
             {
                 buttons[i].gameObject.SetActive(true);
@@ -161,8 +164,12 @@ public class Textbox : MonoBehaviour
 
             //options.SetActive(true);
         }
+        else if (npcText[baseIndexRef].sideBarOrNot && index == npcText[baseIndexRef].summonSidebar)
+        {
+            refSpawner.GetComponent<DialogueSpawner>().spawnSideBar();
+        }
 
-        else if (!npcText[baseIndexRef].branching) 
+        else if (!npcText[baseIndexRef].branching)
         {
 
             index = 0;
@@ -176,30 +183,19 @@ public class Textbox : MonoBehaviour
 
             if (npcText[baseIndexRef].varName != "")
             {
-                //Debug.Log("yo");
-                //Debug.Log(npcText[baseIndex]);
-                //Debug.Log(npcText[baseIndex].varName);
                 var temp = npcText[baseIndexRef].varName;
                 if (!QuestVarHolder.instance.questBools[temp])
                 {
-                    //Debug.Log("yo");
-                    //refSpawner.GetComponent<DialogueSpawner>().WORK();
                     QuestVarHolder.instance.questBools[temp] = true;
                 }
-                //refSpawner.GetComponent<DialogueSpawner>().baseIndexRef = 0;
-                //baseIndex = 0;
             }
 
-            //foreach(GameObject button in buttons)
+            /*
+            if (buttons[0].GetComponent<DialogueOption>().tempHolder != null)
             {
-                //  if(button.GetComponent<DialogueOption>().isActiveAndEnabled)
-                if (buttons[0].GetComponent<DialogueOption>().tempHolder != null)
-                {
-                    //Debug.Log(button.GetComponent<DialogueOption>().tempHolder);
-                    //Debug.Log("happening");
-                    npcText[baseIndexRef] = buttons[0].GetComponent<DialogueOption>().tempHolder;
-                }
+                npcText[baseIndexRef] = buttons[0].GetComponent<DialogueOption>().tempHolder;
             }
+            */
 
             //npcText = null;
             //npcText = null;

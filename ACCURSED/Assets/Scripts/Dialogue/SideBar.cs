@@ -11,11 +11,14 @@ public class SideBar : MonoBehaviour
     //private GameObject textboxPrefab;
 
     [SerializeField]
+    private NPCDialogue error;
+
+    [SerializeField]
     private TextMeshProUGUI nameDisplay;
 
     public GameObject refTextbox;
 
-    public NPCDialogue[] tempDialogue;
+    public NPCDialogue tempDialogue;
 
     public GameObject refParent;
 
@@ -44,62 +47,64 @@ public class SideBar : MonoBehaviour
 
     public NPCDialogue[] bunchaDialogues;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
     private void OnEnable()
     {
         nameDisplay.text = NPCName;
 
         int i = 0;
 
+        refParent.GetComponent<DialogueSpawner>().tempDialogueHolder = refParent.GetComponent<DialogueSpawner>().baseText;
+
         foreach (NPCDialogue talk in bunchaDialogues)
         {
-            buttonPrefab[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = buttonName[i];
-            buttonPrefab[i].GetComponent<SideBarButton>().giveQuest = questBoolsSideBar[i];
+            buttonPrefab[i].GetComponent<SideBarButton>().parent = this.gameObject;
             buttonPrefab[i].GetComponent<SideBarButton>().tempHolder = talk;
+            buttonPrefab[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = buttonName[i];
+            //buttonPrefab[i].GetComponent<SideBarButton>().tempHolder = talk;
             buttonPrefab[i].SetActive(true);
             i++;
         }
 
-        buttonPrefab[buttonName.Length].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Leave";
-        buttonPrefab[buttonName.Length].GetComponent<SideBarButton>().buttonNum = -2;
-        buttonPrefab[buttonName.Length].SetActive(true);
+        var tempLength = buttonName.Length;
+
+        buttonPrefab[tempLength].GetComponent<SideBarButton>().parent = this.gameObject;
+        buttonPrefab[tempLength].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Leave";
+        buttonPrefab[tempLength].GetComponent<SideBarButton>().buttonNum = -2;
+        buttonPrefab[tempLength].GetComponent<SideBarButton>().tempHolder = error;
+        buttonPrefab[tempLength].SetActive(true);
 
         tempRefIndex = refParent.GetComponent<DialogueSpawner>().baseIndex;
+        //Debug.Log(tempRefIndex);
 
     }
 
     private void Update()
     {
-
         if(buttonClicked != -3 && buttonClicked != -2)
         {
             if (dialogueOrShop[buttonClicked])
             {
-                //spawn shop
-                Debug.Log("you summoned the shop!");
+                //refParent.GetComponent<DialogueSpawner>().baseIndex = tempRefIndex;
                 this.gameObject.SetActive(false);
-
             }
             if (!dialogueOrShop[buttonClicked])
             {
-                //if (greatQuestHighway)
-                /*
-                {
-                    refParent.GetComponent<DialogueSpawner>().questOrNot = greatQuestHighway;
-                }
-                */
-                refParent.GetComponent<DialogueSpawner>().baseText[tempRefIndex] = tempDialogue[tempRefIndex];
+                refParent.GetComponent<DialogueSpawner>().baseIndex = 0;
+                refParent.GetComponent<DialogueSpawner>().baseText[0] = tempDialogue;
                 refParent.GetComponent<DialogueSpawner>().spawnText();
+                //Debug.Log("yo");
                 this.gameObject.SetActive(false);
             }
         }
         else if (buttonClicked == -2)
         {
+            //Debug.Log("happening");
+            //Debug.Log(refParent.GetComponent<DialogueSpawner>().baseIndex);
+            /*
+            refParent.GetComponent<DialogueSpawner>().baseIndex = tempRefIndex;
+            refParent.GetComponent<DialogueSpawner>().baseIndex++;
+            */
+            //Debug.Log(refParent.GetComponent<DialogueSpawner>().baseIndex);
             this.gameObject.SetActive(false);
         }
     }
@@ -110,6 +115,14 @@ public class SideBar : MonoBehaviour
         nameDisplay.text = null;
 
         int i = 0;
+
+        refParent.GetComponent<DialogueSpawner>().baseText = refParent.GetComponent<DialogueSpawner>().tempDialogueHolder;
+
+        refParent.GetComponent<DialogueSpawner>().baseIndex = tempRefIndex;
+        refParent.GetComponent<DialogueSpawner>().baseIndex++;
+
+        tempRefIndex = 0;
+
 
         foreach (string option in buttonName)
         {

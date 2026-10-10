@@ -29,7 +29,10 @@ public class NPCDialogue : ScriptableObject
 
     public AudioClip sound;
 
-    [Header("This should be at which point ni the conversation \n you want to summon a sidebar; otehrwise leave 0")]
+    [Header("tick this if this will need to summon a sidebar")]
+    public bool sideBarOrNot;
+
+    [Header("This should be at which point ni the conversation \n you want to summon a sidebar; count from 0")]
     public int summonSidebar;
 
     [Header("tick this if the object switches a variable to true")]

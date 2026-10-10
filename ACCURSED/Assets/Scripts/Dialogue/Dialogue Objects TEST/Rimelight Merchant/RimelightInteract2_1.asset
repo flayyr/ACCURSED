@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac237efeeb0f6044cb8fb8c56455004c, type: 3}
+  m_Name: RimelightInteract2_1
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  dialogueList:
+  - What is that you carry?
+  - That eye there, it belongs to the Soulward.
+  - If she were to see again, the illusion would falter.
+  - Do you seek to free this world?
+  branchNum: 4
+  branching: 1
+  branches:
+  - {fileID: 11400000, guid: 993c9b17cdf18564cb450bb68e481ec0, type: 2}
+  - {fileID: 11400000, guid: 590577dc2b044b449b918f3420731411, type: 2}
+  ButtonText: 
+  sound: {fileID: 0}
+  sideBarOrNot: 0
+  summonSidebar: 0
+  questSwitch: 0
+  varName: 

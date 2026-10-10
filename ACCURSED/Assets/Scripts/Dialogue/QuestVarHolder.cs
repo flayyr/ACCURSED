@@ -32,6 +32,9 @@ public class QuestVarHolder : MonoBehaviour
         //Dictionary<bool, QuestVarHolder> questbools = new Dictionary<bool, QuestVarHolder>();
         DontDestroyOnLoad(gameObject);
 
+        questBools.Add("reckonerDefeat", false);
+        questBools.Add("gotEye", false);
+
         questBools.Add("tempQuestStarted", false);
         questBools.Add("tempQuestinProgress", false);
         questBools.Add("tempQuestFinished", false);
@@ -48,13 +51,15 @@ public class QuestVarHolder : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            questBools["tempQuestinProgress"] = true;
-            Debug.Log(questBools["tempQuestinProgress"]);
+            //questBools["tempQuestinProgress"] = true;
+            //Debug.Log(questBools["tempQuestinProgress"]);
+            Debug.Log(questBools["reckonerDefeat"]);
+            questBools["reckonerDefeat"] = true;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            questBools["tempQuestFinished"] = true;
-            Debug.Log(questBools["tempQuestFinished"]);
+            //questBools["tempQuestFinished"] = true;
+            //Debug.Log(questBools["tempQuestFinished"]);
         }
 
     }
