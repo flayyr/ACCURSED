@@ -684,6 +684,7 @@ GameObject:
   - component: {fileID: 6727918487954859602}
   - component: {fileID: 56574312829044288}
   - component: {fileID: 6971681869673029547}
+  - component: {fileID: 5692461436738593254}
   m_Layer: 0
   m_Name: GlobalController
   m_TagString: Untagged
@@ -816,6 +817,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryController
   ui: {fileID: 0}
   inventoryCG: {fileID: 0}
+--- !u!114 &5692461436738593254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2166401946499799534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 250a53c34c4586345ab7131e5bdd74a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusEquipmentManager
+  equipped: []
 --- !u!1 &2494375170945589841
 GameObject:
   m_ObjectHideFlags: 0

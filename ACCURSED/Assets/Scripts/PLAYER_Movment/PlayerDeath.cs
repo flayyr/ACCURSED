@@ -19,6 +19,7 @@ public class PlayerDeath : CharacterDeath
 
     public override void Die()
     {
+        base.Die();
         GetComponent<PlayerController>().SetState( PlayerControlState.Disabled);
         hurtBoxCollider.enabled = false;
         OnDeath?.Invoke();
