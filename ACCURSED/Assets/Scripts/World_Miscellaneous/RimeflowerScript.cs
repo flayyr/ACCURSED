@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class RimeflowerScript : MonoBehaviour
+public class RimeflowerScript : InteractableObjectManager, IResetable
 {
+    [SerializeField] float griefGain;
+    [Space]
     [SerializeField] GameObject bloomSprite;
     [SerializeField] GameObject pickedSprite;
     [SerializeField] GameObject brokenSprite;
@@ -10,36 +12,57 @@ public class RimeflowerScript : MonoBehaviour
 
     public State state = State.bloom;
     private bool picked;
+    private PlayerStatistics pStats;
 
-    private void Awake()
+    private void Start()
     {
         SwitchState(state);
+        OnPromptTriggered += PickFlower;
+        pStats = PersistentPlayer.Instance.gameObject.GetComponent<PlayerStatistics>();
+        ResetObjectsManager.Instance.AddResetable(this);
     }
 
-    public State PlayerInteract()
-    {
-        if (state == State.picked){
-            return state;
-        }
-        else if (state == State.bloom) { 
-            SwitchState(State.picked);
-            return State.bloom; 
-        } else
-        {
-            return State.broken;
+    private void OnDestroy() {
+        ResetObjectsManager.Instance.RemoveResetable(this);
+    }
+
+    //Collisions and Interactable Manager calls -----
+    protected override void Update() {
+        if (state==State.bloom) {
+            base.Update();
         }
     }
 
-    public void BubbleInteract(bool touching)
-    {
-        if (touching)
-        {
+    protected override void OnTriggerEnter2D(Collider2D collision) {
+        if(collision.gameObject.tag == "Player")
+            base.OnTriggerEnter2D(collision);
+        else if(collision.gameObject.tag == "Illusion") {
             SwitchState(State.broken);
         }
-        else
-        {
-            SwitchState(picked?State.picked : State.bloom);
+    }
+
+    protected override void OnTriggerExit2D(Collider2D collision) {
+        if (collision.gameObject.tag == "Player")
+            base.OnTriggerExit2D(collision);
+        else if (collision.gameObject.tag == "Illusion") {
+            SwitchState(picked ? State.picked : State.bloom);
         }
+    }
+
+    protected override void OnTriggerStay2D(Collider2D collision) {
+        if (collision.gameObject.tag == "Player")
+            base.OnTriggerStay2D(collision);
+    }
+    //-----------------------------------------------
+
+    private void PickFlower() {
+        if (state!=State.bloom) {
+            Debug.LogError("tried to pick rimeflower when not blooming");
+            return;
+        }
+
+        SwitchState(State.picked);
+        pStats.UpdateVitality(griefGain);
     }
 
     private void SwitchState(State s)
@@ -65,4 +88,7 @@ public class RimeflowerScript : MonoBehaviour
         }
     }
 
+    public void Reset() {
+        SwitchState(State.bloom);
+    }
 }

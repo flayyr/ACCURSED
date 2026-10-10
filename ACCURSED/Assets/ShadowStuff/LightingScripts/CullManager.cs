@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
+public interface ICullable {}
+
 public class CullManager : MonoBehaviour
 {
     public static CullManager instance;
