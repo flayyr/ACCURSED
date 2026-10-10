@@ -1,3 +1,4 @@
+using MoreMountains.Feedbacks;
 using System.Collections;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class TutorialPlatformScript : MonoBehaviour
     [Space]
     [SerializeField] ScreenFadeOverlay screenFadePrefab;
     [SerializeField] Collider2D platformCollider;
+    [SerializeField] MMF_Player loweringFeedback;
     int numEnemies;
 
     private void Awake()
@@ -42,13 +44,16 @@ public class TutorialPlatformScript : MonoBehaviour
         //fade to black
         ScreenFadeOverlay screenFade = Instantiate(screenFadePrefab);
         yield return screenFade.FadeToBlack(fadeDuration);
-        yield return new WaitForSeconds(fadeDuration);
+
         //teleport player to position and fade from black
         playerController.transform.position = playerSnapPosition.position;
+        playerController.SetState(PlayerControlState.Disabled);
+        yield return new WaitForSeconds(fadeDuration);
         yield return screenFade.FadeFromBlack(fadeDuration);
         Destroy(screenFade.gameObject);
+
         //lower platform and all objects
-        playerController.SetState(PlayerControlState.Disabled);
+        loweringFeedback.PlayFeedbacks();
 
         while(transform.localPosition.y > lowerYLevel)
         {
@@ -62,7 +67,7 @@ public class TutorialPlatformScript : MonoBehaviour
 
         playerController.SetState(PlayerControlState.Normal);
         platformCollider.enabled = false;
-
+        loweringFeedback.StopFeedbacks();
     }
 
     private void OnDisable()
