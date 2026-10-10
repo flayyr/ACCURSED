@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RimeflowerScript : InteractableObjectManager, IResetable
+public class RimeflowerScript : InteractableObjectManager, IResetable, ICullable
 {
     [SerializeField] float griefGain;
     [Space]
@@ -20,6 +20,7 @@ public class RimeflowerScript : InteractableObjectManager, IResetable
         OnPromptTriggered += PickFlower;
         pStats = PersistentPlayer.Instance.gameObject.GetComponent<PlayerStatistics>();
         ResetObjectsManager.Instance.AddResetable(this);
+        CullManager.instance.AddObject(this, transform.position);
     }
 
     private void OnDestroy() {
@@ -90,5 +91,9 @@ public class RimeflowerScript : InteractableObjectManager, IResetable
 
     public void Reset() {
         SwitchState(State.bloom);
+    }
+
+    public void SetVisibility(bool visible) {
+        gameObject.SetActive(visible);
     }
 }

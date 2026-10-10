@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public interface ICullable {}
+public interface ICullable { void SetVisibility(bool visible); }
 
 public class CullManager : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class CullManager : MonoBehaviour
     [SerializeField] Vector2 worldMinBounds;
     [SerializeField] Vector2 worldMaxBounds;
     [SerializeField] Vector2 chunkSize;
-    HashSet<CustomDynamicLit>[,] litObjects;
+    HashSet<ICullable>[,] litObjects;
     bool[,] chunksIsEnabled;
 
     Vector2 worldSize;
@@ -31,14 +31,14 @@ public class CullManager : MonoBehaviour
         columnCount = Mathf.CeilToInt(worldSize.x / chunkSize.x);
         rowCount = Mathf.CeilToInt( worldSize.y / chunkSize.y);
 
-        litObjects = new HashSet<CustomDynamicLit>[columnCount, rowCount];
+        litObjects = new HashSet<ICullable>[columnCount, rowCount];
         chunksIsEnabled = new bool[columnCount, rowCount];
 
         for (int i = 0; i<columnCount; i++)
         {
             for(int j = 0; j < rowCount; j++)
             {
-                litObjects[i, j] = new HashSet<CustomDynamicLit>();
+                litObjects[i, j] = new HashSet<ICullable>();
             }
         }
 
@@ -81,7 +81,7 @@ public class CullManager : MonoBehaviour
         }
     }
 
-    public void AddObject(CustomDynamicLit obj, Vector2 position)
+    public void AddObject(ICullable obj, Vector2 position)
     {
         int2 chunkCoord = PositionToChunkCoord(position);
         //if (chunkCoord.x > 0 && chunkCoord.x<columnCount && chunkCoord.y > 0 && chunkCoord.y<rowCount)
@@ -101,18 +101,18 @@ public class CullManager : MonoBehaviour
 
     
 
-    void ObjectsSetEnabledAll(HashSet<CustomDynamicLit> set, bool enabled)
+    void ObjectsSetEnabledAll(HashSet<ICullable> set, bool enabled)
     {
-        foreach(CustomDynamicLit obj in set)
+        foreach(ICullable obj in set)
         {
             ObjectSetEnabled(obj, enabled);
         }
     }
 
-    void ObjectSetEnabled(CustomDynamicLit obj, bool enabled)
+    void ObjectSetEnabled(ICullable obj, bool enabled)
     {
         obj.SetVisibility(enabled);
-        obj.enabled = enabled;
-        obj.gameObject.SetActive(enabled);
+        //obj.enabled = enabled;
+        //obj.gameObject.SetActive(enabled);
     }
 }
