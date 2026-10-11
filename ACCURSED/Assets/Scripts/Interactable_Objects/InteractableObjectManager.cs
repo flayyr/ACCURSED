@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 //attach this script to all interactable objects (aspects, chests, etc)
@@ -8,20 +9,21 @@ public class InteractableObjectManager : MonoBehaviour
     //[SerializeField] private GameObject player;
     [SerializeField] private string promptText;
 
-    private bool isInsideTrigger;
+    protected bool isInsideTrigger;
 
     public static bool promptOpen = false;
+
+    public Action OnPromptTriggered;
 
     void Awake()
     {
         
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (isInsideTrigger && !GlobalUIController.Instance.CheckIfOtherUIOpen() && !promptOpen)
         {
-            
             OpenPrompt();
         }
 
@@ -30,7 +32,7 @@ public class InteractableObjectManager : MonoBehaviour
         //Debug.Log(!promptOpen + "POOOOOOOOOOOOOP");
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         isInsideTrigger = true;
         /*if (!promptOpen)
@@ -40,23 +42,23 @@ public class InteractableObjectManager : MonoBehaviour
        
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    protected virtual void OnTriggerStay2D(Collider2D collision)
     {
         isInsideTrigger = true;
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    protected virtual void OnTriggerExit2D(Collider2D collision)
     {
         isInsideTrigger = false;
         promptOpen = false;
         ToolTipManager.Instance.ManuallyRemovePrompt();
     }
 
-    private void OpenPrompt()
+    protected void OpenPrompt()
     {
         //Debug.Log("prompt appear");
         promptOpen = true;
-        ToolTipManager.Instance.Prompt(promptText, obj);
+        ToolTipManager.Instance.Prompt(promptText, obj, OnPromptTriggered);
     }
 
 }
