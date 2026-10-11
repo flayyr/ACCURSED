@@ -29,6 +29,7 @@ public class ToolTipManager : MonoBehaviour
 
 
     private Action currentAction;
+    private Action promptTriggeredAction;
     private GameObject currentPrompt;
 
     void Awake()
@@ -146,6 +147,10 @@ public class ToolTipManager : MonoBehaviour
             }
             currentAction?.Invoke();
             currentAction = null;
+
+            if (promptTriggeredAction != null)
+                promptTriggeredAction?.Invoke();
+            promptTriggeredAction = null;
         }
     }
 
@@ -172,7 +177,7 @@ public class ToolTipManager : MonoBehaviour
     }
 
     // Normal interaction tooltip
-    public void Prompt(string promptText, InteractableItemSO obj)
+    public void Prompt(string promptText, InteractableItemSO obj, Action promptTriggeredAction = null)
     {   
         if (obj == null)
         {
@@ -181,6 +186,8 @@ public class ToolTipManager : MonoBehaviour
         }
 
         this.promptText = promptText;
+        this.promptTriggeredAction = promptTriggeredAction;
+
         PromptAppear();
 
         currentAction = () =>

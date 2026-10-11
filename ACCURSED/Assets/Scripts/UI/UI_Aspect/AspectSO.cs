@@ -16,10 +16,12 @@ public class AspectSO : InteractableItemSO
     {
         PersistentPlayer.Instance.gameObject.GetComponent<PlayerDeath>().SetRespawnAspect(this);
         AspectController.Instance.OpenMenu(this);
+
         if(EnemySpawnManager.Instance != null)
         {
             EnemySpawnManager.Instance.RespawnEnemies();
         }
+        ResetObjectsManager.Instance.ResetAll();
     }
 
     public bool isEmpty()

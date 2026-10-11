@@ -14,6 +14,7 @@ public class EnemyDeath : CharacterDeath
 
     public override void Die()
     {
+        base.Die();
         gameObject.SetActive(false);
     }
 
