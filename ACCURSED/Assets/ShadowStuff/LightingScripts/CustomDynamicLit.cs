@@ -2,7 +2,7 @@ using UnityEngine;
 
 //[ExecuteAlways]
 [RequireComponent(typeof(ReflectionSprite)), RequireComponent(typeof(DepthSort))]
-public class CustomDynamicLit : MonoBehaviour
+public class CustomDynamicLit : MonoBehaviour, ICullable
 {
     [Header("Toggles")]
     [SerializeField] bool canMove = false;
@@ -249,7 +249,6 @@ public class CustomDynamicLit : MonoBehaviour
 
     public void SetVisibility(bool visible)
     {
-        //spriteRenderer.enabled = visible;
         if (shadowMat != null)
         {
             for (int i = 0; i < shadowRenderers.Length; i++)
@@ -258,8 +257,7 @@ public class CustomDynamicLit : MonoBehaviour
                     shadowRenderers[i].enabled = visible;
             }
         }
-        //if(ambientShadowRenderer!=null)
-        //ambientShadowRenderer.enabled = visible;
+        gameObject.SetActive(visible);
     }
 
     private void OnEnable()
