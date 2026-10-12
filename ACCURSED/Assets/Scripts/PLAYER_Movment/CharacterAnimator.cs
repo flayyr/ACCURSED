@@ -10,7 +10,6 @@ public class CharacterAnimator : MonoBehaviour
 {
     public Action OnActionFinished;
     public Action OnDodgeCancellable;
-    public Action OnSpawnVFX;
 
     [SerializeField] private int direction = 5;
     [SerializeField] private bool eightDirections;
@@ -21,10 +20,14 @@ public class CharacterAnimator : MonoBehaviour
     SpriteLibrary spriteLibrary;
     Animator anim;
 
+    ActionSO currentAction;//set by CharacterManager when an action starts, used for VFX
+
     void Start()
     {
         spriteLibrary = GetComponentInChildren<SpriteLibrary>();
         anim = GetComponent<Animator>();
+        if (vfxSpawner == null)
+            vfxSpawner = GetComponentInChildren<VFXSpawner>();
     }
 
     // Call this whenever the character's facing changes (CharacterMovement.UpdateRotation)
@@ -72,9 +75,13 @@ public class CharacterAnimator : MonoBehaviour
         //invokes function in CharacterManager
         OnDodgeCancellable?.Invoke();
     }
-    public void OnSpawnVFXTrigger() {
-        //invokes function in SFXSpawner
-        OnSpawnVFX?.Invoke();
+    //Called by animation event, spawns the current actionSO's windFeedback
+    public void WindVFX() {
+        vfxSpawner.SpawnWindVFX(currentAction);
+    }
+    //Called by animation event, spawns the current actionSO's attackFeedback
+    public void AttackVFX() {
+        vfxSpawner.SpawnAttackVFX(currentAction);
     }
 
 
@@ -142,6 +149,11 @@ public class CharacterAnimator : MonoBehaviour
     public void SetMoveState(int moveState)
     {
         anim.SetInteger("MoveState", moveState);
+    }
+
+    public void SetCurrentAction(ActionSO action)
+    {
+        currentAction = action;
     }
 
     public int Direction => direction;
