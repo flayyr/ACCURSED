@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ParryAction
   m_EditorClassIdentifier: Assembly-CSharp::ParryAction
   actionName: Parry
-  windAnimationState: Parry
   actionAnimationState: Parry
+  windAnimationState: Parry
   windDuration: 0
   HorizontalDisplacement:
     serializedVersion: 2
@@ -47,4 +47,7 @@ MonoBehaviour:
     stunDuration: 0
     vitalityBuildUp: 1
     parryLeniency: 0.5
+  windFeedback: {fileID: 0}
+  attackFeedback: {fileID: 0}
+  attackHitFeedback: {fileID: 3176097607384497786, guid: 3adff515a18c81349b5f916151222fca, type: 3}
   parryDuration: 0.3

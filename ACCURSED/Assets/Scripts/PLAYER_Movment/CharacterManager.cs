@@ -136,6 +136,8 @@ public class CharacterManager : MonoBehaviour
         currAction.played = true;
 
         hitBox.SetAttackData(currAction.actionSO.attackData);//sets attack data into hitbox
+        hitBox.SetAction(currAction.actionSO);//for attack hit vfx
+        cAnim.SetCurrentAction(currAction.actionSO);//for wind/attack vfx
 
         //start winding
         cAnim.SetWind(true);
@@ -352,4 +354,5 @@ public class CharacterManager : MonoBehaviour
     public BaseMoveState GetMoveState() => moveState;
     public Vector2 GetDirection() => currDir;
     public ActionInstance GetCurrAction()=>currAction;
+    public HitBox GetHitBox() => hitBox;
 }
