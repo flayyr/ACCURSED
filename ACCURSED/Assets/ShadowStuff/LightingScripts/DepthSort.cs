@@ -57,6 +57,8 @@ public class DepthSort : MonoBehaviour
         return UpdateSortOrder();
     }
 
+    public Renderer GetRenderer() => sortRenderer;
+
     public float UpdateSortOrder()
     {
         depth = baseTransform.position.y * -10f + sortOrderOffset;
