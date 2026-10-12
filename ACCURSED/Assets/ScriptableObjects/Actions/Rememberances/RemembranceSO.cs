@@ -10,8 +10,8 @@ public class RemembranceSO : AbilitySO
     {
         base.PlayerActionTrigger(ref playerRef);
 
-        ParticleSystem.MainModule mainModule = playerRef.particleSystem.main;
-        mainModule.startColor = Color.blue;
-        playerRef.particleSystem.Play();
+        //ParticleSystem.MainModule mainModule = playerRef.particleSystem.main;
+        //mainModule.startColor = Color.blue;
+        //playerRef.particleSystem.Play();
     }
 }
