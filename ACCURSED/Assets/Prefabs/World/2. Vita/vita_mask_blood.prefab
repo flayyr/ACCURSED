@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 7461906215779942825}
   - component: {fileID: 4124848473929783822}
   - component: {fileID: 4565924780873824430}
-  - component: {fileID: 8125991366486811508}
+  - component: {fileID: 1146354044043571506}
   m_Layer: 8
-  m_Name: vita_mask_2
+  m_Name: vita_mask_blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 71
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 5111422550515160321, guid: 58845cdd79f64ef44b261edd68358258, type: 3}
+  m_Sprite: {fileID: -1857987563017598202, guid: 58845cdd79f64ef44b261edd68358258, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -154,7 +154,7 @@ MonoBehaviour:
   useParticle: 0
   baseTransform: {fileID: 0}
   selfUpdate: 0
---- !u!114 &8125991366486811508
+--- !u!114 &1146354044043571506
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,10 +170,11 @@ MonoBehaviour:
   triggerCondition: 0
   toggleOnTrigger: 1
   animatedChild: {fileID: 7963842385665525858}
-  animator: {fileID: 4476928544703032490}
-  inactiveIdleAnimation: InactivateIdle
+  animator: {fileID: 6301369515836957135}
+  inactiveIdleAnimation: InactiveIdle
   activationAnimation: Activate
-  activeIdleAnimation: ActivateIdle
+  activeIdleAnimation: ActiveIdle
+  deactivationAnimation: InactiveIdle
   healDetectionRadius: 4
   allowRuntimeInspectorControls: 1
   inspectorActivate: 0
@@ -295,10 +296,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3930134990459812113}
   - component: {fileID: 4427830855057950567}
-  - component: {fileID: 8284235197648161758}
-  - component: {fileID: 3953708998081189780}
-  - component: {fileID: 1836473321447496587}
-  - component: {fileID: 4476928544703032490}
+  - component: {fileID: 8322526870712760046}
+  - component: {fileID: 3196070899469952432}
+  - component: {fileID: 2332566767427157694}
+  - component: {fileID: 6301369515836957135}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -380,7 +381,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &8284235197648161758
+--- !u!114 &8322526870712760046
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -393,7 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
   reflectionYScale: 0.7
---- !u!114 &3953708998081189780
+--- !u!114 &3196070899469952432
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -410,7 +411,7 @@ MonoBehaviour:
   useParticle: 0
   baseTransform: {fileID: 0}
   selfUpdate: 0
---- !u!114 &1836473321447496587
+--- !u!114 &2332566767427157694
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -437,7 +438,7 @@ MonoBehaviour:
   windStrength: 0.006
   topSway: 0
   topSwayStrength: 0.1
---- !u!95 &4476928544703032490
+--- !u!95 &6301369515836957135
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
