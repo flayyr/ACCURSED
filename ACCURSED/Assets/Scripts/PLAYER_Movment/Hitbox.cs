@@ -9,7 +9,7 @@ public class HitBox : MonoBehaviour
     [Space]
     [SerializeField] private PlayerStatistics playerStats;
     [Header("Parried")]
-    [SerializeField] private float perfectParryStunDuration = 1f;
+    [SerializeField] private float parryStunDuration = 1f;
 
     [Header("VFX")]
     [Tooltip("Spawner for attack hit vfx, auto-found on a sibling if left empty")]
@@ -58,7 +58,7 @@ public class HitBox : MonoBehaviour
 
     public void Parried()
     {
-        cManager.Stun(perfectParryStunDuration, 0f);
+        cManager.Stun(parryStunDuration, 0f);
     }
 
     //called by my own HurtBox when it successfully parries, hitPoint is where the parry vfx goes, attacker is the character that got parried
