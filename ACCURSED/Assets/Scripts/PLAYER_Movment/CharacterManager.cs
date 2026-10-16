@@ -167,7 +167,7 @@ public class CharacterManager : MonoBehaviour
         cAnim.SetWind(false);
         combatState = ActionState.Attacking;
 
-        Launch(currDir, currAction.actionSO.attackData.stepAmount, true);
+        Launch(moveDir, currAction.actionSO.attackData.stepAmount, true);
     }
 
     //gets stunned when hit, called by hurtbox
