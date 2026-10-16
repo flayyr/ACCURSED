@@ -188,7 +188,6 @@ public class EnemyController : MonoBehaviour
                 wasIdle = true;
             }
 
-
             enemyAttacker.CueAttack(canChangeDirMidCombo || !wasIdle);//does not continue combo if we were idle, unless we can changeDirMidCombo
         }
         else
