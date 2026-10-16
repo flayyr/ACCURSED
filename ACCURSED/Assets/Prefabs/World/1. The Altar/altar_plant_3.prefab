@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 2687614664910424724}
   - component: {fileID: 3819952518258078161}
   - component: {fileID: 4726717850133143359}
+  - component: {fileID: 3150421232391868173}
   - component: {fileID: 4476523184955286564}
   - component: {fileID: 5997619596409654550}
-  - component: {fileID: 3150421232391868173}
   - component: {fileID: 758723680357422307}
   m_Layer: 0
   m_Name: altar_plant_3
@@ -110,8 +110,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 0
+  isAnimated: 0
   normalMap: {fileID: -2197359250157334493, guid: 64fb19783aa572947b90c9b3d4f499f4, type: 3}
-  sortOrderOffset: 0
+  refTransform: {fileID: 0}
   useAmbientShadow: 1
   ambientShadowSprite: {fileID: 0}
   ambientShadowLength: 0.5
@@ -155,6 +156,32 @@ MonoBehaviour:
   splayAmount: 0.15
   squashAmount: 0.15
   scaleSmoothSpeed: 10
+--- !u!114 &3150421232391868173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3150172884626174555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22e04467385db3f4abd424b7b04ae1bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteractNew
+  shakeDuration: 0.1
+  shakeMagnitude: 0.25
+  shakeFrequency: 7
+  shakeOnTriggerEnter: 1
+  TagsToInteract:
+  - Player
+  interactionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  bendAmountMax: 0.7
+  bendLerpDuration: 0.1
+  allowKeyboardTest: 0
+  testKey: 0
+  invertShakeDirection: 0
 --- !u!70 &4476523184955286564
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -205,33 +232,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
   reflectionYScale: 0.7
---- !u!114 &3150421232391868173
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3150172884626174555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22e04467385db3f4abd424b7b04ae1bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShakeInteractNew
-  shakeDuration: 0.1
-  shakeMagnitude: 0.25
-  shakeFrequency: 7
-  shakeOnTriggerEnter: 1
-  TagsToInteract:
-  - Player
-  interactionLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  grassBend: 1
-  bendAmountMax: 0.7
-  bendLerpDuration: 0.1
-  allowKeyboardTest: 0
-  testKey: 0
-  invertShakeDirection: 0
 --- !u!114 &758723680357422307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,5 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DepthSort
   sortRenderer: {fileID: 0}
+  sortOrderOffset: 0
   useParticle: 0
   baseTransform: {fileID: 0}
+  selfUpdate: 0

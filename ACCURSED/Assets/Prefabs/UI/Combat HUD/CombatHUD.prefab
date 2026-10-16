@@ -136,8 +136,6 @@ MonoBehaviour:
   vestigeUI: {fileID: 8649115310071272017}
   remembranceUI: {fileID: 3718512694071292136}
   healthUI: {fileID: 7955701167050148708}
-  playerStatistics: {fileID: 0}
-  playerAbilities: {fileID: 0}
 --- !u!1001 &6892892709010157768
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -146,6 +144,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5724254627860038530}
     m_Modifications:
+    - target: {fileID: 3623188632356591537, guid: 7e5769a05c8c8714496482e5713b1603, type: 3}
+      propertyPath: emptyPlaceholder
+      value: 
+      objectReference: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7049258131762756221, guid: 7e5769a05c8c8714496482e5713b1603, type: 3}
       propertyPath: m_Name
       value: Abilities HUD

@@ -11,10 +11,8 @@ public class EquippedActionIcon : MonoBehaviour
     [Header("Display")]
     [SerializeField] private Image iconImage;
     [SerializeField] private Sprite emptyPlaceholder;
-    [SerializeField] private TMP_Text quantityText;
-    [SerializeField] private bool showQuantityWhenOne = true;
 
-    [Header("Optional: wake the existing CombatHUD on equipment changes")]
+    [Header("Wake the existing CombatHUD on equipment changes")]
     [SerializeField] private CombatHUD combatHUD;
     [SerializeField] private bool wakeHUDWhenChanged = false;
 
@@ -103,21 +101,9 @@ public class EquippedActionIcon : MonoBehaviour
     {
         Sprite sprite = null;
 
-        int quantity = 0;
         bool isInventoryItem = category == StatusEquipmentCategory.Items;
 
-        if (isInventoryItem)
-        {
-            if (itemManager != null)
-            {
-                ItemPickupSO item = itemManager.GetEquippedItem(category, itemSlotIndex);
-                quantity = itemManager.GetEquippedQuantity(category, itemSlotIndex);
-                
-                if (item != null && quantity > 0)
-                    sprite = item.itemSpr;
-            }
-        }
-        else if (skillManager != null)
+        if (skillManager != null)
         {
             AbilitySO skill = skillManager.GetEquippedSkill(category);
 
@@ -129,13 +115,6 @@ public class EquippedActionIcon : MonoBehaviour
         {
             iconImage.sprite = sprite != null ? sprite : emptyPlaceholder;
             iconImage.enabled = iconImage.sprite != null;
-        }
-
-        if (quantityText != null)
-        {
-            quantityText.text = isInventoryItem && sprite != null && quantity > 0 && (showQuantityWhenOne || quantity != 1)
-                ? quantity.ToString()
-                : string.Empty;
         }
     }
 }
