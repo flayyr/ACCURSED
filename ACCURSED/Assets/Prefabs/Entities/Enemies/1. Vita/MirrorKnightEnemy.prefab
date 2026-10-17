@@ -140,8 +140,53 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4423764444735619088, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2398997804438037030, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      insertIndex: 11
+      addedObject: {fileID: 2434163721327607043}
   m_SourcePrefab: {fileID: 100100000, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+--- !u!1 &7834398076565067503 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2398997804438037030, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+  m_PrefabInstance: {fileID: 5617022551689704649}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2434163721327607043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7834398076565067503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f17427a680592cb418c7cc103ba02287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MirrorKnightController
+  enemyState: 0
+  patrolRadius: 5
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  waypointTolerance: 1
+  patrolWaitMin: 0.1
+  patrolWaitMax: 5
+  patrolWaitTimer: 0
+  patrolOrigin: {x: 0, y: 0}
+  patrolTarget: {x: 0, y: 0}
+  waitingAtWaypoint: 1
+  detectionRadius: 8
+  attackRange: 3
+  loseSightRadius: 15
+  canChangeDirMidCombo: 0
+  currDir: {x: 0, y: 0}
+  agent: {fileID: 0}
+  stoppingDistance: 0.2
+  playerTransform: {fileID: 0}
+  shieldRange: 5
+  shieldState: 0
+  shieldUpAction: {fileID: 11400000, guid: 9b1694331db35684896f883ef562b7a2, type: 2}
+  shieldDownAction: {fileID: 11400000, guid: c48bb6cfe041204449c14d758a06b8ff, type: 2}

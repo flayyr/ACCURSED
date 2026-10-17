@@ -102,10 +102,11 @@ public class CharacterManager : MonoBehaviour
     protected void OnActionFinish()
     {
         combatState = ActionState.Idle;
-        if (currAction != null)
+        if (currAction != null) {
             currAction.finishTime = Time.time;
-        else
-            Debug.Log("CURR ACTION NULL");
+            currAction.onFinish?.Invoke();
+        } else
+            Debug.LogError("CURR ACTION NULL");
         UpdateDirection();
         PlayNextAction();
     }
@@ -180,6 +181,7 @@ public class CharacterManager : MonoBehaviour
         cAnim.SetStunned(true);//for stun animations
         actionQueuer.ClearActions();
 
+        currAction.interrupted = true;
         currAction = null;
 
         if (stunTimer < stunDuration)

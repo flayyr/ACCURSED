@@ -58,6 +58,5 @@ public class EnemyAttacker : MonoBehaviour
         //}
 
         currAttackInstance = actionQueuer.QueueAction(attackList[index]);
-        Debug.Log(index);
     }
 }
