@@ -260,7 +260,7 @@ public class CharacterManager : MonoBehaviour
 
     public void SetWalkInput(bool walk)
     {
-        walkInput = !walkInput;
+        walkInput = walk;
     }
     public void SetSprintInput(bool sprint)
     {
