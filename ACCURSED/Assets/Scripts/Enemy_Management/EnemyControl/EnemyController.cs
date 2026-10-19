@@ -37,7 +37,6 @@ public class EnemyController : MonoBehaviour
     [SerializeField] protected float attackRange;
     [SerializeField] protected float loseSightRadius;
     [SerializeField] protected bool canChangeDirMidCombo;
-    [SerializeField][ReadOnly] protected Vector2 currDir;
     #endregion
 
     #region Pathfinding
@@ -185,7 +184,6 @@ public class EnemyController : MonoBehaviour
             // In range: face the player, hold position, and start a combo if idle.
             if (combatManager.GetCombatState() is ActionState.Idle)
             {
-                currDir = toPlayer;
                 combatManager.MoveInput(toPlayer);
                 wasIdle = true;
             }

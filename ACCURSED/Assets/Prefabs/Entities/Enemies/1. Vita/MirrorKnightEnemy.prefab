@@ -149,6 +149,17 @@ PrefabInstance:
       insertIndex: 11
       addedObject: {fileID: 2434163721327607043}
   m_SourcePrefab: {fileID: 100100000, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+--- !u!114 &2217997682666800511 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5995493300594553270, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+  m_PrefabInstance: {fileID: 5617022551689704649}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14ea0971b2877984e95d0074bac986c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &7834398076565067503 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2398997804438037030, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
@@ -186,7 +197,9 @@ MonoBehaviour:
   agent: {fileID: 0}
   stoppingDistance: 0.2
   playerTransform: {fileID: 0}
-  shieldRange: 5
+  hurtBox: {fileID: 2217997682666800511}
+  shieldRaiseRange: 5
+  shieldDownRange: 10
   shieldState: 0
   shieldUpAction: {fileID: 11400000, guid: 9b1694331db35684896f883ef562b7a2, type: 2}
   shieldDownAction: {fileID: 11400000, guid: c48bb6cfe041204449c14d758a06b8ff, type: 2}

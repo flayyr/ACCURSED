@@ -31,9 +31,9 @@ public class CharacterAnimator : MonoBehaviour
     }
 
     // Call this whenever the character's facing changes (CharacterMovement.UpdateRotation)
-    public void SetFacingDirection(Vector2 input)
+    public Vector2 SetFacingDirection(Vector2 input)
     {
-        if (input == Vector2.zero) return;
+        if (input == Vector2.zero) return Vector2.zero;
 
         float angle = Mathf.Atan2(input.y, input.x) * Mathf.Rad2Deg;
         if (angle < 0f) angle += 360f;
@@ -61,6 +61,23 @@ public class CharacterAnimator : MonoBehaviour
             direction = sectorToDir[sector];
 
             spriteLibrary.spriteLibraryAsset = libraryAssets[direction - 1];
+        }
+
+        return dirToVector(direction);
+    }
+
+    private Vector2 dirToVector(int dir) {
+        switch (dir) {
+            case 1:
+                return Vector2.up;
+            case 3:
+                return Vector2.right;
+            case 5:
+                return Vector2.down;
+            case 7:
+                return Vector2.left;
+            default:
+                return Vector2.zero;
         }
     }
 
