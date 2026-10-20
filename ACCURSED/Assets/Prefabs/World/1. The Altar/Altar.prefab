@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1095045467015059874}
   - component: {fileID: 3681120354788238372}
   - component: {fileID: 1054641081301128838}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Leaves Wind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,9 +119,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58cf5f29b7fb9574c982a65643d421cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DepthSort
+  sortRenderer: {fileID: 0}
   sortOrderOffset: 2
   useParticle: 0
   baseTransform: {fileID: 0}
+  selfUpdate: 0
 --- !u!114 &1054641081301128838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 1
+  isAnimated: 0
   normalMap: {fileID: 0}
   refTransform: {fileID: 1571394199231056466}
   useAmbientShadow: 0
@@ -159,7 +162,7 @@ GameObject:
   - component: {fileID: 9081731286285754970}
   - component: {fileID: 1950573338163789304}
   - component: {fileID: 7600623292566513178}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: RoomTransitionInteractable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,8 +199,6 @@ MonoBehaviour:
   promptText: Enter
   interactKey: 101
   playerTag: Player
-  promptParentCanvas: {fileID: 0}
-  promptPrefab: {fileID: 0}
   targetSceneName: AltarInterior
   targetSpawnID: Entrance
   moveCurrentPlayerToNextScene: 1
@@ -261,7 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2551902004416835589}
   - component: {fileID: 7982654246974629019}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: BottomCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -480,7 +481,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5635017543640341847}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: AltarInteraction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -517,7 +518,7 @@ GameObject:
   - component: {fileID: 5735368555499324626}
   - component: {fileID: 6120841304479817989}
   - component: {fileID: 3450611410373723377}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -623,9 +624,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58cf5f29b7fb9574c982a65643d421cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DepthSort
+  sortRenderer: {fileID: 0}
   sortOrderOffset: 0
   useParticle: 0
   baseTransform: {fileID: 0}
+  selfUpdate: 0
 --- !u!114 &3450611410373723377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -639,6 +642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 1
+  isAnimated: 0
   normalMap: {fileID: 0}
   refTransform: {fileID: 1571394199231056466}
   useAmbientShadow: 0
@@ -662,7 +666,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1571394199231056466}
   - component: {fileID: 6110890616890482138}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Altar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -702,6 +706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpacityByPlayerY
   playerTransform: {fileID: 0}
+  playerTag: Player
   minOpacity: 0.2
   startYOffset: 5
   endYOffset: 20
@@ -720,7 +725,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6216057717367930667}
   - component: {fileID: 7484722447925993450}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -814,7 +819,7 @@ GameObject:
   - component: {fileID: 8453289014055783668}
   - component: {fileID: 1518624841660885152}
   - component: {fileID: 3426908324829093278}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Leaves
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -920,9 +925,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58cf5f29b7fb9574c982a65643d421cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DepthSort
+  sortRenderer: {fileID: 0}
   sortOrderOffset: 1
   useParticle: 0
   baseTransform: {fileID: 0}
+  selfUpdate: 0
 --- !u!114 &3426908324829093278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -936,6 +943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 1
+  isAnimated: 0
   normalMap: {fileID: 0}
   refTransform: {fileID: 1571394199231056466}
   useAmbientShadow: 0

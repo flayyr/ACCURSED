@@ -8,6 +8,6 @@ public class ParryAction : ActionSO
 
     public override void PlayerActionTrigger(ref PlayerReference playerRef)
     {
-        playerRef.hurtBox.Parry(parryDuration, playerRef.playerManager.GetDirection());
+        playerRef.hurtBox.Parry(parryDuration, playerRef.playerManager.GetFacingDirection());
     }
 }

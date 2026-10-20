@@ -126,7 +126,7 @@ public class CharacterMovement : MonoBehaviour
     }
     #endregion
 
-    #region Special
+    //#region Special
     public void Dash(Vector2 movementInput)
     {
         if (canDash)
@@ -141,5 +141,5 @@ public class CharacterMovement : MonoBehaviour
             hurtBox.InvincibleForSeconds(dashInvincinbleTime);
         }
     }
-    #endregion
+    //#endregion
 }

@@ -4,14 +4,11 @@ using UnityEngine;
 public class InventoryStorageManager : MonoBehaviour
 {
     [Header("Inventory UI")]
-    [SerializeField]
-    private GameObject itemContent;
+    [SerializeField] private GameObject itemContent;
 
-    [SerializeField]
-    private GameObject itemSlotPrefab;
+    [SerializeField] private GameObject itemSlotPrefab;
 
-    [SerializeField]
-    private ItemInfoPanel infoPanel;
+    [SerializeField] private ItemInfoPanel infoPanel;
 
     private PlayerInventory playerInventory;
 

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using MoreMountains.Feedbacks;
+using UnityEditor.Presets;
 
 public class HurtBox : MonoBehaviour
 {
@@ -12,9 +13,6 @@ public class HurtBox : MonoBehaviour
     [Space]
     [SerializeField] float afterHurtInvincibleDuration = 0.2f;
     [SerializeField] float durationUntilDodgeCancellable = 0.5f;
-    [Space]
-    [SerializeField] private MMF_Player hurtFeedback;
-    [SerializeField] private MMF_Player parryFeedback;
 
     [SerializeField] List<GameObject> personalHurtBoxes = new List<GameObject>();
     [SerializeField] List<GameObject> personalHitBoxes = new List<GameObject>();
@@ -22,10 +20,11 @@ public class HurtBox : MonoBehaviour
     CharacterMovement cMovement;
     CharacterStatistics cStatistics;
     CharacterManager combatManager;
-    
-    bool invincible = false;
+    Collider2D myCollider;
+
+    [SerializeField] bool invincible = false;
     bool parrying = false;
-    Vector2 parryDirection;
+    Vector2 facingDirection;
     Coroutine parryCoroutine;
 
     void Start()
@@ -33,6 +32,7 @@ public class HurtBox : MonoBehaviour
         cMovement = GetComponentInParent<CharacterMovement>();
         cStatistics = GetComponentInParent<CharacterStatistics>();
         combatManager = GetComponentInParent<CharacterManager>();
+        myCollider = GetComponent<Collider2D>();
     }
 
     private void OnEnable()
@@ -50,16 +50,22 @@ public class HurtBox : MonoBehaviour
 
             if (hitBox.originObject != transform.root.gameObject)
             {
-                float parryAccuracy = Vector2.Dot(parryDirection, direction)*.5f + .5f;//between 0 and 1, 0 is full accurate
+                float hitAlignment = Vector2.Dot(facingDirection, direction) * .5f + .5f;//between 0 and 1, 0 is full accurate
                 AttackData attackData = hitBox.GetAttackSO();
 
-                if (parrying && parryAccuracy<=attackData.parryLeniency)
+                //point on my collider closest to the hitbox, used as the hit/parry vfx position
+                Vector2 hitPoint = myCollider.ClosestPoint(collision.transform.position);
+
+                if (parrying && hitAlignment <= attackData.parryLeniency)
                 {
                     hitBox.Parried();
 
-                    parryFeedback.PlayFeedbacks();
+                    //midpoint between me and the attacker, used as the parry vfx position
+                    Vector2 parryPoint = (transform.root.position + hitBox.originObject.transform.position) * .5f;
+                    combatManager.GetHitBox().ParrySuccess(parryPoint, hitBox.originObject);//spawns my parry action's hit vfx
 
-                    Debug.Log("successful parry, accuracy: "+(1f-parryAccuracy));
+                    //Debug.Log("successful parry, accuracy: " + (1f - hitAlignment));
+                    //Debug.Log("hitBoxDir: " + direction + " my dir: " + facingDirection + " accuracy: " + (1f - hitAlignment));
                 }
                 else if (!invincible)
                 {
@@ -72,10 +78,7 @@ public class HurtBox : MonoBehaviour
                     combatManager.Launch(direction, attackData.knockbackPower, true);
                     cStatistics.UpdateHealth(-attackData.attackDamage);
 
-                    if (hurtFeedback != null)
-                        hurtFeedback.PlayFeedbacks();
-
-                    hitBox.Hit();
+                    hitBox.Hit(hitPoint, transform.root.gameObject);
                 }
             }
         }
@@ -83,12 +86,20 @@ public class HurtBox : MonoBehaviour
 
     public void Parry(float parryTime, Vector2 direction)
     {
-        if(parryCoroutine != null)
+        if (parryCoroutine != null)
             StopCoroutine(parryCoroutine);
+        if (parryTime < 0) {
+            parrying = false;
+            return;
+        }
 
         parryCoroutine = StartCoroutine(ParryTime(parryTime));
 
-        parryDirection = direction.normalized;
+        SetFacingDirection(direction);
+    }
+
+    public void SetFacingDirection(Vector2 direction) {
+        facingDirection = direction.normalized;
     }
 
     public void InvincibleForSeconds(float seconds)
