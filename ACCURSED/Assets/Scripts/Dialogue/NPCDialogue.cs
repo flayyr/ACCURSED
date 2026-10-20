@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -22,7 +23,7 @@ public class NPCDialogue : ScriptableObject
     public bool branching;
 
     [Header("This holds all the branching dialogues.")]
-    public NPCDialogue[] branches;
+    public List<NPCDialogue> branches;
 
     [Header("If you need a button to have a thing to say")]
     public string ButtonText;
@@ -35,8 +36,8 @@ public class NPCDialogue : ScriptableObject
     [Header("This should be at which point ni the conversation \n you want to summon a sidebar; count from 0")]
     public int summonSidebar;
 
-    [Header("tick this if the object switches a variable to true")]
-    public bool questSwitch;
+    //[Header("tick this if the object switches a variable to true")]
+    //public bool questSwitch;
 
     [Header("Name of variable this should flag (for quest)")]
     public string varName;

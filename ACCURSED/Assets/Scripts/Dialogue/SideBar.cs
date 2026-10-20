@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -22,10 +23,13 @@ public class SideBar : MonoBehaviour
 
     public GameObject refParent;
 
+    public List<NPCDialogue> temptempDialogue;
+
     [SerializeField]
     public string NPCName;
 
-    public bool greatQuestHighway;
+    //public bool greatQuestHighway;
+    private List<NPCDialogue> greatNPCHighway;
 
     [SerializeField]
     private GameObject shop;
@@ -45,15 +49,19 @@ public class SideBar : MonoBehaviour
 
     public int tempRefIndex;
 
-    public NPCDialogue[] bunchaDialogues;
+    public List<NPCDialogue> bunchaDialogues;
 
     private void OnEnable()
     {
+        greatNPCHighway = new List<NPCDialogue>(refParent.GetComponent<DialogueSpawner>().placeholder);
         nameDisplay.text = NPCName;
 
         int i = 0;
 
-        refParent.GetComponent<DialogueSpawner>().tempDialogueHolder = refParent.GetComponent<DialogueSpawner>().baseText;
+        //refParent.GetComponent<DialogueSpawner>().tempDialogueHolder = refParent.GetComponent<DialogueSpawner>().baseText;
+        refParent.GetComponent<DialogueSpawner>().tempDialogueHolder = new List<NPCDialogue>(refParent.GetComponent<DialogueSpawner>().placeholder);
+        //Debug.Log(temptempDialogue);
+        temptempDialogue = new List<NPCDialogue>(refParent.GetComponent<DialogueSpawner>().placeholder);
 
         foreach (NPCDialogue talk in bunchaDialogues)
         {
@@ -90,7 +98,9 @@ public class SideBar : MonoBehaviour
             if (!dialogueOrShop[buttonClicked])
             {
                 refParent.GetComponent<DialogueSpawner>().baseIndex = 0;
-                refParent.GetComponent<DialogueSpawner>().baseText[0] = tempDialogue;
+                //refParent.GetComponent<DialogueSpawner>().baseText[0] = tempDialogue;
+                refParent.GetComponent<DialogueSpawner>().placeholder[0] = tempDialogue;
+                //Debug.Log("THIS");
                 refParent.GetComponent<DialogueSpawner>().spawnText();
                 //Debug.Log("yo");
                 this.gameObject.SetActive(false);
@@ -98,37 +108,38 @@ public class SideBar : MonoBehaviour
         }
         else if (buttonClicked == -2)
         {
-            //Debug.Log("happening");
-            //Debug.Log(refParent.GetComponent<DialogueSpawner>().baseIndex);
-            /*
-            refParent.GetComponent<DialogueSpawner>().baseIndex = tempRefIndex;
-            refParent.GetComponent<DialogueSpawner>().baseIndex++;
-            */
-            //Debug.Log(refParent.GetComponent<DialogueSpawner>().baseIndex);
             this.gameObject.SetActive(false);
         }
     }
 
     private void OnDisable()
     {
-        buttonClicked = -3;
-        nameDisplay.text = null;
-
-        int i = 0;
-
-        refParent.GetComponent<DialogueSpawner>().baseText = refParent.GetComponent<DialogueSpawner>().tempDialogueHolder;
-
-        refParent.GetComponent<DialogueSpawner>().baseIndex = tempRefIndex;
-        refParent.GetComponent<DialogueSpawner>().baseIndex++;
-
-        tempRefIndex = 0;
-
-
-        foreach (string option in buttonName)
+        //Debug.Log("OR THIS");
+        if (refParent != null)
         {
-            //buttonPrefab[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = null;
-            buttonPrefab[i].SetActive(false);
-            i++;
+            buttonClicked = -3;
+            nameDisplay.text = null;
+
+            int i = 0;
+
+            //refParent.GetComponent<DialogueSpawner>().baseText = refParent.GetComponent<DialogueSpawner>().tempDialogueHolder;
+            refParent.GetComponent<DialogueSpawner>().placeholder = new List<NPCDialogue>(refParent.GetComponent<DialogueSpawner>().tempDialogueHolder);
+            refParent.GetComponent<DialogueSpawner>().placeholder = temptempDialogue;
+            //refParent.GetComponent<DialogueSpawner>().placeholder = greatNPCHighway;
+            refParent.GetComponent<DialogueSpawner>().baseIndex = tempRefIndex;
+            refParent.GetComponent<DialogueSpawner>().baseIndex++;
+            refParent.GetComponent<DialogueSpawner>().highway = new List<NPCDialogue>(greatNPCHighway);
+
+
+            tempRefIndex = 0;
+
+
+            foreach (string option in buttonName)
+            {
+                //buttonPrefab[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = null;
+                buttonPrefab[i].SetActive(false);
+                i++;
+            }
         }
     }
 

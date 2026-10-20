@@ -1,16 +1,17 @@
-using TMPro;
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager.Requests;
+using UnityEngine;
 
 public class Textbox : MonoBehaviour
 {
     [Header("References")]
     [Header("This stores the main text")]
-    public NPCDialogue[] npcText;
+    public List<NPCDialogue> npcText;
     [Header("This stores branching dialogue")]
-    public NPCDialogue[] npcTextBranches;
+    public List<NPCDialogue> npcTextBranches;
 
     private int npcTextBranchNum;
 
@@ -21,20 +22,9 @@ public class Textbox : MonoBehaviour
 
     public int index = 0;
 
-    /*
-    private bool checkQuest1;
-    private bool checkQuest2;
-    private bool checkQuest3;
-    */
-
     public int baseIndexRef;
-    /*
-    public int baseQuest1Index;
-    public int baseQuest2Index;
-    public int baseQuest3Index;
-    */
 
-    private NPCDialogue tempRefRef;
+    //private NPCDialogue tempRefRef;
 
     private bool typing = true;
 
@@ -56,10 +46,21 @@ public class Textbox : MonoBehaviour
     [SerializeField]
     private GameObject[] buttons;
 
+    [HideInInspector]
+    public List<NPCDialogue> secretHolder;
+    [HideInInspector]
+    public bool dodo;
+
     //[SerializeField]
     //private GameObject refQuest;
 
     //private NPCDialogue tempHolder;
+
+    [HideInInspector]
+    public int indexRefTemp;
+
+    [HideInInspector]
+    public bool special;
 
     public GameObject refSpawner;
 
@@ -76,17 +77,18 @@ public class Textbox : MonoBehaviour
     {
         baseIndexRef = refSpawner.GetComponent<DialogueSpawner>().baseIndex;
 
-        tempRefRef = npcText[0];
+        //tempRefRef = npcText[0];
 
-        if(baseIndexRef >= npcText.Length)
+        
+        if(baseIndexRef >= npcText.Count)
         {
-            baseIndexRef = npcText.Length - 1;
+            baseIndexRef = npcText.Count - 1;
         }
 
         if (npcText[baseIndexRef].branches != null)
         {
             npcTextBranches = npcText[baseIndexRef].branches;
-            npcTextBranchNum = npcTextBranches.Length;
+            npcTextBranchNum = npcTextBranches.Count;
             for (var i = 0; i < npcTextBranchNum; i++)
             {
                 buttons[i].gameObject.GetComponent<DialogueOption>().branchedText = npcTextBranches[i];
@@ -101,13 +103,8 @@ public class Textbox : MonoBehaviour
 
     private void OnDisable()
     {
-        /*
-        if (npcText[0] != tempRefRef)
-        {
-            npcText[0] = tempRefRef;
-        }
-        */
         index = 0;
+        setSpecial();
     }
 
     public void nextSentence()
@@ -129,8 +126,6 @@ public class Textbox : MonoBehaviour
         textDisplay.text = npcText[baseIndexRef].dialogueList[index];
         index++;
 
-        //Debug.Log("happening");
-
         yield return null;
     }
 
@@ -144,7 +139,6 @@ public class Textbox : MonoBehaviour
         else if(npcText[baseIndexRef].branching && index == npcText[baseIndexRef].branchNum)
         {
             index = 0;
-            //npcText = null;
             textBoxAndText.SetActive(false);
 
             for (var i = 0; i < npcTextBranchNum; i++)
@@ -161,8 +155,6 @@ public class Textbox : MonoBehaviour
                 }
 
             }
-
-            //options.SetActive(true);
         }
         else if (npcText[baseIndexRef].sideBarOrNot && index == npcText[baseIndexRef].summonSidebar)
         {
@@ -171,37 +163,41 @@ public class Textbox : MonoBehaviour
 
         else if (!npcText[baseIndexRef].branching)
         {
-
             index = 0;
 
             npcTextBranches = null;
 
-            if (baseIndexRef < npcText.Length - 1)
+            if (baseIndexRef < npcText.Count - 1 && !special)
             {
                 baseIndexRef += 1;
             }
 
-            if (npcText[baseIndexRef].varName != "")
-            {
-                var temp = npcText[baseIndexRef].varName;
-                if (!QuestVarHolder.instance.questBools[temp])
-                {
-                    QuestVarHolder.instance.questBools[temp] = true;
-                }
-            }
-
-            /*
-            if (buttons[0].GetComponent<DialogueOption>().tempHolder != null)
-            {
-                npcText[baseIndexRef] = buttons[0].GetComponent<DialogueOption>().tempHolder;
-            }
-            */
-
-            //npcText = null;
-            //npcText = null;
             refSpawner.GetComponent<DialogueSpawner>().baseIndex++;
 
             gameObject.SetActive(false);
+        }
+
+        if (npcText[baseIndexRef].varName != "")
+        {
+            var temp = npcText[baseIndexRef].varName;
+            if (!QuestVarHolder.instance.questBools[temp])
+            {
+                QuestVarHolder.instance.questBools[temp] = true;
+            }
+        }
+
+    }
+
+    public void setSpecial()
+    {
+        //Debug.Log("setting");
+        if (special)
+        {
+            //Debug.Log("inner setting");
+            refSpawner.GetComponent<DialogueSpawner>().baseIndex--;
+            baseIndexRef = indexRefTemp;
+            indexRefTemp = 0;
+            special = false;
         }
     }
 

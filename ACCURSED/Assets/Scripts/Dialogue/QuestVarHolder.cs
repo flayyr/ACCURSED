@@ -58,8 +58,8 @@ public class QuestVarHolder : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            //questBools["tempQuestFinished"] = true;
-            //Debug.Log(questBools["tempQuestFinished"]);
+            //questBools["gotEye"] = true;
+            Debug.Log(questBools["gotEye"]);
         }
 
     }
