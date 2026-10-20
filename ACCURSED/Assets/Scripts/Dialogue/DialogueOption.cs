@@ -118,9 +118,11 @@ public class DialogueOption : MonoBehaviour
             branchedText
         };
 
-        spawner.baseIndex = 0;
+        //spawner.baseIndex = 0;
+        textbox.index = 0;
         spawner.activeAndClear();
-
+        //textbox.nextSentence();
+        textbox.stuff();
 
         textDisplay.SetActive(true);
 

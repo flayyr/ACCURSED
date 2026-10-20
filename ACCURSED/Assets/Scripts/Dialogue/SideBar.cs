@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SideBar : MonoBehaviour
@@ -92,20 +93,39 @@ public class SideBar : MonoBehaviour
         {
             if (dialogueOrShop[buttonClicked])
             {
-                //refParent.GetComponent<DialogueSpawner>().baseIndex = tempRefIndex;
+                //implement shop here
                 this.gameObject.SetActive(false);
             }
             if (!dialogueOrShop[buttonClicked])
             {
-                refParent.GetComponent<DialogueSpawner>().baseIndex = 0;
+
+                var source = refParent.GetComponent<DialogueSpawner>();
+
+                //refParent.GetComponent<DialogueSpawner>().baseIndex = 0;
                 //refParent.GetComponent<DialogueSpawner>().baseText[0] = tempDialogue;
-                refParent.GetComponent<DialogueSpawner>().placeholder[0] = tempDialogue;
+                // refParent.GetComponent<DialogueSpawner>().placeholder[0] = tempDialogue;
                 //Debug.Log("THIS");
-                refParent.GetComponent<DialogueSpawner>().spawnText();
+                //refParent.GetComponent<DialogueSpawner>().spawnText();
                 //Debug.Log("yo");
+
+                source.baseIndex = 0;
+                source.placeholder.Clear();
+                //source.placeholder.Add(tempDialogue);
+                source.placeholder = new List<NPCDialogue>
+                {
+                    tempDialogue
+                };
+                //refTextbox.GetComponent<Textbox>().nextSentence();
+                //source.spawnText();
+
+                source.activeAndClear();
+                refTextbox.GetComponent<Textbox>().stuff();
+
+
                 this.gameObject.SetActive(false);
             }
         }
+
         else if (buttonClicked == -2)
         {
             this.gameObject.SetActive(false);
@@ -117,18 +137,31 @@ public class SideBar : MonoBehaviour
         //Debug.Log("OR THIS");
         if (refParent != null)
         {
+            var source = refParent.GetComponent<DialogueSpawner>();
+
             buttonClicked = -3;
             nameDisplay.text = null;
 
             int i = 0;
 
             //refParent.GetComponent<DialogueSpawner>().baseText = refParent.GetComponent<DialogueSpawner>().tempDialogueHolder;
+            /*
             refParent.GetComponent<DialogueSpawner>().placeholder = new List<NPCDialogue>(refParent.GetComponent<DialogueSpawner>().tempDialogueHolder);
             refParent.GetComponent<DialogueSpawner>().placeholder = temptempDialogue;
             //refParent.GetComponent<DialogueSpawner>().placeholder = greatNPCHighway;
             refParent.GetComponent<DialogueSpawner>().baseIndex = tempRefIndex;
             refParent.GetComponent<DialogueSpawner>().baseIndex++;
             refParent.GetComponent<DialogueSpawner>().highway = new List<NPCDialogue>(greatNPCHighway);
+            */
+
+            //source.placeholder = new List<NPCDialogue>(refParent.GetComponent<DialogueSpawner>().tempDialogueHolder);
+            /*
+            source.placeholder = temptempDialogue;
+            source.baseIndex = tempRefIndex;
+            source.baseIndex++;
+            source.highway = new List<NPCDialogue>(greatNPCHighway);
+            */
+
 
 
             tempRefIndex = 0;

@@ -213,7 +213,7 @@ public class DialogueSpawner : MonoBehaviour
 
     public void activeAndClear()
     {
-        textBoxPrefab.GetComponent<Textbox>().npcText.Clear();
+        //textBoxPrefab.GetComponent<Textbox>().npcText.Clear();
         textBoxPrefab.GetComponent<Textbox>().npcText = new List<NPCDialogue>(placeholder);
 
         if (!textBoxPrefab.activeInHierarchy)
@@ -237,9 +237,11 @@ public class DialogueSpawner : MonoBehaviour
     }
 
     //COMMENT OUT LATER THIS IS FOR TESTING PURPOSES
+    /*
     public void Update()
     {
         checkInput();
     }
+    */
 
 }

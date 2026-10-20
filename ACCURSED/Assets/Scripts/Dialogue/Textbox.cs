@@ -75,12 +75,45 @@ public class Textbox : MonoBehaviour
 
     private void OnEnable()
     {
+        /*
         baseIndexRef = refSpawner.GetComponent<DialogueSpawner>().baseIndex;
 
         //tempRefRef = npcText[0];
 
         
         if(baseIndexRef >= npcText.Count)
+        {
+            baseIndexRef = npcText.Count - 1;
+        }
+
+        if (npcText[baseIndexRef].branches != null)
+        {
+            npcTextBranches = npcText[baseIndexRef].branches;
+            npcTextBranchNum = npcTextBranches.Count;
+            for (var i = 0; i < npcTextBranchNum; i++)
+            {
+                buttons[i].gameObject.GetComponent<DialogueOption>().branchedText = npcTextBranches[i];
+            }
+        }
+
+        index = 0;
+        typing = false;
+
+        nextSentence();
+        */
+
+        stuff();
+
+    }
+
+    public void stuff()
+    {
+        baseIndexRef = refSpawner.GetComponent<DialogueSpawner>().baseIndex;
+
+        //tempRefRef = npcText[0];
+
+
+        if (baseIndexRef >= npcText.Count)
         {
             baseIndexRef = npcText.Count - 1;
         }
