@@ -121,7 +121,7 @@ MonoBehaviour:
   direction: {x: 1.69, y: -1.18, z: 0}
   PostAnimDirection: {x: 0, y: 0, z: 0}
   playerStats: {fileID: 7527250969752035120}
-  perfectParryStunDuration: 1
+  parryStunDuration: 1
   vfxSpawner: {fileID: 0}
   originObject: {fileID: 0}
 --- !u!60 &1322706518304336856
@@ -265,9 +265,6 @@ MonoBehaviour:
     m_Bits: 128
   afterHurtInvincibleDuration: 0.2
   durationUntilDodgeCancellable: 0.5
-  hurtFeedback: {fileID: 0}
-  parryFeedback: {fileID: 0}
-  hurtFeedbackPreset: {fileID: 2655988077585873504, guid: 9e72ce1ecfec5df4d96beecbc2a94616, type: 2}
   personalHurtBoxes: []
   personalHitBoxes: []
   invincible: 0
@@ -1029,6 +1026,7 @@ MonoBehaviour:
   remembranceAbility: {fileID: 11400000, guid: 07216a182842f8347b98f69422053c9d, type: 2}
   healAction: {fileID: 11400000, guid: 4031b5dd3d605ad4dab4a2abbbc97b95, type: 2}
   parryAction: {fileID: 11400000, guid: 259ebed5e6e56c042b53c768bbb2e8e1, type: 2}
+  fableAbility: {fileID: 11400000, guid: 0fd45da09e99ef94cafd2b38e5c7d110, type: 2}
 --- !u!58 &3871672931295881435
 CircleCollider2D:
   m_ObjectHideFlags: 0
