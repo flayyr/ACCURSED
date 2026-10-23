@@ -1,19 +1,20 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-// ADD TO THE EXISTING INVENTORY ITEM SLOT PREFAB (alongside Inventory_ItemSlot).
-// Does not require changes to Inventory_ItemSlot or RightClickOptions.
 [RequireComponent(typeof(Inventory_ItemSlot))]
 [RequireComponent(typeof(Button))]
-public class InventoryEquipmentSlotAdapter : MonoBehaviour
+public class InventoryEquipmentSlotAdapter : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private GameObject equippedBadge;  // child icon with Raycast Target OFF
-    [SerializeField] private Image itemImage;            // existing itemSprDisplay Image
+    [Header("Equipped visuals")]
+    [SerializeField] private GameObject equippedBadge;
+    [SerializeField] private Image itemImage;
     [SerializeField] private Color normalTint = Color.white;
     [SerializeField] private Color equippedTint = new Color(0.42f, 0.42f, 0.42f, 1f);
 
     private Inventory_ItemSlot slot;
     private Button button;
+    private StatusSkillEquipment skillManager;
     private bool lastBlocked;
     private bool lastEquipped;
     private string lastItemID;
@@ -22,11 +23,14 @@ public class InventoryEquipmentSlotAdapter : MonoBehaviour
     {
         slot = GetComponent<Inventory_ItemSlot>();
         button = GetComponent<Button>();
-        button.onClick.AddListener(HandleClick);
+        // Also supports keyboard/gamepad submit, and ordinary Button clicks.
+        if (button != null)
+            button.onClick.AddListener(HandleButtonClick);
     }
 
     private void OnEnable()
     {
+        skillManager = null;
         lastItemID = null;
         lastBlocked = false;
         lastEquipped = false;
@@ -34,46 +38,66 @@ public class InventoryEquipmentSlotAdapter : MonoBehaviour
 
     private void Update()
     {
-        ItemPickupSO item = slot != null ? slot.BoundItem : null;
-        string itemID = item != null ? item.itemID : null;
-        bool equipped = item != null && StatusEquipmentManager.Instance != null &&
-                        StatusEquipmentManager.Instance.IsEquipped(itemID);
-        bool selecting = StatusEquipmentSelection.Instance != null &&
-                         StatusEquipmentSelection.Instance.IsSelecting;
-        bool blockNormalRightClick = equipped || selecting;
+        if (slot == null) return;
 
-        // This disables ONLY Inventory_ItemSlot's Update and pointer callbacks:
-        // these are the two paths that call RightClickOptions.Open().
-        // The Button's onClick listeners still work for normal left-click selection.
-        if (slot != null && slot.enabled != !blockNormalRightClick)
+        ItemPickupSO item = slot.BoundItem;
+        string itemID = item != null ? item.itemID : null;
+
+        StatusEquipmentManager equipmentManager = StatusEquipmentManager.Instance;
+        StatusEquipmentSelection selection = StatusEquipmentSelection.Instance;
+
+        if (skillManager == null) skillManager = FindObjectOfType<StatusSkillEquipment>();
+        bool equipped = item != null && ((equipmentManager != null && equipmentManager.IsEquipped(itemID)) || (skillManager != null && skillManager.IsEquipped(itemID)));
+        bool selecting = selection != null && selection.IsSelecting;
+        bool blockNormalRightClick = equipped || selecting || item is SkillItemSO;
+
+        if (slot.enabled == blockNormalRightClick)
             slot.enabled = !blockNormalRightClick;
 
         if (lastEquipped != equipped || lastItemID != itemID || lastBlocked != blockNormalRightClick)
         {
-            if (equippedBadge != null) equippedBadge.SetActive(equipped);
+            if (equippedBadge != null)
+                equippedBadge.SetActive(equipped);
+
             if (itemImage != null && item != null)
                 itemImage.color = equipped ? equippedTint : normalTint;
+
             lastEquipped = equipped;
             lastItemID = itemID;
             lastBlocked = blockNormalRightClick;
         }
     }
 
-    private void HandleClick()
+    public void OnPointerClick(PointerEventData eventData)
     {
-        if (StatusEquipmentSelection.Instance != null &&
-            StatusEquipmentSelection.Instance.IsSelecting)
-            StatusEquipmentSelection.Instance.OnInventorySlotClicked(slot);
+        if (eventData.button == PointerEventData.InputButton.Left)
+            TrySelectForEquipment();
+    }
+
+    private void HandleButtonClick()
+    {
+        TrySelectForEquipment();
+    }
+
+    private void TrySelectForEquipment()
+    {
+        StatusEquipmentSelection selection = StatusEquipmentSelection.Instance;
+
+        if (selection == null || !selection.IsSelecting || slot == null)
+            return;
+
+        selection.OnInventorySlotClicked(slot);
     }
 
     private void OnDisable()
     {
-        // Never leave the original script disabled when switching menus.
-        if (slot != null) slot.enabled = true;
+        if (slot != null)
+            slot.enabled = true;
     }
 
     private void OnDestroy()
     {
-        if (button != null) button.onClick.RemoveListener(HandleClick);
+        if (button != null)
+            button.onClick.RemoveListener(HandleButtonClick);
     }
 }
