@@ -49,14 +49,6 @@ public class EnemyAttacker : MonoBehaviour
             return;
         }
 
-        //ActionInstance lastQueued = actionQueuer.GetLastQueuedInstance();
-        //if (lastQueued != null && attackList[index] == lastQueued.actionSO)
-        //{//dont queue new attack if target attack is already the latest queued attack
-        //    lastQueued.UpdateQueueTime();
-        //    Debug.Log(lastQueued.actionSO.actionName);
-        //    return;
-        //}
-
         currAttackInstance = actionQueuer.QueueAction(attackList[index]);
-    }
+    } 
 }
