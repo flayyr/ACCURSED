@@ -17,6 +17,7 @@ public class MirrorKnightController : EnemyController
 
     ActionInstance currShieldAction;
 
+
     protected override void Start() {
         base.Start();
         SetShieldState(ShieldState.Down);
@@ -31,35 +32,12 @@ public class MirrorKnightController : EnemyController
         float distToPlayer = toPlayer.magnitude;
         toPlayer = toPlayer.normalized;
 
-        if (distToPlayer <= shieldRaiseRange) {
-            //RAISE SHIELD
-            if (shieldState is ShieldState.Down) {
-                SetShieldState(ShieldState.Raising);
-                currShieldAction = actionQueuer.QueueAction(shieldUpAction, RaiseShield);
-            } else if (shieldState == ShieldState.Raising) {
-                if (!currShieldAction.interrupted) {
-                    //keep updating action instance while raising
-                    currShieldAction.UpdateQueueTime();
-                } else {
-                    //shieldAction was interrupted, so drop the shield back down
-                    SetShieldState(ShieldState.Down);
-                }
-            }
-        } else if (distToPlayer >= shieldDownRange){
-            //LOWER SHIELD
-            if (shieldState is ShieldState.Up) {
-                SetShieldState(ShieldState.Lowering);
-                currShieldAction = actionQueuer.QueueAction(shieldDownAction, LowerShield);
-            } else if (shieldState == ShieldState.Lowering) {
-                if (!currShieldAction.interrupted) {
-                    currShieldAction.UpdateQueueTime();
-                } else {
-                    //Drop the shield here even though lowering is interrupted
-                    //because I assume shield should be dropped when stunned
-                    SetShieldState(ShieldState.Down);
-                }
-            }
+        if (combatManager.GetCombatState() is ActionState.Stunned or ActionState.StunnedCancellable) {
+            SetShieldState(ShieldState.Down);
+            return;
         }
+        
+        HandleShield(distToPlayer);
 
         combatManager.SetWalkInput(shieldState is not ShieldState.Down);
 
@@ -79,6 +57,38 @@ public class MirrorKnightController : EnemyController
             if (combatManager.GetCombatState() is ActionState.Idle) {
                 HandleMovement();
                 SetTargetPosition(playerTransform.position);
+            }
+        }
+    }
+
+    void HandleShield(float distToPlayer) {
+        if (distToPlayer <= shieldRaiseRange) {
+            //RAISE SHIELD
+            if (shieldState is ShieldState.Down) {
+                SetShieldState(ShieldState.Raising);
+                currShieldAction = actionQueuer.QueueAction(shieldUpAction, RaiseShield);
+            } else if (shieldState == ShieldState.Raising) {
+                if (!currShieldAction.interrupted) {
+                    //keep updating action instance while raising
+                    currShieldAction.UpdateQueueTime();
+                } else {
+                    //shieldAction was interrupted, so drop the shield back down
+                    SetShieldState(ShieldState.Down);
+                }
+            }
+        } else if (distToPlayer >= shieldDownRange) {
+            //LOWER SHIELD
+            if (shieldState is ShieldState.Up) {
+                SetShieldState(ShieldState.Lowering);
+                currShieldAction = actionQueuer.QueueAction(shieldDownAction, LowerShield);
+            } else if (shieldState == ShieldState.Lowering) {
+                if (!currShieldAction.interrupted) {
+                    currShieldAction.UpdateQueueTime();
+                } else {
+                    //Drop the shield here even though lowering is interrupted
+                    //because I assume shield should be dropped when stunned
+                    SetShieldState(ShieldState.Down);
+                }
             }
         }
     }
