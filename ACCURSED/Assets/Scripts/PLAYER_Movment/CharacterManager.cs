@@ -188,6 +188,8 @@ public class CharacterManager : MonoBehaviour
         cAnim.SetStunned(true);//for stun animations
         actionQueuer.ClearActions();
 
+        hitBox.gameObject.SetActive(false);
+
         if (currAction != null) {
             currAction.interrupted = true;
             currAction = null;
