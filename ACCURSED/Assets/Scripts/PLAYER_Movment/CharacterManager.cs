@@ -102,10 +102,11 @@ public class CharacterManager : MonoBehaviour
     protected void OnActionFinish()
     {
         combatState = ActionState.Idle;
-        if (currAction != null)
+        if (currAction != null) {
             currAction.finishTime = Time.time;
-        else
-            Debug.Log("CURR ACTION NULL");
+            currAction.onFinish?.Invoke();
+        } else
+            Debug.LogError("CURR ACTION NULL");
         UpdateDirection();
         PlayNextAction();
     }
@@ -136,6 +137,8 @@ public class CharacterManager : MonoBehaviour
         currAction.played = true;
 
         hitBox.SetAttackData(currAction.actionSO.attackData);//sets attack data into hitbox
+        hitBox.SetAction(currAction.actionSO);//for attack hit vfx
+        cAnim.SetCurrentAction(currAction.actionSO);//for wind/attack vfx
 
         //start winding
         cAnim.SetWind(true);
@@ -165,7 +168,7 @@ public class CharacterManager : MonoBehaviour
         cAnim.SetWind(false);
         combatState = ActionState.Attacking;
 
-        Launch(currDir, currAction.actionSO.attackData.stepAmount, true);
+        Launch(moveDir, currAction.actionSO.attackData.stepAmount, true);
     }
 
     //gets stunned when hit, called by hurtbox
@@ -178,7 +181,10 @@ public class CharacterManager : MonoBehaviour
         cAnim.SetStunned(true);//for stun animations
         actionQueuer.ClearActions();
 
-        currAction = null;
+        if (currAction != null) {
+            currAction.interrupted = true;
+            currAction = null;
+        }
 
         if (stunTimer < stunDuration)
             stunTimer = stunDuration;
@@ -198,6 +204,7 @@ public class CharacterManager : MonoBehaviour
     protected Vector2 moveInput;
     protected Vector2 currDir = Vector2.down;
     protected Vector2 moveDir = Vector2.down;
+    protected Vector2 facingDir = Vector2.down;
 
 
     protected bool walkInput;
@@ -219,7 +226,7 @@ public class CharacterManager : MonoBehaviour
     protected void UpdateDirection()
     {
         moveDir = currDir;
-        cAnim.SetFacingDirection(moveDir);
+        facingDir = cAnim.SetFacingDirection(moveDir);
     }
 
     protected void UpdateMovement()
@@ -242,11 +249,14 @@ public class CharacterManager : MonoBehaviour
             if (currAction != null && currAction.startTime != -1)
             {
                 float timeSincePlayed = Time.time - currAction.startTime;
-                Vector3 moveAmount = (Vector3)moveDir * currAction.actionSO.HorizontalVelocity.Evaluate(timeSincePlayed) * Time.deltaTime;
+                float moveAmt = currAction.actionSO.HorizontalDisplacement.Evaluate(timeSincePlayed+Time.deltaTime)
+                    - currAction.actionSO.HorizontalDisplacement.Evaluate(timeSincePlayed);
+
+                Vector3 moveDist = (Vector3)moveDir * moveAmt;
 
                 RaycastHit2D[] raycastInfos = new RaycastHit2D[10];
-                if (characterCollider.Cast(moveAmount, contactFilter, raycastInfos, moveAmount.magnitude) == 0) {
-                    transform.position += moveAmount;
+                if (characterCollider.Cast(moveDist, contactFilter, raycastInfos, moveDist.magnitude) == 0) {
+                    transform.position += moveDist;
                 }
             }
         }
@@ -255,7 +265,7 @@ public class CharacterManager : MonoBehaviour
 
     public void SetWalkInput(bool walk)
     {
-        walkInput = !walkInput;
+        walkInput = walk;
     }
     public void SetSprintInput(bool sprint)
     {
@@ -347,6 +357,7 @@ public class CharacterManager : MonoBehaviour
 
     public ActionState GetCombatState() => combatState;
     public BaseMoveState GetMoveState() => moveState;
-    public Vector2 GetDirection() => currDir;
+    public Vector2 GetFacingDirection() => facingDir;
     public ActionInstance GetCurrAction()=>currAction;
+    public HitBox GetHitBox() => hitBox;
 }

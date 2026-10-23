@@ -39,7 +39,7 @@ public class TallGrassBendInteract : MonoBehaviour
     [SerializeField] private float fullBendXDistance = 0.6f;
 
     [Tooltip("Small dead zone so the grass does not flip direction rapidly when the player is centered.")]
-    [SerializeField] private float sideDeadZone = 0.03f;
+    [SerializeField] private float sideDeadZone = 0.0f;
 
     [Tooltip("Minimum visible bend while the player is inside the grass.")]
     [Range(0f, 1f)]
@@ -195,11 +195,8 @@ public class TallGrassBendInteract : MonoBehaviour
 
     private void ApplyBendVisual()
     {
-        //visualTarget.localRotation = originalLocalRotation * Quaternion.Euler(0f, 0f, currentBendAngle);
-
         float bend01 = Mathf.InverseLerp(0f, maxBendAngle, Mathf.Abs(currentBendAngle));
 
-        //simply passes in the bend01 as bend progress to shakeinteract
         shakeInteractNew.SetBendProgress(bend01, -Mathf.Sign(currentBendAngle));
 
         Vector3 targetScale = originalLocalScale;

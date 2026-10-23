@@ -24,7 +24,9 @@ public class ItemPickupSO : ScriptableObject
 
     [Header("Pickup")]
     [Min(1)] public int itemQuantity = 1;
+
     public bool isSpecialItem;
+    public bool isImportantItem;
 
     [Header("Inventory")]
     public ItemCategory itemCategory = ItemCategory.Misc;
