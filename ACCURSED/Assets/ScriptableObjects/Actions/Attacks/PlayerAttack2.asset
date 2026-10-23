@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d0af707d8eb21b4db8b0bb335318f77, type: 3}
-  m_Name: Attack3
-  m_EditorClassIdentifier: Assembly-CSharp::ActionSO
-  actionName: Attack 3
-  actionAnimationState: Attack3
-  windAnimationState: Attack3Wind
+  m_Script: {fileID: 11500000, guid: 7a3a88661e8dd8847bc6cc6d80c3d22d, type: 3}
+  m_Name: PlayerAttack2
+  m_EditorClassIdentifier: Assembly-CSharp::ChargeableActionSO
+  actionName: Attack 2
+  actionAnimationState: Attack2
+  windAnimationState: Attack2Wind
   windDuration: 1.5
   HorizontalDisplacement:
     serializedVersion: 2
@@ -23,7 +23,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   attackData:
-    attackDamage: 3
+    attackDamage: 1
     stepAmount: 0
     knockbackPower: 0
     stunDuration: 0
@@ -32,3 +32,5 @@ MonoBehaviour:
   windFeedback: {fileID: 0}
   attackFeedback: {fileID: 0}
   attackHitFeedback: {fileID: 348020824145329058, guid: f0cc677f1cc326b408b4874945f9666c, type: 3}
+  chargeTime: 1
+  chargedAction: {fileID: 11400000, guid: c5fdfd0220b3d7442a91ef9138e47b0f, type: 2}

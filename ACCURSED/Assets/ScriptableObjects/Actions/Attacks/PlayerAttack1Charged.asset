@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d0af707d8eb21b4db8b0bb335318f77, type: 3}
-  m_Name: Attack2
+  m_Name: PlayerAttack1Charged
   m_EditorClassIdentifier: Assembly-CSharp::ActionSO
-  actionName: Attack 2
-  actionAnimationState: Attack2
-  windAnimationState: Attack2Wind
-  windDuration: 1.5
+  actionName: Attack 1
+  actionAnimationState: Attack1
+  windAnimationState: Attack1
+  windDuration: 0
   HorizontalDisplacement:
     serializedVersion: 2
     m_Curve: []
@@ -23,9 +23,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   attackData:
-    attackDamage: 1
-    stepAmount: 0
-    knockbackPower: 0
+    attackDamage: 10000
+    stepAmount: 5
+    knockbackPower: 10
     stunDuration: 0
     vitalityBuildUp: 1
     parryLeniency: 0.4

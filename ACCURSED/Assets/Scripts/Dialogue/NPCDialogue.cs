@@ -28,7 +28,7 @@ public class NPCDialogue : ScriptableObject
     [Header("If you need a button to have a thing to say")]
     public string ButtonText;
 
-    public AudioClip sound;
+    [HideInInspector]public AudioClip sound;
 
     [Header("tick this if this will need to summon a sidebar")]
     public bool sideBarOrNot;

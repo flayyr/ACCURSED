@@ -132,9 +132,10 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    protected void PlayCurrentAction()
+    protected virtual void PlayCurrentAction()
     {
-        currAction.played = true;
+        currAction.loaded = true;
+        currAction.loadTime = Time.time;
 
         hitBox.SetAttackData(currAction.actionSO.attackData);//sets attack data into hitbox
         hitBox.SetAction(currAction.actionSO);//for attack hit vfx
@@ -151,6 +152,12 @@ public class CharacterManager : MonoBehaviour
         {
             EndWind();
         }
+    }
+
+    protected void PlayActionInstantly(ActionSO action)
+    {
+        currAction = new ActionInstance(action, Time.time);
+        PlayCurrentAction();
     }
 
     public void SkipWind(ActionInstance attackInstance)
@@ -180,6 +187,8 @@ public class CharacterManager : MonoBehaviour
         combatState = ActionState.Stunned;
         cAnim.SetStunned(true);//for stun animations
         actionQueuer.ClearActions();
+
+        hitBox.gameObject.SetActive(false);
 
         if (currAction != null) {
             currAction.interrupted = true;
@@ -246,19 +255,32 @@ public class CharacterManager : MonoBehaviour
             moveState = BaseMoveState.None;
             cAnim.SetMoveState(0);
 
-            if (currAction != null && currAction.startTime != -1)
+            if (currAction != null)
             {
-                float timeSincePlayed = Time.time - currAction.startTime;
-                float moveAmt = currAction.actionSO.HorizontalDisplacement.Evaluate(timeSincePlayed+Time.deltaTime)
-                    - currAction.actionSO.HorizontalDisplacement.Evaluate(timeSincePlayed);
-
-                Vector3 moveDist = (Vector3)moveDir * moveAmt;
-
-                RaycastHit2D[] raycastInfos = new RaycastHit2D[10];
-                if (characterCollider.Cast(moveDist, contactFilter, raycastInfos, moveDist.magnitude) == 0) {
-                    transform.position += moveDist;
+                if (currAction.startTime != -1)
+                {
+                    HandleHorizontalDisplacement(currAction.startTime, currAction.actionSO.HorizontalDisplacement);
+                }
+                else if (currAction.loadTime != -1)
+                {
+                    HandleHorizontalDisplacement(currAction.loadTime, currAction.actionSO.HorizontalDisplacementWind);
                 }
             }
+            
+        }
+    }
+
+    private void HandleHorizontalDisplacement(float startTime, AnimationCurve displacementCurve)
+    {
+        float timeSincePlayed = Time.time - startTime;
+        float moveAmt = displacementCurve.Evaluate(timeSincePlayed + Time.deltaTime) - displacementCurve.Evaluate(timeSincePlayed);
+
+        Vector3 moveDist = (Vector3)moveDir * moveAmt;
+
+        RaycastHit2D[] raycastInfos = new RaycastHit2D[10];
+        if (characterCollider.Cast(moveDist, contactFilter, raycastInfos, moveDist.magnitude) == 0)
+        {
+            transform.position += moveDist;
         }
     }
 
