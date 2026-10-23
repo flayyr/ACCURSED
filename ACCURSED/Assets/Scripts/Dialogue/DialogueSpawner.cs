@@ -66,9 +66,9 @@ public class DialogueSpawner : MonoBehaviour
     [SerializeField] protected List<sideBarCustomization> sideBarCustomizations = new List<sideBarCustomization>();
 
     //[Header("DONT TOUCH THESE")]
-    public int baseIndex;
+    [HideInInspector] public int baseIndex;
     [HideInInspector] public int baseSideDex;
-    //[HideInInspector] 
+    [HideInInspector] 
     public List<NPCDialogue> placeholder;
     [HideInInspector] public NPCDialogue placeholderOptions;
     [HideInInspector] public List<NPCDialogue> highway;
@@ -81,7 +81,7 @@ public class DialogueSpawner : MonoBehaviour
 
     //[Header("ignore this")]
     //[SerializeField]
-    public List<NPCDialogue> tempDialogueHolder;
+    [HideInInspector] public List<NPCDialogue> tempDialogueHolder;
 
     //[HideInInspector]
     //public bool dodo;
