@@ -57,8 +57,18 @@ public class PlayerManager : CharacterManager
 
     protected override void EndWind()
     {
+        if (currAction.actionSO.GetType() == typeof(ChargeableActionSO) )
+        {
+            float chargeTime = Time.time - currAction.queueTime;
+            ChargeableActionSO chargeableAction = (ChargeableActionSO)currAction.actionSO;
+            if (chargeTime >= chargeableAction.chargeTime)
+            {
+                PlayActionInstantly(chargeableAction.chargedAction);
+                return;
+            }
+        }
+        
         base.EndWind();
-
         currAction.actionSO.PlayerActionTrigger(ref playerRef);
     }
 
@@ -77,8 +87,7 @@ public class PlayerManager : CharacterManager
         if ((combatState is ActionState.Idle or ActionState.StunnedCancellable) && dashTimer<=0)
         {
             dashTimer = dashAction.dashCooldown;
-            currAction = new ActionInstance(dashAction, Time.time);
-            PlayCurrentAction();
+            PlayActionInstantly(dashAction);
             return true;
         }
         return false;

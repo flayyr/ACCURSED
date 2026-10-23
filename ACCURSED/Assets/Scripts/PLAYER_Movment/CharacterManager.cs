@@ -132,7 +132,7 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    protected void PlayCurrentAction()
+    protected virtual void PlayCurrentAction()
     {
         currAction.played = true;
 
@@ -151,6 +151,12 @@ public class CharacterManager : MonoBehaviour
         {
             EndWind();
         }
+    }
+
+    protected void PlayActionInstantly(ActionSO action)
+    {
+        currAction = new ActionInstance(action, Time.time);
+        PlayCurrentAction();
     }
 
     public void SkipWind(ActionInstance attackInstance)
