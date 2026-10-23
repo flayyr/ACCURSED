@@ -20,41 +20,41 @@ public class EnemyController : MonoBehaviour
 
     #region Neutral Patrol
     [LayoutStart("Patrolling", ELayout.FoldoutBox)]
-    [SerializeField] private float patrolRadius;
-    [SerializeField] private LayerMask obstacleLayers;
-    [SerializeField] private float waypointTolerance;
-    [SerializeField] private float patrolWaitMin;
-    [SerializeField] private float patrolWaitMax;
-    [SerializeField][ReadOnly] private float patrolWaitTimer;
-    [SerializeField][ReadOnly] private Vector2 patrolOrigin;
-    [SerializeField][ReadOnly] private Vector2 patrolTarget;
-    [SerializeField][ReadOnly] private bool waitingAtWaypoint = true;
+    [SerializeField] protected float patrolRadius;
+    [SerializeField] protected LayerMask obstacleLayers;
+    [SerializeField] protected float waypointTolerance;
+    [SerializeField] protected float patrolWaitMin;
+    [SerializeField] protected float patrolWaitMax;
+    [SerializeField][ReadOnly] protected float patrolWaitTimer;
+    [SerializeField][ReadOnly] protected Vector2 patrolOrigin;
+    [SerializeField][ReadOnly] protected Vector2 patrolTarget;
+    [SerializeField][ReadOnly] protected bool waitingAtWaypoint = true;
     #endregion
 
     #region Pursuing
     [LayoutStart("Pursuit Ranges", ELayout.FoldoutBox)]
-    [SerializeField] private float detectionRadius;
-    [SerializeField] private float attackRange;
-    [SerializeField] private float loseSightRadius;
-    [SerializeField] private bool canChangeDirMidCombo;
-    [SerializeField][ReadOnly] private Vector2 currDir;
+    [SerializeField] protected float detectionRadius;
+    [SerializeField] protected float attackRange;
+    [SerializeField] protected float loseSightRadius;
+    [SerializeField] protected bool canChangeDirMidCombo;
     #endregion
 
     #region Pathfinding
     [LayoutStart("Pathfinding", ELayout.FoldoutBox)]
-    [SerializeField][ReadOnly] private NavMeshAgent agent;
-    [SerializeField] private float stoppingDistance = 0.2f;
+    [SerializeField][ReadOnly] protected NavMeshAgent agent;
+    [SerializeField] protected float stoppingDistance = 0.2f;
     #endregion
 
     #region References
-    [SerializeField][ReadOnly] private Transform playerTransform;
+    [SerializeField][ReadOnly] protected Transform playerTransform;
 
-    CharacterManager combatManager;
-    EnemyAttacker enemyAttacker;
+    protected CharacterManager combatManager;
+    protected ActionQueuer actionQueuer;
+    protected EnemyAttacker enemyAttacker;
     #endregion
 
 
-    void Start()
+    protected virtual void Start()
     {
         waitingAtWaypoint = true;
         patrolTarget = Vector2.zero;
@@ -76,6 +76,7 @@ public class EnemyController : MonoBehaviour
 
         combatManager = GetComponent<CharacterManager>();
         enemyAttacker = GetComponent<EnemyAttacker>();
+        actionQueuer = GetComponent<ActionQueuer>();
     }
 
     void Update()
@@ -167,7 +168,7 @@ public class EnemyController : MonoBehaviour
 
 
     #region Pursuing
-    void PursuingUpdate()
+    protected virtual void PursuingUpdate()
     {
         if (playerTransform == null) return;
 
@@ -183,7 +184,6 @@ public class EnemyController : MonoBehaviour
             // In range: face the player, hold position, and start a combo if idle.
             if (combatManager.GetCombatState() is ActionState.Idle)
             {
-                currDir = toPlayer;
                 combatManager.MoveInput(toPlayer);
                 wasIdle = true;
             }

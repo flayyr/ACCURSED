@@ -4,7 +4,7 @@ using UnityEngine;
 public class HitBox : MonoBehaviour
 {
     [Header("Modifiers")]
-    [SerializeField] public Vector3 direction;
+    [SerializeField] private Vector3 direction;
     [SerializeField] public Vector3 PostAnimDirection;
     [Space]
     [SerializeField] private PlayerStatistics playerStats;

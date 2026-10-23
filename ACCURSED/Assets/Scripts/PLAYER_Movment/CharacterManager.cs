@@ -102,10 +102,11 @@ public class CharacterManager : MonoBehaviour
     protected void OnActionFinish()
     {
         combatState = ActionState.Idle;
-        if (currAction != null)
+        if (currAction != null) {
             currAction.finishTime = Time.time;
-        else
-            Debug.Log("CURR ACTION NULL");
+            currAction.onFinish?.Invoke();
+        } else
+            Debug.LogError("CURR ACTION NULL");
         UpdateDirection();
         PlayNextAction();
     }
@@ -180,7 +181,10 @@ public class CharacterManager : MonoBehaviour
         cAnim.SetStunned(true);//for stun animations
         actionQueuer.ClearActions();
 
-        currAction = null;
+        if (currAction != null) {
+            currAction.interrupted = true;
+            currAction = null;
+        }
 
         if (stunTimer < stunDuration)
             stunTimer = stunDuration;
@@ -200,6 +204,7 @@ public class CharacterManager : MonoBehaviour
     protected Vector2 moveInput;
     protected Vector2 currDir = Vector2.down;
     protected Vector2 moveDir = Vector2.down;
+    protected Vector2 facingDir = Vector2.down;
 
 
     protected bool walkInput;
@@ -221,7 +226,7 @@ public class CharacterManager : MonoBehaviour
     protected void UpdateDirection()
     {
         moveDir = currDir;
-        cAnim.SetFacingDirection(moveDir);
+        facingDir = cAnim.SetFacingDirection(moveDir);
     }
 
     protected void UpdateMovement()
@@ -352,7 +357,7 @@ public class CharacterManager : MonoBehaviour
 
     public ActionState GetCombatState() => combatState;
     public BaseMoveState GetMoveState() => moveState;
-    public Vector2 GetDirection() => currDir;
+    public Vector2 GetFacingDirection() => facingDir;
     public ActionInstance GetCurrAction()=>currAction;
     public HitBox GetHitBox() => hitBox;
 }
