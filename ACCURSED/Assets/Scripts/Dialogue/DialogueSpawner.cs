@@ -1,34 +1,14 @@
 using System;
-using System.Reflection;
-using Unity.VisualScripting;
 using System.Collections.Generic;
-using UnityEditor.Rendering;
+//using System.Reflection;
+//using Unity.VisualScripting;
+//using UnityEditor.Rendering;
 using UnityEngine;
+//using UnityEngine.Networking;
+using static NPCManager;
 
 public class DialogueSpawner : MonoBehaviour
 {
-    //[Header("This is just a reference to make the dialogue spawner \n not spawn if there is a side bar active")]
-    //[SerializeField]
-    //private GameObject sidebar;
-
-    [Header("Tick this box if there is quest-related dialogue \n like multiple dialogues for asking about quests")]
-    [SerializeField]
-    public bool questOrNot;
-
-    [Header("This section is for checking quest progress \n fill in with JUST name of variable \n example: exampleQuestStarted")]
-    //[SerializeField]
-    //private string questNotStarted;
-    [SerializeField]
-    private string questStarted;
-    [SerializeField]
-    private string questFinished;
-
-    //[SerializeField]
-    //private int questNum;
-
-    [Header("This is the object that holds quest variables \n only need to fill it out if this NPC has quests to give \n or info to reference")]
-    [SerializeField]
-    private GameObject questRef;
 
     [Header("Reference to the textbox prefab that should spawn")]
     [SerializeField]
@@ -37,81 +17,149 @@ public class DialogueSpawner : MonoBehaviour
     [SerializeField]
     private GameObject sideBarPrefab;
 
-    [Header("base text if no looping dialogue")]
+    [Header("main dialogue, not quest")]
     [SerializeField]
-    public NPCDialogue baseText;
+    public List<NPCDialogue> baseText;
 
-    [Header("Use this section if this is quest related dialogue")]
-    [SerializeField]
-    private NPCDialogue questNotStartedText;
-    [SerializeField]
-    private NPCDialogue questStartedText;
-    [SerializeField]
-    private NPCDialogue questFinishedText;
+    [Header("insert DEFAULT/FIRST sidebar here \n only fill out with initial side bar information")]
+    [SerializeField] protected List<sideBarCustomization> sideBarFirst = new List<sideBarCustomization>();
 
 
-    [Header("Tick this box if there should be a side bar pop-up")]
+    [Serializable]
+   public class triggeredDialogue
+    {
+        public List<NPCDialogue> questText;
+    }
+
+    [Header("This section is for checking quest progress FOR TEXTBOX \n fill in with JUST name of variable \n example: exampleQuestStarted \n in order please")]
     [SerializeField]
-    private bool sideBarOrNot;
+    private string[] varNames;
 
-    [Header("For side bar NPC name")]
+    [Header("This section is for checking variables FOR SIDEBAR \n fill in with JUST name of variable \n example: exampleQuestStarted \n in order please")]
     [SerializeField]
-    private string sideBarNPCName;
+    private string[] sideBarVarNames;
 
-    [Header("one box per option, tick if that option should lead \n to shop, MAX 4")]
-    [SerializeField]
-    private bool[] sidebarOptions;
+    [Header("insert quest dialogues here \n MUST MATCH ORDER OF QUEST VARIABLES")]
+    [SerializeField] protected List<triggeredDialogue> triggeredDialogues = new List<triggeredDialogue>();
 
-    [Header("Mark which one should give a quest if it gives one")]
-    [SerializeField]
-    private bool[] giveQuest;
+    [Serializable]
+    public class sideBarCustomization
+    {
+        [Header("For side bar NPC name")]
+        [SerializeField]
+        public string sideBarNPCName;
 
-    [Header("what should each of the sidebar buttons say?")]
-    [SerializeField]
-    private string[] sideBarButtonNames;
+        [Header("one box per option, tick if that option should lead \n to shop, MAX 4")]
+        [SerializeField]
+        public bool[] sidebarOptions;
 
-    [Header("IF THERE ARE MULTIPLE CONVERSATIONS \n should be same amount of options \n give shop a slot but leave it blank \n \n if it's a quest, also leave it blank, \nfill it out in the quest section \n and leave slot blank")]
-    [SerializeField]
-    private NPCDialogue[] sidebarDialogues;
+        [Header("what should each of the sidebar buttons say?")]
+        [SerializeField]
+        public string[] sideBarButtonNames;
 
+        [Header("IF THERE ARE MULTIPLE CONVERSATIONS \n should be same amount of options \n give shop a slot but leave it blank \n max of four options")]
+        [SerializeField]
+        public List<NPCDialogue> sidebarDialogues;
+    }
 
+    [Header("insert customized sidebar stuff here")]
+    [SerializeField] protected List<sideBarCustomization> sideBarCustomizations = new List<sideBarCustomization>();
+
+    //[Header("DONT TOUCH THESE")]
+    [HideInInspector] public int baseIndex;
+    [HideInInspector] public int baseSideDex;
+    [HideInInspector] 
+    public List<NPCDialogue> placeholder;
+    [HideInInspector] public NPCDialogue placeholderOptions;
+    [HideInInspector] public List<NPCDialogue> highway;
+
+    [HideInInspector] public List<NPCDialogue> inUse;
 
     //[SerializeField]
-    //private NPCDialogue[] branchingDialogue;
+    [HideInInspector] public bool[] tempRefVars;
+    [HideInInspector] public bool[] tempRefSideVars;
+
+    //[Header("ignore this")]
+    //[SerializeField]
+    [HideInInspector] public List<NPCDialogue> tempDialogueHolder;
+
+    //[HideInInspector]
+    //public bool dodo;
+    //[HideInInspector]
+    //public List<NPCDialogue> secretHolder;
 
     private void Start()
     {
 
+        placeholder = baseText;
+
+        var i = 0;
+        var j = 0;
+
+        tempRefVars = new bool[varNames.Length];
+
+        foreach (string var in varNames)
+        {
+            //Debug.Log("hi");
+            tempRefVars[i] = QuestVarHolder.instance.questBools[var];
+            i++;
+        }
+
+        tempRefSideVars = new bool[sideBarVarNames.Length];
+
+        foreach (string var in sideBarVarNames)
+        {
+            //Debug.Log("yo");
+            tempRefSideVars[j] = QuestVarHolder.instance.questBools[var];
+            j++;
+        }
     }
 
     public void spawnSideBar()
     {
-        /*int i = 0;
-        foreach(bool quest in giveQuest)
-        {
-            if (quest)
-            {
-                sideBarPrefab.GetComponent<SideBar>().questButton = i;
-            }
-            i++;
-        }
-        */
-        sideBarPrefab.GetComponent<SideBar>().questBoolsSideBar = giveQuest;
-        sideBarPrefab.GetComponent<SideBar>().NPCName = sideBarNPCName;
+        var tIndex = 0;
+
+        //Debug.Log("yo");
+
+        sideBarPrefab.GetComponent<SideBar>().NPCName = sideBarFirst[tIndex].sideBarNPCName;
         sideBarPrefab.GetComponent<SideBar>().buttonClicked = -3;
-        sideBarPrefab.GetComponent<SideBar>().dialogueOrShop = sidebarOptions;
-        sideBarPrefab.GetComponent<SideBar>().bunchaDialogues = sidebarDialogues;
-        sideBarPrefab.GetComponent<SideBar>().buttonName = sideBarButtonNames;
+        sideBarPrefab.GetComponent<SideBar>().dialogueOrShop = sideBarFirst[tIndex].sidebarOptions;
+        sideBarPrefab.GetComponent<SideBar>().bunchaDialogues = sideBarFirst[tIndex].sidebarDialogues;
+        sideBarPrefab.GetComponent<SideBar>().buttonName = sideBarFirst[tIndex].sideBarButtonNames;
         sideBarPrefab.GetComponent<SideBar>().refTextbox = textBoxPrefab;
-        sideBarPrefab.GetComponent<SideBar>().refParent = gameObject;
+        sideBarPrefab.GetComponent<SideBar>().refParent = this.gameObject;
 
-
-        /*
-        if (sidebarDialogues != null)
+        foreach (string varName in sideBarVarNames)
         {
+            if (QuestVarHolder.instance.questBools[varName] != tempRefSideVars[tIndex])
+            {
+                //Debug.Log("yo");
+                //baseIndex = 0;
+                tempRefSideVars[tIndex] = QuestVarHolder.instance.questBools[varName];
+            }
 
+
+            if (QuestVarHolder.instance.questBools[varName])
+            {
+                //Debug.Log("or this");
+                //Debug.Log(tIndex);
+                sideBarPrefab.GetComponent<SideBar>().NPCName = sideBarCustomizations[tIndex].sideBarNPCName;
+                sideBarPrefab.GetComponent<SideBar>().buttonClicked = -3;
+                sideBarPrefab.GetComponent<SideBar>().dialogueOrShop = sideBarCustomizations[tIndex].sidebarOptions;
+                sideBarPrefab.GetComponent<SideBar>().bunchaDialogues = sideBarCustomizations[tIndex].sidebarDialogues;
+                sideBarPrefab.GetComponent<SideBar>().buttonName = sideBarCustomizations[tIndex].sideBarButtonNames;
+                sideBarPrefab.GetComponent<SideBar>().refTextbox = textBoxPrefab;
+                sideBarPrefab.GetComponent<SideBar>().refParent = this.gameObject;
+
+            }
+
+            tIndex++;
         }
-        */
+
+        if (textBoxPrefab.activeInHierarchy)
+        {
+            textBoxPrefab.SetActive(false);
+        }
 
         if (!sideBarPrefab.activeInHierarchy)
         {
@@ -121,42 +169,54 @@ public class DialogueSpawner : MonoBehaviour
 
     public void spawnText()
     {
-        if (questOrNot)
+        //doIt();
+
+        var tIndex = 0;
+        //var a = 0;
+
+        textBoxPrefab.GetComponent<Textbox>().refSpawner = this.gameObject;
+
+        //Debug.Log("spawning");
+
+        foreach (string var in varNames)
         {
-            if (questRef != null)
+
+            //inUse = triggeredDialogues[tIndex].questText;
+
+            if (var != "")
             {
-                //checks if quest has been completed
-                if (questRef.GetComponent<QuestVarHolder>().questBools[questFinished] == true)
+
+                if (QuestVarHolder.instance.questBools[var] != tempRefVars[tIndex])
                 {
-                    textBoxPrefab.GetComponent<Textbox>().index = 0;
-                    textBoxPrefab.GetComponent<Textbox>().npcText = questFinishedText;
-                    //Debug.Log("quest hasnt been started yet");
+                    baseIndex = 0;
+                    tempRefVars[tIndex] = QuestVarHolder.instance.questBools[var];
                 }
-                //checks if quest is in progress
-                else if (questRef.GetComponent<QuestVarHolder>().questBools[questStarted] == true)
+
+                if (QuestVarHolder.instance.questBools[var])
                 {
-                    textBoxPrefab.GetComponent<Textbox>().index = 0;
-                    textBoxPrefab.GetComponent<Textbox>().npcText = questStartedText;
-                    //Debug.Log("quest has been started");
-                }
-                //checks if quest has been started          
-                else if (questRef.GetComponent<QuestVarHolder>().questBools[questStarted] == false)
-                {
-                    textBoxPrefab.GetComponent<Textbox>().index = 0;
-                    textBoxPrefab.GetComponent<Textbox>().npcText = questNotStartedText;
-                    //Debug.Log("quest has been finished");
+                    //inUse = triggeredDialogues[tIndex].questText;
+                    // Ensure we have a source array
+                    var source = triggeredDialogues[tIndex].questText;
+                    if (source != null && !ReferenceEquals(placeholder, source))
+                    {
+                        inUse = new List<NPCDialogue>(source);
+                        placeholder = new List<NPCDialogue>(source);
+                    }
                 }
             }
-        } 
-        else
-        {
-            //if there is no quest, it will just do a default textbox
-            textBoxPrefab.GetComponent<Textbox>().index = 0;
-            textBoxPrefab.GetComponent<Textbox>().npcText = baseText;
-            //Debug.Log("No quest to be had");
+            tIndex++;
         }
 
-        if(textBoxPrefab.activeInHierarchy == false)
+        activeAndClear();
+
+    }
+
+    public void activeAndClear()
+    {
+        //textBoxPrefab.GetComponent<Textbox>().npcText.Clear();
+        textBoxPrefab.GetComponent<Textbox>().npcText = new List<NPCDialogue>(placeholder);
+
+        if (!textBoxPrefab.activeInHierarchy)
         {
             textBoxPrefab.SetActive(true);
         }
@@ -164,63 +224,24 @@ public class DialogueSpawner : MonoBehaviour
 
     public void checkInput()
     {
-        if (!sideBarOrNot && !textBoxPrefab.activeInHierarchy)
-        {
-            //if (Input.GetKeyDown(KeyCode.F))
-            {
-                spawnText();
-            }
-        }
-        else if (sideBarOrNot && !textBoxPrefab.activeInHierarchy)
-        {
-            //if (Input.GetKeyDown(KeyCode.F))
-            {
-                spawnSideBar();
-            }
 
-        }
-    }
+        //baseIndexRef = textBoxPrefab.GetComponent<Textbox>().baseIndex;
 
-    // Update is called once per frame
-    /*
-    void Update()
-    {
-        //this will summon the textbox upon interacting if sidebar is not attached to NPC
-        //if (gameObject.GetComponent<SideBar>() == null)
-        //if(!sidebar.activeInHierarchy)
-        if(!sideBarOrNot && !textBoxPrefab.activeInHierarchy)
+        if (!textBoxPrefab.activeInHierarchy && !sideBarPrefab.activeInHierarchy)
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
                 spawnText();
             }
         }
-        else if (sideBarOrNot && !textBoxPrefab.activeInHierarchy)
-        {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                spawnSideBar();
-            }
-
-        }
     }
-    */
+
+    //COMMENT OUT LATER THIS IS FOR TESTING PURPOSES
     /*
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void Update()
     {
-        if (collision.gameObject.CompareTag("NPC"))
-        {
-            checkInput();
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("NPC"))
-        {
-            checkInput();
-        }
+        checkInput();
     }
     */
+
 }

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d0af707d8eb21b4db8b0bb335318f77, type: 3}
+  m_Name: MirrorKnightAttack2
+  m_EditorClassIdentifier: Assembly-CSharp::ActionSO
+  actionName: Attack 2
+  actionAnimationState: Attack2
+  windAnimationState: Attack2
+  windDuration: 0
+  HorizontalDisplacement:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  attackData:
+    attackDamage: 1
+    stepAmount: 5
+    knockbackPower: 10
+    stunDuration: 1.2
+    vitalityBuildUp: 1
+    parryLeniency: 0.6
+  windFeedback: {fileID: 0}
+  attackFeedback: {fileID: 0}
+  attackHitFeedback: {fileID: 348020824145329058, guid: f0cc677f1cc326b408b4874945f9666c, type: 3}

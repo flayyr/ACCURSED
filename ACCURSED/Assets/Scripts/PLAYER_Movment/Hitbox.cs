@@ -4,66 +4,81 @@ using UnityEngine;
 public class HitBox : MonoBehaviour
 {
     [Header("Modifiers")]
-    [SerializeField] public Vector3 direction;
+    [SerializeField] private Vector3 direction;
     [SerializeField] public Vector3 PostAnimDirection;
     [Space]
     [SerializeField] private PlayerStatistics playerStats;
-    [SerializeField] private MMF_Player hitFeedback;
     [Header("Parried")]
-    [SerializeField] private float perfectParryStunDuration =1f;
+    [SerializeField] private float parryStunDuration = 1f;
 
-    [HideInInspector]public GameObject originObject;
+    [Header("VFX")]
+    [Tooltip("Spawner for attack hit vfx, auto-found on a sibling if left empty")]
+    [SerializeField] private VFXSpawner vfxSpawner;
+
+    [HideInInspector] public GameObject originObject;
 
     CircleCollider2D c_cc;
     CharacterManager cManager;
 
     AttackData attackData;
+    ActionSO action;
 
     private void Start()
     {
         c_cc = GetComponent<CircleCollider2D>();
         cManager = GetComponentInParent<CharacterManager>();
         originObject = transform.root.gameObject;
+
+        if (vfxSpawner == null && transform.parent != null)
+            vfxSpawner = transform.parent.GetComponentInChildren<VFXSpawner>();
     }
 
     public Vector3 FindGlobalDirection(Transform targetTransform)
     {
-        if(direction == Vector3.zero) {
+        if (direction == Vector3.zero)
+        {
             return (targetTransform.position - transform.position).normalized;
         }
         PostAnimDirection = transform.TransformDirection(direction);
         return PostAnimDirection.normalized;
     }
 
-    public void Hit()
+    //called by HurtBox when this hitbox lands, hitPoint is where it hit, victim is the character that got hit
+    public void Hit(Vector3 hitPoint, GameObject victim)
     {
         if (playerStats != null)
         {
             playerStats.UpdateVitality(attackData.vitalityBuildUp);
             playerStats.UpdateRemembranceCharge(attackData.vitalityBuildUp);
         }
-        if (hitFeedback != null)
-        {
-            hitFeedback.PlayFeedbacks();
-        }
+
+        if (vfxSpawner != null)
+            vfxSpawner.SpawnAttackHitVFX(action, hitPoint, victim);
     }
 
     public void Parried()
     {
-        cManager.Stun(perfectParryStunDuration, 0f);
+        cManager.Stun(parryStunDuration, 0f);
+    }
+
+    //called by my own HurtBox when it successfully parries, hitPoint is where the parry vfx goes, attacker is the character that got parried
+    public void ParrySuccess(Vector3 hitPoint, GameObject attacker)
+    {
+        if (vfxSpawner != null)
+            vfxSpawner.SpawnAttackHitVFX(action, hitPoint, attacker);
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position, transform.position + direction);
-        if(c_cc!=null)
-        Gizmos.DrawWireSphere(transform.position, c_cc.radius);
+        if (c_cc != null)
+            Gizmos.DrawWireSphere(transform.position, c_cc.radius);
     }
 
     public void SetAttackData(AttackData attackData) { this.attackData = attackData; }
+    public void SetAction(ActionSO action) { this.action = action; }
     public AttackData GetAttackSO() { return attackData; }
-    public void SetPlayerStats(PlayerStatistics playerStats) {  this.playerStats = playerStats; }
-    public void SetHitFeedback(MMF_Player hitFeedback) {  this.hitFeedback = hitFeedback; }
-    public void SetDirection(Vector2 direction) {  this.direction = direction; }
+    public void SetPlayerStats(PlayerStatistics playerStats) { this.playerStats = playerStats; }
+    public void SetDirection(Vector2 direction) { this.direction = direction; }
 }
