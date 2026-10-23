@@ -18,11 +18,13 @@ public class PlayerManager : CharacterManager
 {
     [SerializeField] Transform playerOffset;
     [SerializeField] PlayerReference playerRef;
-    [SerializeField] ActionSO dashAction;
+    [SerializeField] DashAction dashAction;
 
     PlayerDeath playerDeath;
 
     Vector2 toMouseDirection;
+
+    float dashTimer;
 
     protected override void OnEnable()
     {
@@ -47,15 +49,10 @@ public class PlayerManager : CharacterManager
     {
         base.Update();
 
-        //if (currAction != null && currAction.startTime != -1)
-        //{
-        //    float timeSincePlayed = Time.time - currAction.startTime;
-        //    playerOffset.localPosition = Vector3.up * currAction.actionSO.VerticalMovement.Evaluate(timeSincePlayed);
-        //}
-        //else
-        //{
-        //    playerOffset.localPosition = Vector3.zero;
-        //}
+        if (dashTimer > 0)
+        {
+            dashTimer -= Time.deltaTime;
+        }
     }
 
     protected override void EndWind()
@@ -77,8 +74,9 @@ public class PlayerManager : CharacterManager
     //called by player controller, skips the action queue because it needs to also be called during StunnedCancellable state
     public bool CueDash()
     {
-        if ((combatState is ActionState.Idle or ActionState.StunnedCancellable))
+        if ((combatState is ActionState.Idle or ActionState.StunnedCancellable) && dashTimer<=0)
         {
+            dashTimer = dashAction.dashCooldown;
             currAction = new ActionInstance(dashAction, Time.time);
             PlayCurrentAction();
             return true;
