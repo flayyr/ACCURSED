@@ -6,6 +6,7 @@ public class CustomDynamicLit : MonoBehaviour, ICullable
 {
     [Header("Toggles")]
     [SerializeField] bool canMove = false;
+    [Tooltip("toggle updating shadow sprites")]
     [SerializeField] bool isAnimated = false;
     [Header("Normal Map")]
     [SerializeField] Sprite normalMap;

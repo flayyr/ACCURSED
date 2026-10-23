@@ -1,5 +1,16 @@
+using System;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
+[Serializable]
+public struct CharacterReference
+{
+    public SpriteRenderer spriteRenderer;
+    public HurtBox hurtBox;
+    public HitBox hitBox;
+    public CharacterStatistics cStats;
+    public CharacterManager cManager;
+}
 public enum ActionState { Idle, Winding, Attacking, Stunned, StunnedCancellable }
 public enum BaseMoveState { None = 0, Walk = 1, Run = 2, Sprint = 3 }
 
@@ -10,6 +21,7 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] protected HitBox hitBox;
     [SerializeField] protected Collider2D characterCollider;
     [SerializeField] protected ContactFilter2D contactFilter;
+    [SerializeField] protected CharacterReference characterRef;
 
     protected ActionQueuer actionQueuer;
     protected CharacterAnimator cAnim;
@@ -176,6 +188,8 @@ public class CharacterManager : MonoBehaviour
         combatState = ActionState.Attacking;
 
         Launch(moveDir, currAction.actionSO.attackData.stepAmount, true);
+
+        currAction.actionSO.GeneralActionTrigger(ref characterRef);
     }
 
     //gets stunned when hit, called by hurtbox

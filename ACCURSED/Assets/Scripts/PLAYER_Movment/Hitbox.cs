@@ -58,7 +58,8 @@ public class HitBox : MonoBehaviour
 
     public void Parried()
     {
-        cManager.Stun(parryStunDuration, 0f);
+        if(cManager != null)
+            cManager.Stun(parryStunDuration, 0f);
     }
 
     //called by my own HurtBox when it successfully parries, hitPoint is where the parry vfx goes, attacker is the character that got parried

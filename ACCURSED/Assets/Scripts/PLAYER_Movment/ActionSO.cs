@@ -42,4 +42,9 @@ public class ActionSO : ScriptableObject
     {
 
     }
+
+    public virtual void GeneralActionTrigger(ref CharacterReference characterRef)
+    {
+
+    }
 }
