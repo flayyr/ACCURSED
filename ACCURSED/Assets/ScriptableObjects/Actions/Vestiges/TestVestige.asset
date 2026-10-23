@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: TestVestige
   m_EditorClassIdentifier: Assembly-CSharp::TestVestige
   actionName: Test Vestige
-  windAnimationState: EmptyActionWind
   actionAnimationState: EmptyAction
+  windAnimationState: EmptyActionWind
   windDuration: 0
   HorizontalDisplacement:
     serializedVersion: 2
@@ -28,8 +28,10 @@ MonoBehaviour:
     knockbackPower: 0
     stunDuration: 0
     vitalityBuildUp: 1
-    parryLeniency: 0.5
-  attackFeedbackPreset: {fileID: 2655988077585873504, guid: 0e7c6dfa8dffe8947ba20941c5af1fb6, type: 2}
+    parryLeniency: -0.01
+  windFeedback: {fileID: 0}
+  attackFeedback: {fileID: 0}
+  attackHitFeedback: {fileID: 0}
   abilityIcon: {fileID: -6545669481088976041, guid: 56edaa2169cb8884cbfbb53452296f1b, type: 3}
   invincibleDuration: 0
   vestigeCoolDown: 0
