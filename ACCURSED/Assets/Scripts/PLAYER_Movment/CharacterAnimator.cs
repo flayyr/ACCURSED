@@ -66,8 +66,9 @@ public class CharacterAnimator : MonoBehaviour
     }
 
     void SetSpriteLibraries(int index) {
-        foreach(SpriteLibrary sLib in spriteLibraries) {
-            sLib.spriteLibraryAsset = libraryAssets[index];
+        //For characters with multiple sprites, the library assets lists are split in chunks of 8, assigning each spriteLibrary sequentially
+        for(int i = 0; i<spriteLibraries.Length; i++) {
+            spriteLibraries[i].spriteLibraryAsset = libraryAssets[index + i*8];
         }
     }
 
