@@ -16,16 +16,16 @@ public class EnemyAttacker : MonoBehaviour
     }
 
     //called by enemy controller, simply queues attacks
-    public void CueAttack()
+    public void CueAttack(bool continueCombo)
     {
-        //if (currAttackInstance != null)
-        //{
-
-        //}
-        //currAttackInstance = actionQueuer.QueueAction(attackList[0]);
-
-        ActionInstance lastPlayed = actionQueuer.GetLastPlayedInstance();
-        QueueNextAttackInSequence(lastPlayed != null ? lastPlayed.actionSO : null);
+        if (continueCombo)
+        {
+            ActionInstance lastPlayed = actionQueuer.GetLastPlayedInstance();
+            QueueNextAttackInSequence(lastPlayed != null ? lastPlayed.actionSO : null);
+        } else
+        {
+            QueueAttack(0);
+        }
     }
 
     private bool QueueNextAttackInSequence(ActionSO currSO)
@@ -34,25 +34,21 @@ public class EnemyAttacker : MonoBehaviour
         {
             if (currSO == attackList[i])
             {
-                Debug.Log("list: "+i);
-                QueueAttack((i + 1) % attackList.Length);
+                QueueAttack((i + 1));// % attackList.Length
                 return true;
             }
         }
-        Debug.Log("default");
         QueueAttack(0);
         return false;
     }
 
     private void QueueAttack(int index)
     {
-        ActionInstance lastQueued = actionQueuer.GetLastQueuedInstance();
-        if (lastQueued != null && attackList[index] == lastQueued.actionSO)
-        {//dont queue new attack if target attack is already the latest queued attack
-            currAttackInstance.UpdateQueueTime();
+        if (index >= attackList.Length)
+        {
             return;
         }
 
         currAttackInstance = actionQueuer.QueueAction(attackList[index]);
-    }
+    } 
 }

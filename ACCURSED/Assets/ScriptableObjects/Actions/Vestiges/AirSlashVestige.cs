@@ -11,9 +11,7 @@ public class AirSlashVestige : VestigeSO
 
     public override void PlayerActionTrigger(ref PlayerReference playerRef)
     {
-        ParticleSystem.MainModule mainModule = playerRef.particleSystem.main;
-        mainModule.startColor = Color.green;
-        playerRef.particleSystem.Play();
+        base.PlayerActionTrigger(ref playerRef);
 
         Vector2 position = playerRef.hitBox.transform.position;
         //Vector2 direction = playerRef.playerManager.GetDirection();

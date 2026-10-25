@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: DashAction
   m_EditorClassIdentifier: Assembly-CSharp::DashAction
   actionName: Dash
-  windAnimationState: Dash
   actionAnimationState: Dash
+  windAnimationState: Dash
   windDuration: 0
   HorizontalDisplacement:
     serializedVersion: 2
@@ -47,3 +47,7 @@ MonoBehaviour:
     stunDuration: 0
     vitalityBuildUp: 1
     parryLeniency: 0.5
+  windFeedback: {fileID: 0}
+  attackFeedback: {fileID: 0}
+  attackHitFeedback: {fileID: 0}
+  dashCooldown: 0

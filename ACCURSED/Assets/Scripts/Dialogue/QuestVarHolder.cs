@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -13,10 +14,9 @@ public class QuestVarHolder : MonoBehaviour
 
     //public string[] varNames;
 
-    public bool[] trueOrFalseBools;
+    //public bool[] trueOrFalseBools;
 
     public Dictionary<string, bool> questBools = new Dictionary<string, bool>();
-
 
     private void Awake()
     {
@@ -31,35 +31,37 @@ public class QuestVarHolder : MonoBehaviour
 
         //Dictionary<bool, QuestVarHolder> questbools = new Dictionary<bool, QuestVarHolder>();
         DontDestroyOnLoad(gameObject);
+
+        questBools.Add("reckonerDefeat", false);
+        questBools.Add("gotEye", false);
+
+        questBools.Add("tempQuestStarted", false);
+        questBools.Add("tempQuestinProgress", false);
+        questBools.Add("tempQuestFinished", false);
+
     }
 
     private void Start()
     {
         //questBools.Add("tempQuest", false);
-        questBools.Add("tempQuestStarted", false);
-        questBools.Add("tempQuestFinished", false);
     }
 
     private void Update()
     {
-        
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            questBools["tempQuest"] = true;
-            Debug.Log(questBools["tempQuest"]);
+            //questBools["tempQuestinProgress"] = true;
+            //Debug.Log(questBools["tempQuestinProgress"]);
+            Debug.Log(questBools["reckonerDefeat"]);
+            questBools["reckonerDefeat"] = true;
         }
-        
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            questBools["tempQuestStarted"] = true;
-            Debug.Log(questBools["tempQuestStarted"]);
+            //questBools["gotEye"] = true;
+            Debug.Log(questBools["gotEye"]);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            questBools["tempQuestFinished"] = true;
-            Debug.Log(questBools["tempQuestFinished"]);
-        }
-        
+
     }
 
 }

@@ -94,7 +94,7 @@ public class StatusItemSlot : MonoBehaviour, IPointerClickHandler
         if (manager != null) manager.Unequip(category, slotIndex);
     }
 
-    public void Refresh()
+    public void Refresh() 
     {
         ItemPickupSO item = manager != null 
             ? manager.GetEquippedItem(category, slotIndex) : null;

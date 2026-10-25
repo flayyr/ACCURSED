@@ -121,7 +121,7 @@ MonoBehaviour:
   direction: {x: 1.69, y: -1.18, z: 0}
   PostAnimDirection: {x: 0, y: 0, z: 0}
   playerStats: {fileID: 7527250969752035120}
-  perfectParryStunDuration: 1
+  parryStunDuration: 1
   vfxSpawner: {fileID: 0}
   originObject: {fileID: 0}
 --- !u!60 &1322706518304336856
@@ -259,15 +259,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   lm_hitbox:
     serializedVersion: 2
-    m_Bits: 32768
-  lm_hurtbox:
+    m_Bits: 64
+  lm_buffSource:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 32768
+  buffHurtboxType: 0
   afterHurtInvincibleDuration: 0.2
   durationUntilDodgeCancellable: 0.5
-  hurtFeedback: {fileID: 0}
-  parryFeedback: {fileID: 0}
-  hurtFeedbackPreset: {fileID: 2655988077585873504, guid: 9e72ce1ecfec5df4d96beecbc2a94616, type: 2}
   personalHurtBoxes: []
   personalHitBoxes: []
   invincible: 0
@@ -965,7 +963,7 @@ MonoBehaviour:
   - {fileID: 7108339969198208228, guid: 9aebb455c78197840909c94c001b1127, type: 3}
   - {fileID: 7108339969198208228, guid: e4b3be61f971cce42b4826f306677096, type: 3}
   - {fileID: 7108339969198208228, guid: d430232e841c60c4eb0ec174562aee84, type: 3}
-  vfxSpawner: {fileID: 0}
+  vfxSpawner: {fileID: 7410480554128925755}
 --- !u!114 &4848131160581659832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -990,8 +988,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a34cbfa0c2ddc40981f96fa1505d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatistics
-  maxHealth: 2
-  currentHealth: 2
+  maxHealth: 200
+  currentHealth: 200
   maxHealCharge: 3
   maxVitality: 10
   currentHealCharge: 0
@@ -1029,6 +1027,7 @@ MonoBehaviour:
   remembranceAbility: {fileID: 11400000, guid: 07216a182842f8347b98f69422053c9d, type: 2}
   healAction: {fileID: 11400000, guid: 4031b5dd3d605ad4dab4a2abbbc97b95, type: 2}
   parryAction: {fileID: 11400000, guid: 259ebed5e6e56c042b53c768bbb2e8e1, type: 2}
+  fableAbility: {fileID: 11400000, guid: 0fd45da09e99ef94cafd2b38e5c7d110, type: 2}
 --- !u!58 &3871672931295881435
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1092,9 +1091,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHitter
   attackList:
-  - {fileID: 11400000, guid: c5fdfd0220b3d7442a91ef9138e47b0f, type: 2}
-  - {fileID: 11400000, guid: 809a3f891621f62459b9d75032bfb332, type: 2}
-  - {fileID: 11400000, guid: 329b16fc52146f742adde125030da186, type: 2}
+  - {fileID: 11400000, guid: 2e11228bcf10f7542b98016bc0a107ef, type: 2}
+  - {fileID: 11400000, guid: 1eac571b22be33b458efa26b052a0d65, type: 2}
+  - {fileID: 11400000, guid: 5f35715d7f7d3404a9560feea5e55f3a, type: 2}
 --- !u!114 &275542753763917146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1136,6 +1135,12 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  characterRef:
+    spriteRenderer: {fileID: 8168863755395668422}
+    hurtBox: {fileID: 6745598973557108595}
+    hitBox: {fileID: 8659350370337283521}
+    cStats: {fileID: 7527250969752035120}
+    cManager: {fileID: 8797631828024848465}
   combatState: 0
   playerOffset: {fileID: 4802107264348243449}
   playerRef:

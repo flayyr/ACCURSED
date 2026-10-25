@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class ActionInstance
 {
+    public delegate void FunctionCall();
+
     public ActionSO actionSO;
     public float queueTime;
     public bool skipWindWhenQueued = false;
-    public bool played = false;
+    public bool loaded = false;
     public float finishTime = -1;
     public float startTime = -1;
+    public float loadTime = -1;
+    public bool interrupted = false;
+    public FunctionCall onFinish;
 
-    public ActionInstance(ActionSO actionSO, float currTime)
+    public ActionInstance(ActionSO actionSO, float currTime, FunctionCall func=null)
     {
         this.actionSO = actionSO;
         queueTime = currTime;
         skipWindWhenQueued = false;
+        onFinish = func;
     }
 
     public void UpdateQueueTime() {
@@ -40,9 +46,9 @@ public class ActionQueuer : MonoBehaviour
         actionQueue = new Queue<ActionInstance>();
     }
 
-    public ActionInstance QueueAction(ActionSO attack)
+    public ActionInstance QueueAction(ActionSO attack, ActionInstance.FunctionCall func = null)
     {
-        ActionInstance instance = new ActionInstance(attack, Time.time);
+        ActionInstance instance = new ActionInstance(attack, Time.time, func);
         actionQueue.Enqueue(instance);
         lastQueuedInstance = instance;
 
@@ -51,19 +57,25 @@ public class ActionQueuer : MonoBehaviour
 
         return instance;
     }
+    public ActionInstance QueueAction(ActionSO attack, ref bool condition, ActionInstance.FunctionCall func = null) {
+        if (condition) {
+            return QueueAction(attack, func);
+        }
+        return null;
+    }
 
     public ActionInstance GetNextAction()
     {
         //clear actions that were queued too early
         while(actionQueue.Count > 0 && actionQueue.Peek().queueTime + queueWindow < Time.time)
         {
-            actionQueue.Dequeue();
+            actionQueue.Dequeue().interrupted = true;
         }
 
         //if no actions in queue
         if (actionQueue.Count == 0)
         {
-            if(lastQueuedInstance != null && !lastQueuedInstance.played)//if latest wasnt played, meaning it was dequeued
+            if(lastQueuedInstance != null && !lastQueuedInstance.loaded)//if latest wasnt played, meaning it was dequeued
                 lastQueuedInstance = null;
             return null;
         }
@@ -74,9 +86,15 @@ public class ActionQueuer : MonoBehaviour
 
     public void ClearActions()
     {
-        actionQueue.Clear();
-        if (lastQueuedInstance != null && !lastQueuedInstance.played)//if latest wasnt played, meaning it was dequeued
-            lastQueuedInstance = null;
+        while (actionQueue.Count != 0) {
+            actionQueue.Dequeue().interrupted = true;
+        }
+
+        if(lastPlayedInstance!=null)
+            lastPlayedInstance.interrupted = true;
+
+        lastQueuedInstance = null;
+        lastPlayedInstance = null;
     }
 
     public ActionInstance GetLastQueuedInstance() {

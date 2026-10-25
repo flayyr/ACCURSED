@@ -1,0 +1,279 @@
+using System.Collections;
+using SaintsField;
+using SaintsField.Playa;
+using UnityEngine;
+using UnityEngine.AI;
+
+[RequireComponent(typeof(NavMeshAgent))]
+public class EnemyController : MonoBehaviour
+{
+    public enum EnemyState
+    {
+        neutral,   // idling and patrolling within a radius
+        pursuing,  // chasing and attacking the player
+    }
+
+    #region State
+    [LayoutStart("State", ELayout.FoldoutBox)]
+    public EnemyState enemyState;
+    #endregion
+
+    #region Neutral Patrol
+    [LayoutStart("Patrolling", ELayout.FoldoutBox)]
+    [SerializeField] protected float patrolRadius;
+    [SerializeField] protected LayerMask obstacleLayers;
+    [SerializeField] protected float waypointTolerance;
+    [SerializeField] protected float patrolWaitMin;
+    [SerializeField] protected float patrolWaitMax;
+    [SerializeField][ReadOnly] protected float patrolWaitTimer;
+    [SerializeField][ReadOnly] protected Vector2 patrolOrigin;
+    [SerializeField][ReadOnly] protected Vector2 patrolTarget;
+    [SerializeField][ReadOnly] protected bool waitingAtWaypoint = true;
+    #endregion
+
+    #region Pursuing
+    [LayoutStart("Pursuit Ranges", ELayout.FoldoutBox)]
+    [SerializeField] protected float detectionRadius;
+    [SerializeField] protected float attackRange;
+    [SerializeField] protected float loseSightRadius;
+    [SerializeField] protected bool canChangeDirMidCombo;
+    [SerializeField] protected float attackCooldown;
+    #endregion
+
+    #region Pathfinding
+    [LayoutStart("Pathfinding", ELayout.FoldoutBox)]
+    [SerializeField][ReadOnly] protected NavMeshAgent agent;
+    [SerializeField] protected float stoppingDistance = 0.2f;
+    #endregion
+
+    #region References
+    [SerializeField][ReadOnly] protected Transform playerTransform;
+
+    protected CharacterManager combatManager;
+    protected ActionQueuer actionQueuer;
+    protected EnemyAttacker enemyAttacker;
+    #endregion
+
+    protected float attackCooldownTimer;
+
+    protected virtual void Start()
+    {
+        waitingAtWaypoint = true;
+        patrolTarget = Vector2.zero;
+        GetComponents();
+        patrolOrigin = transform.position;
+        playerTransform = GameObject.FindWithTag("Player").transform;
+
+        // The agent only supplies path corners here; CharacterMovement's Rigidbody2D does the actual moving,
+        // so we drive movement/rotation ourselves and keep the agent's internal position in sync each frame.
+        agent.updatePosition = false;
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+        agent.stoppingDistance = stoppingDistance;
+    }
+
+    void GetComponents()
+    {
+        agent = GetComponent<NavMeshAgent>();
+
+        combatManager = GetComponent<CharacterManager>();
+        enemyAttacker = GetComponent<EnemyAttacker>();
+        actionQueuer = GetComponent<ActionQueuer>();
+    }
+
+    void Update()
+    {
+        StateUpdate();
+        TimerUpdates();
+    }
+
+    void TimerUpdates()
+    {
+        if (waitingAtWaypoint)
+        {
+            if (enemyState == EnemyState.neutral)
+                StopMoving();
+            patrolWaitTimer -= Time.deltaTime;
+            if (patrolWaitTimer <= 0)
+            {
+                waitingAtWaypoint = false;
+                PickNewPatrolTarget();
+            }
+        }
+    }
+    void StateUpdate()
+    {
+        switch (enemyState)
+        {
+            case EnemyState.neutral:
+                NeutralUpdate();
+                CheckForPlayer();
+                HandleMovement();
+                break;
+
+            case EnemyState.pursuing:
+                PursuingUpdate();
+                CheckLoseSight();
+                break;
+        }
+    }
+
+
+    #region Neutral
+    void NeutralUpdate()
+    {
+        if (waitingAtWaypoint)
+        {
+            combatManager.MoveInput(Vector2.zero);
+            return;
+        }
+
+        float distToWaypoint = Vector2.Distance(transform.position, patrolTarget);
+        if (distToWaypoint <= waypointTolerance)
+        {
+            ArriveAtWaypoint();
+        }
+        else
+        {
+            SetTargetPosition(patrolTarget);
+        }
+    }
+
+    void PickNewPatrolTarget()
+    {
+        Vector2 offset = Random.insideUnitCircle * patrolRadius;
+        while (Physics2D.OverlapPoint(offset, obstacleLayers))
+        {
+            offset = Random.insideUnitCircle * patrolRadius;
+        }
+        patrolTarget = patrolOrigin + offset;
+    }
+
+    void ArriveAtWaypoint()
+    {
+        combatManager.MoveInput(Vector2.zero);
+        waitingAtWaypoint = true;
+        patrolWaitTimer = Random.Range(patrolWaitMin, patrolWaitMax);
+    }
+
+    void CheckForPlayer()
+    {
+        if (playerTransform == null) return;
+
+        float distToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+        if (distToPlayer <= detectionRadius)
+        {
+            enemyState = EnemyState.pursuing;
+        }
+    }
+    #endregion
+
+
+    #region Pursuing
+    protected virtual void PursuingUpdate()
+    {
+        if (playerTransform == null) return;
+
+        // Aim movementInput at the player so attacks step/face the right way,
+        // even on frames where we hold position.
+        Vector2 toPlayer = ((Vector2)playerTransform.position - (Vector2)transform.position);
+        float distToPlayer = toPlayer.magnitude;
+        toPlayer = toPlayer.normalized;
+
+        if (distToPlayer <= attackRange)
+        {
+            bool wasIdle = false;
+            // In range: face the player, hold position, and start a combo if idle.
+            if (combatManager.GetCombatState() is ActionState.Idle)
+            {
+                combatManager.MoveInput(toPlayer);
+                wasIdle = true;
+            }
+
+            if (attackCooldownTimer > attackCooldown) {
+                enemyAttacker.CueAttack(canChangeDirMidCombo || !wasIdle);//does not continue combo if we were idle, unless we can changeDirMidCombo
+                attackCooldownTimer-=attackCooldown;
+            } else {
+                attackCooldownTimer += Time.deltaTime;
+            }
+        }
+        else
+        {
+            // Out of range: only break off if we aren't mid-combo, then close the gap.
+            if (combatManager.GetCombatState() is ActionState.Idle)
+            {
+                HandleMovement();
+                SetTargetPosition(playerTransform.position);
+            }
+        }
+    }
+
+    void CheckLoseSight()
+    {
+        if (playerTransform == null) return;
+
+        float distToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+        if (distToPlayer > loseSightRadius)
+        {
+            enemyState = EnemyState.neutral;
+            StopMoving();
+            PickNewPatrolTarget();
+        }
+    }
+    #endregion
+
+
+    #region Pathfinding
+    public void HandleMovement()
+    {
+        // CharacterMovement's Rigidbody2D is what actually moves us, so keep the agent's
+        // internal position pinned to our real position instead of letting it move us.
+        agent.nextPosition = transform.position;
+
+        if (!agent.hasPath) return;
+
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            StopMoving();
+            return;
+        }
+
+        Vector2 moveDir = (Vector2)agent.steeringTarget - (Vector2)transform.position;
+        combatManager.MoveInput(moveDir);
+    }
+
+    public void StopMoving()
+    {
+        if (agent.hasPath)
+            agent.ResetPath();
+        //cMovement.movementInput = Vector2.zero;
+        combatManager.MoveInput(Vector2.zero);
+    }
+
+    public void SetTargetPosition(Vector3 targetPosition)
+    {
+        agent.SetDestination(targetPosition);
+    }
+    #endregion
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        if (agent != null && agent.hasPath)
+        {
+            Vector3[] corners = agent.path.corners;
+            for (int i = 0; i < corners.Length - 1; i++)
+            {
+                Gizmos.DrawLine(corners[i], corners[i + 1]);
+            }
+        }
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, loseSightRadius);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(patrolOrigin, patrolRadius);
+    }
+}

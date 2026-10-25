@@ -1,5 +1,17 @@
+using System;
+using System.Collections.Generic;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
+[Serializable]
+public struct CharacterReference
+{
+    public SpriteRenderer spriteRenderer;
+    public HurtBox hurtBox;
+    public HitBox hitBox;
+    public CharacterStatistics cStats;
+    public CharacterManager cManager;
+}
 public enum ActionState { Idle, Winding, Attacking, Stunned, StunnedCancellable }
 public enum BaseMoveState { None = 0, Walk = 1, Run = 2, Sprint = 3 }
 
@@ -10,6 +22,7 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] protected HitBox hitBox;
     [SerializeField] protected Collider2D characterCollider;
     [SerializeField] protected ContactFilter2D contactFilter;
+    [SerializeField] protected CharacterReference characterRef;
 
     protected ActionQueuer actionQueuer;
     protected CharacterAnimator cAnim;
@@ -57,6 +70,7 @@ public class CharacterManager : MonoBehaviour
             UpdateWindTimer();
 
         UpdateMovement();
+        UpdateBuffs();
     }
 
     #region Combat
@@ -102,10 +116,11 @@ public class CharacterManager : MonoBehaviour
     protected void OnActionFinish()
     {
         combatState = ActionState.Idle;
-        if (currAction != null)
+        if (currAction != null) {
             currAction.finishTime = Time.time;
-        else
-            Debug.Log("CURR ACTION NULL");
+            currAction.onFinish?.Invoke();
+        } else
+            Debug.LogError("CURR ACTION NULL");
         UpdateDirection();
         PlayNextAction();
     }
@@ -131,9 +146,10 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    protected void PlayCurrentAction()
+    protected virtual void PlayCurrentAction()
     {
-        currAction.played = true;
+        currAction.loaded = true;
+        currAction.loadTime = Time.time;
 
         hitBox.SetAttackData(currAction.actionSO.attackData);//sets attack data into hitbox
         hitBox.SetAction(currAction.actionSO);//for attack hit vfx
@@ -152,6 +168,12 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
+    protected void PlayActionInstantly(ActionSO action)
+    {
+        currAction = new ActionInstance(action, Time.time);
+        PlayCurrentAction();
+    }
+
     public void SkipWind(ActionInstance attackInstance)
     {
         if (attackInstance != currAction || combatState is not ActionState.Winding) return; //make sure currAttack is the same instance to be skipped
@@ -168,6 +190,8 @@ public class CharacterManager : MonoBehaviour
         combatState = ActionState.Attacking;
 
         Launch(moveDir, currAction.actionSO.attackData.stepAmount, true);
+
+        currAction.actionSO.GeneralActionTrigger(ref characterRef);
     }
 
     //gets stunned when hit, called by hurtbox
@@ -180,7 +204,12 @@ public class CharacterManager : MonoBehaviour
         cAnim.SetStunned(true);//for stun animations
         actionQueuer.ClearActions();
 
-        currAction = null;
+        hitBox.gameObject.SetActive(false);
+
+        if (currAction != null) {
+            currAction.interrupted = true;
+            currAction = null;
+        }
 
         if (stunTimer < stunDuration)
             stunTimer = stunDuration;
@@ -200,6 +229,7 @@ public class CharacterManager : MonoBehaviour
     protected Vector2 moveInput;
     protected Vector2 currDir = Vector2.down;
     protected Vector2 moveDir = Vector2.down;
+    protected Vector2 facingDir = Vector2.down;
 
 
     protected bool walkInput;
@@ -221,7 +251,7 @@ public class CharacterManager : MonoBehaviour
     protected void UpdateDirection()
     {
         moveDir = currDir;
-        cAnim.SetFacingDirection(moveDir);
+        facingDir = cAnim.SetFacingDirection(moveDir);
     }
 
     protected void UpdateMovement()
@@ -241,26 +271,39 @@ public class CharacterManager : MonoBehaviour
             moveState = BaseMoveState.None;
             cAnim.SetMoveState(0);
 
-            if (currAction != null && currAction.startTime != -1)
+            if (currAction != null)
             {
-                float timeSincePlayed = Time.time - currAction.startTime;
-                float moveAmt = currAction.actionSO.HorizontalDisplacement.Evaluate(timeSincePlayed+Time.deltaTime)
-                    - currAction.actionSO.HorizontalDisplacement.Evaluate(timeSincePlayed);
-
-                Vector3 moveDist = (Vector3)moveDir * moveAmt;
-
-                RaycastHit2D[] raycastInfos = new RaycastHit2D[10];
-                if (characterCollider.Cast(moveDist, contactFilter, raycastInfos, moveDist.magnitude) == 0) {
-                    transform.position += moveDist;
+                if (currAction.startTime != -1)
+                {
+                    HandleHorizontalDisplacement(currAction.startTime, currAction.actionSO.HorizontalDisplacement);
+                }
+                else if (currAction.loadTime != -1)
+                {
+                    HandleHorizontalDisplacement(currAction.loadTime, currAction.actionSO.HorizontalDisplacementWind);
                 }
             }
+            
+        }
+    }
+
+    private void HandleHorizontalDisplacement(float startTime, AnimationCurve displacementCurve)
+    {
+        float timeSincePlayed = Time.time - startTime;
+        float moveAmt = displacementCurve.Evaluate(timeSincePlayed + Time.deltaTime) - displacementCurve.Evaluate(timeSincePlayed);
+
+        Vector3 moveDist = (Vector3)moveDir * moveAmt;
+
+        RaycastHit2D[] raycastInfos = new RaycastHit2D[10];
+        if (characterCollider.Cast(moveDist, contactFilter, raycastInfos, moveDist.magnitude) == 0)
+        {
+            transform.position += moveDist;
         }
     }
 
 
     public void SetWalkInput(bool walk)
     {
-        walkInput = !walkInput;
+        walkInput = walk;
     }
     public void SetSprintInput(bool sprint)
     {
@@ -350,9 +393,48 @@ public class CharacterManager : MonoBehaviour
 
     #endregion
 
+
+    #region Buffs
+    struct BuffInstance {
+        public BuffData data;
+        public float startTime;
+        public BuffInstance(BuffData data,  float startTime) {
+            this.data = data;
+            this.startTime = startTime;
+        }
+    }
+
+    List<BuffInstance> buffInstances = new List<BuffInstance>();
+
+    public void AddBuff(BuffData buffData) {
+        buffInstances.Add(new BuffInstance(buffData, Time.time));
+        ResolveBuff(buffData, true);
+    }
+
+    void ResolveBuff(BuffData buffData, bool isApplying) {
+        switch (buffData.type) {
+            case BuffType.DefenseUp:
+                Debug.Log(gameObject.name + " is receiving buff " + isApplying);
+                characterRef.hurtBox.SetDefenseModifier(isApplying ? buffData.amount : 1);
+                break;
+        }
+    }
+
+    void UpdateBuffs() {
+        for (int i = 0; i < buffInstances.Count; i++) {
+            BuffInstance currBuff = buffInstances[i];
+            if (currBuff.startTime + currBuff.data.duration < Time.time) {
+                ResolveBuff(currBuff.data, false);
+                buffInstances.RemoveAt(i);
+                i--;
+            }
+        }
+    }
+    #endregion
+
     public ActionState GetCombatState() => combatState;
     public BaseMoveState GetMoveState() => moveState;
-    public Vector2 GetDirection() => currDir;
+    public Vector2 GetFacingDirection() => facingDir;
     public ActionInstance GetCurrAction()=>currAction;
     public HitBox GetHitBox() => hitBox;
 }

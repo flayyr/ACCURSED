@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: Air Slash Vestige
   m_EditorClassIdentifier: Assembly-CSharp::AirSlashVestige
   actionName: Air Slash
-  windAnimationState: Vestige1Wind
   actionAnimationState: Vestige1
+  windAnimationState: Vestige1Wind
   windDuration: 0.5
+  HorizontalDisplacementWind:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   HorizontalDisplacement:
     serializedVersion: 2
     m_Curve: []
@@ -23,13 +29,20 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   attackData:
-    attackDamage: 1
-    stepAmount: 5
-    knockbackPower: 10
+    attackDamage: 100
+    stepAmount: 0
+    knockbackPower: 0
     stunDuration: 0.5
     vitalityBuildUp: 1
-    parryLeniency: 0.5
-    attackHitFeedback: {fileID: 4295910257228934014, guid: 76b324bc3b2c75d4cab30fb7147dc994, type: 3}
+    parryLeniency: -0.01
+    buffData:
+      type: 0
+      target: 0
+      amount: 0
+      duration: 0
+  windFeedback: {fileID: 0}
+  attackFeedback: {fileID: 0}
+  attackHitFeedback: {fileID: 0}
   abilityIcon: {fileID: 21300000, guid: 105c54d7a860a784097a3186d6363171, type: 3}
   invincibleDuration: 0
   vestigeCoolDown: 12

@@ -16,6 +16,12 @@ MonoBehaviour:
   actionAnimationState: Vestige2
   windAnimationState: Vestige2
   windDuration: 0
+  HorizontalDisplacementWind:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   HorizontalDisplacement:
     serializedVersion: 2
     m_Curve:
@@ -41,12 +47,17 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   attackData:
-    attackDamage: 3
+    attackDamage: 300
     stepAmount: 0
     knockbackPower: 10
     stunDuration: 1
-    vitalityBuildUp: 1
-    parryLeniency: 0.5
+    vitalityBuildUp: 5
+    parryLeniency: -0.01
+    buffData:
+      type: 0
+      target: 0
+      amount: 0
+      duration: 0
   windFeedback: {fileID: 0}
   attackFeedback: {fileID: 0}
   attackHitFeedback: {fileID: 0}

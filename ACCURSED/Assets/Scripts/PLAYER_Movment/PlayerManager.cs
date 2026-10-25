@@ -18,11 +18,13 @@ public class PlayerManager : CharacterManager
 {
     [SerializeField] Transform playerOffset;
     [SerializeField] PlayerReference playerRef;
-    [SerializeField] ActionSO dashAction;
+    [SerializeField] DashAction dashAction;
 
     PlayerDeath playerDeath;
 
     Vector2 toMouseDirection;
+
+    float dashTimer;
 
     protected override void OnEnable()
     {
@@ -47,21 +49,26 @@ public class PlayerManager : CharacterManager
     {
         base.Update();
 
-        //if (currAction != null && currAction.startTime != -1)
-        //{
-        //    float timeSincePlayed = Time.time - currAction.startTime;
-        //    playerOffset.localPosition = Vector3.up * currAction.actionSO.VerticalMovement.Evaluate(timeSincePlayed);
-        //}
-        //else
-        //{
-        //    playerOffset.localPosition = Vector3.zero;
-        //}
+        if (dashTimer > 0)
+        {
+            dashTimer -= Time.deltaTime;
+        }
     }
 
     protected override void EndWind()
     {
+        if (currAction.actionSO.GetType() == typeof(ChargeableActionSO) )
+        {
+            float chargeTime = Time.time - currAction.queueTime;
+            ChargeableActionSO chargeableAction = (ChargeableActionSO)currAction.actionSO;
+            if (chargeTime >= chargeableAction.chargeTime)
+            {
+                PlayActionInstantly(chargeableAction.chargedAction);
+                return;
+            }
+        }
+        
         base.EndWind();
-
         currAction.actionSO.PlayerActionTrigger(ref playerRef);
     }
 
@@ -77,10 +84,10 @@ public class PlayerManager : CharacterManager
     //called by player controller, skips the action queue because it needs to also be called during StunnedCancellable state
     public bool CueDash()
     {
-        if ((combatState is ActionState.Idle or ActionState.StunnedCancellable))
+        if ((combatState is ActionState.Idle or ActionState.StunnedCancellable) && dashTimer<=0)
         {
-            currAction = new ActionInstance(dashAction, Time.time);
-            PlayCurrentAction();
+            dashTimer = dashAction.dashCooldown;
+            PlayActionInstantly(dashAction);
             return true;
         }
         return false;
