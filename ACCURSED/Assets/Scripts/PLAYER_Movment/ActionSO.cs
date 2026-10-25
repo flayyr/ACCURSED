@@ -11,7 +11,19 @@ public class AttackData
     public float stunDuration;
     public float vitalityBuildUp = 1;
     [Range(-0.01f, 1)] public float parryLeniency = 0.5f;
+
+    public BuffData buffData;
 }
+
+[Serializable]
+public class BuffData {
+    public BuffType type;
+    public BuffTarget target;
+    public float amount;
+    public float duration;
+}
+public enum BuffType { None, DefenseUp }
+public enum BuffTarget { Enemy, Player }
 
 [CreateAssetMenu(fileName = "ActionSO", menuName = "Actions/ActionSO")]
 public class ActionSO : ScriptableObject
@@ -39,6 +51,11 @@ public class ActionSO : ScriptableObject
 
     //only triggered for the player. Ideally id have it so that enemy actions don't have this
     public virtual void PlayerActionTrigger(ref PlayerReference playerRef)
+    {
+
+    }
+
+    public virtual void GeneralActionTrigger(ref CharacterReference characterRef)
     {
 
     }

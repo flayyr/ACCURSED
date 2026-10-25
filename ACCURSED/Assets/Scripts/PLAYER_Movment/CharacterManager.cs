@@ -1,5 +1,17 @@
+using System;
+using System.Collections.Generic;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
+[Serializable]
+public struct CharacterReference
+{
+    public SpriteRenderer spriteRenderer;
+    public HurtBox hurtBox;
+    public HitBox hitBox;
+    public CharacterStatistics cStats;
+    public CharacterManager cManager;
+}
 public enum ActionState { Idle, Winding, Attacking, Stunned, StunnedCancellable }
 public enum BaseMoveState { None = 0, Walk = 1, Run = 2, Sprint = 3 }
 
@@ -10,6 +22,7 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] protected HitBox hitBox;
     [SerializeField] protected Collider2D characterCollider;
     [SerializeField] protected ContactFilter2D contactFilter;
+    [SerializeField] protected CharacterReference characterRef;
 
     protected ActionQueuer actionQueuer;
     protected CharacterAnimator cAnim;
@@ -57,6 +70,7 @@ public class CharacterManager : MonoBehaviour
             UpdateWindTimer();
 
         UpdateMovement();
+        UpdateBuffs();
     }
 
     #region Combat
@@ -176,6 +190,8 @@ public class CharacterManager : MonoBehaviour
         combatState = ActionState.Attacking;
 
         Launch(moveDir, currAction.actionSO.attackData.stepAmount, true);
+
+        currAction.actionSO.GeneralActionTrigger(ref characterRef);
     }
 
     //gets stunned when hit, called by hurtbox
@@ -375,6 +391,45 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+
+    #region Buffs
+    struct BuffInstance {
+        public BuffData data;
+        public float startTime;
+        public BuffInstance(BuffData data,  float startTime) {
+            this.data = data;
+            this.startTime = startTime;
+        }
+    }
+
+    List<BuffInstance> buffInstances = new List<BuffInstance>();
+
+    public void AddBuff(BuffData buffData) {
+        buffInstances.Add(new BuffInstance(buffData, Time.time));
+        ResolveBuff(buffData, true);
+    }
+
+    void ResolveBuff(BuffData buffData, bool isApplying) {
+        switch (buffData.type) {
+            case BuffType.DefenseUp:
+                Debug.Log(gameObject.name + " is receiving buff " + isApplying);
+                characterRef.hurtBox.SetDefenseModifier(isApplying ? buffData.amount : 1);
+                break;
+        }
+    }
+
+    void UpdateBuffs() {
+        for (int i = 0; i < buffInstances.Count; i++) {
+            BuffInstance currBuff = buffInstances[i];
+            if (currBuff.startTime + currBuff.data.duration < Time.time) {
+                ResolveBuff(currBuff.data, false);
+                buffInstances.RemoveAt(i);
+                i--;
+            }
+        }
+    }
     #endregion
 
     public ActionState GetCombatState() => combatState;

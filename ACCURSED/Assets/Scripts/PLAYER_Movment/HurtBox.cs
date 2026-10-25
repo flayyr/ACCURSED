@@ -2,13 +2,15 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using MoreMountains.Feedbacks;
-using UnityEditor.Presets;
+using static UnityEngine.Rendering.DebugUI;
+using NUnit.Framework;
 
 public class HurtBox : MonoBehaviour
 {
     [Header("Modifiers")]
     [SerializeField] LayerMask lm_hitbox;
-    [SerializeField] LayerMask lm_hurtbox;
+    [SerializeField] LayerMask lm_buffSource;
+    [SerializeField] public BuffTarget buffHurtboxType;
 
     [Space]
     [SerializeField] float afterHurtInvincibleDuration = 0.2f;
@@ -19,7 +21,7 @@ public class HurtBox : MonoBehaviour
 
     CharacterMovement cMovement;
     CharacterStatistics cStatistics;
-    CharacterManager combatManager;
+    CharacterManager cManager;
     Collider2D myCollider;
 
     [SerializeField] bool invincible = false;
@@ -27,11 +29,13 @@ public class HurtBox : MonoBehaviour
     Vector2 facingDirection;
     Coroutine parryCoroutine;
 
+    float defenseModifier = 1;
+
     void Start()
     {
         cMovement = GetComponentInParent<CharacterMovement>();
         cStatistics = GetComponentInParent<CharacterStatistics>();
-        combatManager = GetComponentInParent<CharacterManager>();
+        cManager = GetComponentInParent<CharacterManager>();
         myCollider = GetComponent<Collider2D>();
     }
 
@@ -62,7 +66,7 @@ public class HurtBox : MonoBehaviour
 
                     //midpoint between me and the attacker, used as the parry vfx position
                     Vector2 parryPoint = (transform.root.position + hitBox.originObject.transform.position) * .5f;
-                    combatManager.GetHitBox().ParrySuccess(parryPoint, hitBox.originObject);//spawns my parry action's hit vfx
+                    cManager.GetHitBox().ParrySuccess(parryPoint, hitBox.originObject);//spawns my parry action's hit vfx
 
                     //Debug.Log("successful parry, accuracy: " + (1f - hitAlignment));
                     //Debug.Log("hitBoxDir: " + direction + " my dir: " + facingDirection + " accuracy: " + (1f - hitAlignment));
@@ -70,16 +74,22 @@ public class HurtBox : MonoBehaviour
                 else if (!invincible)
                 {
                     InvincibleForSeconds(afterHurtInvincibleDuration);
-
-
                     // Use Hitbox info to affect me
-                    combatManager.Stun(attackData.stunDuration, durationUntilDodgeCancellable);
+                    cManager.Stun(attackData.stunDuration, durationUntilDodgeCancellable);
 
-                    combatManager.Launch(direction, attackData.knockbackPower, true);
-                    cStatistics.UpdateHealth(-attackData.attackDamage);
+                    cManager.Launch(direction, attackData.knockbackPower, true);
+                    cStatistics.UpdateHealth(-(attackData.attackDamage / defenseModifier));
 
-                    hitBox.Hit(hitPoint, transform.root.gameObject);
+                    hitBox.Hit(this, hitPoint, transform.root.gameObject);
                 }
+            }
+        }
+
+        if ((lm_buffSource & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer && !personalHitBoxes.Contains(collision.gameObject)) {
+            var hitBox = collision.gameObject.GetComponent<HitBox>();
+            BuffData buffData = hitBox.GetBuffs(this);
+            if (buffData != null) {
+                cManager.AddBuff(buffData);
             }
         }
     }
@@ -96,6 +106,11 @@ public class HurtBox : MonoBehaviour
         parryCoroutine = StartCoroutine(ParryTime(parryTime));
 
         SetFacingDirection(direction);
+    }
+
+    public void AddPersonalHitBox(GameObject hitbox) {
+        personalHitBoxes.RemoveAll(item => item == null);
+        personalHitBoxes.Add(hitbox);
     }
 
     public void SetFacingDirection(Vector2 direction) {
@@ -120,4 +135,6 @@ public class HurtBox : MonoBehaviour
         yield return new WaitForSeconds(duration);
         parrying = false;
     }
+
+    public void SetDefenseModifier(float defenseModifier) { this.defenseModifier = defenseModifier; }
 }

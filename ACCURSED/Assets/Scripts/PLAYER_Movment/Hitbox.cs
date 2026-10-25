@@ -1,4 +1,5 @@
 using MoreMountains.Feedbacks;
+using System;
 using UnityEngine;
 
 public class HitBox : MonoBehaviour
@@ -43,8 +44,14 @@ public class HitBox : MonoBehaviour
         return PostAnimDirection.normalized;
     }
 
+    public BuffData GetBuffs(HurtBox hurtbox) {
+        if (attackData.buffData.type == BuffType.None) return null;
+        if (hurtbox.buffHurtboxType != attackData.buffData.target) return null;
+        return attackData.buffData;
+    }
+
     //called by HurtBox when this hitbox lands, hitPoint is where it hit, victim is the character that got hit
-    public void Hit(Vector3 hitPoint, GameObject victim)
+    public void Hit(HurtBox hurtbox ,Vector3 hitPoint, GameObject victim)
     {
         if (playerStats != null)
         {
@@ -58,7 +65,8 @@ public class HitBox : MonoBehaviour
 
     public void Parried()
     {
-        cManager.Stun(parryStunDuration, 0f);
+        if(cManager != null)
+            cManager.Stun(parryStunDuration, 0f);
     }
 
     //called by my own HurtBox when it successfully parries, hitPoint is where the parry vfx goes, attacker is the character that got parried
