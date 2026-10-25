@@ -9,9 +9,10 @@ public class ActionInstance
     public ActionSO actionSO;
     public float queueTime;
     public bool skipWindWhenQueued = false;
-    public bool played = false;
+    public bool loaded = false;
     public float finishTime = -1;
     public float startTime = -1;
+    public float loadTime = -1;
     public bool interrupted = false;
     public FunctionCall onFinish;
 
@@ -74,7 +75,7 @@ public class ActionQueuer : MonoBehaviour
         //if no actions in queue
         if (actionQueue.Count == 0)
         {
-            if(lastQueuedInstance != null && !lastQueuedInstance.played)//if latest wasnt played, meaning it was dequeued
+            if(lastQueuedInstance != null && !lastQueuedInstance.loaded)//if latest wasnt played, meaning it was dequeued
                 lastQueuedInstance = null;
             return null;
         }
