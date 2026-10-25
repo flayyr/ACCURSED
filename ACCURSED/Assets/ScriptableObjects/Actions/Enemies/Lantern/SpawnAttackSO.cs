@@ -11,6 +11,6 @@ public class SpawnAttackSO : ActionSO
         base.GeneralActionTrigger(ref characterRef);
         SpawnedAttackInstance attackInstance = Instantiate(attackPrefab);
         attackInstance.transform.position = characterRef.spriteRenderer.transform.position;
-        attackInstance.SetAttackData(attackData);
+        attackInstance.SetAttackData(attackData, ref characterRef.hurtBox);
     }
 }

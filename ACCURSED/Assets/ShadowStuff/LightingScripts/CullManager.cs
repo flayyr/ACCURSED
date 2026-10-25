@@ -91,6 +91,10 @@ public class CullManager : MonoBehaviour
             ObjectSetEnabled(obj, chunksIsEnabled[chunkCoord.x, chunkCoord.y]);
         //}
     }
+    public void RemoveObject(ICullable obj, Vector2 position) {
+        int2 chunkCoord = PositionToChunkCoord(position);
+        litObjects[chunkCoord.x, chunkCoord.y].Remove(obj);
+    }
 
     int2 PositionToChunkCoord(Vector2 position)
     {
@@ -103,7 +107,8 @@ public class CullManager : MonoBehaviour
 
     void ObjectsSetEnabledAll(HashSet<ICullable> set, bool enabled)
     {
-        foreach(ICullable obj in set)
+        //set.RemoveWhere(item => item != null); //commented out for possible performance issues
+        foreach (ICullable obj in set)
         {
             ObjectSetEnabled(obj, enabled);
         }

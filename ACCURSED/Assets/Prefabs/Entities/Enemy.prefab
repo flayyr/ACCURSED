@@ -88,10 +88,6 @@ PrefabInstance:
       propertyPath: managedReferences[395251481763119323].FreezeFrameDuration
       value: 0.1
       objectReference: {fileID: 0}
-    - target: {fileID: 6745598973557108595, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
-      propertyPath: lm_hitbox.m_Bits
-      value: 64
-      objectReference: {fileID: 0}
     - target: {fileID: 8168863755395668422, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
       propertyPath: m_Color.b
       value: 0
@@ -104,6 +100,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.05299878
       objectReference: {fileID: 0}
+    - target: {fileID: 8659350370337283521, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
+      propertyPath: vfxSpawner
+      value: 
+      objectReference: {fileID: 7529520703699892990}
     - target: {fileID: 8659350370337283521, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
       propertyPath: playerStats
       value: 
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b3edd68344330644be547f413f4dc66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStatistics
-  maxHealth: 20
+  maxHealth: 200
   currentHealth: 2
 --- !u!114 &6542834492989534560
 MonoBehaviour:
@@ -299,6 +299,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14ea0971b2877984e95d0074bac986c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &7529520703699892990 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7410480554128925755, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
+  m_PrefabInstance: {fileID: 1056494209947688645}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49325005ec47724bb5e588d9ce170c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXSpawner
 --- !u!114 &8540331957566407428 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8659350370337283521, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}

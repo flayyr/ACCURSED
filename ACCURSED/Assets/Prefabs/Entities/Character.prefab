@@ -259,10 +259,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   lm_hitbox:
     serializedVersion: 2
-    m_Bits: 32768
-  lm_hurtbox:
+    m_Bits: 64
+  lm_buffSource:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 32768
+  buffHurtboxType: 0
   afterHurtInvincibleDuration: 0.2
   durationUntilDodgeCancellable: 0.5
   personalHurtBoxes: []
@@ -987,8 +988,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a34cbfa0c2ddc40981f96fa1505d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatistics
-  maxHealth: 2
-  currentHealth: 2
+  maxHealth: 200
+  currentHealth: 200
   maxHealCharge: 3
   maxVitality: 10
   currentHealCharge: 0

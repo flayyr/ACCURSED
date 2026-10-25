@@ -16,6 +16,12 @@ MonoBehaviour:
   actionAnimationState: Remembrance1
   windAnimationState: Remembrance1Wind
   windDuration: 0.5
+  HorizontalDisplacementWind:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   HorizontalDisplacement:
     serializedVersion: 2
     m_Curve: []
@@ -23,12 +29,17 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   attackData:
-    attackDamage: 1
+    attackDamage: 300
     stepAmount: 0
     knockbackPower: 20
     stunDuration: 3
     vitalityBuildUp: 5
     parryLeniency: 0
+    buffData:
+      type: 0
+      target: 0
+      amount: 0
+      duration: 0
   windFeedback: {fileID: 0}
   attackFeedback: {fileID: 0}
   attackHitFeedback: {fileID: 0}

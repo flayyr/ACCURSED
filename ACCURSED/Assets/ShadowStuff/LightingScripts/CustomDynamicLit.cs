@@ -165,6 +165,12 @@ public class CustomDynamicLit : MonoBehaviour, ICullable
         UpdateAmbientLight(LightManager.instance);
     }
 
+    private void OnDestroy() {
+        if (!canMove) {
+            CullManager.instance.RemoveObject(this, refTransform.position);
+        }
+    }
+
     private void Update()
     {
 
