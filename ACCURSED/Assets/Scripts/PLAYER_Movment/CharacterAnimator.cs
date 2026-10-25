@@ -11,20 +11,19 @@ public class CharacterAnimator : MonoBehaviour
     public Action OnActionFinished;
     public Action OnDodgeCancellable;
 
+    [SerializeField] SpriteLibrary[] spriteLibraries;
     [SerializeField] private int direction = 5;
     [SerializeField] private bool eightDirections;
     [SerializeField] private Transform attackRotator;
     [SerializeField] private List<SpriteLibraryAsset> libraryAssets = new List<SpriteLibraryAsset>();
 
     [SerializeField] VFXSpawner vfxSpawner;
-    SpriteLibrary spriteLibrary;
     Animator anim;
 
     ActionSO currentAction;//set by CharacterManager when an action starts, used for VFX
 
     void Start()
     {
-        spriteLibrary = GetComponentInChildren<SpriteLibrary>();
         anim = GetComponent<Animator>();
         if (vfxSpawner == null)
             vfxSpawner = GetComponentInChildren<VFXSpawner>();
@@ -52,7 +51,7 @@ public class CharacterAnimator : MonoBehaviour
 
             direction = sectorToDir[sector];
 
-            spriteLibrary.spriteLibraryAsset = libraryAssets[direction - 1];
+            SetSpriteLibraries(direction - 1);
         }
         else
         {
@@ -60,10 +59,16 @@ public class CharacterAnimator : MonoBehaviour
 
             direction = sectorToDir[sector];
 
-            spriteLibrary.spriteLibraryAsset = libraryAssets[direction - 1];
+            SetSpriteLibraries(direction-1);
         }
 
         return dirToVector(direction);
+    }
+
+    void SetSpriteLibraries(int index) {
+        foreach(SpriteLibrary sLib in spriteLibraries) {
+            sLib.spriteLibraryAsset = libraryAssets[index];
+        }
     }
 
     private Vector2 dirToVector(int dir) {
