@@ -192,6 +192,12 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  characterRef:
+    spriteRenderer: {fileID: 9220216081964877571}
+    hurtBox: {fileID: 5995493300594553270}
+    hitBox: {fileID: 8540331957566407428}
+    cStats: {fileID: 3765913297160679313}
+    cManager: {fileID: 6542834492989534560}
   combatState: 0
 --- !u!114 &4296821721631961857
 MonoBehaviour:
@@ -254,6 +260,8 @@ MonoBehaviour:
   detectionRadius: 8
   attackRange: 3
   loseSightRadius: 15
+  canChangeDirMidCombo: 0
+  attackCooldown: 1
   agent: {fileID: 0}
   stoppingDistance: 0.2
   playerTransform: {fileID: 0}
@@ -276,6 +284,17 @@ CircleCollider2D:
   m_CorrespondingSourceObject: {fileID: 3871672931295881435, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
   m_PrefabInstance: {fileID: 1056494209947688645}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5995493300594553270 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6745598973557108595, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
+  m_PrefabInstance: {fileID: 1056494209947688645}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14ea0971b2877984e95d0074bac986c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!114 &8540331957566407428 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8659350370337283521, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
@@ -287,3 +306,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b09277ad3808fc40b0a2b417df062b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
+--- !u!212 &9220216081964877571 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8168863755395668422, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
+  m_PrefabInstance: {fileID: 1056494209947688645}
+  m_PrefabAsset: {fileID: 0}

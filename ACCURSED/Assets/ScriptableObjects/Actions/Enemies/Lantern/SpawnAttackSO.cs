@@ -4,12 +4,13 @@ using UnityEngine;
 public class SpawnAttackSO : ActionSO
 {
     [Header("Attack Spawning")]
-    [SerializeField] GameObject attackPrefab;
+    [SerializeField] SpawnedAttackInstance attackPrefab;
 
     public override void GeneralActionTrigger(ref CharacterReference characterRef )
     {
         base.GeneralActionTrigger(ref characterRef);
-        GameObject attackInstance = Instantiate(attackPrefab);
+        SpawnedAttackInstance attackInstance = Instantiate(attackPrefab);
         attackInstance.transform.position = characterRef.spriteRenderer.transform.position;
+        attackInstance.SetAttackData(attackData);
     }
 }
