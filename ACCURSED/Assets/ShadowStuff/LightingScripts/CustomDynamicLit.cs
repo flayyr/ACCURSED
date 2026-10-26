@@ -6,6 +6,7 @@ public class CustomDynamicLit : MonoBehaviour, ICullable
 {
     [Header("Toggles")]
     [SerializeField] bool canMove = false;
+    [Tooltip("toggle updating shadow sprites")]
     [SerializeField] bool isAnimated = false;
     [Header("Normal Map")]
     [SerializeField] Sprite normalMap;
@@ -162,6 +163,12 @@ public class CustomDynamicLit : MonoBehaviour, ICullable
         }
         
         UpdateAmbientLight(LightManager.instance);
+    }
+
+    private void OnDestroy() {
+        if (!canMove) {
+            CullManager.instance.RemoveObject(this, refTransform.position);
+        }
     }
 
     private void Update()

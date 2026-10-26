@@ -37,6 +37,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] protected float attackRange;
     [SerializeField] protected float loseSightRadius;
     [SerializeField] protected bool canChangeDirMidCombo;
+    [SerializeField] protected float attackCooldown;
     #endregion
 
     #region Pathfinding
@@ -53,6 +54,7 @@ public class EnemyController : MonoBehaviour
     protected EnemyAttacker enemyAttacker;
     #endregion
 
+    protected float attackCooldownTimer;
 
     protected virtual void Start()
     {
@@ -188,7 +190,12 @@ public class EnemyController : MonoBehaviour
                 wasIdle = true;
             }
 
-            enemyAttacker.CueAttack(canChangeDirMidCombo || !wasIdle);//does not continue combo if we were idle, unless we can changeDirMidCombo
+            if (attackCooldownTimer > attackCooldown) {
+                enemyAttacker.CueAttack(canChangeDirMidCombo || !wasIdle);//does not continue combo if we were idle, unless we can changeDirMidCombo
+                attackCooldownTimer-=attackCooldown;
+            } else {
+                attackCooldownTimer += Time.deltaTime;
+            }
         }
         else
         {
