@@ -41,6 +41,7 @@ public class ColdlightSorcererController : EnemyController
         
 
         if (distToPlayer <= attackRange) {
+            cManager.SetWalkInput(true);//set to walking if within attack range, stops enemy from walking when on cooldown
             bool wasIdle = false;
             // In range: face the player, hold position, and start a combo if idle.
             if (cManager.GetCombatState() is ActionState.Idle) {
@@ -55,6 +56,7 @@ public class ColdlightSorcererController : EnemyController
                 attackCooldownTimer += Time.deltaTime;
             }
         } else {
+            cManager.SetWalkInput(false);
             // Out of range: only break off if we aren't mid-combo, then close the gap.
             if (cManager.GetCombatState() is ActionState.Idle) {
                 HandleMovement();
