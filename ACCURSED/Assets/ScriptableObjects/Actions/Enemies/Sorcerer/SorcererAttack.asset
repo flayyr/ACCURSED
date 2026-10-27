@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b3ecaac078accb409e2c78c64d54d3a, type: 3}
+  m_Name: SorcererAttack
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnAttackSO
+  actionName: 
+  actionAnimationState: 
+  windAnimationState: Attack1Wind
+  windDuration: 0.2
+  HorizontalDisplacementWind:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  HorizontalDisplacement:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  attackData:
+    attackDamage: 1
+    stepAmount: 0
+    knockbackPower: 0
+    stunDuration: 1
+    vitalityBuildUp: 1
+    parryLeniency: 0.5
+    buffData:
+      type: 0
+      target: 0
+      amount: 0
+      duration: 0
+  windFeedback: {fileID: 0}
+  attackFeedback: {fileID: 0}
+  attackHitFeedback: {fileID: 348020824145329058, guid: f0cc677f1cc326b408b4874945f9666c, type: 3}
+  attackPrefab: {fileID: 1669622592779770018, guid: acde34ff545861741b8f4ad6c4abc106, type: 3}
+  spawnOffset: {x: 0, y: 0}
+  useHitBoxPos: 1

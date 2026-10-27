@@ -11,6 +11,7 @@ public struct CharacterReference
     public HitBox hitBox;
     public CharacterStatistics cStats;
     public CharacterManager cManager;
+    public VFXSpawner vfxSpawner;
 }
 public enum ActionState { Idle, Winding, Attacking, Stunned, StunnedCancellable }
 public enum BaseMoveState { None = 0, Walk = 1, Run = 2, Sprint = 3 }
