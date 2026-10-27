@@ -4,7 +4,8 @@ using static MirrorKnightController;
 public class ColdlightSorcererController : EnemyController
 {
     [Header("Sorcerer")]
-    [SerializeField] protected float stopRange;
+    [SerializeField] protected float teleportRange;
+    [SerializeField] private ActionSO teleportAction;
     protected override void PursuingUpdate() {
         if (playerTransform == null) return;
 
@@ -14,7 +15,9 @@ public class ColdlightSorcererController : EnemyController
         float distToPlayer = toPlayer.magnitude;
         toPlayer = toPlayer.normalized;
 
-        if (distToPlayer <= attackRange) {
+        if(distToPlayer < teleportRange) {
+            actionQueuer.QueueAction(teleportAction);
+        }else if (distToPlayer <= attackRange) {
             bool wasIdle = false;
             // In range: face the player, hold position, and start a combo if idle.
             if (combatManager.GetCombatState() is ActionState.Idle) {
