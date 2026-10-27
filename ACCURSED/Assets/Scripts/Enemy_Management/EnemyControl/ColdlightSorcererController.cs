@@ -5,7 +5,19 @@ public class ColdlightSorcererController : EnemyController
 {
     [Header("Sorcerer")]
     [SerializeField] protected float teleportRange;
+    [SerializeField] protected float teleportAfterDuration;
+    [SerializeField] protected float teleportAfterDamage;
     [SerializeField] private ActionSO teleportAction;
+
+    float teleportTimer;
+    float hpSinceLastTeleport;
+
+    CharacterStatistics cStats;
+
+    protected override void Start() {
+        base.Start();
+        cStats = GetComponent<CharacterStatistics>();
+    }
     protected override void PursuingUpdate() {
         if (playerTransform == null) return;
 
@@ -16,12 +28,23 @@ public class ColdlightSorcererController : EnemyController
         toPlayer = toPlayer.normalized;
 
         if(distToPlayer < teleportRange) {
-            actionQueuer.QueueAction(teleportAction);
-        }else if (distToPlayer <= attackRange) {
+            teleportTimer += Time.deltaTime;
+            if(teleportTimer > teleportAfterDuration)
+                Teleport();
+        } else {
+            teleportTimer = 0;
+        }
+
+        if (hpSinceLastTeleport - cStats.GetHP() >= teleportAfterDamage) {
+            Teleport();
+        }
+        
+
+        if (distToPlayer <= attackRange) {
             bool wasIdle = false;
             // In range: face the player, hold position, and start a combo if idle.
-            if (combatManager.GetCombatState() is ActionState.Idle) {
-                combatManager.MoveInput(toPlayer);
+            if (cManager.GetCombatState() is ActionState.Idle) {
+                cManager.MoveInput(toPlayer);
                 wasIdle = true;
             }
 
@@ -33,10 +56,16 @@ public class ColdlightSorcererController : EnemyController
             }
         } else {
             // Out of range: only break off if we aren't mid-combo, then close the gap.
-            if (combatManager.GetCombatState() is ActionState.Idle) {
+            if (cManager.GetCombatState() is ActionState.Idle) {
                 HandleMovement();
                 SetTargetPosition(playerTransform.position);
             }
         }
+    }
+
+    private void Teleport() {
+        hpSinceLastTeleport = cStats.GetHP();
+        teleportTimer = 0;
+        actionQueuer.QueueAction(teleportAction);
     }
 }
