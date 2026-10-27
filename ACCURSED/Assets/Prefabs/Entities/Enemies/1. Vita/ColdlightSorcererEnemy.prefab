@@ -652,6 +652,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ColdlightSorcererEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 3765913297160679313, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: maxHealth
+      value: 2000
+      objectReference: {fileID: 0}
     - target: {fileID: 4587322952760300589, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
       propertyPath: m_Controller
       value: 
@@ -714,16 +718,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5567616328443429688, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
       propertyPath: m_SpriteHash
-      value: 288431053
+      value: 853039686
       objectReference: {fileID: 0}
     - target: {fileID: 5567616328443429688, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
       propertyPath: m_CategoryHash
       value: 0.009161512
       objectReference: {fileID: 0}
     - target: {fileID: 6565407950783403025, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: pickRandomAttack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565407950783403025, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: attackList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565407950783403025, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
       propertyPath: 'attackList.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e5227209bba01af49b354955ea5c07ab, type: 2}
+    - target: {fileID: 6565407950783403025, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: 'attackList.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 384cd74aa6d87e04b90a7e693466853f, type: 2}
     - target: {fileID: 8427973941337406507, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
       propertyPath: libraryAssets.Array.size
       value: 32
@@ -875,7 +891,7 @@ PrefabInstance:
     - target: {fileID: 9220216081964877571, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -4273065608348575149, guid: 645b880805bb64f6397cc21cb631ad58, type: 3}
+      objectReference: {fileID: 1121142591545279681, guid: 1dbc6e2af8f4b470483c1efbd6e5bbb9, type: 3}
     m_RemovedComponents:
     - {fileID: 4423764444735619088, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
     m_RemovedGameObjects:
@@ -945,11 +961,11 @@ MonoBehaviour:
   patrolOrigin: {x: 0, y: 0}
   patrolTarget: {x: 0, y: 0}
   waitingAtWaypoint: 1
-  detectionRadius: 8
-  attackRange: 7
+  detectionRadius: 10
+  attackRange: 9
   loseSightRadius: 15
   canChangeDirMidCombo: 0
-  attackCooldown: 1.5
+  attackCooldown: 1
   agent: {fileID: 0}
   stoppingDistance: 1
   playerTransform: {fileID: 0}

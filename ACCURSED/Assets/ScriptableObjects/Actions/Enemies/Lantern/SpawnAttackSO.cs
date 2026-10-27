@@ -6,7 +6,9 @@ public class SpawnAttackSO : ActionSO
     [Header("Attack Spawning")]
     [SerializeField] SpawnedAttackInstance attackPrefab;
     [SerializeField] Vector2 spawnOffset;
-    [SerializeField] bool useHitBoxPos;
+    [SerializeField] SpawnLocation spawnLocationType;
+
+    public enum SpawnLocation { SpriteRenderer, HitBox, PlayerPos}
 
     public override void GeneralActionTrigger(ref CharacterReference characterRef )
     {
@@ -14,10 +16,17 @@ public class SpawnAttackSO : ActionSO
         if (attackPrefab != null) {
             SpawnedAttackInstance attackInstance = Instantiate(attackPrefab);
 
-            if(useHitBoxPos)
-                attackInstance.transform.position = characterRef.hitBox.transform.position;
-            else
-                attackInstance.transform.position = characterRef.spriteRenderer.transform.position;
+            switch (spawnLocationType) {
+                case SpawnLocation.SpriteRenderer:
+                    attackInstance.transform.position = characterRef.hitBox.transform.position;
+                    break;
+                case SpawnLocation.HitBox:
+                    attackInstance.transform.position = characterRef.spriteRenderer.transform.position;
+                    break;
+                case SpawnLocation.PlayerPos:
+                    attackInstance.transform.position = PersistentPlayer.Instance.transform.position;
+                    break;
+            }
             attackInstance.transform.position += (Vector3)spawnOffset;
 
             attackInstance.SetAttackData(attackData, ref characterRef.hurtBox, characterRef.vfxSpawner);
