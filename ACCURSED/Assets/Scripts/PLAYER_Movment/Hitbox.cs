@@ -11,6 +11,8 @@ public class HitBox : MonoBehaviour
     [SerializeField] private PlayerStatistics playerStats;
     [Header("Parried")]
     [SerializeField] private float parryStunDuration = 1f;
+    [Header("Destroy on hit")]
+    [SerializeField] bool destroyOnHit;
 
     [Header("VFX")]
     [Tooltip("Spawner for attack hit vfx, auto-found on a sibling if left empty")]
@@ -61,12 +63,20 @@ public class HitBox : MonoBehaviour
 
         if (vfxSpawner != null)
             vfxSpawner.SpawnAttackHitVFX(action, hitPoint, victim);
+
+        if (destroyOnHit) {
+            Destroy(transform.root.gameObject);
+        }
     }
 
     public void Parried()
     {
         if(cManager != null)
             cManager.Stun(parryStunDuration, 0f);
+
+        if (destroyOnHit) {
+            Destroy(transform.root.gameObject);
+        }
     }
 
     //called by my own HurtBox when it successfully parries, hitPoint is where the parry vfx goes, attacker is the character that got parried
@@ -89,4 +99,5 @@ public class HitBox : MonoBehaviour
     public AttackData GetAttackSO() { return attackData; }
     public void SetPlayerStats(PlayerStatistics playerStats) { this.playerStats = playerStats; }
     public void SetDirection(Vector2 direction) { this.direction = direction; }
+    public void SetVFXSpawner(VFXSpawner vfxSpawner) { this.vfxSpawner = vfxSpawner; }
 }

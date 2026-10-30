@@ -90,7 +90,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8168863755395668422, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8168863755395668422, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
       propertyPath: m_Color.g
@@ -98,7 +98,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8168863755395668422, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
       propertyPath: m_Color.r
-      value: 0.05299878
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8659350370337283521, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
       propertyPath: vfxSpawner
@@ -202,6 +202,7 @@ MonoBehaviour:
     hitBox: {fileID: 8540331957566407428}
     cStats: {fileID: 3765913297160679313}
     cManager: {fileID: 6542834492989534560}
+    vfxSpawner: {fileID: 7529520703699892990}
   combatState: 0
 --- !u!114 &4296821721631961857
 MonoBehaviour:
@@ -283,6 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttacker
   attackList:
   - {fileID: 11400000, guid: 88e8d60571772c94eb52f6fef5cc921b, type: 2}
+  pickRandomAttack: 0
 --- !u!58 &4256915287918687774 stripped
 CircleCollider2D:
   m_CorrespondingSourceObject: {fileID: 3871672931295881435, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
