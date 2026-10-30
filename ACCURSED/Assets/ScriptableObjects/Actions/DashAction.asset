@@ -16,6 +16,12 @@ MonoBehaviour:
   actionAnimationState: Dash
   windAnimationState: Dash
   windDuration: 0
+  HorizontalDisplacementWind:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   HorizontalDisplacement:
     serializedVersion: 2
     m_Curve:
@@ -50,4 +56,4 @@ MonoBehaviour:
   windFeedback: {fileID: 0}
   attackFeedback: {fileID: 0}
   attackHitFeedback: {fileID: 0}
-  dashCooldown: 0
+  dashCooldown: 0.5
