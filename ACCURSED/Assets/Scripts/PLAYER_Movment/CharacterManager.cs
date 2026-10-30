@@ -312,14 +312,14 @@ public class CharacterManager : MonoBehaviour
 
             if (currAction != null)
             {
-                if (currAction.startTime != -1)
-                {
-                    HandleHorizontalDisplacement(currAction.startTime, currAction.actionSO.HorizontalDisplacement);
-                }
-                else if (currAction.loadTime != -1)
-                {
-                    HandleHorizontalDisplacement(currAction.loadTime, currAction.actionSO.HorizontalDisplacementWind);
-                }
+                //if (currAction.startTime != -1)
+                //{
+                //    HandleHorizontalDisplacement(currAction.startTime, currAction.actionSO.HorizontalDisplacement);
+                //}
+                //else if (currAction.loadTime != -1)
+                //{
+                    HandleHorizontalDisplacement(currAction.loadTime, currAction.actionSO.HorizontalDisplacement);
+                //}
             }
             
         }
