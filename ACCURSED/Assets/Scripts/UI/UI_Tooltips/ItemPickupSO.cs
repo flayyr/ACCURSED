@@ -2,11 +2,14 @@ using UnityEngine;
 
 public enum ItemCategory
 {
-    Consumable,
-    Material,
-    KeyItem,
-    Equipment,
-    Misc
+    Vestiges,
+    Remembrances,
+    Fables,
+    Soulbinds,
+    Keepsakes,
+    Consumables,
+    Upgrades,
+    Key
 }
 
 [CreateAssetMenu(fileName = "NewItem", menuName = "Items/Item Pickup")]
@@ -29,7 +32,7 @@ public class ItemPickupSO : ScriptableObject
     public bool isImportantItem;
 
     [Header("Inventory")]
-    public ItemCategory itemCategory = ItemCategory.Misc;
+    public ItemCategory itemCategory;
 
     public bool canUse;
 
