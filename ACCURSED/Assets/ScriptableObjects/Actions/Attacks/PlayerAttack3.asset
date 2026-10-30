@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3a88661e8dd8847bc6cc6d80c3d22d, type: 3}
+  m_Name: PlayerAttack3
+  m_EditorClassIdentifier: Assembly-CSharp::ChargeableActionSO
+  actionName: Attack 3
+  actionAnimationState: Attack3
+  windAnimationState: Attack3Wind
+  windDuration: 1.5
+  HorizontalDisplacementWind:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  HorizontalDisplacement:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  attackData:
+    attackDamage: 300
+    stepAmount: 0
+    knockbackPower: 0
+    stunDuration: 0
+    staggerAmount: 1
+    vitalityBuildUp: 1
+    parryLeniency: 0.4
+    buffData:
+      type: 0
+      target: 0
+      amount: 0
+      duration: 0
+  windFeedback: {fileID: 0}
+  attackFeedback: {fileID: 0}
+  attackHitFeedback: {fileID: 348020824145329058, guid: f0cc677f1cc326b408b4874945f9666c, type: 3}
+  chargeTime: 1
+  chargedAction: {fileID: 11400000, guid: c5fdfd0220b3d7442a91ef9138e47b0f, type: 2}

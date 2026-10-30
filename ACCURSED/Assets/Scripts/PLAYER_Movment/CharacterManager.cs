@@ -1,5 +1,18 @@
+using System;
+using System.Collections.Generic;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
+[Serializable]
+public struct CharacterReference
+{
+    public SpriteRenderer spriteRenderer;
+    public HurtBox hurtBox;
+    public HitBox hitBox;
+    public CharacterStatistics cStats;
+    public CharacterManager cManager;
+    public VFXSpawner vfxSpawner;
+}
 public enum ActionState { Idle, Winding, Attacking, Stunned, StunnedCancellable }
 public enum BaseMoveState { None = 0, Walk = 1, Run = 2, Sprint = 3 }
 
@@ -10,6 +23,9 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] protected HitBox hitBox;
     [SerializeField] protected Collider2D characterCollider;
     [SerializeField] protected ContactFilter2D contactFilter;
+    [SerializeField] protected CharacterReference characterRef;
+    [Header("Stagger")]
+    [SerializeField] protected float staggerDuration;
 
     protected ActionQueuer actionQueuer;
     protected CharacterAnimator cAnim;
@@ -23,6 +39,7 @@ public class CharacterManager : MonoBehaviour
     protected float windTimer = 0;
     protected float stunTimer = 0;
     protected float stunCancelTimer = 0;
+    protected float staggerTimer = 0;
 
     private void Awake()
     {
@@ -57,6 +74,7 @@ public class CharacterManager : MonoBehaviour
             UpdateWindTimer();
 
         UpdateMovement();
+        UpdateBuffs();
     }
 
     #region Combat
@@ -96,6 +114,17 @@ public class CharacterManager : MonoBehaviour
                 combatState = ActionState.Idle;
             }
         }
+
+        if (staggerTimer > 0)
+        {
+            staggerTimer -= Time.deltaTime;
+            if (staggerTimer <= 0)
+            {
+                staggerTimer = 0;
+                cAnim.SetStagger(false);
+                combatState = ActionState.Idle;
+            }
+        }
     }
 
     //event call from animator, runs when lastest action animation ends
@@ -132,9 +161,10 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    protected void PlayCurrentAction()
+    protected virtual void PlayCurrentAction()
     {
-        currAction.played = true;
+        currAction.loaded = true;
+        currAction.loadTime = Time.time;
 
         hitBox.SetAttackData(currAction.actionSO.attackData);//sets attack data into hitbox
         hitBox.SetAction(currAction.actionSO);//for attack hit vfx
@@ -153,6 +183,12 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
+    protected void PlayActionInstantly(ActionSO action)
+    {
+        currAction = new ActionInstance(action, Time.time);
+        PlayCurrentAction();
+    }
+
     public void SkipWind(ActionInstance attackInstance)
     {
         if (attackInstance != currAction || combatState is not ActionState.Winding) return; //make sure currAttack is the same instance to be skipped
@@ -169,6 +205,8 @@ public class CharacterManager : MonoBehaviour
         combatState = ActionState.Attacking;
 
         Launch(moveDir, currAction.actionSO.attackData.stepAmount, true);
+
+        currAction.actionSO.GeneralActionTrigger(ref characterRef);
     }
 
     //gets stunned when hit, called by hurtbox
@@ -180,6 +218,8 @@ public class CharacterManager : MonoBehaviour
         combatState = ActionState.Stunned;
         cAnim.SetStunned(true);//for stun animations
         actionQueuer.ClearActions();
+
+        hitBox.gameObject.SetActive(false);
 
         if (currAction != null) {
             currAction.interrupted = true;
@@ -194,6 +234,25 @@ public class CharacterManager : MonoBehaviour
         {
             combatState = ActionState.StunnedCancellable;
         }
+    }
+
+    public void Stagger(float staggerValue)
+    {
+        if (staggerValue <= 0 || staggerDuration <=0) return;
+
+        combatState = ActionState.Stunned;
+        cAnim.SetStagger(true);//for stagger animations
+        actionQueuer.ClearActions();
+
+        hitBox.gameObject.SetActive(false);
+
+        if (currAction != null)
+        {
+            currAction.interrupted = true;
+            currAction = null;
+        }
+
+        staggerTimer = staggerDuration;
     }
     #endregion
 
@@ -246,19 +305,32 @@ public class CharacterManager : MonoBehaviour
             moveState = BaseMoveState.None;
             cAnim.SetMoveState(0);
 
-            if (currAction != null && currAction.startTime != -1)
+            if (currAction != null)
             {
-                float timeSincePlayed = Time.time - currAction.startTime;
-                float moveAmt = currAction.actionSO.HorizontalDisplacement.Evaluate(timeSincePlayed+Time.deltaTime)
-                    - currAction.actionSO.HorizontalDisplacement.Evaluate(timeSincePlayed);
-
-                Vector3 moveDist = (Vector3)moveDir * moveAmt;
-
-                RaycastHit2D[] raycastInfos = new RaycastHit2D[10];
-                if (characterCollider.Cast(moveDist, contactFilter, raycastInfos, moveDist.magnitude) == 0) {
-                    transform.position += moveDist;
+                if (currAction.startTime != -1)
+                {
+                    HandleHorizontalDisplacement(currAction.startTime, currAction.actionSO.HorizontalDisplacement);
+                }
+                else if (currAction.loadTime != -1)
+                {
+                    HandleHorizontalDisplacement(currAction.loadTime, currAction.actionSO.HorizontalDisplacementWind);
                 }
             }
+            
+        }
+    }
+
+    private void HandleHorizontalDisplacement(float startTime, AnimationCurve displacementCurve)
+    {
+        float timeSincePlayed = Time.time - startTime;
+        float moveAmt = displacementCurve.Evaluate(timeSincePlayed + Time.deltaTime) - displacementCurve.Evaluate(timeSincePlayed);
+
+        Vector3 moveDist = (Vector3)moveDir * moveAmt;
+
+        RaycastHit2D[] raycastInfos = new RaycastHit2D[10];
+        if (characterCollider.Cast(moveDist, contactFilter, raycastInfos, moveDist.magnitude) == 0)
+        {
+            transform.position += moveDist;
         }
     }
 
@@ -353,6 +425,45 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+
+    #region Buffs
+    struct BuffInstance {
+        public BuffData data;
+        public float startTime;
+        public BuffInstance(BuffData data,  float startTime) {
+            this.data = data;
+            this.startTime = startTime;
+        }
+    }
+
+    List<BuffInstance> buffInstances = new List<BuffInstance>();
+
+    public void AddBuff(BuffData buffData) {
+        buffInstances.Add(new BuffInstance(buffData, Time.time));
+        ResolveBuff(buffData, true);
+    }
+
+    void ResolveBuff(BuffData buffData, bool isApplying) {
+        switch (buffData.type) {
+            case BuffType.DefenseUp:
+                Debug.Log(gameObject.name + " is receiving buff " + isApplying);
+                characterRef.hurtBox.SetDefenseModifier(isApplying ? buffData.amount : 1);
+                break;
+        }
+    }
+
+    void UpdateBuffs() {
+        for (int i = 0; i < buffInstances.Count; i++) {
+            BuffInstance currBuff = buffInstances[i];
+            if (currBuff.startTime + currBuff.data.duration < Time.time) {
+                ResolveBuff(currBuff.data, false);
+                buffInstances.RemoveAt(i);
+                i--;
+            }
+        }
+    }
     #endregion
 
     public ActionState GetCombatState() => combatState;

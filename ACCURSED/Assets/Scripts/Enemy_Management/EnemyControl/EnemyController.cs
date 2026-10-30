@@ -37,6 +37,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] protected float attackRange;
     [SerializeField] protected float loseSightRadius;
     [SerializeField] protected bool canChangeDirMidCombo;
+    [SerializeField] protected float attackCooldown;
     #endregion
 
     #region Pathfinding
@@ -48,11 +49,12 @@ public class EnemyController : MonoBehaviour
     #region References
     [SerializeField][ReadOnly] protected Transform playerTransform;
 
-    protected CharacterManager combatManager;
+    protected CharacterManager cManager;
     protected ActionQueuer actionQueuer;
     protected EnemyAttacker enemyAttacker;
     #endregion
 
+    protected float attackCooldownTimer;
 
     protected virtual void Start()
     {
@@ -74,7 +76,7 @@ public class EnemyController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
-        combatManager = GetComponent<CharacterManager>();
+        cManager = GetComponent<CharacterManager>();
         enemyAttacker = GetComponent<EnemyAttacker>();
         actionQueuer = GetComponent<ActionQueuer>();
     }
@@ -122,7 +124,7 @@ public class EnemyController : MonoBehaviour
     {
         if (waitingAtWaypoint)
         {
-            combatManager.MoveInput(Vector2.zero);
+            cManager.MoveInput(Vector2.zero);
             return;
         }
 
@@ -149,7 +151,7 @@ public class EnemyController : MonoBehaviour
 
     void ArriveAtWaypoint()
     {
-        combatManager.MoveInput(Vector2.zero);
+        cManager.MoveInput(Vector2.zero);
         waitingAtWaypoint = true;
         patrolWaitTimer = Random.Range(patrolWaitMin, patrolWaitMax);
     }
@@ -182,18 +184,23 @@ public class EnemyController : MonoBehaviour
         {
             bool wasIdle = false;
             // In range: face the player, hold position, and start a combo if idle.
-            if (combatManager.GetCombatState() is ActionState.Idle)
+            if (cManager.GetCombatState() is ActionState.Idle)
             {
-                combatManager.MoveInput(toPlayer);
+                cManager.MoveInput(toPlayer);
                 wasIdle = true;
             }
 
-            enemyAttacker.CueAttack(canChangeDirMidCombo || !wasIdle);//does not continue combo if we were idle, unless we can changeDirMidCombo
+            if (attackCooldownTimer > attackCooldown) {
+                enemyAttacker.CueAttack(canChangeDirMidCombo || !wasIdle);//does not continue combo if we were idle, unless we can changeDirMidCombo
+                attackCooldownTimer-=attackCooldown;
+            } else {
+                attackCooldownTimer += Time.deltaTime;
+            }
         }
         else
         {
             // Out of range: only break off if we aren't mid-combo, then close the gap.
-            if (combatManager.GetCombatState() is ActionState.Idle)
+            if (cManager.GetCombatState() is ActionState.Idle)
             {
                 HandleMovement();
                 SetTargetPosition(playerTransform.position);
@@ -232,7 +239,7 @@ public class EnemyController : MonoBehaviour
         }
 
         Vector2 moveDir = (Vector2)agent.steeringTarget - (Vector2)transform.position;
-        combatManager.MoveInput(moveDir);
+        cManager.MoveInput(moveDir);
     }
 
     public void StopMoving()
@@ -240,7 +247,7 @@ public class EnemyController : MonoBehaviour
         if (agent.hasPath)
             agent.ResetPath();
         //cMovement.movementInput = Vector2.zero;
-        combatManager.MoveInput(Vector2.zero);
+        cManager.MoveInput(Vector2.zero);
     }
 
     public void SetTargetPosition(Vector3 targetPosition)
