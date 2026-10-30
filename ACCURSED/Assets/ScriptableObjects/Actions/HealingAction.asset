@@ -15,7 +15,13 @@ MonoBehaviour:
   actionName: Healing
   actionAnimationState: Heal
   windAnimationState: HealWind
-  windDuration: 1.6
+  windDuration: 1
+  HorizontalDisplacementWind:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   HorizontalDisplacement:
     serializedVersion: 2
     m_Curve: []
@@ -27,8 +33,14 @@ MonoBehaviour:
     stepAmount: 0
     knockbackPower: 0
     stunDuration: 0
+    staggerAmount: 0
     vitalityBuildUp: 1
     parryLeniency: 0.5
+    buffData:
+      type: 0
+      target: 0
+      amount: 0
+      duration: 0
   windFeedback: {fileID: 0}
   attackFeedback: {fileID: 0}
   attackHitFeedback: {fileID: 0}
