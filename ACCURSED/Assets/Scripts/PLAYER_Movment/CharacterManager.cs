@@ -24,6 +24,8 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] protected Collider2D characterCollider;
     [SerializeField] protected ContactFilter2D contactFilter;
     [SerializeField] protected CharacterReference characterRef;
+    [Header("Stagger")]
+    [SerializeField] protected float staggerDuration;
 
     protected ActionQueuer actionQueuer;
     protected CharacterAnimator cAnim;
@@ -37,6 +39,7 @@ public class CharacterManager : MonoBehaviour
     protected float windTimer = 0;
     protected float stunTimer = 0;
     protected float stunCancelTimer = 0;
+    protected float staggerTimer = 0;
 
     private void Awake()
     {
@@ -108,6 +111,17 @@ public class CharacterManager : MonoBehaviour
             {
                 stunTimer = 0;
                 cAnim.SetStunned(false);
+                combatState = ActionState.Idle;
+            }
+        }
+
+        if (staggerTimer > 0)
+        {
+            staggerTimer -= Time.deltaTime;
+            if (staggerTimer <= 0)
+            {
+                staggerTimer = 0;
+                cAnim.SetStagger(false);
                 combatState = ActionState.Idle;
             }
         }
@@ -221,6 +235,30 @@ public class CharacterManager : MonoBehaviour
             combatState = ActionState.StunnedCancellable;
         }
     }
+
+    public void Stagger(float staggerValue)
+    {
+        if (staggerValue <= 0 || staggerDuration <=0) return;
+
+        combatState = ActionState.Stunned;
+        cAnim.SetStagger(true);//for stagger animations
+        actionQueuer.ClearActions();
+
+        hitBox.gameObject.SetActive(false);
+
+        if (currAction != null)
+        {
+            currAction.interrupted = true;
+            currAction = null;
+        }
+
+        staggerTimer = staggerDuration;
+    }
+
+    public virtual void ParrySuccess(Vector2 parryPoint, GameObject originObject)
+    {
+        hitBox.ParrySuccess(parryPoint, originObject);
+    }
     #endregion
 
     #region Movement
@@ -274,14 +312,14 @@ public class CharacterManager : MonoBehaviour
 
             if (currAction != null)
             {
-                if (currAction.startTime != -1)
-                {
-                    HandleHorizontalDisplacement(currAction.startTime, currAction.actionSO.HorizontalDisplacement);
-                }
-                else if (currAction.loadTime != -1)
-                {
-                    HandleHorizontalDisplacement(currAction.loadTime, currAction.actionSO.HorizontalDisplacementWind);
-                }
+                //if (currAction.startTime != -1)
+                //{
+                //    HandleHorizontalDisplacement(currAction.startTime, currAction.actionSO.HorizontalDisplacement);
+                //}
+                //else if (currAction.loadTime != -1)
+                //{
+                    HandleHorizontalDisplacement(currAction.loadTime, currAction.actionSO.HorizontalDisplacement);
+                //}
             }
             
         }
@@ -437,5 +475,4 @@ public class CharacterManager : MonoBehaviour
     public BaseMoveState GetMoveState() => moveState;
     public Vector2 GetFacingDirection() => facingDir;
     public ActionInstance GetCurrAction()=>currAction;
-    public HitBox GetHitBox() => hitBox;
 }

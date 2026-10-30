@@ -19,6 +19,7 @@ public class PlayerManager : CharacterManager
     [SerializeField] Transform playerOffset;
     [SerializeField] PlayerReference playerRef;
     [SerializeField] DashAction dashAction;
+    [SerializeField] float parryGriefGain;
 
     PlayerDeath playerDeath;
 
@@ -70,6 +71,12 @@ public class PlayerManager : CharacterManager
         
         base.EndWind();
         currAction.actionSO.PlayerActionTrigger(ref playerRef);
+    }
+
+    public override void ParrySuccess(Vector2 parryPoint, GameObject originObject)
+    {
+        base.ParrySuccess(parryPoint, originObject);
+        playerRef.playerStats.UpdateVitality(parryGriefGain);
     }
 
     public void Dash()
