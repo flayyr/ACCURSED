@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+// Attach to the clickable root Button of item and skill slots.
 [RequireComponent(typeof(Button))]
 public class StatusItemSlot : MonoBehaviour, IPointerClickHandler
 {
@@ -18,6 +19,7 @@ public class StatusItemSlot : MonoBehaviour, IPointerClickHandler
 
     private Button button;
     private StatusEquipmentManager manager;
+    private StatusSkillEquipment skills;
     private Coroutine bindRoutine;
 
     public StatusEquipmentCategory Category => category;
@@ -37,12 +39,23 @@ public class StatusItemSlot : MonoBehaviour, IPointerClickHandler
     private IEnumerator FindManager()
     {
         while (StatusEquipmentManager.Instance == null) 
-        {
             yield return null;
-        }
-
+            
         manager = StatusEquipmentManager.Instance;
         manager.EquipmentChanged += Refresh;
+
+        if (category != StatusEquipmentCategory.Items)
+        {
+            while (skills == null) 
+            { 
+                skills = FindObjectOfType<StatusSkillEquipment>(); 
+                
+                if (skills == null) 
+                    yield return null; 
+            }
+
+            skills.SkillsChanged += Refresh;
+        }
 
         Refresh();
         bindRoutine = null;
@@ -51,28 +64,28 @@ public class StatusItemSlot : MonoBehaviour, IPointerClickHandler
     private void OnDisable()
     {
         if (bindRoutine != null) 
-        {
-            StopCoroutine(bindRoutine);
-            bindRoutine = null;
+        { 
+            StopCoroutine(bindRoutine); 
+            bindRoutine = null; 
         }
 
         if (manager != null) 
             manager.EquipmentChanged -= Refresh;
-        
+
+        if (skills != null) 
+            skills.SkillsChanged -= Refresh;
+
+        skills = null;
         manager = null;
     }
 
     private void OnDestroy()
     {
-        if (button != null) 
-            button.onClick.RemoveListener(OnLeftClick);
+        if (button != null) button.onClick.RemoveListener(OnLeftClick);
     }
 
     private void OnLeftClick()
     {
-        if (category != StatusEquipmentCategory.Items) 
-            return;
-
         if (StatusEquipmentSelection.Instance != null)
             StatusEquipmentSelection.Instance.BeginSelection(this);
     }
@@ -82,7 +95,7 @@ public class StatusItemSlot : MonoBehaviour, IPointerClickHandler
         if (eventData.button != PointerEventData.InputButton.Right || manager == null)
             return;
 
-        if (manager.GetEquippedItemID(category, slotIndex) == null)
+        if (category == StatusEquipmentCategory.Items ? manager.GetEquippedItemID(category, slotIndex) == null : skills == null || skills.GetEquippedItem(category) == null)
             return;
 
         if (StatusUnequipPopup.Instance != null)
@@ -91,15 +104,25 @@ public class StatusItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void Unequip()
     {
-        if (manager != null) manager.Unequip(category, slotIndex);
+        if (category == StatusEquipmentCategory.Items)
+        { 
+            if (manager != null) 
+             manager.Unequip(category, slotIndex); 
+        }
+        else if (skills != null)
+        { 
+            string reason; 
+            skills.TryEquipSkill(category, (SkillItemSO)null, out reason); 
+        }
     }
 
-    public void Refresh() 
+    public void Refresh()
     {
-        ItemPickupSO item = manager != null 
-            ? manager.GetEquippedItem(category, slotIndex) : null;
+        ItemPickupSO item = category == StatusEquipmentCategory.Items
+            ? (manager != null ? manager.GetEquippedItem(category, slotIndex) : null)
+            : (skills != null ? skills.GetEquippedItem(category) : null);
 
-        int count = manager != null 
+        int count = category == StatusEquipmentCategory.Items && manager != null
             ? manager.GetEquippedQuantity(category, slotIndex) : 0;
 
         if (itemIcon != null)
@@ -107,11 +130,8 @@ public class StatusItemSlot : MonoBehaviour, IPointerClickHandler
             itemIcon.sprite = item != null ? item.itemSpr : null;
             itemIcon.enabled = item != null && item.itemSpr != null;
         }
-        
+
         if (quantityText != null)
-        {    
-            quantityText.text = item != null && count > 0 && (count != 1 || showQuantityWhenOne)
-                ? count.ToString() : "";
-        }
+            quantityText.text = item != null && count > 0 && (count != 1 || showQuantityWhenOne) ? count.ToString() : "";
     }
 }
