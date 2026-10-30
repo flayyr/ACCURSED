@@ -147,6 +147,11 @@ public class CharacterAnimator : MonoBehaviour
         anim.SetBool("Stunned", stunned);
     }
 
+    public void SetStagger(bool stagger)
+    {
+        anim.SetBool("Stagger", stagger);
+    }
+
     public void SetDead(bool dead)
     {
         anim.SetBool("Dead", dead);

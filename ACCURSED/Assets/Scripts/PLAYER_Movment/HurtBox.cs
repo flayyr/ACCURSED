@@ -76,6 +76,7 @@ public class HurtBox : MonoBehaviour
                     InvincibleForSeconds(afterHurtInvincibleDuration);
                     // Use Hitbox info to affect me
                     cManager.Stun(attackData.stunDuration, durationUntilDodgeCancellable);
+                    cManager.Stagger(attackData.staggerAmount);
 
                     cManager.Launch(direction, attackData.knockbackPower, true);
                     cStatistics.UpdateHealth(-(attackData.attackDamage / defenseModifier));
