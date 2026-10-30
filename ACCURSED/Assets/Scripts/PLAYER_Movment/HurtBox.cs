@@ -66,7 +66,7 @@ public class HurtBox : MonoBehaviour
 
                     //midpoint between me and the attacker, used as the parry vfx position
                     Vector2 parryPoint = (transform.root.position + hitBox.originObject.transform.position) * .5f;
-                    cManager.GetHitBox().ParrySuccess(parryPoint, hitBox.originObject);//spawns my parry action's hit vfx
+                    cManager.ParrySuccess(parryPoint, hitBox.originObject);//spawns my parry action's hit vfx
 
                     //Debug.Log("successful parry, accuracy: " + (1f - hitAlignment));
                     //Debug.Log("hitBoxDir: " + direction + " my dir: " + facingDirection + " accuracy: " + (1f - hitAlignment));

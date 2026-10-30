@@ -254,6 +254,11 @@ public class CharacterManager : MonoBehaviour
 
         staggerTimer = staggerDuration;
     }
+
+    public virtual void ParrySuccess(Vector2 parryPoint, GameObject originObject)
+    {
+        hitBox.ParrySuccess(parryPoint, originObject);
+    }
     #endregion
 
     #region Movement
@@ -470,5 +475,4 @@ public class CharacterManager : MonoBehaviour
     public BaseMoveState GetMoveState() => moveState;
     public Vector2 GetFacingDirection() => facingDir;
     public ActionInstance GetCurrAction()=>currAction;
-    public HitBox GetHitBox() => hitBox;
 }
