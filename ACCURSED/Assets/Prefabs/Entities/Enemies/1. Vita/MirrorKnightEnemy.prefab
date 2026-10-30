@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MirrorKnightEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 3765913297160679313, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: maxHealth
+      value: 2000
+      objectReference: {fileID: 0}
     - target: {fileID: 4587322952760300589, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
       propertyPath: m_Controller
       value: 
@@ -193,7 +197,7 @@ MonoBehaviour:
   attackRange: 3
   loseSightRadius: 15
   canChangeDirMidCombo: 0
-  currDir: {x: 0, y: 0}
+  attackCooldown: 0
   agent: {fileID: 0}
   stoppingDistance: 0.2
   playerTransform: {fileID: 0}
