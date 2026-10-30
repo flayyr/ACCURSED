@@ -32,29 +32,29 @@ public class MirrorKnightController : EnemyController
         float distToPlayer = toPlayer.magnitude;
         toPlayer = toPlayer.normalized;
 
-        if (combatManager.GetCombatState() is ActionState.Stunned or ActionState.StunnedCancellable) {
+        if (cManager.GetCombatState() is ActionState.Stunned or ActionState.StunnedCancellable) {
             SetShieldState(ShieldState.Down);
             return;
         }
         
         HandleShield(distToPlayer);
 
-        combatManager.SetWalkInput(shieldState is not ShieldState.Down);
+        cManager.SetWalkInput(shieldState is not ShieldState.Down);
 
         if (distToPlayer <= attackRange) {
             bool wasIdle = false;
             // In range: face the player, hold position, and start a combo if idle.
-            if (combatManager.GetCombatState() is ActionState.Idle) {
-                combatManager.MoveInput(toPlayer);
+            if (cManager.GetCombatState() is ActionState.Idle) {
+                cManager.MoveInput(toPlayer);
                 wasIdle = true;
 
-                hurtBox.SetFacingDirection(combatManager.GetFacingDirection());
+                hurtBox.SetFacingDirection(cManager.GetFacingDirection());
             }
 
             enemyAttacker.CueAttack(canChangeDirMidCombo || !wasIdle);//does not continue combo if we were idle, unless we can changeDirMidCombo
         } else {
             // Out of range: only break off if we aren't mid-combo, then close the gap.
-            if (combatManager.GetCombatState() is ActionState.Idle) {
+            if (cManager.GetCombatState() is ActionState.Idle) {
                 HandleMovement();
                 SetTargetPosition(playerTransform.position);
             }
@@ -106,11 +106,11 @@ public class MirrorKnightController : EnemyController
         shieldState = newState;
         switch (shieldState) {
             case ShieldState.Up:
-                hurtBox.Parry(float.MaxValue, combatManager.GetFacingDirection());
+                hurtBox.Parry(float.MaxValue, cManager.GetFacingDirection());
                 currShieldAction = null;
                 break;
             case ShieldState.Down:
-                hurtBox.Parry(-1, combatManager.GetFacingDirection());
+                hurtBox.Parry(-1, cManager.GetFacingDirection());
                 currShieldAction = null;
                 break;
             case ShieldState.Raising:
