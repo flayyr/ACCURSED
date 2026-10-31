@@ -21,7 +21,7 @@ public class PlayerStatistics : CharacterStatistics
 
         OnHealChargeUpdate?.Invoke();
         OnVitalityUpdate?.Invoke();
-        //OnRemembranceChargeUpdate?.Invoke();  commented because combatUI might not have initialized the UI in player abilities yet
+        OnRemembranceChargeUpdate?.Invoke();  // combatUI might not have initialized the UI in player abilities yet
     }
 
     public bool UseHealCharge()
@@ -46,7 +46,8 @@ public class PlayerStatistics : CharacterStatistics
     public float UpdateVitality(float vitalityChange)
     {
         currentVitality += vitalityChange;
-        if (currentVitality >= maxVitality && currentHealCharge<maxHealCharge)
+
+        if (currentVitality >= maxVitality && currentHealCharge < maxHealCharge)
         {
             currentHealCharge++;
             currentVitality -= maxVitality;
@@ -54,13 +55,14 @@ public class PlayerStatistics : CharacterStatistics
         }
         currentVitality = Math.Min(currentVitality, maxVitality);
         OnVitalityUpdate?.Invoke();
+        
         return currentVitality;
     }
 
     public float UpdateRemembranceCharge(float remembranceChargeChange)
     {
         currentRemembranceCharge += remembranceChargeChange;
-        currentRemembranceCharge = Math.Min(currentRemembranceCharge, maxRemembranceCharge);
+        currentRemembranceCharge = Mathf.Clamp(currentRemembranceCharge, 0f, maxRemembranceCharge);
         OnRemembranceChargeUpdate?.Invoke();
 
         return currentRemembranceCharge;
@@ -81,6 +83,8 @@ public class PlayerStatistics : CharacterStatistics
 
     public void SetMaxRemembranceCharge(float maxRemembranceCharge)
     {
-        this.maxRemembranceCharge = maxRemembranceCharge;
+        this.maxRemembranceCharge = Mathf.Max(0f, maxRemembranceCharge);
+        currentRemembranceCharge = Mathf.Clamp(currentRemembranceCharge, 0f, this.maxRemembranceCharge);
+        OnRemembranceChargeUpdate?.Invoke();
     }
 }

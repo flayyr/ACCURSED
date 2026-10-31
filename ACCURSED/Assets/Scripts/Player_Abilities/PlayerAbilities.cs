@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAbilities : MonoBehaviour
@@ -7,12 +8,13 @@ public class PlayerAbilities : MonoBehaviour
     [SerializeField] private RemembranceSO remembranceAbility;
     [SerializeField] private ActionSO healAction;
     [SerializeField] private ActionSO parryAction;
-    
+
     [Header("New: placeholder Fable")]
     [SerializeField] private FableSO fableAbility;
 
     [HideInInspector] public event Action OnAbilityUsed;
     [HideInInspector] public event Action OnHealUsed;
+
     public event Action EquippedSkillsChanged;
 
     private ActionQueuer actionQueuer;
@@ -20,7 +22,9 @@ public class PlayerAbilities : MonoBehaviour
 
     private AbilityUIDisplay vestigeUI;
     private AbilityUIDisplay remembranceUI;
+
     private float vestigeCDTimer;
+    private readonly Dictionary<VestigeSO, float> vestigeTimers = new Dictionary<VestigeSO, float>();
 
     public VestigeSO EquippedVestige => vestigeAbility;
     public RemembranceSO EquippedRemembrance => remembranceAbility;
@@ -35,6 +39,9 @@ public class PlayerAbilities : MonoBehaviour
             playerStatistics.SetMaxRemembranceCharge(remembranceAbility.requiredCharge);
 
         vestigeCDTimer = vestigeAbility != null ? Mathf.Max(0f, vestigeAbility.vestigeCoolDown) : 0f;
+
+        if (vestigeAbility != null) 
+            vestigeTimers[vestigeAbility] = vestigeCDTimer;
     }
 
     private void OnEnable()
@@ -65,6 +72,7 @@ public class PlayerAbilities : MonoBehaviour
         bool remembranceChanged = remembranceAbility != remembrance;
         bool fableChanged = fableAbility != fable;
         bool vestigeChanged = vestigeAbility != vestige;
+
         if (!remembranceChanged && !fableChanged && !vestigeChanged)
             return;
 
@@ -72,17 +80,16 @@ public class PlayerAbilities : MonoBehaviour
         fableAbility = fable;
         vestigeAbility = vestige;
 
-        if (remembranceChanged && remembranceAbility != null && playerStatistics != null)
-        {
-            // The active Remembrance determines the maximum charge requirement.
-            // Existing PlayerStatistics decides how current charge is handled.
-            playerStatistics.SetMaxRemembranceCharge(remembranceAbility.requiredCharge);
-        }
+        if (remembranceChanged && playerStatistics != null)
+            playerStatistics.SetMaxRemembranceCharge(remembranceAbility != null ? remembranceAbility.requiredCharge : 0f);
 
         if (vestigeChanged)
         {
-            // A freshly equipped Vestige is ready; old cooldown does not carry over.
-            vestigeCDTimer = vestigeAbility != null ? Mathf.Max(0f, vestigeAbility.vestigeCoolDown) : 0f;
+            if (vestigeAbility != null && !vestigeTimers.TryGetValue(vestigeAbility, out vestigeCDTimer))
+            {
+                vestigeCDTimer = Mathf.Max(0f, vestigeAbility.vestigeCoolDown);
+                vestigeTimers[vestigeAbility] = vestigeCDTimer;
+            }
         }
 
         RefreshAbilityUI();
@@ -95,6 +102,7 @@ public class PlayerAbilities : MonoBehaviour
         {
             vestigeUI.Initialize(vestigeAbility != null ? vestigeAbility.abilityIcon : null);
             float cooldown = vestigeAbility != null ? vestigeAbility.vestigeCoolDown : 0f;
+
             vestigeUI.SetFrameFill(cooldown <= 0f ? (vestigeAbility != null ? 1f : 0f) : vestigeCDTimer / cooldown);
         }
 
@@ -112,9 +120,11 @@ public class PlayerAbilities : MonoBehaviour
 
     private void UpdateVestigeChargeUI()
     {
-        if (vestigeAbility == null) return;
+        if (vestigeAbility == null) 
+            return;
 
         float cooldown = vestigeAbility.vestigeCoolDown;
+
         if (cooldown <= 0f)
         {
             vestigeUI?.SetFrameFill(1f);
@@ -124,6 +134,7 @@ public class PlayerAbilities : MonoBehaviour
         if (vestigeCDTimer < cooldown)
         {
             vestigeCDTimer = Mathf.Min(vestigeCDTimer + Time.deltaTime, cooldown);
+            vestigeTimers[vestigeAbility] = vestigeCDTimer;
             vestigeUI?.SetFrameFill(vestigeCDTimer / cooldown);
         }
     }
@@ -133,9 +144,10 @@ public class PlayerAbilities : MonoBehaviour
         if (remembranceUI == null) return;
 
         float required = remembranceAbility != null ? remembranceAbility.requiredCharge : 0f;
-        float fill = required <= 0f || playerStatistics == null
-            ? (remembranceAbility != null ? 1f : 0f)
-            : Mathf.Clamp01(playerStatistics.currentRemembranceCharge / required);
+
+        float fill = required <= 0f || playerStatistics == null ? 
+            (remembranceAbility != null ? 1f : 0f) : 
+            Mathf.Clamp01(playerStatistics.currentRemembranceCharge / required);
 
         remembranceUI.SetFrameFill(fill);
     }
@@ -151,6 +163,7 @@ public class PlayerAbilities : MonoBehaviour
         actionQueuer.QueueAction(remembranceAbility);
         playerStatistics.UpdateRemembranceCharge(-remembranceAbility.requiredCharge);
         OnAbilityUsed?.Invoke();
+
         return true;
     }
 
@@ -164,11 +177,14 @@ public class PlayerAbilities : MonoBehaviour
 
         actionQueuer.QueueAction(vestigeAbility);
         vestigeCDTimer = 0f;
+        vestigeTimers[vestigeAbility] = 0f;
         vestigeUI?.SetFrameFill(vestigeAbility.vestigeCoolDown <= 0f ? 1f : 0f);
         OnAbilityUsed?.Invoke();
+
         return true;
     }
 
+    // Future entry point, not currently connected to a Player input action.
     public bool UseFable()
     {
         if (fableAbility == null || actionQueuer == null) 
@@ -176,6 +192,7 @@ public class PlayerAbilities : MonoBehaviour
 
         actionQueuer.QueueAction(fableAbility);
         OnAbilityUsed?.Invoke();
+
         return true;
     }
 
@@ -185,8 +202,10 @@ public class PlayerAbilities : MonoBehaviour
         {
             actionQueuer.QueueAction(healAction);
             OnHealUsed?.Invoke();
+
             return true;
         }
+
         return false;
     }
 
