@@ -254,6 +254,11 @@ public class CharacterManager : MonoBehaviour
 
         staggerTimer = staggerDuration;
     }
+
+    public virtual void ParrySuccess(Vector2 parryPoint, GameObject originObject)
+    {
+        hitBox.ParrySuccess(parryPoint, originObject);
+    }
     #endregion
 
     #region Movement
@@ -307,14 +312,14 @@ public class CharacterManager : MonoBehaviour
 
             if (currAction != null)
             {
-                if (currAction.startTime != -1)
-                {
-                    HandleHorizontalDisplacement(currAction.startTime, currAction.actionSO.HorizontalDisplacement);
-                }
-                else if (currAction.loadTime != -1)
-                {
-                    HandleHorizontalDisplacement(currAction.loadTime, currAction.actionSO.HorizontalDisplacementWind);
-                }
+                //if (currAction.startTime != -1)
+                //{
+                //    HandleHorizontalDisplacement(currAction.startTime, currAction.actionSO.HorizontalDisplacement);
+                //}
+                //else if (currAction.loadTime != -1)
+                //{
+                    HandleHorizontalDisplacement(currAction.loadTime, currAction.actionSO.HorizontalDisplacement);
+                //}
             }
             
         }
@@ -470,5 +475,4 @@ public class CharacterManager : MonoBehaviour
     public BaseMoveState GetMoveState() => moveState;
     public Vector2 GetFacingDirection() => facingDir;
     public ActionInstance GetCurrAction()=>currAction;
-    public HitBox GetHitBox() => hitBox;
 }
