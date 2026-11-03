@@ -96,7 +96,8 @@ public class HitBox : MonoBehaviour
 
     public void SetAttackData(AttackData attackData) { this.attackData = attackData; }
     public void SetAction(ActionSO action) { this.action = action; }
-    public AttackData GetAttackSO() { return attackData; }
+    public AttackData GetAttackData() { return attackData; }
+    public ActionSO GetAction() { return action; }
     public void SetPlayerStats(PlayerStatistics playerStats) { this.playerStats = playerStats; }
     public void SetDirection(Vector2 direction) { this.direction = direction; }
     public void SetVFXSpawner(VFXSpawner vfxSpawner) { this.vfxSpawner = vfxSpawner; }
