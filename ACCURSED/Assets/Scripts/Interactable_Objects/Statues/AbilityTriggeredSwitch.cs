@@ -58,13 +58,18 @@ public class AbilityTriggeredSwitch : MonoBehaviour
     {
         if (animator == null && animatedChild != null)
             animator = animatedChild.GetComponent<Animator>();
-
-        SetStartingState();
     }
 
     private void Start()
     {
         SetupHealListener();
+        SetStartingState();
+    }
+
+    private void OnEnable() {
+        animator.Rebind();
+        UpdateAnimation();
+        animator.Update(0f);
     }
 
     private void Update()
@@ -116,20 +121,7 @@ public class AbilityTriggeredSwitch : MonoBehaviour
     private void SetStartingState()
     {
         isActivated = startActivated;
-
-        if (animator == null)
-            return;
-
-        if (isActivated)
-        {
-            if (!string.IsNullOrEmpty(activeIdleAnimation))
-                animator.Play(activeIdleAnimation, 0, 0f);
-        }
-        else
-        {
-            if (!string.IsNullOrEmpty(inactiveIdleAnimation))
-                animator.Play(inactiveIdleAnimation, 0, 0f);
-        }
+        UpdateAnimation();
     }
 
     // =========================================================
@@ -140,7 +132,6 @@ public class AbilityTriggeredSwitch : MonoBehaviour
     {
         if (triggerCondition != TriggerCondition.VestigeHit)
             return;
-
         TriggerSwitch();
     }
 
@@ -256,13 +247,24 @@ public class AbilityTriggeredSwitch : MonoBehaviour
     // ANIMATION
     // =========================================================
 
+    void UpdateAnimation() {
+        if (animator == null)
+            return;
+
+        if (isActivated)
+            animator.Play(activeIdleAnimation, 0, 0f);
+        else
+            animator.Play(inactiveIdleAnimation, 0, 0f);
+    }
+    
     private void PlayActivation()
     {
         if (animator == null)
             return;
 
-        if (!string.IsNullOrEmpty(activationAnimation))
+        if (!string.IsNullOrEmpty(activationAnimation)) {
             animator.Play(activationAnimation, 0, 0f);
+        }
     }
 
     private void PlayDeactivation()
