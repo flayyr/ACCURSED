@@ -15,6 +15,6 @@ public class AbilityStatueHurtBox : HurtBox
     }
 
     protected override void ReceiveBuff(HitBox hitBox) {
-        
+        //blank so buff logic doesn't run
     }
 }

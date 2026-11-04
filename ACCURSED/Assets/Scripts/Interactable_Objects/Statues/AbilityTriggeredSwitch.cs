@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using static UnityEngine.CullingGroup;
 
 public class AbilityTriggeredSwitch : MonoBehaviour
 {
@@ -48,6 +50,8 @@ public class AbilityTriggeredSwitch : MonoBehaviour
 
     [Header("Runtime State - Read Only")]
     [SerializeField] private bool isActivated;
+
+    public Action OnStateChanged;
 
     private PlayerAbilities playerAbilities;
     private Transform playerTransform;
@@ -120,7 +124,7 @@ public class AbilityTriggeredSwitch : MonoBehaviour
 
     private void SetStartingState()
     {
-        isActivated = startActivated;
+        SetActivated(startActivated);
         UpdateAnimation();
     }
 
@@ -241,6 +245,8 @@ public class AbilityTriggeredSwitch : MonoBehaviour
             PlayActivation();
         else
             PlayDeactivation();
+
+        OnStateChanged?.Invoke();
     }
 
     // =========================================================
