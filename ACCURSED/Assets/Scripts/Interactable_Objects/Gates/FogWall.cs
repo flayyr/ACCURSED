@@ -3,13 +3,13 @@ using UnityEngine;
 public class FogWall : MonoBehaviour
 {
     [SerializeField] AbilityTriggeredSwitch[] statues;
-    private bool open;
+    private bool unlocked;
 
     private void Start() {
+        unlocked = true;
         foreach (var statue in statues) {
             statue.OnStateChanged += CheckStatues;
         }
-        CheckStatues();
     }
 
     private void OnDestroy() {
@@ -25,7 +25,7 @@ public class FogWall : MonoBehaviour
             }
         }
 
-        open = true;
+        unlocked = true;
         OpenWall();
     }
 
