@@ -11,20 +11,19 @@ public class CharacterAnimator : MonoBehaviour
     public Action OnActionFinished;
     public Action OnDodgeCancellable;
 
+    [SerializeField] SpriteLibrary[] spriteLibraries;
     [SerializeField] private int direction = 5;
     [SerializeField] private bool eightDirections;
     [SerializeField] private Transform attackRotator;
     [SerializeField] private List<SpriteLibraryAsset> libraryAssets = new List<SpriteLibraryAsset>();
 
     [SerializeField] VFXSpawner vfxSpawner;
-    SpriteLibrary spriteLibrary;
     Animator anim;
 
     ActionSO currentAction;//set by CharacterManager when an action starts, used for VFX
 
     void Start()
     {
-        spriteLibrary = GetComponentInChildren<SpriteLibrary>();
         anim = GetComponent<Animator>();
         if (vfxSpawner == null)
             vfxSpawner = GetComponentInChildren<VFXSpawner>();
@@ -52,7 +51,7 @@ public class CharacterAnimator : MonoBehaviour
 
             direction = sectorToDir[sector];
 
-            spriteLibrary.spriteLibraryAsset = libraryAssets[direction - 1];
+            SetSpriteLibraries(direction - 1);
         }
         else
         {
@@ -60,10 +59,17 @@ public class CharacterAnimator : MonoBehaviour
 
             direction = sectorToDir[sector];
 
-            spriteLibrary.spriteLibraryAsset = libraryAssets[direction - 1];
+            SetSpriteLibraries(direction-1);
         }
 
         return dirToVector(direction);
+    }
+
+    void SetSpriteLibraries(int index) {
+        //For characters with multiple sprites, the library assets lists are split in chunks of 8, assigning each spriteLibrary sequentially
+        for(int i = 0; i<spriteLibraries.Length; i++) {
+            spriteLibraries[i].spriteLibraryAsset = libraryAssets[index + i*8];
+        }
     }
 
     private Vector2 dirToVector(int dir) {
@@ -139,6 +145,11 @@ public class CharacterAnimator : MonoBehaviour
     public void SetStunned(bool stunned)
     {
         anim.SetBool("Stunned", stunned);
+    }
+
+    public void SetStagger(bool stagger)
+    {
+        anim.SetBool("Stagger", stagger);
     }
 
     public void SetDead(bool dead)

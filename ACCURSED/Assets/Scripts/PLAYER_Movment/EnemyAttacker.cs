@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyAttacker : MonoBehaviour
 {
     [SerializeField] ActionSO[] attackList;
+    [SerializeField] bool pickRandomAttack;
     ActionQueuer actionQueuer;
 
     int currComboIndex;
@@ -18,6 +19,11 @@ public class EnemyAttacker : MonoBehaviour
     //called by enemy controller, simply queues attacks
     public void CueAttack(bool continueCombo)
     {
+        if (pickRandomAttack) {
+            QueueAttack(Random.Range(0, attackList.Length));
+            return;
+        }
+
         if (continueCombo)
         {
             ActionInstance lastPlayed = actionQueuer.GetLastPlayedInstance();

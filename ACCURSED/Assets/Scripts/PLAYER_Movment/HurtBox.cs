@@ -48,49 +48,54 @@ public class HurtBox : MonoBehaviour
     {
         if ((lm_hitbox & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer && !personalHitBoxes.Contains(collision.gameObject))
         {
-            // Identify Hitbox
             var hitBox = collision.gameObject.GetComponent<HitBox>();
-            Vector2 direction = hitBox.FindGlobalDirection(transform).normalized;
-
-            if (hitBox.originObject != transform.root.gameObject)
-            {
-                float hitAlignment = Vector2.Dot(facingDirection, direction) * .5f + .5f;//between 0 and 1, 0 is full accurate
-                AttackData attackData = hitBox.GetAttackSO();
-
-                //point on my collider closest to the hitbox, used as the hit/parry vfx position
-                Vector2 hitPoint = myCollider.ClosestPoint(collision.transform.position);
-
-                if (parrying && hitAlignment <= attackData.parryLeniency)
-                {
-                    hitBox.Parried();
-
-                    //midpoint between me and the attacker, used as the parry vfx position
-                    Vector2 parryPoint = (transform.root.position + hitBox.originObject.transform.position) * .5f;
-                    cManager.GetHitBox().ParrySuccess(parryPoint, hitBox.originObject);//spawns my parry action's hit vfx
-
-                    //Debug.Log("successful parry, accuracy: " + (1f - hitAlignment));
-                    //Debug.Log("hitBoxDir: " + direction + " my dir: " + facingDirection + " accuracy: " + (1f - hitAlignment));
-                }
-                else if (!invincible)
-                {
-                    InvincibleForSeconds(afterHurtInvincibleDuration);
-                    // Use Hitbox info to affect me
-                    cManager.Stun(attackData.stunDuration, durationUntilDodgeCancellable);
-
-                    cManager.Launch(direction, attackData.knockbackPower, true);
-                    cStatistics.UpdateHealth(-(attackData.attackDamage / defenseModifier));
-
-                    hitBox.Hit(this, hitPoint, transform.root.gameObject);
-                }
-            }
+            HurtByHitbox(hitBox);
         }
 
         if ((lm_buffSource & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer && !personalHitBoxes.Contains(collision.gameObject)) {
             var hitBox = collision.gameObject.GetComponent<HitBox>();
-            BuffData buffData = hitBox.GetBuffs(this);
-            if (buffData != null) {
-                cManager.AddBuff(buffData);
+            ReceiveBuff(hitBox);
+        }
+    }
+
+    protected virtual void HurtByHitbox(HitBox hitBox) {
+        // Identify Hitbox
+        Vector2 direction = hitBox.FindGlobalDirection(transform).normalized;
+
+        if (hitBox.originObject != transform.root.gameObject) {
+            float hitAlignment = Vector2.Dot(facingDirection, direction) * .5f + .5f;//between 0 and 1, 0 is full accurate
+            AttackData attackData = hitBox.GetAttackData();
+
+            //point on my collider closest to the hitbox, used as the hit/parry vfx position
+            Vector2 hitPoint = myCollider.ClosestPoint(hitBox.transform.position);
+
+            if (parrying && hitAlignment <= attackData.parryLeniency) {
+                hitBox.Parried();
+
+                //midpoint between me and the attacker, used as the parry vfx position
+                Vector2 parryPoint = (transform.root.position + hitBox.originObject.transform.position) * .5f;
+                cManager.ParrySuccess(parryPoint, hitBox.originObject);//spawns my parry action's hit vfx
+
+                //Debug.Log("successful parry, accuracy: " + (1f - hitAlignment));
+                //Debug.Log("hitBoxDir: " + direction + " my dir: " + facingDirection + " accuracy: " + (1f - hitAlignment));
+            } else if (!invincible) {
+                InvincibleForSeconds(afterHurtInvincibleDuration);
+                // Use Hitbox info to affect me
+                cManager.Stun(attackData.stunDuration, durationUntilDodgeCancellable);
+                cManager.Stagger(attackData.staggerAmount);
+
+                cManager.Launch(direction, attackData.knockbackPower, true);
+                cStatistics.UpdateHealth(-(attackData.attackDamage / defenseModifier));
+
+                hitBox.Hit(this, hitPoint, transform.root.gameObject);
             }
+        }
+    }
+
+    protected virtual void ReceiveBuff(HitBox hitBox) {
+        BuffData buffData = hitBox.GetBuffs(this);
+        if (buffData != null) {
+            cManager.AddBuff(buffData);
         }
     }
 

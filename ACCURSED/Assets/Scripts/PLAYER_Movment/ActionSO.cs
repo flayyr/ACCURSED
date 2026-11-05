@@ -9,6 +9,7 @@ public class AttackData
     public float stepAmount;
     public float knockbackPower;
     public float stunDuration;
+    public float staggerAmount;
     public float vitalityBuildUp = 1;
     [Range(-0.01f, 1)] public float parryLeniency = 0.5f;
 
@@ -33,7 +34,7 @@ public class ActionSO : ScriptableObject
     [SerializeField] public string windAnimationState;
     [SerializeField] public float windDuration;
 
-    [Header("Movement")]
+    [Header("Movement")] 
     [SerializeField] public AnimationCurve HorizontalDisplacementWind;
     [SerializeField] public AnimationCurve HorizontalDisplacement;
 

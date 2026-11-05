@@ -41,11 +41,11 @@ public class HealthDisplay : MonoBehaviour
 
     private void UpdateHealthDisplay()
     {
-        if (stats.currentHealth >= 2)
+        if (stats.GetHP() >= 2)
         {
             hpImage.sprite = hpSprites[2];
         }
-        else if (stats.currentHealth >0)
+        else if (stats.GetHP() >0)
         {
             hpImage.sprite = hpSprites[1];
         }

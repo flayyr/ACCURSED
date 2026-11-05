@@ -5,8 +5,8 @@ public class CharacterStatistics : MonoBehaviour
 {
     public event Action OnHealthUpdate;
 
-    public float maxHealth;
-    public float currentHealth;
+    [SerializeField] protected float maxHealth;
+    protected float currentHealth;
 
     CharacterAnimator cAnimator;
     CharacterDeath cDeath;
@@ -46,4 +46,6 @@ public class CharacterStatistics : MonoBehaviour
         dead = false;
         UpdateHealth(maxHealth);
     }
+
+    public float GetHP() { return currentHealth; }
 }

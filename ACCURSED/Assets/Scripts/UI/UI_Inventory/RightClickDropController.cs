@@ -41,8 +41,7 @@ public class RightClickDropController : MonoBehaviour
     private int selectedQuantity = 1;
     private int pendingDropQuantity;
 
-    private const string IrreversibleWarning =
-        "Are you sure you want to drop this?\nThis cannot be reversed.";
+    private const string IrreversibleWarning = "Are you sure you want to drop this?\nThis cannot be reversed.";
 
     private void Awake()
     {
@@ -86,6 +85,16 @@ public class RightClickDropController : MonoBehaviour
 
         currentInventory = slot.BoundInventory;
         currentItem = slot.BoundItem;
+
+        if (currentItem is SkillItemSO)
+        {
+            ClearContext();
+
+            if (RightClickOptions.Instance != null) 
+                RightClickOptions.Instance.Close();
+
+            return;
+        }
 
         RefreshTotalHeld();
 
@@ -177,7 +186,6 @@ public class RightClickDropController : MonoBehaviour
 
         int amount = Mathf.Clamp(requestedQuantity, 1, totalHeld);
 
-        // Important items are recoverable, so the irreversible warning is skipped.
         if (currentItem.isImportantItem)
         {
             ExecuteDrop(amount);
@@ -205,7 +213,7 @@ public class RightClickDropController : MonoBehaviour
 
     private void ExecuteDrop(int amount)
     {
-        if (currentInventory == null || currentItem == null)
+        if (currentInventory == null || currentItem == null || currentItem is SkillItemSO)
             return;
 
         RefreshTotalHeld();
@@ -222,58 +230,48 @@ public class RightClickDropController : MonoBehaviour
         {
             if (droppedImportantItemPrefab == null)
             {
-                Debug.LogError(
-                    "RightClickDropController: Dropped Important Item Prefab is not assigned.",
-                    this
-                );
+                Debug.LogError("RightClickDropController: Dropped Important Item Prefab is not assigned.", this);
                 return;
             }
 
             if (droppedImportantItemPrefab.GetComponent<DroppedImportantItemPickup>() == null)
             {
-                Debug.LogError(
-                    "RightClickDropController: Dropped Important Item Prefab needs DroppedImportantItemPickup on its root.",
-                    droppedImportantItemPrefab
-                );
+                Debug.LogError("RightClickDropController: Dropped Important Item Prefab needs DroppedImportantItemPickup on its root.", droppedImportantItemPrefab);
                 return;
             }
         }
 
         if (!currentInventory.RemoveItem(currentItem.itemID, amount))
         {
-            Debug.LogWarning(
-                "RightClickDropController: PlayerInventory refused to remove " +
-                currentItem.itemName + " x" + amount + ".",
-                this
-            );
+            Debug.LogWarning("RightClickDropController: PlayerInventory refused to remove " + currentItem.itemName + " x" + amount + ".", this);
             return;
         }
 
         if (currentItem.isImportantItem)
             SpawnImportantPickup(currentItem, amount);
 
-        // Non-important items intentionally stop here: RemoveItem is the deletion.
         CloseMenu();
     }
 
     private void SpawnImportantPickup(ItemPickupSO item, int amount)
     {
         Transform playerTransform = FindPlayerTransform();
-
         Vector3 spawnPosition;
 
         if (dropOrigin != null)
+        {
             spawnPosition = dropOrigin.position;
+        }
         else if (playerTransform != null)
+        {
             spawnPosition = playerTransform.position + dropOffset;
+        }
         else
+        {
             spawnPosition = Vector3.zero;
+        }
 
-        GameObject droppedObject = Instantiate(
-            droppedImportantItemPrefab,
-            spawnPosition,
-            Quaternion.identity
-        );
+        GameObject droppedObject = Instantiate(droppedImportantItemPrefab, spawnPosition, Quaternion.identity);
 
         DroppedImportantItemPickup pickup =
             droppedObject.GetComponent<DroppedImportantItemPickup>();
@@ -293,8 +291,7 @@ public class RightClickDropController : MonoBehaviour
 
     private void RefreshTotalHeld()
     {
-        if (currentInventory == null || currentItem == null ||
-            string.IsNullOrWhiteSpace(currentItem.itemID))
+        if (currentInventory == null || currentItem == null || string.IsNullOrWhiteSpace(currentItem.itemID))
         {
             totalHeld = 0;
             return;
@@ -303,17 +300,18 @@ public class RightClickDropController : MonoBehaviour
         totalHeld = currentInventory.GetQuantity(currentItem.itemID);
 
         if (totalHeld > 0)
+        {
             selectedQuantity = Mathf.Clamp(selectedQuantity, 1, totalHeld);
+        }
         else
+        {
             selectedQuantity = 1;
+        }
     }
 
     private bool CanDropAnything()
     {
-        return currentInventory != null &&
-               currentItem != null &&
-               !string.IsNullOrWhiteSpace(currentItem.itemID) &&
-               totalHeld > 0;
+        return currentInventory != null && currentItem != null && !string.IsNullOrWhiteSpace(currentItem.itemID) && totalHeld > 0;
     }
 
     private void UpdateQuantityText()
@@ -337,9 +335,13 @@ public class RightClickDropController : MonoBehaviour
     private void CloseMenu()
     {
         if (RightClickOptions.Instance != null)
+        {
             RightClickOptions.Instance.Close();
+        }
         else
+        {
             OnMenuClosed();
+        }
     }
 
     private void ClearContext()
