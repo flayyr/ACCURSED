@@ -58,6 +58,7 @@ public class CharacterMovement : MonoBehaviour
     Rigidbody2D rb;
     #endregion
 
+    float speedMultiplier = 1;
 
     void Start()
     {
@@ -122,7 +123,7 @@ public class CharacterMovement : MonoBehaviour
     public void BaseMove(Vector2 moveInput)
     {
         if (movementState is MovementState.normal)
-            rb.linearVelocity = moveInput.normalized * movementSpeed;
+            rb.linearVelocity = moveInput.normalized * movementSpeed * speedMultiplier;
     }
     #endregion
 
@@ -142,4 +143,8 @@ public class CharacterMovement : MonoBehaviour
         }
     }
     //#endregion
+
+    public void SetSpeedMultiplier(float multiplier) {
+        speedMultiplier = multiplier;
+    }
 }

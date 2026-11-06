@@ -23,6 +23,8 @@ public class HitBox : MonoBehaviour
     CircleCollider2D c_cc;
     CharacterManager cManager;
 
+    [Header("Start Attack")]
+    [SerializeField] ActionSO startingAttack;
     AttackData attackData;
     ActionSO action;
 
@@ -34,6 +36,11 @@ public class HitBox : MonoBehaviour
 
         if (vfxSpawner == null && transform.parent != null)
             vfxSpawner = transform.parent.GetComponentInChildren<VFXSpawner>();
+
+        if(startingAttack != null) {
+            action = startingAttack;
+            attackData = startingAttack.attackData;
+        }
     }
 
     public Vector3 FindGlobalDirection(Transform targetTransform)
