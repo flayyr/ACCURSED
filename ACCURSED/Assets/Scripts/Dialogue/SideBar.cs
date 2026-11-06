@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using static Unity.VisualScripting.Member;
 
 public class SideBar : MonoBehaviour
 {
@@ -62,7 +63,10 @@ public class SideBar : MonoBehaviour
         //refParent.GetComponent<DialogueSpawner>().tempDialogueHolder = refParent.GetComponent<DialogueSpawner>().baseText;
         refParent.GetComponent<DialogueSpawner>().tempDialogueHolder = new List<NPCDialogue>(refParent.GetComponent<DialogueSpawner>().placeholder);
         //Debug.Log(temptempDialogue);
-        temptempDialogue = new List<NPCDialogue>(refParent.GetComponent<DialogueSpawner>().placeholder);
+        //temptempDialogue = new List<NPCDialogue>(refParent.GetComponent<DialogueSpawner>().placeholder);
+        temptempDialogue = new List<NPCDialogue>(refTextbox.GetComponent<Textbox>().npcText);
+        refParent.GetComponent<DialogueSpawner>().highway = new List<NPCDialogue>(temptempDialogue);
+
 
         foreach (NPCDialogue talk in bunchaDialogues)
         {
@@ -99,27 +103,29 @@ public class SideBar : MonoBehaviour
             if (!dialogueOrShop[buttonClicked])
             {
 
-                var source = refParent.GetComponent<DialogueSpawner>();
+                //var source = refParent.GetComponent<DialogueSpawner>();
+                var source = refTextbox.GetComponent<Textbox>();
+                var sourceSpawner = refParent.GetComponent<DialogueSpawner>();
 
-                //refParent.GetComponent<DialogueSpawner>().baseIndex = 0;
-                //refParent.GetComponent<DialogueSpawner>().baseText[0] = tempDialogue;
-                // refParent.GetComponent<DialogueSpawner>().placeholder[0] = tempDialogue;
-                //Debug.Log("THIS");
-                //refParent.GetComponent<DialogueSpawner>().spawnText();
-                //Debug.Log("yo");
-
-                source.baseIndex = 0;
-                source.placeholder.Clear();
+                sourceSpawner.baseIndex = 0;
+                source.npcText.Clear();
                 //source.placeholder.Add(tempDialogue);
-                source.placeholder = new List<NPCDialogue>
+
+                sourceSpawner.placeholder = new List<NPCDialogue>
                 {
                     tempDialogue
                 };
-                //refTextbox.GetComponent<Textbox>().nextSentence();
-                //source.spawnText();
+                /*
+                source.npcText = new List<NPCDialogue>
+                {
+                    tempDialogue
+                };
+                */
 
-                source.activeAndClear();
-                refTextbox.GetComponent<Textbox>().stuff();
+                //source.GetComponent<Textbox>().stuff();
+
+                sourceSpawner.activeAndClear();
+                source.GetComponent<Textbox>().stuff();
 
 
                 this.gameObject.SetActive(false);
@@ -128,6 +134,8 @@ public class SideBar : MonoBehaviour
 
         else if (buttonClicked == -2)
         {
+            var source = refParent.GetComponent<DialogueSpawner>();
+            //source.baseIndex++;
             this.gameObject.SetActive(false);
         }
     }
@@ -144,28 +152,27 @@ public class SideBar : MonoBehaviour
 
             int i = 0;
 
-            //refParent.GetComponent<DialogueSpawner>().baseText = refParent.GetComponent<DialogueSpawner>().tempDialogueHolder;
-            /*
-            refParent.GetComponent<DialogueSpawner>().placeholder = new List<NPCDialogue>(refParent.GetComponent<DialogueSpawner>().tempDialogueHolder);
-            refParent.GetComponent<DialogueSpawner>().placeholder = temptempDialogue;
-            //refParent.GetComponent<DialogueSpawner>().placeholder = greatNPCHighway;
-            refParent.GetComponent<DialogueSpawner>().baseIndex = tempRefIndex;
-            refParent.GetComponent<DialogueSpawner>().baseIndex++;
-            refParent.GetComponent<DialogueSpawner>().highway = new List<NPCDialogue>(greatNPCHighway);
-            */
-
-            //source.placeholder = new List<NPCDialogue>(refParent.GetComponent<DialogueSpawner>().tempDialogueHolder);
-            /*
-            source.placeholder = temptempDialogue;
-            source.baseIndex = tempRefIndex;
             source.baseIndex++;
-            source.highway = new List<NPCDialogue>(greatNPCHighway);
-            */
-
-
 
             tempRefIndex = 0;
 
+            source.sidebarRunnin = true;
+            //source.highway = new List<NPCDialogue>(temptempDialogue);
+
+            temptempDialogue.Clear();
+
+            /*
+            refTextbox.GetComponent<Textbox>().npcText = temptempDialogue;
+            temptempDialogue.Clear();
+            */
+
+            //source.placeholder = new List<NPCDialogue>(temptempDialogue);
+
+            //source.activeAndClear();
+
+            //source.spawnText();
+
+            temptempDialogue.Clear();
 
             foreach (string option in buttonName)
             {
