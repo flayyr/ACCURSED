@@ -5,6 +5,8 @@ public class EnemyDeath : CharacterDeath
     Vector3 startPosition;
     CharacterStatistics stats;
 
+    bool dead = false;
+
     private void Start()
     {
         startPosition = transform.position;
@@ -14,8 +16,9 @@ public class EnemyDeath : CharacterDeath
 
     public override void Die()
     {
-        base.Die();
+        dead = true;
         gameObject.SetActive(false);
+        base.Die();
     }
 
     public void Respawn()
@@ -24,4 +27,6 @@ public class EnemyDeath : CharacterDeath
         transform.position = startPosition;
         stats.Reset();
     }
+
+    public bool IsDead() { return dead; }
 }

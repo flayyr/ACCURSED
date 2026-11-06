@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class FogWallInteractionManager : InteractableObjectManager
 {
-    [SerializeField] FogWall fogWall;
+    [SerializeField] Gate fogWall;
+
+    private void Start() {
+        OnPromptTriggered += fogWall.OpenWall;
+    }
 
     protected override void OnTriggerEnter2D(Collider2D collision) {
         base.OnTriggerEnter2D(collision);
@@ -18,7 +22,9 @@ public class FogWallInteractionManager : InteractableObjectManager
 
     protected override void Update() {
         if (fogWall.isUnlocked()) {
-            base.Update();
+            if (isInsideTrigger && !GlobalUIController.Instance.CheckIfOtherUIOpen() && !promptOpen) {
+                OpenPrompt();
+            }
         }
     }
 }
