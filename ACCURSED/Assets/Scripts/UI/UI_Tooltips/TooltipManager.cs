@@ -179,12 +179,6 @@ public class ToolTipManager : MonoBehaviour
     // Normal interaction tooltip
     public void Prompt(string promptText, InteractableItemSO obj, Action promptTriggeredAction = null)
     {   
-        if (obj == null)
-        {
-            Debug.LogError("ToolTipManager.Prompt(" + promptText + ") was given a NULL InteractableItemSO.", this);
-            return;
-        }
-
         this.promptText = promptText;
         this.promptTriggeredAction = promptTriggeredAction;
 
@@ -192,13 +186,11 @@ public class ToolTipManager : MonoBehaviour
 
         currentAction = () =>
         {
-            if (obj == null)
+            if (obj != null)
             {
-                Debug.LogError("InteractableItemSO became null before prompt " + promptText + " was activated.", this);
+                obj.Interact();
                 return;
             }
-
-            obj.Interact();
         };
     }
 

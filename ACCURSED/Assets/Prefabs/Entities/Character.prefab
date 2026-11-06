@@ -125,6 +125,7 @@ MonoBehaviour:
   destroyOnHit: 0
   vfxSpawner: {fileID: 0}
   originObject: {fileID: 0}
+  startingAttack: {fileID: 0}
 --- !u!60 &1322706518304336856
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -992,7 +993,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatistics
   maxHealth: 200
-  currentHealth: 200
   maxHealCharge: 3
   maxVitality: 10
   currentHealCharge: 0
@@ -1145,6 +1145,8 @@ MonoBehaviour:
     cStats: {fileID: 7527250969752035120}
     cManager: {fileID: 8797631828024848465}
     vfxSpawner: {fileID: 7410480554128925755}
+    cMovement: {fileID: 5371999705111558022}
+  staggerDuration: 0
   combatState: 0
   playerOffset: {fileID: 4802107264348243449}
   playerRef:
@@ -1156,6 +1158,7 @@ MonoBehaviour:
     playerManager: {fileID: 8797631828024848465}
     hitFeedback: {fileID: 0}
   dashAction: {fileID: 11400000, guid: ac376dfa5d0f9d642bdf41cc579627b4, type: 2}
+  parryGriefGain: 0
 --- !u!114 &8693074642358573747
 MonoBehaviour:
   m_ObjectHideFlags: 0

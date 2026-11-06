@@ -44,16 +44,24 @@ public class HurtBox : MonoBehaviour
         invincible = false;
     }
 
+    private void OnTriggerStay2D(Collider2D collision) {
+        if (!invincible) {
+            OnTriggerEnter2D(collision);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        HitBox hitBox = null;
         if ((lm_hitbox & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer && !personalHitBoxes.Contains(collision.gameObject))
         {
-            var hitBox = collision.gameObject.GetComponent<HitBox>();
+            hitBox = collision.gameObject.GetComponent<HitBox>();
             HurtByHitbox(hitBox);
         }
 
-        if ((lm_buffSource & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer && !personalHitBoxes.Contains(collision.gameObject)) {
-            var hitBox = collision.gameObject.GetComponent<HitBox>();
+        if ((hitBox!=null || collision.gameObject.TryGetComponent<HitBox>(out hitBox))
+            && !personalHitBoxes.Contains(collision.gameObject)) {
+            //hitBox = collision.gameObject.GetComponent<HitBox>();
             ReceiveBuff(hitBox);
         }
     }

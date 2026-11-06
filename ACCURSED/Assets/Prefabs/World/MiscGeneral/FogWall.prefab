@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5564567254363051723}
   - component: {fileID: 889321901258200550}
-  - component: {fileID: 9021337840957463120}
+  - component: {fileID: 5761982271678220854}
   m_Layer: 18
   m_Name: InteractTrigger
   m_TagString: Untagged
@@ -79,7 +79,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 13.903004, y: 2.068268}
   m_EdgeRadius: 0
---- !u!114 &9021337840957463120
+--- !u!114 &5761982271678220854
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,11 +88,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 52841722503125942}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49cc80316fdbb0f4c8c03386666ef500, type: 3}
+  m_Script: {fileID: 11500000, guid: 6ae620cb15ca9134890efb3cd93d7721, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObjectManager
+  m_EditorClassIdentifier: Assembly-CSharp::FogWallInteractionManager
   obj: {fileID: 0}
-  promptText: 
+  promptText: Open
+  fogWall: {fileID: 1190090672166070843}
 --- !u!1 &5148672263904854348
 GameObject:
   m_ObjectHideFlags: 0
