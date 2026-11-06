@@ -56,7 +56,7 @@ public class Textbox : MonoBehaviour
 
     //private NPCDialogue tempHolder;
 
-    [HideInInspector]
+    //[HideInInspector]
     public int indexRefTemp;
 
     [HideInInspector]
@@ -75,35 +75,7 @@ public class Textbox : MonoBehaviour
 
     private void OnEnable()
     {
-        /*
-        baseIndexRef = refSpawner.GetComponent<DialogueSpawner>().baseIndex;
-
-        //tempRefRef = npcText[0];
-
-        
-        if(baseIndexRef >= npcText.Count)
-        {
-            baseIndexRef = npcText.Count - 1;
-        }
-
-        if (npcText[baseIndexRef].branches != null)
-        {
-            npcTextBranches = npcText[baseIndexRef].branches;
-            npcTextBranchNum = npcTextBranches.Count;
-            for (var i = 0; i < npcTextBranchNum; i++)
-            {
-                buttons[i].gameObject.GetComponent<DialogueOption>().branchedText = npcTextBranches[i];
-            }
-        }
-
-        index = 0;
-        typing = false;
-
-        nextSentence();
-        */
-
         stuff();
-
     }
 
     public void stuff()
@@ -191,6 +163,7 @@ public class Textbox : MonoBehaviour
         }
         else if (npcText[baseIndexRef].sideBarOrNot && index == npcText[baseIndexRef].summonSidebar)
         {
+            refSpawner.GetComponent<DialogueSpawner>().baseIndex++;
             refSpawner.GetComponent<DialogueSpawner>().spawnSideBar();
         }
 
@@ -223,10 +196,18 @@ public class Textbox : MonoBehaviour
 
     public void setSpecial()
     {
-        //Debug.Log("setting");
+
+        var temper = (refSpawner.GetComponent<DialogueSpawner>().highway);
+        //refSpawner.GetComponent<DialogueSpawner>().placeholder = temper;
+        if (refSpawner.GetComponent<DialogueSpawner>().highway != null && temper.Count > 0)
+        {
+            //npcText = temper;
+            refSpawner.GetComponent<DialogueSpawner>().placeholder = temper;
+        }
+
+
         if (special)
         {
-            //Debug.Log("inner setting");
             refSpawner.GetComponent<DialogueSpawner>().baseIndex--;
             baseIndexRef = indexRefTemp;
             indexRefTemp = 0;

@@ -66,9 +66,12 @@ public class DialogueSpawner : MonoBehaviour
     [SerializeField] protected List<sideBarCustomization> sideBarCustomizations = new List<sideBarCustomization>();
 
     //[Header("DONT TOUCH THESE")]
-    [HideInInspector] public int baseIndex;
+    //[HideInInspector]
+    public bool sidebarRunnin;
+    //[HideInInspector] 
+    public int baseIndex;
     [HideInInspector] public int baseSideDex;
-    [HideInInspector] 
+    //[HideInInspector] 
     public List<NPCDialogue> placeholder;
     [HideInInspector] public NPCDialogue placeholderOptions;
     [HideInInspector] public List<NPCDialogue> highway;
@@ -82,11 +85,6 @@ public class DialogueSpawner : MonoBehaviour
     //[Header("ignore this")]
     //[SerializeField]
     [HideInInspector] public List<NPCDialogue> tempDialogueHolder;
-
-    //[HideInInspector]
-    //public bool dodo;
-    //[HideInInspector]
-    //public List<NPCDialogue> secretHolder;
 
     private void Start()
     {
@@ -169,19 +167,15 @@ public class DialogueSpawner : MonoBehaviour
 
     public void spawnText()
     {
-        //doIt();
 
         var tIndex = 0;
-        //var a = 0;
+
 
         textBoxPrefab.GetComponent<Textbox>().refSpawner = this.gameObject;
 
-        //Debug.Log("spawning");
 
         foreach (string var in varNames)
         {
-
-            //inUse = triggeredDialogues[tIndex].questText;
 
             if (var != "")
             {
@@ -207,7 +201,7 @@ public class DialogueSpawner : MonoBehaviour
             tIndex++;
         }
 
-        activeAndClear();
+        //activeAndClear();
 
     }
 
@@ -225,23 +219,22 @@ public class DialogueSpawner : MonoBehaviour
     public void checkInput()
     {
 
-        //baseIndexRef = textBoxPrefab.GetComponent<Textbox>().baseIndex;
-
         if (!textBoxPrefab.activeInHierarchy && !sideBarPrefab.activeInHierarchy)
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
                 spawnText();
+                activeAndClear();
             }
         }
     }
 
     //COMMENT OUT LATER THIS IS FOR TESTING PURPOSES
-    /*
+    
     public void Update()
     {
         checkInput();
     }
-    */
+    
 
 }
