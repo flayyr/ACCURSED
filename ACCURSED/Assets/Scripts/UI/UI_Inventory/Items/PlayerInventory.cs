@@ -18,8 +18,7 @@ public class InventoryStack
 public class PlayerInventory : MonoBehaviour
 {
     [Header("Runtime Inventory")]
-    [SerializeField]
-    private List<InventoryStack> stacks = new List<InventoryStack>();
+    [SerializeField] private List<InventoryStack> stacks = new List<InventoryStack>();
 
     public IReadOnlyList<InventoryStack> Stacks => stacks;
 
@@ -47,10 +46,21 @@ public class PlayerInventory : MonoBehaviour
         if (quantity <= 0)
             return false;
 
+        if (item is SkillItemSO)
+        {
+            SkillItemSO skill = (SkillItemSO)item;
+            if (!skill.IsValid) 
+                return false;
+
+            if (HasItem(item.itemID)) 
+                return true; 
+
+            quantity = 1;
+        }
+
         int remaining = quantity;
         int maxStack = Mathf.Max(1, item.maxStackSize);
 
-        // Fill existing stacks first.
         foreach (InventoryStack stack in stacks)
         {
             if (stack == null || stack.item == null || stack.item.itemID != item.itemID)
@@ -91,6 +101,9 @@ public class PlayerInventory : MonoBehaviour
             return false;
 
         if (quantity <= 0)
+            return false;
+
+        if (GetItemData(itemID) is SkillItemSO) 
             return false;
 
         if (GetQuantity(itemID) < quantity)

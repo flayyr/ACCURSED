@@ -23,7 +23,7 @@ public class BuffData {
     public float amount;
     public float duration;
 }
-public enum BuffType { None, DefenseUp }
+public enum BuffType { None, DefenseUp, StairsSlow }
 public enum BuffTarget { Enemy, Player }
 
 [CreateAssetMenu(fileName = "ActionSO", menuName = "Actions/ActionSO")]
@@ -34,7 +34,7 @@ public class ActionSO : ScriptableObject
     [SerializeField] public string windAnimationState;
     [SerializeField] public float windDuration;
 
-    [Header("Movement")]
+    [Header("Movement")] 
     [SerializeField] public AnimationCurve HorizontalDisplacementWind;
     [SerializeField] public AnimationCurve HorizontalDisplacement;
 

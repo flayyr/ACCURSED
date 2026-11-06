@@ -1,151 +1,203 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-[RequireComponent(typeof(PlayerAbilities))]
+[RequireComponent(typeof(PlayerAbilities), typeof(PlayerInventory))]
 public class StatusSkillEquipment : MonoBehaviour
 {
-    [Header("REMEMBRANCE")]
-    [SerializeField] private bool remembranceEquipped = true;
-    [SerializeField] private RemembranceSO remembrance;
+    [Header("Permanent starting unlocks (grant once per Player instance)")]
+    [SerializeField] private List<SkillItemSO> startingSkills = new List<SkillItemSO>();
 
-    [Header("FABLE (placeholder)")]
-    [SerializeField] private bool fableEquipped = false;
-    [SerializeField] private FableSO fable;
-
-    [Header("VESTIGE")]
-    [SerializeField] private bool vestigeEquipped = true;
-    [SerializeField] private VestigeSO vestige;
+    [Header("Starting equipped inventory skill assets")]
+    [SerializeField] private SkillItemSO remembranceItem;
+    [SerializeField] private SkillItemSO fableItem;
+    [SerializeField] private SkillItemSO vestigeItem;
 
     public event Action SkillsChanged;
+    public RemembranceSO EquippedRemembrance => remembranceItem != null ? remembranceItem.Ability as RemembranceSO : null;
+    public FableSO EquippedFable => fableItem != null ? fableItem.Ability as FableSO : null;
+    public VestigeSO EquippedVestige => vestigeItem != null ? vestigeItem.Ability as VestigeSO : null;
 
-    public RemembranceSO EquippedRemembrance => remembranceEquipped ? remembrance : null;
-    public FableSO EquippedFable => fableEquipped ? fable : null;
-    public VestigeSO EquippedVestige => vestigeEquipped ? vestige : null;
-
-    private PlayerAbilities playerAbilities;
-    private RemembranceSO lastRemembrance;
-    private FableSO lastFable;
-    private VestigeSO lastVestige;
+    private PlayerInventory inventory;
+    private PlayerAbilities abilities;
+    private bool grantedStartingSkills;
+    private bool granting;
+    private SkillItemSO lastRemembrance, lastFable, lastVestige;
     private bool appliedOnce;
 
     private void Awake()
     {
-        playerAbilities = GetComponent<PlayerAbilities>();
+        inventory = GetComponent<PlayerInventory>();
+        abilities = GetComponent<PlayerAbilities>();
+    }
+
+    private void OnEnable()
+    {
+        if (inventory != null) 
+            inventory.InventoryChanged += SyncNow;
+    }
+
+    private void OnDisable()
+    {
+        if (inventory != null) 
+            inventory.InventoryChanged -= SyncNow;
     }
 
     private void Start()
     {
+        if (!grantedStartingSkills)
+        {
+            grantedStartingSkills = true;
+            granting = true;
+
+            Grant(remembranceItem);
+            Grant(fableItem);
+            Grant(vestigeItem);
+            
+            foreach (SkillItemSO skill in startingSkills)
+                Grant(skill);
+
+            granting = false;
+        }
+
         SyncNow();
     }
 
-    private void Update()
+    private void Grant(SkillItemSO skill)
     {
-        SyncNow();
+        if (skill != null && skill.IsValid && !inventory.HasItem(skill.itemID))
+            inventory.AddItem(skill, 1);
     }
 
-    public AbilitySO GetEquippedSkill(StatusEquipmentCategory category)
+    private void Update() 
+    { 
+        SyncNow(); 
+    }
+
+    public SkillItemSO GetEquippedItem(StatusEquipmentCategory category)
     {
         switch (category)
         {
             case StatusEquipmentCategory.Remembrance: 
-                return EquippedRemembrance;
-                
+                return remembranceItem;
+
             case StatusEquipmentCategory.Fable: 
-                return EquippedFable;
+                return fableItem;
 
             case StatusEquipmentCategory.Vestige: 
-                return EquippedVestige;
+                return vestigeItem;
 
             default: 
                 return null;
         }
     }
 
-    public bool TryEquipSkill(StatusEquipmentCategory category, AbilitySO newSkill)
+    public AbilitySO GetEquippedSkill(StatusEquipmentCategory category)
     {
+        SkillItemSO item = GetEquippedItem(category);
+        
+        return item != null ? item.Ability : null;
+    }
+
+    public bool IsEquipped(string itemID)
+    {
+        return !string.IsNullOrEmpty(itemID) && 
+            ((remembranceItem != null && remembranceItem.itemID == itemID) || (fableItem != null && fableItem.itemID == itemID) || (vestigeItem != null && vestigeItem.itemID == itemID));
+    }
+
+    public bool TryEquipSkill(StatusEquipmentCategory category, SkillItemSO item, out string reason)
+    {
+        reason = "";
+        if (category != StatusEquipmentCategory.Remembrance && category != StatusEquipmentCategory.Fable && category != StatusEquipmentCategory.Vestige)
+        { 
+            reason = "This is not a skill slot."; 
+            return false; 
+        }
+
+        if (item != null && (!item.IsValid || item.SkillCategory != category || string.IsNullOrWhiteSpace(item.itemID) || inventory == null || !inventory.HasItem(item.itemID)))
+        { 
+            reason = "Select an owned skill matching this slot."; 
+            return false; 
+        }
+
         switch (category)
         {
-            case StatusEquipmentCategory.Remembrance:
-                if (newSkill != null && !(newSkill is RemembranceSO)) 
-                    return false;
-
-                remembrance = (RemembranceSO)newSkill;
-                remembranceEquipped = newSkill != null;
+            case StatusEquipmentCategory.Remembrance: 
+                remembranceItem = item; 
+                break;
+            
+            case StatusEquipmentCategory.Fable: 
+                fableItem = item; 
                 break;
 
-            case StatusEquipmentCategory.Fable:
-                if (newSkill != null && !(newSkill is FableSO)) 
-                    return false;
-
-                fable = (FableSO)newSkill;
-                fableEquipped = newSkill != null;
-                break;
-
-            case StatusEquipmentCategory.Vestige:
-                if (newSkill != null && !(newSkill is VestigeSO)) 
-                    return false;
-
-                vestige = (VestigeSO)newSkill;
-                vestigeEquipped = newSkill != null;
-                break;
-
-            default:
-                return false;
+            case StatusEquipmentCategory.Vestige: 
+                vestigeItem = item; 
+                 break;
         }
 
         SyncNow();
         return true;
     }
 
-    public bool SetSlotEnabled(StatusEquipmentCategory category, bool isEnabled)
+    public bool TryEquipSkill(StatusEquipmentCategory category, AbilitySO ability)
     {
-        switch (category)
-        {
-            case StatusEquipmentCategory.Remembrance:
-                remembranceEquipped = isEnabled;
-                break;
-
-            case StatusEquipmentCategory.Fable:
-                fableEquipped = isEnabled;
-                break;
-
-            case StatusEquipmentCategory.Vestige:
-                vestigeEquipped = isEnabled;
-                break;
-
-            default:
-                return false;
+        if (ability == null) 
+        { 
+            string ignored; 
+            return TryEquipSkill(category, (SkillItemSO)null, out ignored); 
         }
 
-        SyncNow();
-        return true;
+        if (inventory == null) 
+            return false;
+
+        foreach (InventoryStack stack in inventory.Stacks)
+        {
+            SkillItemSO skill = stack != null ? stack.item as SkillItemSO : null;
+            
+            if (skill != null && skill.Ability == ability)
+            { 
+                string ignored; 
+                return TryEquipSkill(category, skill, out ignored); 
+            }
+        }
+
+        return false;
+    }
+
+    public bool SetSlotEnabled(StatusEquipmentCategory category, bool enabled)
+    {
+        if (enabled) 
+            return GetEquippedItem(category) != null;
+
+        string ignored;
+
+        return TryEquipSkill(category, (SkillItemSO)null, out ignored);
     }
 
     public void SyncNow()
     {
-        if (!Application.isPlaying) 
+        if (!Application.isPlaying || granting || abilities == null || inventory == null) 
             return;
 
-        if (playerAbilities == null)
-            playerAbilities = GetComponent<PlayerAbilities>();
+        if (remembranceItem != null && (!remembranceItem.IsValid || remembranceItem.SkillCategory != StatusEquipmentCategory.Remembrance || !inventory.HasItem(remembranceItem.itemID))) 
+            remembranceItem = null;
 
-        if (playerAbilities == null) 
+        if (fableItem != null && (!fableItem.IsValid || fableItem.SkillCategory != StatusEquipmentCategory.Fable || !inventory.HasItem(fableItem.itemID))) 
+            fableItem = null;
+
+        if (vestigeItem != null && (!vestigeItem.IsValid || vestigeItem.SkillCategory != StatusEquipmentCategory.Vestige || !inventory.HasItem(vestigeItem.itemID))) 
+            vestigeItem = null;
+
+        if (appliedOnce && lastRemembrance == remembranceItem && lastFable == fableItem && lastVestige == vestigeItem) 
             return;
 
-        RemembranceSO currentRemembrance = EquippedRemembrance;
-        FableSO currentFable = EquippedFable;
-        VestigeSO currentVestige = EquippedVestige;
+        lastRemembrance = remembranceItem;
+        lastFable = fableItem;
+        lastVestige = vestigeItem;
 
-        if (appliedOnce && lastRemembrance == currentRemembrance && lastFable == currentFable && lastVestige == currentVestige)
-            return;
-
-        playerAbilities.SetEquippedSkills(currentRemembrance, currentFable, currentVestige);
-
-        lastRemembrance = currentRemembrance;
-        lastFable = currentFable;
-        lastVestige = currentVestige;
         appliedOnce = true;
+        abilities.SetEquippedSkills(EquippedRemembrance, EquippedFable, EquippedVestige);
         SkillsChanged?.Invoke();
     }
 }

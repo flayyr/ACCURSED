@@ -3,16 +3,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-// Scene-level coordinator. 
 public class StatusEquipmentSelection : MonoBehaviour
 {
     public static StatusEquipmentSelection Instance { get; private set; }
 
     [SerializeField] private StatusPanelController statusPanel;
     [SerializeField] private InventoryController inventoryController;
+
     [Tooltip("Optional text on the inventory screen for errors and instructions")]
     [SerializeField] private TMP_Text feedbackText;
-    
+
     [Header("Troubleshooting")]
     [Tooltip("Log why a click failed to select an inventory slot. Turn off after verifying setup.")]
     [SerializeField] private bool logClickDiagnostics = true;
@@ -31,17 +31,19 @@ public class StatusEquipmentSelection : MonoBehaviour
             Destroy(this);
             return;
         }
+
         Instance = this;
     }
 
     private void OnDestroy()
     {
-        if (Instance == this) Instance = null;
+        if (Instance == this) 
+            Instance = null;
     }
 
     public void BeginSelection(StatusItemSlot slot)
     {
-        if (slot == null || slot.Category != StatusEquipmentCategory.Items) 
+        if (slot == null) 
             return;
 
         if (inventoryController == null)
@@ -63,7 +65,7 @@ public class StatusEquipmentSelection : MonoBehaviour
         selecting = true;
         selectionStartedFrame = Time.frameCount;
 
-        SetFeedback("Select a usable item to equip. Esc to cancel.");
+        SetFeedback(target.Category == StatusEquipmentCategory.Items ? "Select a usable item to equip. Esc to cancel." : "Select a matching skill to equip. Esc to cancel.");
         statusPanel.HideForEquipmentSelection();
         inventoryController.OpenInventory();
 
@@ -73,13 +75,44 @@ public class StatusEquipmentSelection : MonoBehaviour
 
     public void OnInventorySlotClicked(Inventory_ItemSlot slot)
     {
-        if (!selecting || target == null || slot == null) return;
+        if (!selecting || target == null || slot == null) 
+            return;
 
         ItemPickupSO item = slot.BoundItem;
 
         if (item == null)
         {
             SetFeedback("This inventory slot is empty or not bound to an InventoryStack.");
+            return;
+        }
+
+        if (target.Category != StatusEquipmentCategory.Items)
+        {
+            SkillItemSO skill = item as SkillItemSO;
+
+            if (skill == null || skill.SkillCategory != target.Category)
+            { 
+                SetFeedback("Select a skill matching the selected slot."); 
+                return; 
+            }
+
+            StatusSkillEquipment skills = FindObjectOfType<StatusSkillEquipment>();
+
+            if (skills == null) 
+            { 
+                SetFeedback("StatusSkillEquipment was not found on the Player."); 
+                return;
+            }
+
+            string skillReason;
+
+            if (!skills.TryEquipSkill(target.Category, skill, out skillReason))
+            { 
+                SetFeedback(skillReason); 
+                return; 
+            }
+
+            FinishSelection();
             return;
         }
 
@@ -92,7 +125,7 @@ public class StatusEquipmentSelection : MonoBehaviour
         }
 
         string reason;
-        
+
         if (!manager.TryEquip(target.Category, target.SlotIndex, item, out reason))
         {
             SetFeedback(reason);
@@ -121,10 +154,7 @@ public class StatusEquipmentSelection : MonoBehaviour
             return;
         }
 
-        PointerEventData pointer = new PointerEventData(EventSystem.current)
-        {
-            position = Input.mousePosition
-        };
+        PointerEventData pointer = new PointerEventData(EventSystem.current) {position = Input.mousePosition};
 
         raycastResults.Clear();
         EventSystem.current.RaycastAll(pointer, raycastResults);
@@ -160,6 +190,7 @@ public class StatusEquipmentSelection : MonoBehaviour
         OnInventorySlotClicked(clickedSlot);
     }
 
+    // InventoryController handles Esc by closing itself; return to Status.
     private void LateUpdate()
     {
         if (!selecting) 
@@ -198,7 +229,7 @@ public class StatusEquipmentSelection : MonoBehaviour
     {
         if (feedbackText != null)
             feedbackText.text = message;
-
+            
         if (!string.IsNullOrEmpty(message))
             Debug.Log("Equipment selection: " + message, this);
     }
