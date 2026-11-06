@@ -24,6 +24,14 @@ public class PlayerStatistics : CharacterStatistics
         OnRemembranceChargeUpdate?.Invoke();  // combatUI might not have initialized the UI in player abilities yet
     }
 
+#if UNITY_EDITOR
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Minus)) {
+            UpdateHealth(-1);
+        }
+    }
+#endif
+
     public bool UseHealCharge()
     {
         if (CanHeal())
