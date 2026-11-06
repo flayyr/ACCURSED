@@ -1264,6 +1264,7 @@ Transform:
   - {fileID: 9132162575587556877}
   - {fileID: 6546210218930585144}
   - {fileID: 2291187603477891597}
+  - {fileID: 4596407139649195616}
   - {fileID: 7869944982843756057}
   m_Father: {fileID: 7826682315319777986}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1448,6 +1449,90 @@ PolygonCollider2D:
       - {x: -0.47123855, y: -0.7895926}
       - {x: 1.1003586, y: -0.79619956}
       - {x: 1.6814642, y: -0.19074255}
+  m_UseDelaunayMesh: 1
+--- !u!1 &5697333222653590397
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4596407139649195616}
+  - component: {fileID: 1870966146641167900}
+  m_Layer: 0
+  m_Name: ColliderPillar (10)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4596407139649195616
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5697333222653590397}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 22.65, y: -6.36, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7084756695628385262}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &1870966146641167900
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5697333222653590397}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -1.1890259, y: 0.47847748}
+      - {x: -1.1817236, y: -0.17792529}
+      - {x: -0.47123855, y: -0.7895926}
+      - {x: 2.9605117, y: -0.7628896}
+      - {x: 2.9507818, y: 0.520214}
   m_UseDelaunayMesh: 1
 --- !u!1 &6381044398292271462
 GameObject:
@@ -3500,7 +3585,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6804815168895169777, guid: 49f0fada625e2ad448bea27a6e700483, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.6734009
+      value: -4.02
       objectReference: {fileID: 0}
     - target: {fileID: 6804815168895169777, guid: 49f0fada625e2ad448bea27a6e700483, type: 3}
       propertyPath: m_LocalPosition.z
