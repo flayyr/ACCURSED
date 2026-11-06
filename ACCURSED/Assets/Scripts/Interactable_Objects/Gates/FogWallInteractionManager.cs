@@ -17,6 +17,8 @@ public class FogWallInteractionManager : InteractableObjectManager
     }
 
     protected override void Update() {
-        base.Update();
+        if (fogWall.isUnlocked()) {
+            base.Update();
+        }
     }
 }

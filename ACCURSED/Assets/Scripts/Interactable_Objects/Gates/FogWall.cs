@@ -25,11 +25,13 @@ public class FogWall : MonoBehaviour
             }
         }
 
-        unlocked = true;
         OpenWall();
+        unlocked = true;
     }
 
     private void OpenWall() {
         Destroy(gameObject);
     }
+
+    public bool isUnlocked() { return unlocked; }
 }
