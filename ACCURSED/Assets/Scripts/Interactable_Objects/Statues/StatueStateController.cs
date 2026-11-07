@@ -41,7 +41,6 @@ public class StatueStateController : MonoBehaviour
     [SerializeField] private string playerTag = "Player";
     [SerializeField] private PlayerInventory playerInventory;
     [SerializeField] private StatueSeeingField seeingField;
-    [SerializeField] private StatueInteractionMessageUI feedbackUI;
 
     private StatueVisionState appliedState;
     private bool hasAppliedState;
@@ -87,9 +86,8 @@ public class StatueStateController : MonoBehaviour
         float interactionDistanceSqr = interactionDistance * interactionDistance;
 
         bool closeEnough = distanceSqr <= interactionDistanceSqr;
-        bool feedbackBlocking = feedbackUI != null && feedbackUI.IsShowing;
 
-        if (closeEnough && !IsOnCooldown && !feedbackBlocking)
+        if (closeEnough && !IsOnCooldown)
             TryOpenPrompt();
         else
             ClosePrompt();
@@ -102,9 +100,6 @@ public class StatueStateController : MonoBehaviour
 
         if (seeingField == null)
             seeingField = GetComponentInChildren<StatueSeeingField>(true);
-
-        if (feedbackUI == null)
-            feedbackUI = StatueInteractionMessageUI.Instance;
 
         if (player == null)
             FindPlayer();
@@ -295,17 +290,7 @@ public class StatueStateController : MonoBehaviour
 
     private void ShowFeedback(string message)
     {
-        if (feedbackUI == null)
-            feedbackUI = StatueInteractionMessageUI.Instance;
-
-        if (feedbackUI != null)
-        {
-            feedbackUI.ShowMessage(message);
-        }
-        else
-        {
-            Debug.Log(message, this);
-        }
+        FlavorTextPopupManager.Instance.Prompt(message);
     }
 
     private void ClosePrompt()
