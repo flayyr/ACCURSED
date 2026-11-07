@@ -84,15 +84,15 @@ MonoBehaviour:
   lm_hitbox:
     serializedVersion: 2
     m_Bits: 32768
-  lm_hurtbox:
+  lm_buffSource:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
+  buffHurtboxType: 0
   afterHurtInvincibleDuration: 0.2
   durationUntilDodgeCancellable: 0.5
-  hurtFeedback: {fileID: 0}
-  parryFeedback: {fileID: 0}
   personalHurtBoxes: []
   personalHitBoxes: []
+  invincible: 0
 --- !u!1 &1145578280681354175
 GameObject:
   m_ObjectHideFlags: 0

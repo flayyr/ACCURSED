@@ -35,9 +35,10 @@ public class QuestVarHolder : MonoBehaviour
         questBools.Add("reckonerDefeat", false);
         questBools.Add("gotEye", false);
 
-        questBools.Add("tempQuestStarted", false);
-        questBools.Add("tempQuestinProgress", false);
-        questBools.Add("tempQuestFinished", false);
+        questBools.Add("Graveyard", false);
+        questBools.Add("Rest1", false);
+        questBools.Add("Rest2", false);
+
 
     }
 
@@ -49,17 +50,22 @@ public class QuestVarHolder : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        //to be commented out later, currently for testing purposes.
+        if (Input.GetKeyDown(KeyCode.U))
         {
-            //questBools["tempQuestinProgress"] = true;
-            //Debug.Log(questBools["tempQuestinProgress"]);
-            Debug.Log(questBools["reckonerDefeat"]);
             questBools["reckonerDefeat"] = true;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            //questBools["gotEye"] = true;
-            Debug.Log(questBools["gotEye"]);
+            questBools["Graveyard"] = true;
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            questBools["Rest1"] = true;
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            questBools["Rest2"] = true;
         }
 
     }
