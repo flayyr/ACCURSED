@@ -9,7 +9,9 @@ public class FlavorTextPopupManager : MonoBehaviour
     public static FlavorTextPopupManager Instance { get; private set; }
 
     [SerializeField] Transform parentCanvas;
-    [SerializeField] GameObject FlavorPopupPrefab;
+    [SerializeField] FlavorPopUpUI FlavorPopupPrefab;
+
+    Queue<FlavorPopUpUI> popupQueue = new Queue<FlavorPopUpUI>();
 
     void Awake()
     {
@@ -34,54 +36,31 @@ public class FlavorTextPopupManager : MonoBehaviour
             PersistentPlayer.Instance.GetComponent<PlayerController>().InteractKeyPressed -= CheckPromptTrigger;
     }
 
-    public void PromptAppear()
+    private void PromptAppear(string text)
     {
-        
+        FlavorPopUpUI currPopup = Instantiate(FlavorPopupPrefab, parentCanvas);
+        currPopup.SetText(text);
+        popupQueue.Enqueue(currPopup);
     }
 
-    public void PromptDisappear()
+    private void PromptDisappear()
     {
-        //StopCurrentTransition();
-
+        while(popupQueue.Count>0 && popupQueue.Peek() != null)
+        {
+            FlavorPopUpUI currPopup = popupQueue.Dequeue();
+            currPopup.CloseMenu();
+        }
     }
-
-    //private IEnumerator MenuOpenRoutine(CanvasGroup canvas)
-    //{
-    //    canvas.alpha = 0f;
-
-    //    yield return UITransitions.Instance.FadeTransition(canvas, 0f, 1f, 0.1f);
-
-    //    menuAppear = null;
-    //}
-
-    //private IEnumerator MenuCloseRoutine(CanvasGroup canvas)
-    //{
-    //    canvas.alpha = 1f;
-
-    //    yield return UITransitions.Instance.FadeTransition(canvas, 1f, 0f, 0.1f);
-
-
-    //    if (currentPrompt != null)
-    //    {
-    //        GameObject promptToDestroy = currentPrompt;
-
-    //        currentPrompt = null;
-
-    //        Destroy(promptToDestroy);
-    //    }
-        
-    //    menuAppear = null;
-    //}
 
     private void CheckPromptTrigger()
     {
-        
+        PromptDisappear();
     }
 
     // prompt popup, no action
     public void Prompt(string promptText)
     {
-        
+        PromptAppear(promptText);
     }
 
 

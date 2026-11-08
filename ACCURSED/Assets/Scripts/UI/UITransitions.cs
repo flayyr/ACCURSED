@@ -41,7 +41,7 @@ public class UITransitions : MonoBehaviour
     public IEnumerator FadeTransformXTransition(CanvasGroup canvas, float startAlp, float endAlp, float startX, float endX, float dur)
     {
         float elapsed = 0f;
-        RectTransform rect = GetComponent<RectTransform>();
+        RectTransform rect = canvas.gameObject.GetComponent<RectTransform>();
 
         while (elapsed < dur)
         {
@@ -64,7 +64,7 @@ public class UITransitions : MonoBehaviour
     public IEnumerator FadeTransformYTransition(CanvasGroup canvas, float startAlp, float endAlp, float startY, float endY, float dur)
     {
         float elapsed = 0f;
-        RectTransform rect = GetComponent<RectTransform>();
+        RectTransform rect = canvas.gameObject.GetComponent<RectTransform>();
 
         while (elapsed < dur)
         {
