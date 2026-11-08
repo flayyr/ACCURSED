@@ -41,4 +41,6 @@ public class NPCDialogue : ScriptableObject
 
     [Header("Name of variable this should flag (for quest)")]
     public string varName;
+
+
 }

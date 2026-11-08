@@ -37,6 +37,10 @@ PrefabInstance:
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 3450769037150715107, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
+      propertyPath: m_Layer
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 3450769037150715107, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
@@ -167,7 +171,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStatistics
   maxHealth: 200
-  currentHealth: 2
 --- !u!114 &6542834492989534560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +206,8 @@ MonoBehaviour:
     cStats: {fileID: 3765913297160679313}
     cManager: {fileID: 6542834492989534560}
     vfxSpawner: {fileID: 7529520703699892990}
+    cMovement: {fileID: 0}
+  staggerDuration: 0
   combatState: 0
 --- !u!114 &4296821721631961857
 MonoBehaviour:

@@ -96,7 +96,7 @@ public class ToolTipManager : MonoBehaviour
 
         ui.SetText(promptText);
 
-        menuAppear = StartCoroutine(MenuOpenRoutine());
+        menuAppear = StartCoroutine(MenuOpenRoutine(promptCanvas));
     }
 
     public void PromptDisappear()
@@ -106,23 +106,23 @@ public class ToolTipManager : MonoBehaviour
         InteractableObjectManager.promptOpen = false;
         promptOpen = false;
 
-        menuAppear = StartCoroutine(MenuCloseRoutine());
+        menuAppear = StartCoroutine(MenuCloseRoutine(promptCanvas));
     }
 
-    private IEnumerator MenuOpenRoutine()
+    private IEnumerator MenuOpenRoutine(CanvasGroup canvas)
     {
-        promptCanvas.alpha = 0f;
+        canvas.alpha = 0f;
 
-        yield return UITransitions.Instance.FadeTransition(promptCanvas, 0f, 1f, 0.1f);
+        yield return UITransitions.Instance.FadeTransition(canvas, 0f, 1f, 0.1f);
 
         menuAppear = null;
     }
 
-    private IEnumerator MenuCloseRoutine()
+    private IEnumerator MenuCloseRoutine(CanvasGroup canvas)
     {
-        promptCanvas.alpha = 1f;
+        canvas.alpha = 1f;
 
-        yield return UITransitions.Instance.FadeTransition(promptCanvas, 1f, 0f, 0.1f);
+        yield return UITransitions.Instance.FadeTransition(canvas, 1f, 0f, 0.1f);
 
 
         if (currentPrompt != null)
