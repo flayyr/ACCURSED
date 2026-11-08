@@ -110,15 +110,10 @@ public class StatueStateController : MonoBehaviour
 
     private void FindPlayer()
     {
-        GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
-
-        if (playerObject == null)
-            return;
-
-        player = playerObject.transform;
+        player = PersistentPlayer.Instance.transform;
 
         if (playerInventory == null)
-            playerInventory = playerObject.GetComponent<PlayerInventory>();
+            playerInventory = player.gameObject.GetComponent<PlayerInventory>();
     }
 
     private void TryOpenPrompt()
