@@ -34,7 +34,8 @@ public class InteractableObjectManager : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        isInsideTrigger = true;
+        if (collision.gameObject.tag == "Player")
+            isInsideTrigger = true;
         /*if (!promptOpen)
         {
             OpenPrompt();
@@ -44,14 +45,18 @@ public class InteractableObjectManager : MonoBehaviour
 
     protected virtual void OnTriggerStay2D(Collider2D collision)
     {
-        isInsideTrigger = true;
+        if (collision.gameObject.tag == "Player")
+            isInsideTrigger = true;
     }
 
     protected virtual void OnTriggerExit2D(Collider2D collision)
     {
-        isInsideTrigger = false;
-        promptOpen = false;
-        ToolTipManager.Instance.ManuallyRemovePrompt();
+        if (collision.gameObject.tag == "Player")
+        {
+            isInsideTrigger = false;
+            promptOpen = false;
+            ToolTipManager.Instance.ManuallyRemovePrompt();
+        }
     }
 
     protected void OpenPrompt()

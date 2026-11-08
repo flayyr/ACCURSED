@@ -2,29 +2,44 @@ using UnityEngine;
 
 public class Gate : MonoBehaviour
 {
-    [SerializeField] AbilityTriggeredSwitch[] statues;
+    [SerializeField] AbilityTriggeredSwitch[] abilityStatues;
+    [SerializeField] StatueStateController[] seeingStatues;
     [SerializeField] EnemyDeath[] enemies;
     [SerializeField] bool startUnlocked;
     private bool unlocked;
 
     private void Start() {
         unlocked = startUnlocked;
-        foreach (var statue in statues) {
+        foreach (var statue in abilityStatues) {
             statue.OnStateChanged += CheckOpen;
         }
 
         foreach (var enemy in enemies) {
             enemy.OnCharacterDead += EnemyDeath;
         }
+
+        foreach (var statue in seeingStatues)
+        {
+            statue.StateChanged += SeeingStatueChanged;
+        }
     }
 
     private void OnDestroy() {
-        foreach (var statue in statues) {
+        foreach (var statue in abilityStatues) {
             statue.OnStateChanged -= CheckOpen;
         }
         foreach (var enemy in enemies) {
             enemy.OnCharacterDead -= EnemyDeath;
         }
+        foreach (var statue in seeingStatues)
+        {
+            statue.StateChanged -= SeeingStatueChanged;
+        }
+    }
+
+    private void SeeingStatueChanged(StatueVisionState state)
+    {
+        CheckOpen();
     }
 
     private void EnemyDeath(CharacterDeath cDeath) {
@@ -32,7 +47,7 @@ public class Gate : MonoBehaviour
     }
 
     private void CheckOpen() {
-        foreach (var statue in statues) {
+        foreach (var statue in abilityStatues) {
             if (!statue.IsActivated) {
                 return;
             }
@@ -40,7 +55,14 @@ public class Gate : MonoBehaviour
 
         foreach (var enemy in enemies) {
             if (!enemy.IsDead()) {
-                Debug.Log("not dead????");
+                return;
+            }
+        }
+
+        foreach (var statue in seeingStatues)
+        {
+            if (!statue.IsSeeing)
+            {
                 return;
             }
         }
