@@ -17340,6 +17340,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1505261486}
   - {fileID: 507941795}
   - {fileID: 894325891}
   - {fileID: 341247480}
@@ -18423,12 +18424,16 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 2097216807}
+    m_TransformParent: {fileID: 1505261486}
     m_Modifications:
     - target: {fileID: 403784148785762603, guid: 85695a1b5d3d9064083168dc12b2206d, type: 3}
       propertyPath: m_Name
       value: Vita Tutorial Aspect
       objectReference: {fileID: 0}
+    - target: {fileID: 531496484667109328, guid: 85695a1b5d3d9064083168dc12b2206d, type: 3}
+      propertyPath: obj
+      value: 
+      objectReference: {fileID: 11400000, guid: 127170c847bd55e4a9612859809989d6, type: 2}
     - target: {fileID: 3679128022627970157, guid: 85695a1b5d3d9064083168dc12b2206d, type: 3}
       propertyPath: aspectSO
       value: 
@@ -103369,7 +103374,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1741278579}
   - {fileID: 1004005463}
   - {fileID: 1422864846}
   m_Father: {fileID: 1334317561}
@@ -111112,6 +111116,39 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7072643484056453249, guid: fe2c549d0c0bb014c9c2517b0d4d4901, type: 3}
   m_PrefabInstance: {fileID: 1505195919}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1505261485
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1505261486}
+  m_Layer: 0
+  m_Name: Aspects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1505261486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505261485}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 273827074}
+  - {fileID: 1741278579}
+  m_Father: {fileID: 248583542}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1506235414
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127166,12 +127203,16 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1374941291}
+    m_TransformParent: {fileID: 1505261486}
     m_Modifications:
     - target: {fileID: 403784148785762603, guid: 85695a1b5d3d9064083168dc12b2206d, type: 3}
       propertyPath: m_Name
       value: Vita Shop Aspect
       objectReference: {fileID: 0}
+    - target: {fileID: 531496484667109328, guid: 85695a1b5d3d9064083168dc12b2206d, type: 3}
+      propertyPath: obj
+      value: 
+      objectReference: {fileID: 11400000, guid: af93c51d93b80b04eaec678fbc5e0a24, type: 2}
     - target: {fileID: 3679128022627970157, guid: 85695a1b5d3d9064083168dc12b2206d, type: 3}
       propertyPath: aspectSO
       value: 
@@ -146758,7 +146799,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4304853422388347417, guid: e4db5bce34ecbf942a7b5925b647f52b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0006719955
+      value: 0.000022143091
       objectReference: {fileID: 0}
     - target: {fileID: 4706753361957882017, guid: e4db5bce34ecbf942a7b5925b647f52b, type: 3}
       propertyPath: m_AnchorMax.x
@@ -151195,7 +151236,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 273827074}
   - {fileID: 727534611}
   - {fileID: 953852890}
   - {fileID: 2089290927}
