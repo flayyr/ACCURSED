@@ -100,6 +100,20 @@ public class PlayerManager : CharacterManager
         return false;
     }
 
+
+    protected override void ResolveBuff(BuffData buffData, bool isApplying) {
+        base.ResolveBuff(buffData, isApplying);
+        switch (buffData.type) {
+            case BuffType.RimeflowerFreeze:
+                if(isApplying) 
+                    playerRef.playerStats.SetVitalityFreeze(buffData.amount);
+                break;
+            default:
+                break;
+        }
+    }
+
+
     public void OnStartRest()
     {
         currDir = Vector2.down;
