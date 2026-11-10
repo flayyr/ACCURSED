@@ -116,11 +116,11 @@ Transform:
   m_GameObject: {fileID: 431943368711839102}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.7, y: 15.2, z: 0}
+  m_LocalPosition: {x: 65.29025, y: -12.883728, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2556771975599383857}
+  m_Father: {fileID: 4665944832466831195}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1315864011971522458
 GameObject:
@@ -352,7 +352,6 @@ Transform:
   - {fileID: 6349405889903986395}
   - {fileID: 6880869039911051781}
   - {fileID: 5189387106560842395}
-  - {fileID: 1076063395427421530}
   - {fileID: 4665944832466831195}
   - {fileID: 7592875882571273719}
   - {fileID: 2748318788110862034}
@@ -419,6 +418,7 @@ Transform:
   - {fileID: 4608243835988682656}
   - {fileID: 2203210499923333068}
   - {fileID: 7283242549206016334}
+  - {fileID: 1076063395427421530}
   m_Father: {fileID: 2556771975599383857}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6542993460932577669
@@ -437,6 +437,7 @@ MonoBehaviour:
   playerSnapPosition: {fileID: 1076063395427421530}
   loweringSpeed: 1.4
   fadeDuration: 0.5
+  cameraSize: 18
   enemies:
   - {fileID: 0}
   - {fileID: 0}
