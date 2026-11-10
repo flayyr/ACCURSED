@@ -17,6 +17,7 @@ public class TutorialPlatformScript : MonoBehaviour
     [SerializeField] ScreenFadeOverlay screenFadePrefab;
     [SerializeField] Collider2D platformCollider;
     [SerializeField] MMF_Player loweringFeedback;
+    [SerializeField] MMF_Player endFeedback;
     int numEnemies;
 
     private void Awake()
@@ -70,6 +71,7 @@ public class TutorialPlatformScript : MonoBehaviour
         }
         transform.localPosition = new Vector3(transform.localPosition.x, lowerYLevel, transform.localPosition.z);
         loweringFeedback.StopFeedbacks();
+        endFeedback.PlayFeedbacks();
 
         yield return screenFade.FadeToBlack(fadeDuration);
 
