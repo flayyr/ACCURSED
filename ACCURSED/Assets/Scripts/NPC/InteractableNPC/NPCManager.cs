@@ -129,7 +129,7 @@ public class NPCManager : MonoBehaviour
                 break;
 
             case OnInteractType.Dialog:
-                // IMPLEMENT DIALOG SYSTEM START
+                // IMPLEMENT DIALOG SYSTEM START I DID IT
                 //Debug.Log("happening");
                 if (!GameObject.Find("UI_Dialogue&Sidebar").activeInHierarchy)
                 {
