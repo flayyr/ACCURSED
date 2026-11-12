@@ -189,7 +189,6 @@ public class DialogueSpawner : MonoBehaviour
                 if (QuestVarHolder.instance.questBools[var])
                 {
                     //inUse = triggeredDialogues[tIndex].questText;
-                    // Ensure we have a source array
                     var source = triggeredDialogues[tIndex].questText;
                     if (source != null && !ReferenceEquals(placeholder, source))
                     {
@@ -231,10 +230,10 @@ public class DialogueSpawner : MonoBehaviour
 
     //COMMENT OUT LATER THIS IS FOR TESTING PURPOSES
     
-    public void Update()
-    {
-        checkInput();
-    }
+    //public void Update()
+    //{
+     //   checkInput();
+    //}
     
 
 }

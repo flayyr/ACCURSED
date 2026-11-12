@@ -451,13 +451,15 @@ public class CharacterManager : MonoBehaviour
         ResolveBuff(buffData, true);
     }
 
-    void ResolveBuff(BuffData buffData, bool isApplying) {
+    protected virtual void ResolveBuff(BuffData buffData, bool isApplying) {
         switch (buffData.type) {
             case BuffType.DefenseUp:
                 characterRef.hurtBox.SetDefenseModifier(isApplying ? buffData.amount : 1);
                 break;
             case BuffType.StairsSlow:
                 characterRef.cMovement.SetSpeedMultiplier(isApplying ? buffData.amount : 1);
+                break;
+            default:
                 break;
         }
     }
@@ -478,7 +480,11 @@ public class CharacterManager : MonoBehaviour
     void UpdateBuffs() {
         for (int i = 0; i < buffInstances.Count; i++) {
             BuffInstance currBuff = buffInstances[i];
-            if (currBuff.startTime + currBuff.data.duration < Time.time) {
+            if (currBuff.data.duration < 0) {
+                buffInstances.RemoveAt(i);
+                i--;
+            }
+            else if (currBuff.startTime + currBuff.data.duration < Time.time) {
                 ResolveBuff(currBuff.data, false);
                 buffInstances.RemoveAt(i);
                 i--;

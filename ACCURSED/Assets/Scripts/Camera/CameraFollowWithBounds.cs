@@ -3,6 +3,8 @@ using UnityEngine;
 [DefaultExecutionOrder(100)]
 public class CameraFollowWithMapEdges : MonoBehaviour
 {
+    public static CameraFollowWithMapEdges Instance;
+
     [Header("Target")]
     [SerializeField] private Transform target;
     [SerializeField] private string playerTag = "Player";
@@ -32,9 +34,12 @@ public class CameraFollowWithMapEdges : MonoBehaviour
     [SerializeField] private float smoothTime = 0.08f;
 
     private Vector3 velocity;
+    private float originalCameraSize;
 
     private void Awake()
     {
+        Instance = this;
+
         if (mainCamera == null)
         {
             mainCamera = GetComponentInChildren<Camera>();
@@ -44,6 +49,8 @@ public class CameraFollowWithMapEdges : MonoBehaviour
         {
             FindPlayerTarget();
         }
+
+        originalCameraSize = mainCamera.orthographicSize;
     }
 
     private void LateUpdate()
@@ -157,6 +164,14 @@ public class CameraFollowWithMapEdges : MonoBehaviour
     public void ResetTargetToPlayer()
     {
         FindPlayerTarget();
+    }
+
+    public void SetCameraSize(float size) {
+        mainCamera.orthographicSize = size;
+    }
+
+    public void ResetCameraSize() {
+        mainCamera.orthographicSize = originalCameraSize;
     }
 
     public void SetMapEdges(float left, float right, float bottom, float top)

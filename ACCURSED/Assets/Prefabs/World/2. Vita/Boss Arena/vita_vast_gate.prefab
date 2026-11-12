@@ -2676,6 +2676,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7950480160639898056}
   - component: {fileID: 5521109234414173740}
+  - component: {fileID: 1040513862446664305}
+  - component: {fileID: 9043287564913095154}
   m_Layer: 0
   m_Name: vita_megainterior
   m_TagString: Untagged
@@ -2745,7 +2747,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 75
+  m_SortingOrder: -1561
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: fa7e2a5cd8ace824cbc71ca8425a23ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2757,6 +2759,70 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!61 &1040513862446664305
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5040714053038692208}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 7.996605}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 4.366667, y: 11.480018}
+    newSize: {x: 4.366667, y: 11.480018}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 4.366667, y: 3.9723053}
+  m_EdgeRadius: 0
+--- !u!114 &9043287564913095154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5040714053038692208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0397657f4490a4d418c42199bf7a7455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoorwayEntrance
+  obj: {fileID: 0}
+  promptText: Enter
+  fadeStartY: 146.65
+  fadeOverYDist: 0.8
+  detectionDist: 2
+  sceneName: RitusEntrance
 --- !u!1 &5825918771830395924
 GameObject:
   m_ObjectHideFlags: 0

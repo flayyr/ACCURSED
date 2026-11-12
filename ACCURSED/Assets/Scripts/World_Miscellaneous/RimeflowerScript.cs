@@ -37,7 +37,7 @@ public class RimeflowerScript : InteractableObjectManager, IResetable, ICullable
     protected override void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.tag == "Player")
             base.OnTriggerEnter2D(collision);
-        else if(collision.gameObject.tag == "Illusion") {
+        else if(collision.gameObject.tag == "IllusionField") {
             SwitchState(State.broken);
         }
     }
@@ -45,7 +45,7 @@ public class RimeflowerScript : InteractableObjectManager, IResetable, ICullable
     protected override void OnTriggerExit2D(Collider2D collision) {
         if (collision.gameObject.tag == "Player")
             base.OnTriggerExit2D(collision);
-        else if (collision.gameObject.tag == "Illusion") {
+        else if (collision.gameObject.tag == "IllusionField") {
             SwitchState(picked ? State.picked : State.bloom);
         }
     }

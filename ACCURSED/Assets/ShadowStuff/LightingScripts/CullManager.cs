@@ -22,6 +22,8 @@ public class CullManager : MonoBehaviour
 
     int2 prevCamCoord;
 
+    int cullDistThreshold = 1;
+
     private void Awake()
     {
         instance = this;
@@ -70,7 +72,7 @@ public class CullManager : MonoBehaviour
         {
             for (int j = 0; j < rowCount; j++)
             {
-                bool targetEnabledStatus = math.abs(camCoord.x - i) <= 1 && math.abs(camCoord.y - j) <= 1;
+                bool targetEnabledStatus = math.abs(camCoord.x - i) <= cullDistThreshold && math.abs(camCoord.y - j) <= cullDistThreshold;
 
                 if (targetEnabledStatus != chunksIsEnabled[i,j])
                 {
@@ -119,5 +121,12 @@ public class CullManager : MonoBehaviour
         obj.SetVisibility(enabled);
         //obj.enabled = enabled;
         //obj.gameObject.SetActive(enabled);
+    }
+
+    public void SetCullDist(int dist) {
+        cullDistThreshold = dist;
+    }
+    public void ResetCullDist() {
+        cullDistThreshold = 1;
     }
 }
