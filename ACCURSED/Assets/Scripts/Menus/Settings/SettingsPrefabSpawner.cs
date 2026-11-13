@@ -37,6 +37,7 @@ public class SettingsPrefabSpawner : MonoBehaviour
     public List<MonoBehaviour> scriptsToDisableWhileOpen = new List<MonoBehaviour>();
 
     [Header("Start Menu Input")]
+    [SerializeField] private bool inStartMenu;
     [SerializeField] private StartMenuManager startMenuManager;
     [SerializeField] private string playerTag = "Player";
 
@@ -167,11 +168,22 @@ public class SettingsPrefabSpawner : MonoBehaviour
 
         isOpen = true;
 
-        GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
-        CharacterMovement scriptToDisable = playerObject.GetComponent<CharacterMovement>();
+        if (!inStartMenu)
+        {
+            GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
 
-        scriptToDisable.enabled = false;
-        playerObject.GetComponent<PlayerInput>().enabled = false;
+            if (playerObject != null)
+            {
+                CharacterMovement characterMovement = playerObject.GetComponent<CharacterMovement>();
+                PlayerInput playerInput = playerObject.GetComponent<PlayerInput>();
+
+                if (characterMovement != null)
+                    characterMovement.enabled = false;
+
+                if (playerInput != null)
+                    playerInput.enabled = false;
+            }
+        }
 
         if (startMenuManager != null)
             startMenuManager.SetSettingsInputBlocked(true);
@@ -227,11 +239,22 @@ public class SettingsPrefabSpawner : MonoBehaviour
 
         isOpen = false;
 
-        GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
-        CharacterMovement scriptToDisable = playerObject.GetComponent<CharacterMovement>();
+        if (!inStartMenu)
+        {
+            GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
 
-        scriptToDisable.enabled = true;
-        playerObject.GetComponent<PlayerInput>().enabled = true;
+            if (playerObject != null)
+            {
+                CharacterMovement characterMovement = playerObject.GetComponent<CharacterMovement>();
+                PlayerInput playerInput = playerObject.GetComponent<PlayerInput>();
+
+                if (characterMovement != null)
+                    characterMovement.enabled = true;
+
+                if (playerInput != null)
+                    playerInput.enabled = true;
+            }
+        }
 
         if (startMenuManager != null)
             startMenuManager.SetSettingsInputBlocked(false);
