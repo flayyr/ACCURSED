@@ -8,6 +8,11 @@ public class EquippedActionIcon : MonoBehaviour
     [SerializeField] private StatusEquipmentCategory category = StatusEquipmentCategory.Items;
     [SerializeField, Min(0)] private int itemSlotIndex = 0;
 
+    [Header("Item hotkeys (Items category only)")]
+    [SerializeField] private bool followSelectedItem = true;
+    [SerializeField] private KeyCode cycleItemKey = KeyCode.Alpha1;
+    [SerializeField] private KeyCode useItemKey = KeyCode.G;
+
     [Header("Display")]
     [SerializeField] private Image iconImage;
     [SerializeField] private Sprite emptyPlaceholder;
@@ -28,6 +33,15 @@ public class EquippedActionIcon : MonoBehaviour
     private void Update()
     {
         CheckBindings();
+
+        if (followSelectedItem && category == StatusEquipmentCategory.Items && itemManager != null)
+        {
+            if (Input.GetKeyDown(cycleItemKey))
+                itemManager.CycleSelectedItem();
+
+            if (Input.GetKeyDown(useItemKey))
+                itemManager.UseSelectedItem();
+        }
     }
 
     private void OnDisable()
@@ -103,7 +117,14 @@ public class EquippedActionIcon : MonoBehaviour
 
         bool isInventoryItem = category == StatusEquipmentCategory.Items;
 
-        if (skillManager != null)
+        if (isInventoryItem)
+        {
+            ItemPickupSO item = itemManager != null ? itemManager.GetEquippedItem(category, followSelectedItem ? itemManager.GetSelectedItemSlot() : itemSlotIndex) : null;
+
+            if (item != null)
+                sprite = item.itemSpr;
+        }
+        else if (skillManager != null)
         {
             AbilitySO skill = skillManager.GetEquippedSkill(category);
 

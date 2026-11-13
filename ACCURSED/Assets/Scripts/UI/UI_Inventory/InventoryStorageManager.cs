@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class InventoryStorageManager : MonoBehaviour
@@ -13,6 +15,44 @@ public class InventoryStorageManager : MonoBehaviour
     private PlayerInventory playerInventory;
 
     private Coroutine bindRoutine;
+
+    private bool hasFilter;
+
+    private ItemCategory filterCategory;
+
+    private bool sortByNewestPickup;
+
+    public bool IsSortedByNewestPickup => sortByNewestPickup;
+
+    public void SetSortByNewestPickup(bool enabled)
+    {
+        if (sortByNewestPickup == enabled)
+            return;
+
+        sortByNewestPickup = enabled;
+        RebuildInventory();
+    }
+
+    public void SetCategoryFilter(ItemCategory category)
+    {
+        hasFilter = true;
+        filterCategory = category;
+        RebuildInventory();
+    }
+
+    public bool IsFilteringBy(ItemCategory category)
+    {
+        return hasFilter && filterCategory == category;
+    }
+
+    public void ClearCategoryFilter()
+    {
+        if (!hasFilter)
+            return;
+
+        hasFilter = false;
+        RebuildInventory();
+    }
 
     private void OnEnable()
     {
@@ -89,12 +129,21 @@ public class InventoryStorageManager : MonoBehaviour
             Destroy(content.GetChild(i).gameObject);
         }
 
-        // Newest stacks first.
-        for (int i = playerInventory.Stacks.Count - 1; i >= 0; i--)
-        {
-            InventoryStack stack = playerInventory.Stacks[i];
+        // Default: newest stacks first. Optionally: most recently picked up first.
+        List<InventoryStack> ordered = new List<InventoryStack>();
 
+        for (int i = playerInventory.Stacks.Count - 1; i >= 0; i--)
+            ordered.Add(playerInventory.Stacks[i]);
+
+        if (sortByNewestPickup)
+            ordered = ordered.OrderByDescending(s => s != null ? s.pickupOrder : 0).ToList();
+
+        foreach (InventoryStack stack in ordered)
+        {
             if (stack == null || stack.item == null)
+                continue;
+
+            if (hasFilter && stack.item.itemCategory != filterCategory)
                 continue;
 
             GameObject slotObject = Instantiate(itemSlotPrefab, content);

@@ -23,7 +23,7 @@ public class BuffData {
     public float amount;
     public float duration;
 }
-public enum BuffType { None, DefenseUp }
+public enum BuffType { None, DefenseUp, StairsSlow, RimeflowerFreeze }
 public enum BuffTarget { Enemy, Player }
 
 [CreateAssetMenu(fileName = "ActionSO", menuName = "Actions/ActionSO")]

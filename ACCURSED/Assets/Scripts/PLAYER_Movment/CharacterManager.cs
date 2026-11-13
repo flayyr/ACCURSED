@@ -12,6 +12,7 @@ public struct CharacterReference
     public CharacterStatistics cStats;
     public CharacterManager cManager;
     public VFXSpawner vfxSpawner;
+    public CharacterMovement cMovement;
 }
 public enum ActionState { Idle, Winding, Attacking, Stunned, StunnedCancellable }
 public enum BaseMoveState { None = 0, Walk = 1, Run = 2, Sprint = 3 }
@@ -446,23 +447,44 @@ public class CharacterManager : MonoBehaviour
     List<BuffInstance> buffInstances = new List<BuffInstance>();
 
     public void AddBuff(BuffData buffData) {
-        buffInstances.Add(new BuffInstance(buffData, Time.time));
+        AddBuff(new BuffInstance(buffData, Time.time));
         ResolveBuff(buffData, true);
     }
 
-    void ResolveBuff(BuffData buffData, bool isApplying) {
+    protected virtual void ResolveBuff(BuffData buffData, bool isApplying) {
         switch (buffData.type) {
             case BuffType.DefenseUp:
-                Debug.Log(gameObject.name + " is receiving buff " + isApplying);
                 characterRef.hurtBox.SetDefenseModifier(isApplying ? buffData.amount : 1);
                 break;
+            case BuffType.StairsSlow:
+                characterRef.cMovement.SetSpeedMultiplier(isApplying ? buffData.amount : 1);
+                break;
+            default:
+                break;
         }
+    }
+
+    void AddBuff(BuffInstance newInstance) {
+        for (int i = 0; i<buffInstances.Count; i++) {
+            BuffInstance currBuff = buffInstances[i];
+
+            if(currBuff.data.type == newInstance.data.type) {
+                currBuff.startTime = newInstance.startTime;
+                currBuff.data.duration = Mathf.Max(currBuff.data.duration, newInstance.data.duration);
+                return;
+            }
+        }
+        buffInstances.Add(newInstance);
     }
 
     void UpdateBuffs() {
         for (int i = 0; i < buffInstances.Count; i++) {
             BuffInstance currBuff = buffInstances[i];
-            if (currBuff.startTime + currBuff.data.duration < Time.time) {
+            if (currBuff.data.duration < 0) {
+                buffInstances.RemoveAt(i);
+                i--;
+            }
+            else if (currBuff.startTime + currBuff.data.duration < Time.time) {
                 ResolveBuff(currBuff.data, false);
                 buffInstances.RemoveAt(i);
                 i--;

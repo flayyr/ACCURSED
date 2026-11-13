@@ -1,6 +1,7 @@
 using System;
 using MoreMountains.Feedbacks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public struct PlayerReference
@@ -20,6 +21,7 @@ public class PlayerManager : CharacterManager
     [SerializeField] PlayerReference playerRef;
     [SerializeField] DashAction dashAction;
     [SerializeField] float parryGriefGain;
+    [SerializeField] SpriteRenderer spriteRenderer;
 
     PlayerDeath playerDeath;
 
@@ -35,6 +37,8 @@ public class PlayerManager : CharacterManager
         playerDeath.OnDeath += OnDeath;
         playerDeath.OnReviveAnimStarted += PlayReviveAnim;
         playerDeath.OnReviveAnimFinished += OnReviveFinish;
+
+        SceneManager.sceneLoaded += ResetSpriteOpacity;
     }
 
     protected override void OnDisable()
@@ -45,6 +49,8 @@ public class PlayerManager : CharacterManager
         playerDeath.OnReviveAnimStarted -= PlayReviveAnim;
         playerDeath.OnReviveAnimFinished -= OnReviveFinish;
     }
+
+    
 
     protected override void Update()
     {
@@ -99,6 +105,30 @@ public class PlayerManager : CharacterManager
         }
         return false;
     }
+
+
+    protected override void ResolveBuff(BuffData buffData, bool isApplying) {
+        base.ResolveBuff(buffData, isApplying);
+        switch (buffData.type) {
+            case BuffType.RimeflowerFreeze:
+                if(isApplying) 
+                    playerRef.playerStats.SetVitalityFreeze(buffData.amount);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void SetSpriteOpacity(float opacity) {
+        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.b, spriteRenderer.color.g, opacity);
+    }
+    public void ResetSpriteOpacity(Scene scene, LoadSceneMode mode) {
+        SetSpriteOpacity(1);
+    }
+    public void ResetSpriteOpacity() {
+        SetSpriteOpacity(1);
+    }
+
 
     public void OnStartRest()
     {

@@ -7,6 +7,7 @@ public class HealthDisplay : MonoBehaviour
     [SerializeField] Image hpImage;
     [SerializeField] Sprite[] hpSprites;
     [SerializeField] Image vitalityImage;
+    [SerializeField] Image vitalityFreezeImage;
     [SerializeField] TextMeshProUGUI healChargeText;
 
     PlayerStatistics stats;
@@ -57,7 +58,8 @@ public class HealthDisplay : MonoBehaviour
 
     private void UpdateVitalityDisplay()
     {
-        vitalityImage.fillAmount = (float)stats.currentVitality / stats.maxVitality;
+        vitalityImage.fillAmount = stats.currentVitality / stats.maxVitality;
+        vitalityFreezeImage.fillAmount = stats.currentVitalityFreeze / stats.totalVitalityFreeze;
     }
 
     private void UpdateHealChargeDisplay()

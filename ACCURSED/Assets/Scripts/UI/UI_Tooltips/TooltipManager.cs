@@ -96,7 +96,7 @@ public class ToolTipManager : MonoBehaviour
 
         ui.SetText(promptText);
 
-        menuAppear = StartCoroutine(MenuOpenRoutine());
+        menuAppear = StartCoroutine(MenuOpenRoutine(promptCanvas));
     }
 
     public void PromptDisappear()
@@ -106,23 +106,23 @@ public class ToolTipManager : MonoBehaviour
         InteractableObjectManager.promptOpen = false;
         promptOpen = false;
 
-        menuAppear = StartCoroutine(MenuCloseRoutine());
+        menuAppear = StartCoroutine(MenuCloseRoutine(promptCanvas));
     }
 
-    private IEnumerator MenuOpenRoutine()
+    private IEnumerator MenuOpenRoutine(CanvasGroup canvas)
     {
-        promptCanvas.alpha = 0f;
+        canvas.alpha = 0f;
 
-        yield return UITransitions.Instance.FadeTransition(promptCanvas, 0f, 1f, 0.1f);
+        yield return UITransitions.Instance.FadeTransition(canvas, 0f, 1f, 0.1f);
 
         menuAppear = null;
     }
 
-    private IEnumerator MenuCloseRoutine()
+    private IEnumerator MenuCloseRoutine(CanvasGroup canvas)
     {
-        promptCanvas.alpha = 1f;
+        canvas.alpha = 1f;
 
-        yield return UITransitions.Instance.FadeTransition(promptCanvas, 1f, 0f, 0.1f);
+        yield return UITransitions.Instance.FadeTransition(canvas, 1f, 0f, 0.1f);
 
 
         if (currentPrompt != null)
@@ -179,12 +179,6 @@ public class ToolTipManager : MonoBehaviour
     // Normal interaction tooltip
     public void Prompt(string promptText, InteractableItemSO obj, Action promptTriggeredAction = null)
     {   
-        if (obj == null)
-        {
-            Debug.LogError("ToolTipManager.Prompt(" + promptText + ") was given a NULL InteractableItemSO.", this);
-            return;
-        }
-
         this.promptText = promptText;
         this.promptTriggeredAction = promptTriggeredAction;
 
@@ -192,13 +186,11 @@ public class ToolTipManager : MonoBehaviour
 
         currentAction = () =>
         {
-            if (obj == null)
+            if (obj != null)
             {
-                Debug.LogError("InteractableItemSO became null before prompt " + promptText + " was activated.", this);
+                obj.Interact();
                 return;
             }
-
-            obj.Interact();
         };
     }
 
@@ -295,14 +287,9 @@ public class ToolTipManager : MonoBehaviour
     {
        
         /* debug commands, normally triggered by if you approach a point too close. 
-         * 1 = regular interactable tooltip
          * 2 = to loot multiple normal items
          * 3 = to loot a singular special item */
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            ToolTipManager.Instance.Prompt("Confirm");
-        }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             ToolTipManager.Instance.Prompt("Loot", debugList);

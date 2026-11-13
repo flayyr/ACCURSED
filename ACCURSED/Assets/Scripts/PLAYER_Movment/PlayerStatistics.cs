@@ -9,11 +9,16 @@ public class PlayerStatistics : CharacterStatistics
 
     [SerializeField] private int maxHealCharge = 3;
     [SerializeField] public float maxVitality = 10;
+    [SerializeField] public float freezeDrainPerSecond = 0.5f;
+
     private float maxRemembranceCharge;
 
     [HideInInspector]public int currentHealCharge;
     [HideInInspector]public float currentVitality;
     [HideInInspector] public float currentRemembranceCharge;
+
+    [HideInInspector] public float currentVitalityFreeze;
+    [HideInInspector] public float totalVitalityFreeze = 1;
 
     protected override void Start()
     {
@@ -22,6 +27,18 @@ public class PlayerStatistics : CharacterStatistics
         OnHealChargeUpdate?.Invoke();
         OnVitalityUpdate?.Invoke();
         OnRemembranceChargeUpdate?.Invoke();  // combatUI might not have initialized the UI in player abilities yet
+    }
+
+    private void Update() {
+        if (currentVitalityFreeze > 0) {
+            UpdateVitality(freezeDrainPerSecond * Time.deltaTime);
+        }
+
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Minus)) {
+            UpdateHealth(-1);
+        }
+#endif
     }
 
     public bool UseHealCharge()
@@ -43,9 +60,26 @@ public class PlayerStatistics : CharacterStatistics
         return currentHealCharge > 0 && currentHealth < maxHealth;
     }
 
+    public void SetVitalityFreeze(float freezeAmount) {
+        totalVitalityFreeze = freezeAmount;
+        currentVitalityFreeze = freezeAmount;
+        UpdateVitality(0);
+    }
+
     public float UpdateVitality(float vitalityChange)
     {
-        currentVitality += vitalityChange;
+        float trueVitalityGain = vitalityChange;
+        if(currentVitalityFreeze > 0) {
+            currentVitalityFreeze -= vitalityChange;
+            if (currentVitalityFreeze < 0) {
+                trueVitalityGain = -currentVitalityFreeze;
+                currentVitalityFreeze = 0;
+            }else {
+                trueVitalityGain = 0;
+            }
+        }
+
+        currentVitality += trueVitalityGain;
 
         if (currentVitality >= maxVitality && currentHealCharge < maxHealCharge)
         {

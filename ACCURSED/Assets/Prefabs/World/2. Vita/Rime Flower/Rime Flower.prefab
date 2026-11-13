@@ -235,7 +235,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 945804274482810329, guid: 44c199074eae04249b596b0b84aa3aab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6736638662448567692}
   m_SourcePrefab: {fileID: 100100000, guid: 44c199074eae04249b596b0b84aa3aab, type: 3}
 --- !u!4 &6930481655170105738 stripped
 Transform:
@@ -247,6 +250,26 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 945804274482810329, guid: 44c199074eae04249b596b0b84aa3aab, type: 3}
   m_PrefabInstance: {fileID: 7687998866490096834}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6736638662448567692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7462862354525942043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b09277ad3808fc40b0a2b417df062b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitBox
+  direction: {x: 0, y: 0, z: 0}
+  PostAnimDirection: {x: 0, y: 0, z: 0}
+  playerStats: {fileID: 0}
+  parryStunDuration: 0
+  destroyOnHit: 0
+  vfxSpawner: {fileID: 0}
+  originObject: {fileID: 0}
+  startingAttack: {fileID: 11400000, guid: 2d9e69e1816c90f4e95da9bc71949e55, type: 2}
 --- !u!1001 &8498448120427624089
 PrefabInstance:
   m_ObjectHideFlags: 0
