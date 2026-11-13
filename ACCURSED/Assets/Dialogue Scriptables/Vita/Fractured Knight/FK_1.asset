@@ -10,12 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac237efeeb0f6044cb8fb8c56455004c, type: 3}
-  m_Name: NewNPCDialogue
+  m_Name: FK_1
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
-  dialogueList: []
-  branchNum: 0
-  branching: 0
-  branches: []
+  dialogueList:
+  - You are familiar. You...
+  - Never mind it.
+  - What brings you here, sworn blade?
+  branchNum: 3
+  branching: 1
+  branches:
+  - {fileID: 11400000, guid: a41b84abb3a5ae74b92e9eef90dfdc22, type: 2}
+  - {fileID: 11400000, guid: d4167aeea4f9d6e4f8f1599ea2101baf, type: 2}
   ButtonText: 
   sound: {fileID: 0}
   sideBarOrNot: 0
