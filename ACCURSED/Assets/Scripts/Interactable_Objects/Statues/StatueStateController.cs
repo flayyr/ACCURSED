@@ -101,9 +101,6 @@ public class StatueStateController : MonoBehaviour
         if (seeingField == null)
             seeingField = GetComponentInChildren<StatueSeeingField>(true);
 
-        if (player == null)
-            FindPlayer();
-
         if (playerInventory == null && player != null)
             playerInventory = player.GetComponent<PlayerInventory>();
     }
