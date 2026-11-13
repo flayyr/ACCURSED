@@ -3,25 +3,57 @@ using UnityEngine.UI;
 
 public class InventorySortByButton : MonoBehaviour
 {
+    public enum SortMode { Category, NewestPickup }
 
-    private Button b;
+    [SerializeField] private SortMode mode = SortMode.Category;
 
-    void Start() {
+    [SerializeField] private ItemCategory category;
 
-        b = gameObject.GetComponent<Button>();
-        b.onClick.AddListener(SortByType);
-    }
+    [SerializeField] private InventoryStorageManager storageManager;
 
-    void SortByType()
+    private Button button;
+
+    private void Awake()
     {
-        Debug.Log("Sort by type");
+        button = GetComponent<Button>();
+
+        if (storageManager == null)
+            storageManager = GetComponentInParent<InventoryStorageManager>(true);
+
+        if (storageManager == null)
+            storageManager = FindFirstObjectByType<InventoryStorageManager>(FindObjectsInactive.Include);
     }
 
-    void Update()
+    private void OnEnable()
     {
-
+        if (button != null)
+            button.onClick.AddListener(SortByType);
     }
 
+    private void OnDisable()
+    {
+        if (button != null)
+            button.onClick.RemoveListener(SortByType);
+    }
+
+    private void SortByType()
+    {
+        if (storageManager == null)
+        {
+            Debug.LogError("InventorySortByButton: No InventoryStorageManager found.", this);
+            return;
+        }
+
+        if (mode == SortMode.NewestPickup)
+        {
+            storageManager.SetSortByNewestPickup(!storageManager.IsSortedByNewestPickup);
+            return;
+        }
+
+        if (storageManager.IsFilteringBy(category))
+            storageManager.ClearCategoryFilter();
+        else
+            storageManager.SetCategoryFilter(category);
+    }
 }
 
-  

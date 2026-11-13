@@ -287,14 +287,9 @@ public class ToolTipManager : MonoBehaviour
     {
        
         /* debug commands, normally triggered by if you approach a point too close. 
-         * 1 = regular interactable tooltip
          * 2 = to loot multiple normal items
          * 3 = to loot a singular special item */
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            ToolTipManager.Instance.Prompt("Confirm");
-        }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             ToolTipManager.Instance.Prompt("Loot", debugList);
