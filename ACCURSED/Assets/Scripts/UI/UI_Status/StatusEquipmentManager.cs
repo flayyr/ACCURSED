@@ -23,6 +23,7 @@ public class StatusEquipmentManager : MonoBehaviour
     [SerializeField] private List<StatusEquipmentEntry> equipped = new List<StatusEquipmentEntry>();
 
     private PlayerInventory inventory;
+    private int selectedItemSlot;
     private Coroutine findInventoryRoutine;
 
     public PlayerInventory Inventory => inventory;
@@ -137,6 +138,55 @@ public class StatusEquipmentManager : MonoBehaviour
     {
         string id = GetEquippedItemID(category, slotIndex);
         return inventory != null && !string.IsNullOrEmpty(id) ? inventory.GetQuantity(id) : 0;
+    }
+
+    public int SelectedItemSlot => selectedItemSlot;
+
+    private int GetFirstEquippedSlot(int after)
+    {
+        int next = -1, lowest = -1;
+
+        foreach (StatusEquipmentEntry entry in equipped)
+        {
+            if (entry == null || entry.category != StatusEquipmentCategory.Items) 
+                continue;
+
+            if (lowest < 0 || entry.slotIndex < lowest) 
+                lowest = entry.slotIndex;
+
+            if (entry.slotIndex > after && (next < 0 || entry.slotIndex < next)) 
+                next = entry.slotIndex;
+        }
+
+        return next >= 0 ? next : lowest;
+    }
+
+    // Selection falls back to the first equipped slot if the selected one is empty.
+    public int GetSelectedItemSlot()
+    {
+        if (!string.IsNullOrEmpty(GetEquippedItemID(StatusEquipmentCategory.Items, selectedItemSlot)))
+            return selectedItemSlot;
+
+        int first = GetFirstEquippedSlot(-1);
+        return first >= 0 ? first : selectedItemSlot;
+    }
+
+    public void CycleSelectedItem()
+    {
+        int next = GetFirstEquippedSlot(GetSelectedItemSlot());
+        if (next < 0 || next == selectedItemSlot) 
+            return;
+
+        selectedItemSlot = next;
+        EquipmentChanged?.Invoke();
+    }
+
+    public bool UseSelectedItem()
+    {
+        string id = GetEquippedItemID(StatusEquipmentCategory.Items, GetSelectedItemSlot());
+
+        // Placeholder: using an item only consumes one for now.
+        return inventory != null && !string.IsNullOrEmpty(id) && inventory.RemoveItem(id, 1);
     }
 
     public bool IsEquipped(string itemID)
