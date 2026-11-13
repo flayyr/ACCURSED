@@ -8,6 +8,9 @@ public class InventoryStack
     public ItemPickupSO item;
     public int quantity;
 
+    // Increases on every pickup, so a higher value means more recently picked up.
+    public int pickupOrder;
+
     public InventoryStack(ItemPickupSO item, int quantity)
     {
         this.item = item;
@@ -23,6 +26,8 @@ public class PlayerInventory : MonoBehaviour
     public IReadOnlyList<InventoryStack> Stacks => stacks;
 
     public event Action InventoryChanged;
+
+    private int pickupCounter;
 
     /// <summary>
     /// Adds an amount of an item to the inventory.
@@ -61,6 +66,17 @@ public class PlayerInventory : MonoBehaviour
         int remaining = quantity;
         int maxStack = Mathf.Max(1, item.maxStackSize);
 
+        if (pickupCounter == 0)
+        {
+            foreach (InventoryStack existing in stacks)
+            {
+                if (existing != null && existing.pickupOrder > pickupCounter)
+                    pickupCounter = existing.pickupOrder;
+            }
+        }
+
+        pickupCounter++;
+
         foreach (InventoryStack stack in stacks)
         {
             if (stack == null || stack.item == null || stack.item.itemID != item.itemID)
@@ -74,6 +90,7 @@ public class PlayerInventory : MonoBehaviour
             int amountToAdd = Mathf.Min(availableSpace, remaining);
 
             stack.quantity += amountToAdd;
+            stack.pickupOrder = pickupCounter;
             remaining -= amountToAdd;
 
             if (remaining <= 0)
@@ -85,7 +102,7 @@ public class PlayerInventory : MonoBehaviour
         {
             int stackAmount = Mathf.Min(maxStack, remaining);
 
-            stacks.Add(new InventoryStack(item, stackAmount));
+            stacks.Add(new InventoryStack(item, stackAmount) { pickupOrder = pickupCounter });
 
             remaining -= stackAmount;
         }
