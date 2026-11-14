@@ -80,7 +80,7 @@ public class CullManager : MonoBehaviour
             {
                 bool targetEnabledStatus = math.abs(camCoord.x - i) <= cullDistThreshold && math.abs(camCoord.y - j) <= cullDistThreshold;
 
-                if (targetEnabledStatus != chunksIsEnabled[i,j])
+                if (targetEnabledStatus || chunksIsEnabled[i,j])
                 {
                     if (targetEnabledStatus)
                         toEnableCoords.Enqueue(new int2(i,j));
