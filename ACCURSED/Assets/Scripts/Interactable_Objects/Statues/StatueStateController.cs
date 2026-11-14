@@ -59,6 +59,13 @@ public class StatueStateController : MonoBehaviour
     private void Awake()
     {
         ResolveReferences();
+    }
+
+    private void Start() {
+        StatueVisionState savedState = currentState;
+        if (SavesManager.Instance.TryLoadData("IllusionStatue" + gameObject.GetHashCode(), out savedState)) {
+            currentState = savedState;
+        }
         ApplyState(currentState, true);
     }
 
@@ -256,6 +263,7 @@ public class StatueStateController : MonoBehaviour
         if (seeingField != null)
             seeingField.SetSeeing(state == StatueVisionState.Seeing, instantField);
 
+        SavesManager.Instance.AddData("IllusionStatue"+gameObject.GetHashCode(), state);
         StateChanged?.Invoke(state);
     }
 
