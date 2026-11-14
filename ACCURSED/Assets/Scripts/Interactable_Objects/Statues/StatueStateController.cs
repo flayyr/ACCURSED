@@ -98,8 +98,8 @@ public class StatueStateController : MonoBehaviour
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
 
-        if (seeingField == null)
-            seeingField = GetComponentInChildren<StatueSeeingField>(true);
+        //if (seeingField == null)
+        //    seeingField = GetComponentInChildren<StatueSeeingField>(true);
 
         if (playerInventory == null && player != null)
             playerInventory = player.GetComponent<PlayerInventory>();

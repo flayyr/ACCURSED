@@ -35009,11 +35009,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5149484057824081471, guid: 8a88497be7e8eee4484b681c91443977, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -280.3
+      value: -145.96
       objectReference: {fileID: 0}
     - target: {fileID: 5149484057824081471, guid: 8a88497be7e8eee4484b681c91443977, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 125
+      value: 165.76
       objectReference: {fileID: 0}
     - target: {fileID: 5786382533972044480, guid: 8a88497be7e8eee4484b681c91443977, type: 3}
       propertyPath: fable
@@ -81776,10 +81776,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rime Flower
       objectReference: {fileID: 0}
-    - target: {fileID: 8695172527439078783, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
-      propertyPath: state
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -92742,6 +92738,71 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9131456971234318269, guid: 60595ffd49e03ed47befcdad8b280023, type: 3}
   m_PrefabInstance: {fileID: 1162605375}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1164969749
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4626581289034557150, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -139.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 4626581289034557150, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 166.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 4626581289034557150, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4626581289034557150, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4626581289034557150, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4626581289034557150, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4626581289034557150, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4626581289034557150, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4626581289034557150, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4626581289034557150, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4880011442724481021, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
+      propertyPath: m_Name
+      value: Rime Flower (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758104016394632526, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
+      propertyPath: isAnimated
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8695172527439078783, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
+      propertyPath: state
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
 --- !u!1001 &1165345214
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -116937,7 +116998,8 @@ GameObject:
   - component: {fileID: 1442120105}
   - component: {fileID: 1442120106}
   - component: {fileID: 1442120107}
-  m_Layer: 0
+  - component: {fileID: 1442120108}
+  m_Layer: 18
   m_Name: fogwall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117035,6 +117097,52 @@ MonoBehaviour:
   - {fileID: 1844976756}
   enemies: []
   startUnlocked: 0
+--- !u!61 &1442120108
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442120104}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1001 &1442535294
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -121376,10 +121484,6 @@ PrefabInstance:
     - target: {fileID: 4880011442724481021, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
       propertyPath: m_Name
       value: Rime Flower (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8695172527439078783, guid: 64932e4e1285227498d1fcd0d20b2485, type: 3}
-      propertyPath: state
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -160360,7 +160464,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4304853422388347417, guid: e4db5bce34ecbf942a7b5925b647f52b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0009242929
+      value: 0.0010954372
       objectReference: {fileID: 0}
     - target: {fileID: 4706753361957882017, guid: e4db5bce34ecbf942a7b5925b647f52b, type: 3}
       propertyPath: m_AnchorMax.x
@@ -169281,14 +169385,6 @@ PrefabInstance:
     - target: {fileID: 1039148135408124563, guid: a8dbdf61afb2f774ab5638c1146eca31, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1040513862446664305, guid: a8dbdf61afb2f774ab5638c1146eca31, type: 3}
-      propertyPath: m_Size.y
-      value: 2.8418274
-      objectReference: {fileID: 0}
-    - target: {fileID: 1040513862446664305, guid: a8dbdf61afb2f774ab5638c1146eca31, type: 3}
-      propertyPath: m_Offset.y
-      value: 5.3358154
       objectReference: {fileID: 0}
     - target: {fileID: 2981001715845809920, guid: a8dbdf61afb2f774ab5638c1146eca31, type: 3}
       propertyPath: canMove
@@ -179569,3 +179665,4 @@ SceneRoots:
   - {fileID: 2054606682}
   - {fileID: 36462641}
   - {fileID: 2000943516}
+  - {fileID: 1164969749}
