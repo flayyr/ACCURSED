@@ -26,20 +26,12 @@ public class InteractableObjectManager : MonoBehaviour
         {
             OpenPrompt();
         }
-
-        //Debug.Log(isInsideTrigger + "POOP");
-        //Debug.Log(GlobalUIController.Instance.CheckIfOtherUIOpen() + "POOOOP");
-        //Debug.Log(!promptOpen + "POOOOOOOOOOOOOP");
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
             isInsideTrigger = true;
-        /*if (!promptOpen)
-        {
-            OpenPrompt();
-        }*/
        
     }
 
