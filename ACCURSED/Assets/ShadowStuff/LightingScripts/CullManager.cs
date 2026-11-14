@@ -2,7 +2,10 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public interface ICullable { void SetVisibility(bool visible); }
+public interface ICullable { 
+    void SetVisibility(bool visible);
+    int2 GetSize();
+}
 
 public class CullManager : MonoBehaviour
 {
@@ -68,6 +71,9 @@ public class CullManager : MonoBehaviour
     
     void UpdateCulling(int2 camCoord)
     {
+        Queue<int2> toDisableCoords = new Queue<int2>();
+        Queue<int2> toEnableCoords = new Queue<int2>();
+
         for (int i = 0; i < columnCount; i++)
         {
             for (int j = 0; j < rowCount; j++)
@@ -76,22 +82,51 @@ public class CullManager : MonoBehaviour
 
                 if (targetEnabledStatus != chunksIsEnabled[i,j])
                 {
-                    ObjectsSetEnabledAll(litObjects[i, j], targetEnabledStatus);
-                    chunksIsEnabled[i, j] = targetEnabledStatus;
+                    if (targetEnabledStatus)
+                        toEnableCoords.Enqueue(new int2(i,j));
+                    else
+                        toDisableCoords.Enqueue(new int2(i,j));
                 }
             }
+        }
+
+        //enable after disabling for large objects that occupy multiple coords
+        while (toDisableCoords.Count > 0) {
+            int2 curr = toDisableCoords.Dequeue();
+            ObjectsSetEnabledAll(litObjects[curr.x, curr.y], false);
+            chunksIsEnabled[curr.x, curr.y] = false;
+        }
+        while (toEnableCoords.Count > 0) {
+            int2 curr = toEnableCoords.Dequeue();
+            ObjectsSetEnabledAll(litObjects[curr.x, curr.y], true);
+            chunksIsEnabled[curr.x, curr.y] = true;
         }
     }
 
     public void AddObject(ICullable obj, Vector2 position)
     {
         int2 chunkCoord = PositionToChunkCoord(position);
-        //if (chunkCoord.x > 0 && chunkCoord.x<columnCount && chunkCoord.y > 0 && chunkCoord.y<rowCount)
-        //{
-            litObjects[chunkCoord.x, chunkCoord.y].Add(obj);
+        int2 chunkSize = obj.GetSize() - new int2(1,1);
+        if(chunkSize.x<0 || chunkSize.y < 0) {
+            Debug.LogError("culling chunk size not set to be equal or greater than 1!");
+        }
 
-            ObjectSetEnabled(obj, chunksIsEnabled[chunkCoord.x, chunkCoord.y]);
-        //}
+        bool shouldBeEnabled = false;
+        for (int i = -chunkSize.x; i <= chunkSize.x; i++) {
+            for (int j = -chunkSize.y; j <= chunkSize.y; j++) {
+                int2 currCoord = new int2(chunkCoord.x + i, chunkCoord.y + j);
+
+                if (currCoord.x < 0 || currCoord.y < 0 || currCoord.x>=columnCount || currCoord.y>=rowCount)
+                    continue;
+
+                litObjects[currCoord.x, currCoord.y].Add(obj);
+                if (chunksIsEnabled[currCoord.x, currCoord.y]) {
+                    shouldBeEnabled = true;
+                }
+            }
+        }
+
+        ObjectSetEnabled(obj, shouldBeEnabled);
     }
     public void RemoveObject(ICullable obj, Vector2 position) {
         int2 chunkCoord = PositionToChunkCoord(position);
@@ -119,8 +154,6 @@ public class CullManager : MonoBehaviour
     void ObjectSetEnabled(ICullable obj, bool enabled)
     {
         obj.SetVisibility(enabled);
-        //obj.enabled = enabled;
-        //obj.gameObject.SetActive(enabled);
     }
 
     public void SetCullDist(int dist) {

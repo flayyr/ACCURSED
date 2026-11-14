@@ -411,6 +411,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3420895990651028683}
+  - {fileID: 2733999849826130767}
   - {fileID: 984959660603582367}
   - {fileID: 1067966905805113198}
   - {fileID: 8444035511937529443}
@@ -814,12 +815,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7826494839279420775}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 31.56308, y: 42.302017, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3420895990651028683}
+  m_Father: {fileID: 5333382664105762842}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &5628576190752987680
 BoxCollider2D:
@@ -881,7 +882,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FogWallInteractionManager
   obj: {fileID: 0}
   promptText: Open
-  fogWall: {fileID: 681770577406860277}
+  gateTrigger: {fileID: 681770577406860277}
+  wallObject: {fileID: 2948327619071236430}
 --- !u!1 &7963022329941294471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1298,6 +1300,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: vita_gate_horizontal
       objectReference: {fileID: 0}
+    - target: {fileID: 533739770135493914, guid: b4a5ca726c8c49442be8d92c6011a50b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7926203383179752711, guid: b4a5ca726c8c49442be8d92c6011a50b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 31.56308
@@ -1340,14 +1346,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 7926203383179752711, guid: b4a5ca726c8c49442be8d92c6011a50b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2733999849826130767}
+    m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 533739770135493914, guid: b4a5ca726c8c49442be8d92c6011a50b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 681770577406860277}
+    - targetCorrespondingSourceObject: {fileID: 533739770135493914, guid: b4a5ca726c8c49442be8d92c6011a50b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2948327619071236430}
   m_SourcePrefab: {fileID: 100100000, guid: b4a5ca726c8c49442be8d92c6011a50b, type: 3}
 --- !u!4 &3420895990651028683 stripped
 Transform:
@@ -1374,7 +1380,20 @@ MonoBehaviour:
   abilityStatues: []
   seeingStatues: []
   enemies: []
-  startUnlocked: 1
+  startActivated: 0
+  triggerables: []
+--- !u!114 &2948327619071236430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5039185219787230422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 755e190b1ff20b24b80864e490242dda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FogWallTriggerable
 --- !u!1001 &5054346212789633092
 PrefabInstance:
   m_ObjectHideFlags: 0
