@@ -20,6 +20,8 @@ public class TutorialPlatformScript : MonoBehaviour
     [SerializeField] MMF_Player endFeedback;
     int numEnemies;
 
+    bool lowered = false;
+
     private void Awake()
     {
         numEnemies = enemies.Length;
@@ -29,15 +31,38 @@ public class TutorialPlatformScript : MonoBehaviour
         }
     }
 
+    private void Start() {
+        if(SavesManager.Instance.TryLoadData("TutorialPlatformIsLowered", out lowered)) {
+            if (lowered) {
+                StartLowered();
+            }
+        }
+    }
+
     void DecrementEnemies(CharacterDeath enemy)
     {
         numEnemies--;
         enemy.OnCharacterDead -= DecrementEnemies;
 
-        if(numEnemies <= 0)
+        if(numEnemies <= 0 && !lowered)
         {
             StartCoroutine(LowerPlatform());
         }
+    }
+
+    void StartLowered() {
+        PlayerController playerController = PersistentPlayer.Instance.GetComponent<PlayerController>();
+
+        Vector3 moveAmount = new Vector3(0f, lowerYLevel - transform.localPosition.y, 0f);
+        transform.position += moveAmount;
+        playerController.transform.position += moveAmount;
+        aspect.Move(moveAmount);
+
+        foreach (CharacterDeath enemy in enemies) {
+            enemy.Die();
+        }
+
+        lowered = true;
     }
 
     IEnumerator LowerPlatform()
@@ -86,6 +111,9 @@ public class TutorialPlatformScript : MonoBehaviour
         platformCollider.enabled = false;
 
         Destroy(screenFade.gameObject);
+
+        lowered = true;
+        SavesManager.Instance.AddData("TutorialPlatformIsLowered", lowered);
     }
 
     private void OnDisable()
