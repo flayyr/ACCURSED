@@ -38,6 +38,7 @@ public class TravelAspect_Buttons : MonoBehaviour
     {
         PersistentPlayer.Instance.transform.position = asp.position;
         PersistentPlayer.controllerInstance.SetState(PlayerControlState.Normal);
+        PersistentPlayer.Instance.gameObject.GetComponent<PlayerDeath>().SetRespawnAspect(asp);
     }
 
     void StopPlayerFromResting() {
