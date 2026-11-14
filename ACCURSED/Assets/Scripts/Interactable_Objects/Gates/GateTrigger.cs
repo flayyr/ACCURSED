@@ -1,15 +1,18 @@
+using System;
 using UnityEngine;
 
-public class Gate : MonoBehaviour
+public class GateTrigger : MonoBehaviour
 {
     [SerializeField] AbilityTriggeredSwitch[] abilityStatues;
     [SerializeField] StatueStateController[] seeingStatues;
     [SerializeField] EnemyDeath[] enemies;
-    [SerializeField] bool startUnlocked;
+    [SerializeField] bool startActivated;
+    [Header("Triggerables")]
+    [SerializeReference] Triggerable[] triggerables;
     private bool unlocked;
 
     private void Start() {
-        unlocked = startUnlocked;
+        unlocked = startActivated;
         foreach (var statue in abilityStatues) {
             statue.OnStateChanged += CheckOpen;
         }
@@ -49,12 +52,14 @@ public class Gate : MonoBehaviour
     private void CheckOpen() {
         foreach (var statue in abilityStatues) {
             if (!statue.IsActivated) {
+                SetActivated(false);
                 return;
             }
         }
 
         foreach (var enemy in enemies) {
             if (!enemy.IsDead()) {
+                SetActivated(false);
                 return;
             }
         }
@@ -63,17 +68,24 @@ public class Gate : MonoBehaviour
         {
             if (!statue.IsSeeing)
             {
+                SetActivated(false);
                 return;
             }
         }
 
-        OpenWall();
-        unlocked = true;
+        SetActivated(true);
     }
 
-    public void OpenWall() {
-        Destroy(gameObject);
+    public void SetActivated(bool value) {
+        if (unlocked == value)
+            return;
+
+        foreach (var trigger in triggerables) {
+            trigger.Trigger(value);
+        }
+
+        unlocked = value;
     }
 
-    public bool isUnlocked() { return unlocked; }
+    public bool isActivated() { return unlocked; }
 }

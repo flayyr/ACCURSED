@@ -2,29 +2,35 @@ using UnityEngine;
 
 public class FogWallInteractionManager : InteractableObjectManager
 {
-    [SerializeField] Gate fogWall;
+    [Header("Fog Wall")]
+    [SerializeField] GateTrigger gateTrigger;
+    [SerializeField] Triggerable wallObject;
 
     private void Start() {
-        OnPromptTriggered += fogWall.OpenWall;
+        OnPromptTriggered += OpenWall;
     }
 
     protected override void OnTriggerEnter2D(Collider2D collision) {
-        base.OnTriggerEnter2D(collision);
+            base.OnTriggerEnter2D(collision);
     }
 
     protected override void OnTriggerExit2D(Collider2D collision) {
-        base.OnTriggerExit2D(collision);
+            base.OnTriggerExit2D(collision);
     }
 
     protected override void OnTriggerStay2D(Collider2D collision) {
-        base.OnTriggerStay2D(collision);
+            base.OnTriggerStay2D(collision);
     }
 
     protected override void Update() {
-        if (fogWall.isUnlocked()) {
+        if (gateTrigger.isActivated() && !wallObject.isActivated()) {
             if (isInsideTrigger && !GlobalUIController.Instance.CheckIfOtherUIOpen() && !promptOpen) {
                 OpenPrompt();
             }
         }
+    }
+
+    private void OpenWall() {
+        wallObject.Trigger(true);
     }
 }
