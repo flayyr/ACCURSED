@@ -23,10 +23,14 @@ public class DoorwayEntrance : InteractableObjectManager
             float yOffset = playerManager.transform.position.y - fadeStartY;
             if(yOffset > 0)
                 playerManager.SetSpriteOpacity((fadeOverYDist-yOffset)/fadeOverYDist);
+            else {
+                playerManager.SetSpriteOpacity(1f);
+            }
         }
     }
 
     private void TransitionToScene() {
+        playerManager.SetSpriteOpacity(1f);
         RoomTransitionManager.Instance.BeginTransition(sceneName);
     }
 }
