@@ -100,6 +100,9 @@ public class RoomTransitionManager : MonoBehaviour
             return false;
         }
 
+        if (SavesManager.Instance != null) {
+            SavesManager.Instance.Save();
+        }
         StartCoroutine(TransitionRoutine(sceneName, spawnID, playerToMove, afterSceneLoaded, afterFade, isDeath));
         return true;
     }
