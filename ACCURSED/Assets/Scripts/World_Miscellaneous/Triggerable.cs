@@ -7,5 +7,9 @@ public class Triggerable : MonoBehaviour
         activated = activate;
     }
 
+    public virtual void InitialState(bool activate) { 
+        activated = activate; 
+    }
+
     public bool isActivated() { return activated; }
 }

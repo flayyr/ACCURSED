@@ -9,6 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7926203383179752711}
+  - component: {fileID: 4493272810256676751}
+  - component: {fileID: 491068891145029148}
+  - component: {fileID: 8685868443190204255}
   m_Layer: 0
   m_Name: vita_gate_horizontal
   m_TagString: Untagged
@@ -37,6 +40,60 @@ Transform:
   - {fileID: 5944696665018902780}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &4493272810256676751
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533739770135493914}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d746d91e06f58f546a4243d05bf8c151, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &491068891145029148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533739770135493914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb17498180d885940a25a22109300d0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GateTriggerable
+  animator: {fileID: 4493272810256676751}
+  gateCollider: {fileID: 7760161205282501700}
+--- !u!114 &8685868443190204255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533739770135493914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fe50a752e572ca4e87611dc144dae86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GateTrigger
+  abilityStatues: []
+  seeingStatues: []
+  enemies: []
+  startActivated: 0
+  triggerables:
+  - {fileID: 491068891145029148}
 --- !u!1 &1169454655823903597
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,6 +231,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 0
+  cullingChunkSize:
+    x: 1
+    y: 1
   isAnimated: 0
   normalMap: {fileID: 0}
   refTransform: {fileID: 0}
@@ -412,6 +472,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 0
+  cullingChunkSize:
+    x: 1
+    y: 1
   isAnimated: 0
   normalMap: {fileID: 0}
   refTransform: {fileID: 0}
@@ -728,6 +791,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 0
+  cullingChunkSize:
+    x: 1
+    y: 1
   isAnimated: 0
   normalMap: {fileID: 0}
   refTransform: {fileID: 0}
