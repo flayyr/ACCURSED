@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac237efeeb0f6044cb8fb8c56455004c, type: 3}
+  m_Name: CW_3_1_2
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  dialogueList:
+  - Oh? You are a curious stranger, then. Persistent.
+  - I imagine then that you have a better understanding of why I stay, then?
+  - Perhaps it is not right for us to stay here.
+  - But stranger, there is nothing for me past this land. Move on? Onto what?
+  - I have no interest in nothingness, and I do not believe there to be anything
+    else for me after this.
+  - Let me close my eyes and rest here.
+  branchNum: 6
+  branching: 1
+  branches:
+  - {fileID: 11400000, guid: 7d52cdbad2a244347bd3da36ab42efc7, type: 2}
+  - {fileID: 11400000, guid: f9bc51a5f957a0e4d8420dd5fe0b8653, type: 2}
+  - {fileID: 11400000, guid: 78376d5dbcb5ac041ac609cb5272a157, type: 2}
+  ButtonText: I have prayed at the shrine
+  sound: {fileID: 0}
+  sideBarOrNot: 0
+  summonSidebar: 0
+  varName: 

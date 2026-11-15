@@ -7,6 +7,7 @@ public class DoorwayEntrance : InteractableObjectManager
     [SerializeField] float fadeOverYDist;
     [SerializeField] float detectionDist;
     [SerializeField] string sceneName;
+    [SerializeField] Vector2 playerAfterTransitionPos;
     PlayerManager playerManager;
 
     private void Start() {
@@ -23,10 +24,18 @@ public class DoorwayEntrance : InteractableObjectManager
             float yOffset = playerManager.transform.position.y - fadeStartY;
             if(yOffset > 0)
                 playerManager.SetSpriteOpacity((fadeOverYDist-yOffset)/fadeOverYDist);
+            else {
+                playerManager.SetSpriteOpacity(1f);
+            }
         }
     }
 
     private void TransitionToScene() {
-        RoomTransitionManager.Instance.BeginTransition(sceneName);
+        playerManager.SetSpriteOpacity(1f);
+        RoomTransitionManager.Instance.BeginTransition(sceneName, SetPlayerPosAfterTransition);
+    }
+
+    private void SetPlayerPosAfterTransition() {
+        PersistentPlayer.Instance.transform.position = playerAfterTransitionPos;
     }
 }

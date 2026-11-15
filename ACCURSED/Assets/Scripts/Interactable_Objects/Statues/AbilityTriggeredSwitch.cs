@@ -50,6 +50,9 @@ public class AbilityTriggeredSwitch : MonoBehaviour
 
     [Header("Runtime State - Read Only")]
     [SerializeField] private bool isActivated;
+    [Header("Saving")]
+    [SerializeField] private string savesTag;
+    [SerializeField] private bool useHashCode = true;
 
     public Action OnStateChanged;
 
@@ -62,6 +65,13 @@ public class AbilityTriggeredSwitch : MonoBehaviour
     {
         if (animator == null && animatedChild != null)
             animator = animatedChild.GetComponent<Animator>();
+
+        if (useHashCode) {
+            savesTag = "AbilityStatue" + gameObject.GetHashCode();
+        }
+        else {
+            savesTag = "AbilityStatue" + savesTag;
+        }
     }
 
     private void Start()
@@ -124,6 +134,11 @@ public class AbilityTriggeredSwitch : MonoBehaviour
 
     private void SetStartingState()
     {
+        bool savedActivation = startActivated;
+        if(SavesManager.Instance.TryLoadData<bool>(savesTag, out savedActivation)) {
+            startActivated = savedActivation;
+        }
+
         SetActivated(startActivated);
         UpdateAnimation();
     }
@@ -247,6 +262,7 @@ public class AbilityTriggeredSwitch : MonoBehaviour
             PlayDeactivation();
 
         OnStateChanged?.Invoke();
+        SavesManager.Instance.AddData<bool>(savesTag, activated);
     }
 
     // =========================================================
