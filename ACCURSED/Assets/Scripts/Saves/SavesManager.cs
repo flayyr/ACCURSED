@@ -11,6 +11,7 @@ public class SavesManager : MonoBehaviour
     private void Awake() {
         Instance = this;
         saveFileSetup = GetComponent<SaveFileSetup>();
+        //saveFileSetup.saveFileData.fileName = "";
         saveFile = saveFileSetup.GetSaveFile();
     }
 
