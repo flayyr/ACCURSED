@@ -8,7 +8,7 @@ public enum StatueVisionState
     Seeing
 }
 
-public class StatueStateController : MonoBehaviour
+public class StatueStateController : MonoBehaviourID
 {
     [Header("State")]
     [Tooltip("Can be changed in the Inspector. During Play Mode, changing this value applies the new state immediately.")]
@@ -63,7 +63,7 @@ public class StatueStateController : MonoBehaviour
 
     private void Start() {
         StatueVisionState savedState = currentState;
-        if (SavesManager.Instance.TryLoadData("IllusionStatue" + gameObject.GetHashCode(), out savedState)) {
+        if (SavesManager.Instance.TryLoadData("IllusionStatue" + ID, out savedState)) {
             currentState = savedState;
         }
         ApplyState(currentState, true);
@@ -263,7 +263,7 @@ public class StatueStateController : MonoBehaviour
         if (seeingField != null)
             seeingField.SetSeeing(state == StatueVisionState.Seeing, instantField);
 
-        SavesManager.Instance.AddData("IllusionStatue"+gameObject.GetHashCode(), state);
+        SavesManager.Instance.AddData("IllusionStatue"+ID, state);
         StateChanged?.Invoke(state);
     }
 
