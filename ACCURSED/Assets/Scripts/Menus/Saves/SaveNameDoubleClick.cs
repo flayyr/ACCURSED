@@ -22,9 +22,11 @@ public class SaveNameDoubleClick : MonoBehaviour, IPointerClickHandler
         if (saveSlot == null)
             return;
 
-        // Clicking or double-clicking the name of an empty slot does nothing.
         if (!saveSlot.HasSave)
+        {
+            saveSlot.ActivateButton();
             return;
+        }
 
         // A single click on an existing save name only selects the slot. It does not load the save.
         saveSlot.SelectThisButton();

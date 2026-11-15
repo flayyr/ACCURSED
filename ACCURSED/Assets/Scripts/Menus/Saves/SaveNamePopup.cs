@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class SaveNamePopup : MonoBehaviour
 {
+    public const string DefaultSaveName = "New Save";
+
     private enum PopupMode
     {
         CreateNewSave,
@@ -22,9 +24,11 @@ public class SaveNamePopup : MonoBehaviour
     [SerializeField] private Button cancelButton;
 
     public static bool IsOpen { get; private set; }
+    public static bool BlocksMenuInput => IsOpen || Time.frameCount == closedFrame;
 
     private SaveMenuButton targetSlot;
     private PopupMode currentMode;
+    private static int closedFrame = -1;
 
     // Prevents the Enter key that opened the popup from also accepting it during the same frame.
     private int openedFrame = -1;
@@ -82,7 +86,7 @@ public class SaveNamePopup : MonoBehaviour
         currentMode = PopupMode.CreateNewSave;
 
         // Every new save starts with this default name.
-        OpenPopup("New Game");
+        OpenPopup(DefaultSaveName);
     }
 
     public void OpenForRename(SaveMenuButton slot)
@@ -110,7 +114,7 @@ public class SaveNamePopup : MonoBehaviour
             return;
         }
 
-        popupRoot.transform.SetAsLastSibling();
+        transform.SetAsLastSibling();
         popupRoot.SetActive(true);
 
         IsOpen = true;
@@ -149,9 +153,7 @@ public class SaveNamePopup : MonoBehaviour
         if (!IsOpen || targetSlot == null)
             return;
 
-        string enteredName = saveNameInput != null
-            ? saveNameInput.text
-            : "New Game";
+        string enteredName = saveNameInput.text;
 
         SaveMenuButton selectedSlot = targetSlot;
         PopupMode acceptedMode = currentMode;
@@ -179,6 +181,7 @@ public class SaveNamePopup : MonoBehaviour
     private void ClosePopup()
     {
         IsOpen = false;
+        closedFrame = Time.frameCount;
         openedFrame = -1;
         targetSlot = null;
 

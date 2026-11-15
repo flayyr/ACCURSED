@@ -42,6 +42,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2197930301376511297}
   - component: {fileID: 9180833543304894030}
+  - component: {fileID: 4526856915278633300}
+  - component: {fileID: 3983973727035551591}
+  - component: {fileID: 111204472646358076}
   m_Layer: 0
   m_Name: vita_frontentrancewindow
   m_TagString: Untagged
@@ -123,3 +126,63 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &4526856915278633300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7834766726811522770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2e4714d6234f47bc0b078db86f780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionSprite
+  reflectionYScale: 0.7
+--- !u!114 &3983973727035551591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7834766726811522770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cf5f29b7fb9574c982a65643d421cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSort
+  sortRenderer: {fileID: 0}
+  sortOrderOffset: 0
+  useParticle: 0
+  baseTransform: {fileID: 0}
+  selfUpdate: 0
+--- !u!114 &111204472646358076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7834766726811522770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7011d57e41589024fb444d8773c926bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
+  canMove: 0
+  cullingChunkSize:
+    x: 4
+    y: 3
+  isAnimated: 0
+  normalMap: {fileID: 0}
+  refTransform: {fileID: 0}
+  useAmbientShadow: 1
+  ambientShadowSprite: {fileID: 0}
+  ambientShadowLength: 0.5
+  useAdditionalShadow: 0
+  shadowMat: {fileID: 0}
+  ShadowSprite: {fileID: 0}
+  shadowSize: {x: 1, y: 1}
+  useWind: 0
+  windStrength: 0.006
+  topSway: 0
+  topSwayStrength: 0.1

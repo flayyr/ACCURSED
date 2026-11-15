@@ -23,6 +23,8 @@ public class AspectSO : InteractableItemSO
             EnemySpawnManager.Instance.RespawnEnemies();
         }
         ResetObjectsManager.Instance.ResetAll();
+
+        SavesManager.Instance.Save();
     }
 
     public bool isEmpty()

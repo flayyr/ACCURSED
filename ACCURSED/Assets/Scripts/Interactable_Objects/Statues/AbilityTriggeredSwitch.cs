@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using static UnityEngine.CullingGroup;
 
-public class AbilityTriggeredSwitch : MonoBehaviour
+public class AbilityTriggeredSwitch : MonoBehaviourID
 {
     public enum TriggerCondition
     {
@@ -124,6 +124,11 @@ public class AbilityTriggeredSwitch : MonoBehaviour
 
     private void SetStartingState()
     {
+        bool savedActivation = startActivated;
+        if(SavesManager.Instance.TryLoadData<bool>("AbilityStatue" + ID, out savedActivation)) {
+            startActivated = savedActivation;
+        }
+
         SetActivated(startActivated);
         UpdateAnimation();
     }
@@ -247,6 +252,7 @@ public class AbilityTriggeredSwitch : MonoBehaviour
             PlayDeactivation();
 
         OnStateChanged?.Invoke();
+        SavesManager.Instance.AddData<bool>("AbilityStatue" + ID, activated);
     }
 
     // =========================================================

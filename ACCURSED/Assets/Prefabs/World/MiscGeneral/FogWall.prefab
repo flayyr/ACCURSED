@@ -67,7 +67,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.53413415}
+  m_Offset: {x: 0, y: -0.74}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -93,7 +93,101 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FogWallInteractionManager
   obj: {fileID: 0}
   promptText: Open
-  fogWall: {fileID: 1190090672166070843}
+  gateTrigger: {fileID: 1190090672166070843}
+  wallObject: {fileID: 4903557921879897390}
+--- !u!1 &491939506977772743
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5562771044909732586}
+  - component: {fileID: 9206971077142221839}
+  - component: {fileID: 3500773095335425877}
+  m_Layer: 18
+  m_Name: ArenaEnterTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5562771044909732586
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491939506977772743}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.47, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8145878141878160662}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &9206971077142221839
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491939506977772743}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.054229975, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 14.23205, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &3500773095335425877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491939506977772743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4f68793065d623449e234b97ece45f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArenaEnterTrigger
+  gateTriggerable: {fileID: 4903557921879897390}
+  bossEnemy: {fileID: 0}
 --- !u!1 &5148672263904854348
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,8 +199,9 @@ GameObject:
   - component: {fileID: 2943878850872001874}
   - component: {fileID: 7582192179255793943}
   - component: {fileID: 1872623005741521547}
+  - component: {fileID: 4903557921879897390}
   m_Layer: 18
-  m_Name: FogWall
+  m_Name: WallObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -232,6 +327,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &4903557921879897390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5148672263904854348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 755e190b1ff20b24b80864e490242dda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FogWallTriggerable
 --- !u!1 &5724681484148271634
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +371,7 @@ Transform:
   m_Children:
   - {fileID: 2943878850872001874}
   - {fileID: 5564567254363051723}
+  - {fileID: 5562771044909732586}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1190090672166070843
@@ -278,9 +386,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fe50a752e572ca4e87611dc144dae86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FogWall
-  statues:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  abilityStatues: []
+  seeingStatues: []
   enemies: []
-  startUnlocked: 0
+  startActivated: 0
+  triggerables: []
