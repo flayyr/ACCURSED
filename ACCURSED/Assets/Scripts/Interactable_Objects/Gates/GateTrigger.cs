@@ -13,6 +13,10 @@ public class GateTrigger : MonoBehaviour
 
     private void Start() {
         unlocked = startActivated;
+        foreach (var triggerable in triggerables) {
+            triggerable.InitialState(startActivated);
+        }
+
         foreach (var statue in abilityStatues) {
             statue.OnStateChanged += CheckOpen;
         }
@@ -87,5 +91,5 @@ public class GateTrigger : MonoBehaviour
         unlocked = value;
     }
 
-    public bool isActivated() { return unlocked; }
+    public bool isUnlocked() { return unlocked; }
 }

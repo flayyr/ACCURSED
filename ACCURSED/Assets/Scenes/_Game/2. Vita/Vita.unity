@@ -28953,6 +28953,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8343729808147737525, guid: 6e60be79a44113e4695cb0e3b0e321fe, type: 3}
   m_PrefabInstance: {fileID: 373442357}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &374311671
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 507941795}
+    m_Modifications:
+    - target: {fileID: 2398997804438037030, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: m_Name
+      value: FeorPlaceholder
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912994640665441280, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -179.37192
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912994640665441280, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -131.54007
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912994640665441280, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912994640665441280, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912994640665441280, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912994640665441280, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912994640665441280, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912994640665441280, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912994640665441280, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912994640665441280, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
 --- !u!1001 &376385654
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35194,11 +35251,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5149484057824081471, guid: 8a88497be7e8eee4484b681c91443977, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -220.3
+      value: -278.63
       objectReference: {fileID: 0}
     - target: {fileID: 5149484057824081471, guid: 8a88497be7e8eee4484b681c91443977, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -30.1
+      value: 54.14
       objectReference: {fileID: 0}
     - target: {fileID: 5786382533972044480, guid: 8a88497be7e8eee4484b681c91443977, type: 3}
       propertyPath: fable
@@ -39762,6 +39819,7 @@ Transform:
   - {fileID: 717965521}
   - {fileID: 693207094595558747}
   - {fileID: 1270189213}
+  - {fileID: 1767535645}
   - {fileID: 565108405}
   - {fileID: 428303057}
   m_Father: {fileID: 248583542}
@@ -57994,6 +58052,10 @@ PrefabInstance:
       propertyPath: 'abilityStatues.Array.data[2]'
       value: 
       objectReference: {fileID: 4117742}
+    - target: {fileID: 3500773095335425877, guid: 76f0d22af9330764dbfd1f5326b52c71, type: 3}
+      propertyPath: bossEnemy
+      value: 
+      objectReference: {fileID: 1767535649}
     - target: {fileID: 5724681484148271634, guid: 76f0d22af9330764dbfd1f5326b52c71, type: 3}
       propertyPath: m_Name
       value: FogWall
@@ -141086,6 +141148,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8583329221708310242, guid: aee04b6c1fdc51d4187a7667e5d7376c, type: 3}
   m_PrefabInstance: {fileID: 1766485838}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1767535645 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4912994640665441280, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+  m_PrefabInstance: {fileID: 374311671}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1767535649 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4296821721631961857, guid: 44af9f998325a6947b7d55d772fb58b4, type: 3}
+  m_PrefabInstance: {fileID: 374311671}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe4f382e3fd441e4cb79b00dfb62da0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDeath
 --- !u!1001 &1767594500
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -160906,7 +160984,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4304853422388347417, guid: e4db5bce34ecbf942a7b5925b647f52b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0010443644
+      value: 0.0010252552
       objectReference: {fileID: 0}
     - target: {fileID: 4706753361957882017, guid: e4db5bce34ecbf942a7b5925b647f52b, type: 3}
       propertyPath: m_AnchorMax.x
@@ -173533,6 +173611,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: "F\xE9or Arena"
       objectReference: {fileID: 0}
+    - target: {fileID: 5337811917134755881, guid: db25b00a5d96a0149bd71f80a81d6833, type: 3}
+      propertyPath: enemies.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337811917134755881, guid: db25b00a5d96a0149bd71f80a81d6833, type: 3}
+      propertyPath: 'enemies.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1767535649}
     - target: {fileID: 5918741839827699275, guid: db25b00a5d96a0149bd71f80a81d6833, type: 3}
       propertyPath: m_LocalPosition.x
       value: -186.84

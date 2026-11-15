@@ -23,7 +23,7 @@ public class FogWallInteractionManager : InteractableObjectManager
     }
 
     protected override void Update() {
-        if (gateTrigger.isActivated() && !wallObject.isActivated()) {
+        if (gateTrigger.isUnlocked() && !wallObject.isActivated()) {
             if (isInsideTrigger && !GlobalUIController.Instance.CheckIfOtherUIOpen() && !promptOpen) {
                 OpenPrompt();
             }
