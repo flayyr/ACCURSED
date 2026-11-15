@@ -19,7 +19,7 @@ public class EscapeMenuHandler : MonoBehaviour
 
     private void Update()
     {
-        if (!listenForEscapeKey || transitionRequested)
+        if (!listenForEscapeKey || transitionRequested || SaveNamePopup.BlocksMenuInput)
             return;
 
         if (Input.GetKeyDown(escapeKey))
