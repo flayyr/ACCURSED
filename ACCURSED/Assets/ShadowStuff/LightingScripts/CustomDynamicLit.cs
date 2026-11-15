@@ -1,12 +1,14 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 //[ExecuteAlways]
 [RequireComponent(typeof(ReflectionSprite)), RequireComponent(typeof(DepthSort))]
 public class CustomDynamicLit : MonoBehaviour, ICullable
 {
-    [Header("Toggles")]
+    [Header("Culling")]
     [SerializeField] bool canMove = false;
-    [Tooltip("toggle updating shadow sprites")]
+    [SerializeField] int2 cullingChunkSize = new int2(1,1);
+    [Header("Animated"), Tooltip("toggle updating shadow sprites")]
     [SerializeField] bool isAnimated = false;
     [Header("Normal Map")]
     [SerializeField] Sprite normalMap;
@@ -302,5 +304,9 @@ public class CustomDynamicLit : MonoBehaviour, ICullable
         windStrength = other.windStrength;
         topSway = other.topSway;
         topSwayStrength = other.topSwayStrength;
+    }
+
+    public int2 GetSize() {
+        return cullingChunkSize;
     }
 }

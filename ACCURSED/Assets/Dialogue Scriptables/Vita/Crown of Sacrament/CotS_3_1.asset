@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac237efeeb0f6044cb8fb8c56455004c, type: 3}
+  m_Name: CotS_3_1
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  dialogueList:
+  - Thou hast shown me this barren field again.
+  - I preserved our memory, little that it is.
+  - Was that so wrong?
+  - ...
+  - I could not bear to forget, and could not bear to suffer.
+  - Why won't you let me cling?
+  - ...
+  - Please, forgive me.
+  branchNum: 8
+  branching: 1
+  branches:
+  - {fileID: 11400000, guid: ec648e86fb3aaa846828f46df36ff667, type: 2}
+  - {fileID: 11400000, guid: d5731c4af0f3fa54786333a99ec4d49d, type: 2}
+  ButtonText: 
+  sound: {fileID: 0}
+  sideBarOrNot: 0
+  summonSidebar: 0
+  varName: 

@@ -36,6 +36,11 @@ public class CameraFollowWithMapEdges : MonoBehaviour
     private Vector3 velocity;
     private float originalCameraSize;
 
+    float limitLeft = float.MinValue;
+    float limitRight = float.MaxValue;
+    float limitBottom = float.MinValue;
+    float limitTop = float.MaxValue;
+
     private void Awake()
     {
         Instance = this;
@@ -95,11 +100,11 @@ public class CameraFollowWithMapEdges : MonoBehaviour
         float cameraHalfHeight = mainCamera.orthographicSize;
         float cameraHalfWidth = cameraHalfHeight * mainCamera.aspect;
 
-        float minCameraCenterX = mapLeft + cameraHalfWidth;
-        float maxCameraCenterX = mapRight - cameraHalfWidth;
+        float minCameraCenterX = Mathf.Max(mapLeft + cameraHalfWidth, limitLeft);
+        float maxCameraCenterX = Mathf.Min(mapRight - cameraHalfWidth, limitRight);
 
-        float minCameraCenterY = mapBottom + cameraHalfHeight;
-        float maxCameraCenterY = mapTop - cameraHalfHeight;
+        float minCameraCenterY = Mathf.Max(mapBottom + cameraHalfHeight, limitBottom);
+        float maxCameraCenterY = Mathf.Min(mapTop - cameraHalfHeight, limitTop);
 
         Vector3 cameraOffsetFromRig = mainCamera.transform.position - transform.position;
 
@@ -180,5 +185,18 @@ public class CameraFollowWithMapEdges : MonoBehaviour
         mapRight = right;
         mapBottom = bottom;
         mapTop = top;
+    }
+
+    public void SetCameraLimits(float left, float right, float bottom, float top) {
+        limitLeft = left;
+        limitRight = right;
+        limitBottom = bottom;
+        limitTop = top;
+    }
+    public void ResetCameraLimits() {
+        limitLeft = float.MinValue;
+        limitRight  = float.MaxValue;
+        limitBottom = float.MinValue;
+        limitTop = float.MaxValue;
     }
 }

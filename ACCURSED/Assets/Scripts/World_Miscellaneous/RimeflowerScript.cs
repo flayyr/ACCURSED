@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class RimeflowerScript : InteractableObjectManager, IResetable, ICullable
@@ -95,5 +96,9 @@ public class RimeflowerScript : InteractableObjectManager, IResetable, ICullable
 
     public void SetVisibility(bool visible) {
         gameObject.SetActive(visible);
+    }
+
+    public int2 GetSize() {
+        return new int2(1,1);
     }
 }

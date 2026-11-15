@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DepthSort
   sortRenderer: {fileID: 0}
-  sortOrderOffset: 0
+  sortOrderOffset: 3
   useParticle: 0
   baseTransform: {fileID: 0}
   selfUpdate: 0
@@ -137,6 +137,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 0
+  cullingChunkSize:
+    x: 1
+    y: 1
   isAnimated: 0
   normalMap: {fileID: 0}
   refTransform: {fileID: 0}

@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 7045314193249064292}
   - component: {fileID: 7884425474843528456}
   - component: {fileID: 8781885578246455574}
+  - component: {fileID: 2814922210108335899}
+  - component: {fileID: 5432841702017085298}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -103,3 +105,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd1b279455bff94792d65b0fc744b93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResetObjectsManager
+--- !u!114 &2814922210108335899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4949041148854407289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bec21cdfdaa4f124ea7938484d51948b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SavesManager
+--- !u!114 &5432841702017085298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4949041148854407289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b4b220e9db2634389147b7a07bb0ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ESave::Esper.ESave.SaveFileSetup
+  saveFileData:
+    fileName: SaveFile
+    saveLocation: 0
+    filePath: Saves
+    fileType: 0
+    encryptionMethod: 0
+    aesKey: 
+    aesIV: 
+    addToStorage: 1
+    backgroundTask: 0

@@ -59,6 +59,13 @@ public class StatueStateController : MonoBehaviour
     private void Awake()
     {
         ResolveReferences();
+    }
+
+    private void Start() {
+        StatueVisionState savedState = currentState;
+        if (SavesManager.Instance.TryLoadData("IllusionStatue" + gameObject.GetHashCode(), out savedState)) {
+            currentState = savedState;
+        }
         ApplyState(currentState, true);
     }
 
@@ -98,8 +105,8 @@ public class StatueStateController : MonoBehaviour
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
 
-        if (seeingField == null)
-            seeingField = GetComponentInChildren<StatueSeeingField>(true);
+        //if (seeingField == null)
+        //    seeingField = GetComponentInChildren<StatueSeeingField>(true);
 
         if (playerInventory == null && player != null)
             playerInventory = player.GetComponent<PlayerInventory>();
@@ -256,6 +263,7 @@ public class StatueStateController : MonoBehaviour
         if (seeingField != null)
             seeingField.SetSeeing(state == StatueVisionState.Seeing, instantField);
 
+        SavesManager.Instance.AddData("IllusionStatue"+gameObject.GetHashCode(), state);
         StateChanged?.Invoke(state);
     }
 
