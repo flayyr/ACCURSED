@@ -11,8 +11,7 @@ public class GateTrigger : MonoBehaviour
     [SerializeReference] Triggerable[] triggerables;
     private bool unlocked;
 
-    private void Start() {
-        unlocked = startActivated;
+    private void Awake() {
         foreach (var statue in abilityStatues) {
             statue.OnStateChanged += CheckOpen;
         }
@@ -21,9 +20,15 @@ public class GateTrigger : MonoBehaviour
             enemy.OnCharacterDead += EnemyDeath;
         }
 
-        foreach (var statue in seeingStatues)
-        {
+        foreach (var statue in seeingStatues) {
             statue.StateChanged += SeeingStatueChanged;
+        }
+    }
+
+    private void Start() {
+        unlocked = startActivated;
+        foreach (var triggerable in triggerables) {
+            triggerable.InitialState(startActivated);
         }
     }
 
@@ -87,5 +92,5 @@ public class GateTrigger : MonoBehaviour
         unlocked = value;
     }
 
-    public bool isActivated() { return unlocked; }
+    public bool isUnlocked() { return unlocked; }
 }

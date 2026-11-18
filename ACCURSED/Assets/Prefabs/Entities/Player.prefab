@@ -94,6 +94,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3450769037150715107, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5786382533972044480}
+    - targetCorrespondingSourceObject: {fileID: 3450769037150715107, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6114503184724352034}
   m_SourcePrefab: {fileID: 100100000, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}
 --- !u!1 &2455061190491922457 stripped
 GameObject:
@@ -129,6 +132,22 @@ MonoBehaviour:
   remembranceItem: {fileID: 11400000, guid: a22182214140e6045acc579c1dd63eb6, type: 2}
   fableItem: {fileID: 11400000, guid: 9c39e1f5a19d6014d94c7d263e9d1efb, type: 2}
   vestigeItem: {fileID: 11400000, guid: aa210b537faa6fa41821786a1f457323, type: 2}
+--- !u!114 &6114503184724352034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2455061190491922457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de285a3699148a344a11f6d198d4e10d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DisableWhenInMenus
+  disabledScenes:
+  - StartMenu
+  - SaveFiles
+  - Credits
 --- !u!114 &7721115622144080065 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7410480554128925755, guid: 57277126b0c98ce4fa87423cc830746b, type: 3}

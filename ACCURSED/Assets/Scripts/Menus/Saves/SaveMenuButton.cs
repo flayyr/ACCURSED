@@ -24,6 +24,9 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [Tooltip("The frame image displayed above the background.")]
     [SerializeField] private Image frameImage;
 
+    [Tooltip("Image shown inside the frame when this slot contains a save.")]
+    [SerializeField] private Image thumbnailImage;
+
     [Tooltip("The save name displayed above the slot.")]
     [SerializeField] private TMP_Text saveNameText;
 
@@ -90,7 +93,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         get
         {
-            return PlayerPrefs.GetString(GetNameKey(), "New Game");
+            return PlayerPrefs.GetString(GetNameKey(), SaveNamePopup.DefaultSaveName);
         }
     }
     
@@ -150,7 +153,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         // Don't move around the save menu while typing a name.
         
-        if (SaveNamePopup.IsOpen)
+        if (SaveNamePopup.BlocksMenuInput)
             return;
 
         HandleKeyboardSelection();
@@ -366,6 +369,9 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     // Display
     public void RefreshSlotDisplay()
     {
+        if (thumbnailImage != null)
+            thumbnailImage.gameObject.SetActive(HasSave && thumbnailImage.sprite != null);
+
         if (saveNameText != null)
         {
             saveNameText.gameObject.SetActive(true);
@@ -605,7 +611,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     )
     {
         if (string.IsNullOrWhiteSpace(enteredName))
-            return "New Game";
+            return SaveNamePopup.DefaultSaveName;
 
         return enteredName.Trim();
     }

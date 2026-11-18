@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using static UnityEngine.CullingGroup;
 
-public class AbilityTriggeredSwitch : MonoBehaviour
+public class AbilityTriggeredSwitch : MonoBehaviourID
 {
     public enum TriggerCondition
     {
@@ -50,9 +50,6 @@ public class AbilityTriggeredSwitch : MonoBehaviour
 
     [Header("Runtime State - Read Only")]
     [SerializeField] private bool isActivated;
-    [Header("Saving")]
-    [SerializeField] private string savesTag;
-    [SerializeField] private bool useHashCode = true;
 
     public Action OnStateChanged;
 
@@ -65,13 +62,6 @@ public class AbilityTriggeredSwitch : MonoBehaviour
     {
         if (animator == null && animatedChild != null)
             animator = animatedChild.GetComponent<Animator>();
-
-        if (useHashCode) {
-            savesTag = "AbilityStatue" + gameObject.GetHashCode();
-        }
-        else {
-            savesTag = "AbilityStatue" + savesTag;
-        }
     }
 
     private void Start()
@@ -135,7 +125,7 @@ public class AbilityTriggeredSwitch : MonoBehaviour
     private void SetStartingState()
     {
         bool savedActivation = startActivated;
-        if(SavesManager.Instance.TryLoadData<bool>(savesTag, out savedActivation)) {
+        if(SavesManager.Instance.TryLoadData<bool>("AbilityStatue" + ID, out savedActivation)) {
             startActivated = savedActivation;
         }
 
@@ -262,7 +252,7 @@ public class AbilityTriggeredSwitch : MonoBehaviour
             PlayDeactivation();
 
         OnStateChanged?.Invoke();
-        SavesManager.Instance.AddData<bool>(savesTag, activated);
+        SavesManager.Instance.AddData<bool>("AbilityStatue" + ID, activated);
     }
 
     // =========================================================

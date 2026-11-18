@@ -411,7 +411,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3420895990651028683}
-  - {fileID: 2733999849826130767}
+  - {fileID: 2497168420394915570}
   - {fileID: 984959660603582367}
   - {fileID: 1067966905805113198}
   - {fileID: 8444035511937529443}
@@ -693,6 +693,99 @@ PolygonCollider2D:
       - {x: -0.25016165, y: -1.4314803}
       - {x: 1.6273336, y: -0.6215097}
   m_UseDelaunayMesh: 1
+--- !u!1 &6532208085444257861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2497168420394915570}
+  - component: {fileID: 5638057483890140003}
+  - component: {fileID: 260994830850627761}
+  m_Layer: 0
+  m_Name: ArenaTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2497168420394915570
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6532208085444257861}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 29.35, y: 36.66, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5333382664105762842}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5638057483890140003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6532208085444257861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4f68793065d623449e234b97ece45f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArenaTrigger
+  gateTriggerable: {fileID: 4924213067778914256}
+  bossEnemy: {fileID: 0}
+--- !u!61 &260994830850627761
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6532208085444257861}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.13325787, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 10.42499, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &6877630779486414272
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,101 +882,6 @@ PolygonCollider2D:
       - {x: 5.9401846, y: 0.7234297}
       - {x: 3.7694721, y: 0.8118877}
   m_UseDelaunayMesh: 1
---- !u!1 &7826494839279420775
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2733999849826130767}
-  - component: {fileID: 5628576190752987680}
-  - component: {fileID: 8404435434997248327}
-  m_Layer: 0
-  m_Name: InteractionTrigger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2733999849826130767
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7826494839279420775}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 31.56308, y: 42.302017, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5333382664105762842}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &5628576190752987680
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7826494839279420775}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: -2.4878159, y: -2.3375475}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 10.984665, y: 1.7346578}
-  m_EdgeRadius: 0
---- !u!114 &8404435434997248327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7826494839279420775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ae620cb15ca9134890efb3cd93d7721, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FogWallInteractionManager
-  obj: {fileID: 0}
-  promptText: Open
-  gateTrigger: {fileID: 681770577406860277}
-  wallObject: {fileID: 2948327619071236430}
 --- !u!1 &7963022329941294471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1344,56 +1342,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8685868443190204255, guid: b4a5ca726c8c49442be8d92c6011a50b, type: 3}
+      propertyPath: startActivated
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 533739770135493914, guid: b4a5ca726c8c49442be8d92c6011a50b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 681770577406860277}
-    - targetCorrespondingSourceObject: {fileID: 533739770135493914, guid: b4a5ca726c8c49442be8d92c6011a50b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2948327619071236430}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4a5ca726c8c49442be8d92c6011a50b, type: 3}
 --- !u!4 &3420895990651028683 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7926203383179752711, guid: b4a5ca726c8c49442be8d92c6011a50b, type: 3}
   m_PrefabInstance: {fileID: 4793784093646893516}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5039185219787230422 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 533739770135493914, guid: b4a5ca726c8c49442be8d92c6011a50b, type: 3}
+--- !u!114 &4924213067778914256 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 491068891145029148, guid: b4a5ca726c8c49442be8d92c6011a50b, type: 3}
   m_PrefabInstance: {fileID: 4793784093646893516}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &681770577406860277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5039185219787230422}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fe50a752e572ca4e87611dc144dae86, type: 3}
+  m_Script: {fileID: 11500000, guid: cb17498180d885940a25a22109300d0c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Gate
-  abilityStatues: []
-  seeingStatues: []
-  enemies: []
-  startActivated: 0
-  triggerables: []
---- !u!114 &2948327619071236430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5039185219787230422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 755e190b1ff20b24b80864e490242dda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FogWallTriggerable
+  m_EditorClassIdentifier: Assembly-CSharp::GateTriggerable
 --- !u!1001 &5054346212789633092
 PrefabInstance:
   m_ObjectHideFlags: 0

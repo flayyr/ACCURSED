@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CharacterDeath : MonoBehaviour
-{
+public class CharacterDeath : MonoBehaviourID {
     public Action<CharacterDeath> OnCharacterDead;
 
     public virtual void Die()
