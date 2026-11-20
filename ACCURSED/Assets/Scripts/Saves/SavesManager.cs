@@ -1,11 +1,12 @@
 using Esper.ESave;
 using UnityEngine;
 
+[DefaultExecutionOrder(-1)]
 public class SavesManager : MonoBehaviour
 {
     public static SavesManager Instance;
 
-    private SaveFileSetup saveFileSetup;
+    //private SaveFileSetup saveFileSetup;
     private SaveFile saveFile;
 
     [SerializeField] string gameStartScene;
@@ -18,16 +19,24 @@ public class SavesManager : MonoBehaviour
             return;
         }
         Instance = this;
-        saveFileSetup = GetComponent<SaveFileSetup>();
-        //saveFileSetup.saveFileData.fileName = "";
-        saveFileSetup.name = "";
-        saveFile = saveFileSetup.GetSaveFile();
+        //saveFileSetup = GetComponent<SaveFileSetup>();
+        //saveFile = saveFileSetup.GetSaveFile();
+        SaveFileSetupData saveFileSetupData = new SaveFileSetupData() {
+            fileName = "Default Empty Save File",
+            saveLocation = SaveFileSetupData.SaveLocation.PersistentDataPath,
+            filePath = "Saves",
+            encryptionMethod = SaveFileSetupData.EncryptionMethod.None,
+            addToStorage = false
+        };
+        saveFile = new SaveFile(saveFileSetupData);
+
     }
 
 #if UNITY_EDITOR
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Backslash)) {
             saveFile.DeleteFile();
+            SaveStorage.instance.DeleteAllSaves();
         }
     }
 
@@ -57,21 +66,30 @@ public class SavesManager : MonoBehaviour
         }
 
         saveFile = SaveStorage.instance.GetSaveByFileName(saveName);
-        saveFileSetup.SetSaveFile(saveFile);
         LoadSave();
     }
 
     public void CreateNewSave(string saveName) {
-        saveFile = saveFileSetup.GetSaveFile(saveName);
+        SaveFileSetupData saveFileSetupData = new SaveFileSetupData() {
+            fileName = saveName,
+            saveLocation = SaveFileSetupData.SaveLocation.PersistentDataPath,
+            filePath = "Saves",
+            encryptionMethod = SaveFileSetupData.EncryptionMethod.None,
+            addToStorage = true
+        };
+        saveFile = new SaveFile(saveFileSetupData);
         SaveStorage.instance.AddSave(saveFile);
+
+        Debug.Log("ADDED NEW SAVE TO SAVE STORAGE "+saveName);
 
         saveFile.AddOrUpdateData("_SceneName", gameStartScene);
         LoadSave();
     }
 
     public void DeleteSave(string saveName) {
-        SaveStorage.instance.GetSaveByFileName(saveName).DeleteFile();
-        saveFile = saveFileSetup.GetSaveFile();
+        SaveFile toDelete = SaveStorage.instance.GetSaveByFileName(saveName);
+        SaveStorage.instance.RemoveSave(toDelete);
+        toDelete.DeleteFile();
     }
 
     private void LoadSave() {

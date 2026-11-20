@@ -17,9 +17,9 @@ namespace Esper.ESave
         public SaveFile saveFile { get; private set; }
 
         private void Awake() {
-            if (saveFile == null) {
-                GetSaveFile();
-            }
+            //if (saveFile == null) {
+            //    GetSaveFile();
+            //}
         }
 
         /// <summary>

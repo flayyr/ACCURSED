@@ -57,6 +57,7 @@ public class TutorialPlatformScript : MonoBehaviour
         transform.position += moveAmount;
         playerController.transform.position += moveAmount;
         aspect.Move(moveAmount);
+        platformCollider.enabled = false;
 
         foreach (CharacterDeath enemy in enemies) {
             enemy.Die();

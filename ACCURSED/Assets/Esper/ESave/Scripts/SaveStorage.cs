@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Esper.ESave
 {
-    [RequireComponent(typeof(SaveFileSetup)), DefaultExecutionOrder(-1)]
+    [RequireComponent(typeof(SaveFileSetup)), DefaultExecutionOrder(-5)]
     public class SaveStorage : MonoBehaviour
     {
         public Dictionary<string, SaveFile> saves = new();
@@ -93,6 +93,8 @@ namespace Esper.ESave
             {
                 savePathsFile.AddOrUpdateData(saveFile.fileName, saveFile.GetSetupData());
                 savePathsFile.Save();
+            } else {
+                Debug.LogWarning("a save with the name " + saveFile.fileName + " already exists and you are trying to add it to save storage");
             }
         }
 
@@ -178,16 +180,28 @@ namespace Esper.ESave
             }
         }
 
-        //public void SaveFileNameOfButton(string reference, string filename) {
-        //    savePathsFile.AddOrUpdateData(reference, filename);
-        //    savePathsFile.Save();
-        //}
+        public void SaveFileNameOfButton(string reference, string filename) {
+            savePathsFile.AddOrUpdateData(reference, filename);
+            savePathsFile.Save();
+        }
 
-        //public string GetSaveFileNameAtButtonRef(string reference) {
-        //    if (!savePathsFile.HasData(reference)) {
-        //        Debug.LogError("save name for this button does not exist!");
-        //    }
-        //    return savePathsFile.GetData<string>(reference);
-        //}
+        public bool HasSaveFileAtButtonRef(string reference) {
+            return savePathsFile.HasData(reference);
+        }
+
+        public string GetSaveFileNameAtButtonRef(string reference) {
+            if (!savePathsFile.HasData(reference)) {
+                Debug.LogError("save name for this button does not exist!");
+            }
+            return savePathsFile.GetData<string>(reference);
+        }
+
+        public void DeleteButtonRef(string reference) {
+            if (!savePathsFile.HasData(reference)) {
+                Debug.LogError("tried to delete but save name for this button does not exist!");
+            }
+            savePathsFile.DeleteData(reference);
+            savePathsFile.Save();
+        }
     }
 }
