@@ -33,6 +33,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     [Tooltip("Delete button belonging to this slot.")]
     [SerializeField] private Button deleteButton;
+    [SerializeField] private GameObject renameButton;
 
     [Tooltip("Popup used to create and rename saves.")]
     [SerializeField] private SaveNamePopup saveNamePopup;
@@ -263,7 +264,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         RefreshSlotDisplay();
 
-        Debug.Log("Created save slot " +(SlotIndex + 1) + " with the name: " + CurrentSaveName);
+        //Debug.Log("Created save slot " +(SlotIndex + 1) + " with the name: " + CurrentSaveName);
 
         StartNewGame();
     }
@@ -282,7 +283,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         RefreshSlotDisplay();
 
-        Debug.Log("Renamed save slot " + (SlotIndex + 1) + " to: " + finalName);
+        //Debug.Log("Renamed save slot " + (SlotIndex + 1) + " to: " + finalName);
     }
     
     // Delete Save
@@ -296,7 +297,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         //PlayerPrefs.DeleteKey(GetExistsKey());
         //PlayerPrefs.DeleteKey(GetNameKey());
-        SavesManager.Instance.DeleteSave(GetNameKey());
+        SavesManager.Instance.DeleteSave(GetSavesKey());
         SaveStorage.instance.DeleteButtonRef(GetNameKey());
 
 
@@ -331,7 +332,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         //PlayerPrefs.SetInt("ActiveSaveIsNew", 1);
         //PlayerPrefs.Save();
 
-        SavesManager.Instance.CreateNewSave(GetNameKey());
+        SavesManager.Instance.CreateNewSave(GetSavesKey());
 
         //LoadGameScene();
     }
@@ -342,9 +343,9 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         //PlayerPrefs.SetInt("ActiveSaveIsNew", 0);
         //PlayerPrefs.Save();
 
-        Debug.Log("Loading save slot " + (SlotIndex + 1) + ": " + GetNameKey());
+        Debug.Log("Loading save slot " + (SlotIndex + 1) + ": " + GetSavesKey());
 
-        SavesManager.Instance.OpenSave(GetNameKey());
+        SavesManager.Instance.OpenSave(GetSavesKey());
 
         //LoadGameScene();
     }
@@ -401,6 +402,17 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             deleteButton.gameObject.SetActive(true);
 
             deleteButton.interactable = HasSave;
+        }
+
+        if (renameButton == null)
+            return;
+        if (hideDeleteButtonWhenEmpty)
+        {
+            renameButton.SetActive(HasSave);
+        }
+        else
+        {
+            renameButton.SetActive(true);
         }
     }
     
@@ -620,11 +632,11 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         return enteredName.Trim();
     }
 
-    //private string GetExistsKey()
-    //{
-    //    return
-    //        "SaveSlot_" + SlotIndex + "_Exists";
-    //}
+    private string GetSavesKey()
+    {
+        return
+            "SaveSlot_" + SlotIndex;
+    }
 
     private string GetNameKey()
     {
