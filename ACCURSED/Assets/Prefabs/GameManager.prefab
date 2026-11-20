@@ -1,72 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3326386712273641096
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7550627131300928904}
-  - component: {fileID: 3135840926176245767}
-  - component: {fileID: 7734252677495775663}
-  m_Layer: 0
-  m_Name: SavesStorage
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7550627131300928904
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3326386712273641096}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4453178453770962383}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3135840926176245767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3326386712273641096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99b4b220e9db2634389147b7a07bb0ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ESave::Esper.ESave.SaveFileSetup
-  saveFileData:
-    fileName: SaveStorage
-    saveLocation: 0
-    filePath: S
-    fileType: 0
-    encryptionMethod: 0
-    aesKey: 
-    aesIV: 
-    addToStorage: 0
-    backgroundTask: 0
---- !u!114 &7734252677495775663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3326386712273641096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58b6357478f7f774c91932e0fcb4dcc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ESave::Esper.ESave.SaveStorage
 --- !u!1 &4949041148854407289
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,8 +13,6 @@ GameObject:
   - component: {fileID: 7045314193249064292}
   - component: {fileID: 7884425474843528456}
   - component: {fileID: 8781885578246455574}
-  - component: {fileID: 2814922210108335899}
-  - component: {fileID: 5432841702017085298}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -101,8 +32,7 @@ Transform:
   m_LocalPosition: {x: 0.57396, y: 0.09976, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7550627131300928904}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &169639333591234553
@@ -173,37 +103,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd1b279455bff94792d65b0fc744b93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResetObjectsManager
---- !u!114 &2814922210108335899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4949041148854407289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bec21cdfdaa4f124ea7938484d51948b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SavesManager
---- !u!114 &5432841702017085298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4949041148854407289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99b4b220e9db2634389147b7a07bb0ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ESave::Esper.ESave.SaveFileSetup
-  saveFileData:
-    fileName: SaveFile
-    saveLocation: 0
-    filePath: Saves
-    fileType: 0
-    encryptionMethod: 0
-    aesKey: 
-    aesIV: 
-    addToStorage: 1
-    backgroundTask: 0

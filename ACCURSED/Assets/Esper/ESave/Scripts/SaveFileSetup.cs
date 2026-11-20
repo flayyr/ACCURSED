@@ -16,10 +16,8 @@ namespace Esper.ESave
         /// </summary>
         public SaveFile saveFile { get; private set; }
 
-        private void Awake()
-        {
-            if (saveFile == null)
-            {
+        private void Awake() {
+            if (saveFile == null) {
                 GetSaveFile();
             }
         }
@@ -44,6 +42,17 @@ namespace Esper.ESave
             }
 
             return saveFile;
+        }
+
+        public SaveFile GetSaveFile(string newName) {
+            saveFileData.fileName = newName;
+            saveFile = new SaveFile(saveFileData, false);
+
+            return saveFile;
+        }
+
+        public void SetSaveFile(SaveFile saveFile) {
+            this.saveFile = saveFile;
         }
     }
 }

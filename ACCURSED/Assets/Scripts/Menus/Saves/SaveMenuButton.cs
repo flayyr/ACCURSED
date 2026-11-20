@@ -1,3 +1,4 @@
+using Esper.ESave;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -60,8 +61,8 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [Tooltip("Hide Delete while this slot is empty.")]
     [SerializeField] private bool hideDeleteButtonWhenEmpty = true;
 
-    [Header("Scene Loading")]
-    [SerializeField] private string gameSceneName;
+    //[Header("Scene Loading")]
+    //[SerializeField] private string gameSceneName;
     
     private bool isSelected;
 
@@ -106,7 +107,6 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         the Inspector and the selection animation will respect it.
         */
         normalScale = transform.localScale;
-
 
         if (deleteButton != null)
             deleteButton.onClick.AddListener(DeleteSave);
@@ -312,6 +312,8 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         RefreshSlotDisplay();
 
+        SavesManager.Instance.DeleteSave(CurrentSaveName);
+
         Debug.Log("Deleted save slot " + (SlotIndex + 1) + ".");
     }
 
@@ -330,7 +332,9 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         PlayerPrefs.Save();
 
-        LoadGameScene();
+        SavesManager.Instance.CreateNewSave(CurrentSaveName);
+
+        //LoadGameScene();
     }
 
     private void LoadExistingSave()
@@ -343,28 +347,30 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         Debug.Log("Loading save slot " + (SlotIndex + 1) + ": " + CurrentSaveName);
 
-        LoadGameScene();
+        SavesManager.Instance.OpenSave(CurrentSaveName);
+
+        //LoadGameScene();
     }
 
-    private void LoadGameScene()
-    {
-        if (string.IsNullOrWhiteSpace(gameSceneName))
-        {
-            Debug.LogWarning("No game scene assigned to " + gameObject.name);
+    //private void LoadGameScene()
+    //{
+    //    if (string.IsNullOrWhiteSpace(gameSceneName))
+    //    {
+    //        Debug.LogWarning("No game scene assigned to " + gameObject.name);
 
-            return;
-        }
+    //        return;
+    //    }
 
-        // Keep using your existing transition system.
-        if (RoomTransitionManager.Instance == null)
-        {
-            Debug.LogError("No RoomTransitionManager instance exists.");
+    //    // Keep using your existing transition system.
+    //    if (RoomTransitionManager.Instance == null)
+    //    {
+    //        Debug.LogError("No RoomTransitionManager instance exists.");
 
-            return;
-        }
+    //        return;
+    //    }
 
-        RoomTransitionManager.Instance.BeginTransition(gameSceneName);
-    }
+    //    RoomTransitionManager.Instance.BeginTransition(gameSceneName);
+    //}
     
     // Display
     public void RefreshSlotDisplay()

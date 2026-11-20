@@ -177,5 +177,17 @@ namespace Esper.ESave
                 kvp.Value.DeleteFile();
             }
         }
+
+        //public void SaveFileNameOfButton(string reference, string filename) {
+        //    savePathsFile.AddOrUpdateData(reference, filename);
+        //    savePathsFile.Save();
+        //}
+
+        //public string GetSaveFileNameAtButtonRef(string reference) {
+        //    if (!savePathsFile.HasData(reference)) {
+        //        Debug.LogError("save name for this button does not exist!");
+        //    }
+        //    return savePathsFile.GetData<string>(reference);
+        //}
     }
 }
