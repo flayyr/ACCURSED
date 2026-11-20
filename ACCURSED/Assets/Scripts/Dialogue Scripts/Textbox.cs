@@ -174,10 +174,11 @@ public class Textbox : MonoBehaviour
 
             if (baseIndexRef < npcText.Count - 1 && !special)
             {
-                baseIndexRef += 1;
+                //baseIndexRef += 1;
             }
 
             refSpawner.GetComponent<DialogueSpawner>().baseIndex++;
+            //Debug.Log("thist hing");
 
             gameObject.SetActive(false);
         }
