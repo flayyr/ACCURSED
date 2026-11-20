@@ -29,7 +29,6 @@ public class SavesManager : MonoBehaviour
             addToStorage = false
         };
         saveFile = new SaveFile(saveFileSetupData);
-
     }
 
 #if UNITY_EDITOR
@@ -87,6 +86,10 @@ public class SavesManager : MonoBehaviour
     }
 
     public void DeleteSave(string saveName) {
+        if (!SaveStorage.instance.ContainsKey(saveName))
+        {
+            Debug.LogError("file with name " + saveName + " does not exist in save storage");
+        }
         SaveFile toDelete = SaveStorage.instance.GetSaveByFileName(saveName);
         SaveStorage.instance.RemoveSave(toDelete);
         toDelete.DeleteFile();
