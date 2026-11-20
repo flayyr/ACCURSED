@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &561879232404024749
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3352036615112183975, guid: b3b0bfde551eb7e4ab3d08734758d951, type: 3}
+      propertyPath: m_Name
+      value: RimelightMerchant Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 6509486374149952574, guid: b3b0bfde551eb7e4ab3d08734758d951, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -221.32776
+      objectReference: {fileID: 0}
+    - target: {fileID: 6509486374149952574, guid: b3b0bfde551eb7e4ab3d08734758d951, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 58.23934
+      objectReference: {fileID: 0}
+    - target: {fileID: 6509486374149952574, guid: b3b0bfde551eb7e4ab3d08734758d951, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6509486374149952574, guid: b3b0bfde551eb7e4ab3d08734758d951, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6509486374149952574, guid: b3b0bfde551eb7e4ab3d08734758d951, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6509486374149952574, guid: b3b0bfde551eb7e4ab3d08734758d951, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6509486374149952574, guid: b3b0bfde551eb7e4ab3d08734758d951, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6509486374149952574, guid: b3b0bfde551eb7e4ab3d08734758d951, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6509486374149952574, guid: b3b0bfde551eb7e4ab3d08734758d951, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6509486374149952574, guid: b3b0bfde551eb7e4ab3d08734758d951, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3352036615112183975, guid: b3b0bfde551eb7e4ab3d08734758d951, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 756538424211054783}
+  m_SourcePrefab: {fileID: 100100000, guid: b3b0bfde551eb7e4ab3d08734758d951, type: 3}
+--- !u!1 &2974875656753593610 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3352036615112183975, guid: b3b0bfde551eb7e4ab3d08734758d951, type: 3}
+  m_PrefabInstance: {fileID: 561879232404024749}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &756538424211054783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2974875656753593610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f26966d975414640a14ff47f55d249e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueSpawner
+  textBoxPrefab: {fileID: 0}
+  sideBarPrefab: {fileID: 0}
+  baseText:
+  - {fileID: 11400000, guid: 1a172a1e18a668849af78251c56ca229, type: 2}
+  - {fileID: 11400000, guid: bf562e4d32213a44e87cd0e73dc881fd, type: 2}
+  - {fileID: 11400000, guid: 77cd431961a61184dbd53cb3ef8f4299, type: 2}
+  - {fileID: 11400000, guid: dcbbc141e2f44be45a1c3c225f301115, type: 2}
+  sideBarFirst: []
+  varNames:
+  - ReckonerEcho
+  - RimelightMerchant1
+  - CotsDead
+  sideBarVarNames: []
+  triggeredDialogues:
+  - questText:
+    - {fileID: 11400000, guid: cdb3943c1c9f9d145b119852ab1b19ee, type: 2}
+    - {fileID: 11400000, guid: dcbbc141e2f44be45a1c3c225f301115, type: 2}
+  - questText:
+    - {fileID: 11400000, guid: 8ca1bea729b5317418cd8d399a32bc3c, type: 2}
+  - questText:
+    - {fileID: 11400000, guid: bee7b8fa9192fde4e8cf1c47e9b38aba, type: 2}
+    - {fileID: 11400000, guid: 0a724de69a52b904f9af537ae1939b16, type: 2}
+  sideBarCustomizations: []
+  sidebarRunnin: 0
+  baseIndex: 0
+  baseSideDex: 0
+  placeholder: []
+  placeholderOptions: {fileID: 0}
+  highway: []
+  inUse: []
+  tempRefVars: 
+  tempRefSideVars: 
+  tempDialogueHolder: []
