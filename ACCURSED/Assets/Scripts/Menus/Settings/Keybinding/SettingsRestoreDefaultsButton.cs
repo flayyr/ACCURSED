@@ -1,10 +1,14 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SettingsRestoreDefaultsButton : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private SettingsKeybindManager keybindManager;
     [SerializeField] private SettingsMenuNavigator menuNavigator;
+
+    // input system
+    public bool isPressed { get; }
 
     private void Awake()
     {
@@ -15,6 +19,14 @@ public class SettingsRestoreDefaultsButton : MonoBehaviour
             menuNavigator = GetComponentInParent<SettingsMenuNavigator>();
     }
 
+    private void Update()
+    {
+        if (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame)
+        {
+            RestoreDefaults();
+        }
+    }
+    
     public void RestoreDefaults()
     {
         // Nothing else can be clicked while a keybind is waiting

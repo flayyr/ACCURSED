@@ -1,7 +1,7 @@
-using UnityEngine;
+    using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
+public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public enum ButtonType
     {
@@ -72,6 +72,11 @@ public class StartMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerClic
             return;
 
         manager.SelectButton(this);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        SetSelected(false);
     }
 
     public void OnPointerClick(PointerEventData eventData)

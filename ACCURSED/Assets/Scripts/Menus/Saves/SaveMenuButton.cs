@@ -91,6 +91,20 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
     }
 
+    public static bool HasAnySave
+    {
+        get
+        {
+            for (int slotIndex = 0; slotIndex <= (int)ButtonType.SlotFour; slotIndex++)
+            {
+                if (SaveStorage.instance.HasSaveFileAtButtonRef(GetNameKey(slotIndex)))
+                    return true;
+            }
+
+            return false;
+        }
+    }
+
     public string CurrentSaveName
     {
         get
@@ -627,8 +641,12 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private string GetNameKey()
     {
-        return
-            "SaveSlot_" + SlotIndex + "_Name";
+        return GetNameKey(SlotIndex);
+    }
+
+    private static string GetNameKey(int slotIndex)
+    {
+        return "SaveSlot_" + slotIndex + "_Name";
     }
 
     private static void SortButtons()

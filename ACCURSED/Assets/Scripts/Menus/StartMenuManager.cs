@@ -4,11 +4,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class StartMenuManager : MonoBehaviour
 {
     public static StartMenuManager Instance { get; private set; }
-
+    
+    // Input controls
+    public bool isPressed { get; }
+    
     [Header("Menu Buttons")]
     public List<StartMenuButton> buttons = new List<StartMenuButton>();
 
@@ -38,8 +42,10 @@ public class StartMenuManager : MonoBehaviour
 
     [Header("Input")]
     public bool allowHorizontalNavigation = true;
+    [SerializeField, Min(0f)] private float navigationCooldown = 0.25f;
 
     private int selectedIndex = 0;
+    private float nextNavigationTime;
     private bool settingsOpen = false;
     private bool inputBlockedBySettings;
 
@@ -95,35 +101,47 @@ public class StartMenuManager : MonoBehaviour
         if (buttons.Count == 0)
             return;
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        float currentTime = Time.unscaledTime;
+        if (currentTime >= nextNavigationTime)
         {
-            SelectByIndex(selectedIndex + 1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            SelectByIndex(selectedIndex - 1);
-        }
-
-        if (allowHorizontalNavigation)
-        {
-            if (Input.GetKeyDown(KeyCode.RightArrow))
+            if (Input.GetKeyDown(KeyCode.DownArrow) ||
+                (Gamepad.current != null && Gamepad.current.leftStick.down.ReadValue() > 0.5f) ||
+                (Gamepad.current != null && Gamepad.current.dpad.down.wasPressedThisFrame))
             {
                 SelectByIndex(selectedIndex + 1);
+                nextNavigationTime = currentTime + navigationCooldown;
             }
-
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            else if (Input.GetKeyDown(KeyCode.UpArrow) ||
+                (Gamepad.current != null && Gamepad.current.leftStick.up.ReadValue() > 0.5f) ||
+                (Gamepad.current != null && Gamepad.current.dpad.up.wasPressedThisFrame))
             {
                 SelectByIndex(selectedIndex - 1);
+                nextNavigationTime = currentTime + navigationCooldown;
+            }
+            else if (allowHorizontalNavigation &&
+                (Input.GetKeyDown(KeyCode.RightArrow) ||
+                (Gamepad.current != null && Gamepad.current.leftStick.right.ReadValue() > 0.5f) ||
+                (Gamepad.current != null && Gamepad.current.dpad.right.wasPressedThisFrame)))
+            {
+                SelectByIndex(selectedIndex + 1);
+                nextNavigationTime = currentTime + navigationCooldown;
+            }
+            else if (allowHorizontalNavigation &&
+                (Input.GetKeyDown(KeyCode.LeftArrow) ||
+                (Gamepad.current != null && Gamepad.current.leftStick.left.ReadValue() > 0.5f) ||
+                (Gamepad.current != null && Gamepad.current.dpad.left.wasPressedThisFrame)))
+            {
+                SelectByIndex(selectedIndex - 1);
+                nextNavigationTime = currentTime + navigationCooldown;
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) || (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame))
         {
             ActivateSelectedButton();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || (Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame))
         {
             HandleEscapeFromMainMenu();
         }
@@ -131,7 +149,7 @@ public class StartMenuManager : MonoBehaviour
 
     private void HandleSettingsInput()
     {
-        if (!Input.GetKeyDown(KeyCode.Escape))
+        if (!Input.GetKeyDown(KeyCode.Escape) || (Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame))
             return;
 
         // Escape is currently being captured as a keybind,
