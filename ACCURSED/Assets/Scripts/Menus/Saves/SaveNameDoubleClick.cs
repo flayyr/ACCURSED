@@ -32,7 +32,7 @@ public class SaveNameDoubleClick : MonoBehaviour, IPointerClickHandler
         saveSlot.SelectThisButton();
 
         // A double-click opens the rename popup.
-        if (eventData.clickCount >= 2)
+        //if (eventData.clickCount >= 2)
             saveSlot.BeginRename();
     }
 }

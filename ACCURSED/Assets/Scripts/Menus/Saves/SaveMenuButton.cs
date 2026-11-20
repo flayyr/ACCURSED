@@ -33,6 +33,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     [Tooltip("Delete button belonging to this slot.")]
     [SerializeField] private Button deleteButton;
+    [SerializeField] private GameObject renameButton;
 
     [Tooltip("Popup used to create and rename saves.")]
     [SerializeField] private SaveNamePopup saveNamePopup;
@@ -88,6 +89,20 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             return SaveStorage.instance.HasSaveFileAtButtonRef(GetNameKey());
             //return PlayerPrefs.GetInt(GetExistsKey(), 0) == 1;
+        }
+    }
+
+    public static bool HasAnySave
+    {
+        get
+        {
+            for (int slotIndex = 0; slotIndex <= (int)ButtonType.SlotFour; slotIndex++)
+            {
+                if (SaveStorage.instance.HasSaveFileAtButtonRef(GetNameKey(slotIndex)))
+                    return true;
+            }
+
+            return false;
         }
     }
 
@@ -263,7 +278,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         RefreshSlotDisplay();
 
-        Debug.Log("Created save slot " +(SlotIndex + 1) + " with the name: " + CurrentSaveName);
+        //Debug.Log("Created save slot " +(SlotIndex + 1) + " with the name: " + CurrentSaveName);
 
         StartNewGame();
     }
@@ -282,7 +297,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         RefreshSlotDisplay();
 
-        Debug.Log("Renamed save slot " + (SlotIndex + 1) + " to: " + finalName);
+        //Debug.Log("Renamed save slot " + (SlotIndex + 1) + " to: " + finalName);
     }
     
     // Delete Save
@@ -296,7 +311,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         //PlayerPrefs.DeleteKey(GetExistsKey());
         //PlayerPrefs.DeleteKey(GetNameKey());
-        SavesManager.Instance.DeleteSave(CurrentSaveName);
+        SavesManager.Instance.DeleteSave(GetSavesKey());
         SaveStorage.instance.DeleteButtonRef(GetNameKey());
 
 
@@ -331,7 +346,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         //PlayerPrefs.SetInt("ActiveSaveIsNew", 1);
         //PlayerPrefs.Save();
 
-        SavesManager.Instance.CreateNewSave(CurrentSaveName);
+        SavesManager.Instance.CreateNewSave(GetSavesKey());
 
         //LoadGameScene();
     }
@@ -342,9 +357,9 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         //PlayerPrefs.SetInt("ActiveSaveIsNew", 0);
         //PlayerPrefs.Save();
 
-        Debug.Log("Loading save slot " + (SlotIndex + 1) + ": " + CurrentSaveName);
+        Debug.Log("Loading save slot " + (SlotIndex + 1) + ": " + GetSavesKey());
 
-        SavesManager.Instance.OpenSave(CurrentSaveName);
+        SavesManager.Instance.OpenSave(GetSavesKey());
 
         //LoadGameScene();
     }
@@ -401,6 +416,17 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             deleteButton.gameObject.SetActive(true);
 
             deleteButton.interactable = HasSave;
+        }
+
+        if (renameButton == null)
+            return;
+        if (hideDeleteButtonWhenEmpty)
+        {
+            renameButton.SetActive(HasSave);
+        }
+        else
+        {
+            renameButton.SetActive(true);
         }
     }
     
@@ -613,22 +639,27 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         string enteredName
     )
     {
-        if (string.IsNullOrWhiteSpace(enteredName))
-            return SlotIndex + SaveNamePopup.DefaultSaveName;
+        //if (string.IsNullOrWhiteSpace(enteredName))
+        //    return SlotIndex + SaveNamePopup.DefaultSaveName;
 
-        return SlotIndex + enteredName.Trim();
+        //return SlotIndex + enteredName.Trim();
+        return enteredName.Trim();
     }
 
-    //private string GetExistsKey()
-    //{
-    //    return
-    //        "SaveSlot_" + SlotIndex + "_Exists";
-    //}
+    private string GetSavesKey()
+    {
+        return
+            "SaveSlot_" + SlotIndex;
+    }
 
     private string GetNameKey()
     {
-        return
-            "SaveSlot_" + SlotIndex + "_Name";
+        return GetNameKey(SlotIndex);
+    }
+
+    private static string GetNameKey(int slotIndex)
+    {
+        return "SaveSlot_" + slotIndex + "_Name";
     }
 
     private static void SortButtons()

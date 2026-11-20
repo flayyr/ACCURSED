@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class SettingsMenuNavigator : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class SettingsMenuNavigator : MonoBehaviour
         Tabs,
         Options
     }
+    
+    // input system
+    public bool isPressed { get; }
 
     [Header("Tabs")]
     public List<SettingsTabButton> tabs = new List<SettingsTabButton>();
@@ -23,6 +27,8 @@ public class SettingsMenuNavigator : MonoBehaviour
 
     [Header("Input")]
     public float sliderKeyboardSpeed = 0.5f;
+    [SerializeField, Min(0f)] private float navigationCooldown = 0.25f;
+    private float nextNavigationTime;
 
     private static readonly KeyCode[] BindableKeys = CreateBindableKeyCache();
 
@@ -98,39 +104,69 @@ public class SettingsMenuNavigator : MonoBehaviour
 
     private void HandleNormalNavigationInput()
     {
-        if (currentArea == NavigationArea.Tabs)
+        float currentTime = Time.unscaledTime;
+        if (currentTime >= nextNavigationTime)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-                SelectTab(selectedTabIndex - 1, true);
-
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-                SelectTab(selectedTabIndex + 1, true);
-
-            if (Input.GetKeyDown(KeyCode.DownArrow) )
-                MoveFromTabsToOptions();
-
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-            SelectOption(selectedOptionIndex + 1);
-
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            if (selectedOptionIndex <= 0)
+            if (currentArea == NavigationArea.Tabs)
             {
-                MoveFromOptionsToTabs();
+                if (Input.GetKeyDown(KeyCode.LeftArrow) ||
+                    (Gamepad.current != null && Gamepad.current.leftStick.left.ReadValue() > 0.5f) ||
+                    (Gamepad.current != null && Gamepad.current.dpad.left.wasPressedThisFrame))
+                {
+                    SelectTab(selectedTabIndex - 1, true);
+                    nextNavigationTime = currentTime + navigationCooldown;
+                }
+
+                if (Input.GetKeyDown(KeyCode.RightArrow) ||
+                    (Gamepad.current != null && Gamepad.current.leftStick.right.ReadValue() > 0.5f) ||
+                    (Gamepad.current != null && Gamepad.current.dpad.right.wasPressedThisFrame))
+                {
+                    SelectTab(selectedTabIndex + 1, true);
+                    nextNavigationTime = currentTime + navigationCooldown;
+                }
+
+                if (Input.GetKeyDown(KeyCode.DownArrow) ||
+                    (Gamepad.current != null && Gamepad.current.leftStick.down.ReadValue() > 0.5f) ||
+                    (Gamepad.current != null && Gamepad.current.dpad.down.wasPressedThisFrame))
+                {
+                    MoveFromTabsToOptions();
+                    nextNavigationTime = currentTime + navigationCooldown;
+                }
+
+                return;
             }
-            else
+        
+
+            if (Input.GetKeyDown(KeyCode.DownArrow) ||
+                (Gamepad.current != null && Gamepad.current.leftStick.down.ReadValue() > 0.5f) ||
+                (Gamepad.current != null && Gamepad.current.dpad.down.wasPressedThisFrame))
             {
-                SelectOption(selectedOptionIndex - 1);
+                SelectOption(selectedOptionIndex + 1);
+                nextNavigationTime = currentTime + navigationCooldown;
+            }
+
+            if (Input.GetKeyDown(KeyCode.UpArrow) ||
+                (Gamepad.current != null && Gamepad.current.leftStick.up.ReadValue() > 0.5f) ||
+                (Gamepad.current != null && Gamepad.current.dpad.up.wasPressedThisFrame))
+            {
+                if (selectedOptionIndex <= 0)
+                {
+                    MoveFromOptionsToTabs();
+                }
+                else
+                {
+                    SelectOption(selectedOptionIndex - 1);
+                }
+
+                nextNavigationTime = currentTime + navigationCooldown;
             }
         }
     }
 
     private void HandleConfirmInput()
     {
-        if (!Input.GetKeyDown(KeyCode.Return) && !Input.GetKeyDown(KeyCode.Space))
+        if (!Input.GetKeyDown(KeyCode.Return) && !Input.GetKeyDown(KeyCode.Space) &&
+            (Gamepad.current == null || !Gamepad.current.buttonSouth.wasPressedThisFrame))
             return;
 
         if (currentArea == NavigationArea.Tabs)
@@ -151,16 +187,21 @@ public class SettingsMenuNavigator : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) ||
+            (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame))
         {
             StopSliderAdjustMode();
             return;
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) ||
+            (Gamepad.current != null && Gamepad.current.leftStick.left.ReadValue() > 0.5f) ||
+            (Gamepad.current != null && Gamepad.current.dpad.left.isPressed))
             activeSlider.AdjustSlider(-sliderKeyboardSpeed * Time.unscaledDeltaTime);
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) ||
+            (Gamepad.current != null && Gamepad.current.leftStick.right.ReadValue() > 0.5f) ||
+            (Gamepad.current != null && Gamepad.current.dpad.right.isPressed))
             activeSlider.AdjustSlider(sliderKeyboardSpeed * Time.unscaledDeltaTime);
     }
 
