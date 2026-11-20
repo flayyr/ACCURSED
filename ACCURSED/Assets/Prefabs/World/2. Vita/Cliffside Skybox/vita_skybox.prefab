@@ -47,6 +47,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1792864734583207568}
   - component: {fileID: 5185685428799016334}
+  - component: {fileID: 4059656078186810140}
   m_Layer: 0
   m_Name: vita_skyboxsky
   m_TagString: Untagged
@@ -128,6 +129,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &4059656078186810140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3366792914159363256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c85c906d457f0e242a3ffb64e3086f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Parallax
+  anchorPos: {x: 0, y: 0}
+  parallaxStrength: {x: 1, y: 0.1}
 --- !u!1 &4093480292779613084
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,6 +153,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2824053385339958402}
   - component: {fileID: 2655413708735987598}
+  - component: {fileID: 4012253264823708346}
   m_Layer: 0
   m_Name: vita_skyboxbackclouds
   m_TagString: Untagged
@@ -219,6 +235,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &4012253264823708346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4093480292779613084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c85c906d457f0e242a3ffb64e3086f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Parallax
+  anchorPos: {x: 0, y: 0}
+  parallaxStrength: {x: 1, y: 0.1}
 --- !u!1 &5847083914627419714
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,6 +259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7223098055368845312}
   - component: {fileID: 1283989264443645832}
+  - component: {fileID: 8834486833906823460}
   m_Layer: 0
   m_Name: vita_skyboxbackground
   m_TagString: Untagged
@@ -310,6 +341,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &8834486833906823460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5847083914627419714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c85c906d457f0e242a3ffb64e3086f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Parallax
+  anchorPos: {x: 0, y: 0}
+  parallaxStrength: {x: 1, y: 0.1}
 --- !u!1 &6006424623744793506
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,6 +365,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9163153476762431311}
   - component: {fileID: 8017833860285205899}
+  - component: {fileID: 715987113155844852}
   m_Layer: 0
   m_Name: vita_ skyboxforeground
   m_TagString: Untagged
@@ -401,6 +447,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &715987113155844852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6006424623744793506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c85c906d457f0e242a3ffb64e3086f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Parallax
+  anchorPos: {x: 0, y: 0}
+  parallaxStrength: {x: 1, y: 0.1}
 --- !u!1 &6312859968845578148
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,6 +471,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4360933116951492801}
   - component: {fileID: 357745438748120945}
+  - component: {fileID: 2932589505953662207}
   m_Layer: 0
   m_Name: vita_skyboxfrontclouds
   m_TagString: Untagged
@@ -492,6 +553,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &2932589505953662207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6312859968845578148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c85c906d457f0e242a3ffb64e3086f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Parallax
+  anchorPos: {x: 0, y: 0}
+  parallaxStrength: {x: 1, y: 0.1}
 --- !u!1 &7704010118501257751
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,6 +577,7 @@ GameObject:
   m_Component:
   - component: {fileID: 553501599914543591}
   - component: {fileID: 9112660016987865394}
+  - component: {fileID: 6834913442469233992}
   m_Layer: 0
   m_Name: vita_skyboxmidground
   m_TagString: Untagged
@@ -583,3 +659,17 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &6834913442469233992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7704010118501257751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c85c906d457f0e242a3ffb64e3086f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Parallax
+  anchorPos: {x: 0, y: 0}
+  parallaxStrength: {x: 1, y: 0.1}
