@@ -296,7 +296,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         //PlayerPrefs.DeleteKey(GetExistsKey());
         //PlayerPrefs.DeleteKey(GetNameKey());
-        SavesManager.Instance.DeleteSave(CurrentSaveName);
+        SavesManager.Instance.DeleteSave(GetNameKey());
         SaveStorage.instance.DeleteButtonRef(GetNameKey());
 
 
@@ -331,7 +331,7 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         //PlayerPrefs.SetInt("ActiveSaveIsNew", 1);
         //PlayerPrefs.Save();
 
-        SavesManager.Instance.CreateNewSave(CurrentSaveName);
+        SavesManager.Instance.CreateNewSave(GetNameKey());
 
         //LoadGameScene();
     }
@@ -342,9 +342,9 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         //PlayerPrefs.SetInt("ActiveSaveIsNew", 0);
         //PlayerPrefs.Save();
 
-        Debug.Log("Loading save slot " + (SlotIndex + 1) + ": " + CurrentSaveName);
+        Debug.Log("Loading save slot " + (SlotIndex + 1) + ": " + GetNameKey());
 
-        SavesManager.Instance.OpenSave(CurrentSaveName);
+        SavesManager.Instance.OpenSave(GetNameKey());
 
         //LoadGameScene();
     }
@@ -613,10 +613,11 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         string enteredName
     )
     {
-        if (string.IsNullOrWhiteSpace(enteredName))
-            return SlotIndex + SaveNamePopup.DefaultSaveName;
+        //if (string.IsNullOrWhiteSpace(enteredName))
+        //    return SlotIndex + SaveNamePopup.DefaultSaveName;
 
-        return SlotIndex + enteredName.Trim();
+        //return SlotIndex + enteredName.Trim();
+        return enteredName.Trim();
     }
 
     //private string GetExistsKey()
