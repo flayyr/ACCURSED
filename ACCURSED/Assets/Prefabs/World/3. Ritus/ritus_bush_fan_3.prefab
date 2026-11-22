@@ -112,6 +112,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 0
+  cullingChunkSize:
+    x: 1
+    y: 1
   isAnimated: 0
   normalMap: {fileID: -2197359250157334493, guid: 64fb19783aa572947b90c9b3d4f499f4, type: 3}
   refTransform: {fileID: 0}
@@ -330,6 +333,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.324
       objectReference: {fileID: 0}
+    - target: {fileID: 4636127938852371322, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b647f2002aaa0ad4494e52f75f695549, type: 2}
     - target: {fileID: 4740356543358023209, guid: 18d2b4be53522e94ebe895c3bee4562c, type: 3}
       propertyPath: m_Name
       value: BushFallingLeavesParticleSystem
