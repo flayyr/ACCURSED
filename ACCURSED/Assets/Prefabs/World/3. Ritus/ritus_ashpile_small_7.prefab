@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 6022854300626853123}
   - component: {fileID: 7915467283403229941}
   - component: {fileID: 1352311665520169749}
+  - component: {fileID: 2760534809006331647}
+  - component: {fileID: 4879633204360481320}
   m_Layer: 0
   m_Name: ritus_ashpile_small_7
   m_TagString: Untagged
@@ -32,7 +34,8 @@ Transform:
   m_LocalPosition: {x: 17.63699, y: -44.16943, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1457432819127965427}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7448684054615497667
@@ -151,3 +154,139 @@ MonoBehaviour:
   windStrength: 0.006
   topSway: 0
   topSwayStrength: 0.1
+--- !u!114 &2760534809006331647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812778000783125381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c78941c82fbc8458c5bd4505d3df90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ContactParticles
+  playOnEnter:
+  - {fileID: 3464612240326855914}
+  playOnExit: []
+--- !u!61 &4879633204360481320
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812778000783125381}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.214732, y: -0.273738}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.48961312, y: 0.6687855}
+    oldSize: {x: 5.002748, y: 2}
+    newSize: {x: 5.002748, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2.559400, y: 0.489250}
+  m_EdgeRadius: 0
+--- !u!1001 &3538457871129888430
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1293008321457139063}
+    m_Modifications:
+    - target: {fileID: 76533526564358724, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 1.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 76533526564358724, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2649380671437662572, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+      propertyPath: m_Name
+      value: RitusAshPuff
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675973545258881117, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675973545258881117, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675973545258881117, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675973545258881117, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675973545258881117, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675973545258881117, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675973545258881117, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675973545258881117, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675973545258881117, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675973545258881117, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+--- !u!198 &3464612240326855914 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 76533526564358724, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+  m_PrefabInstance: {fileID: 3538457871129888430}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1457432819127965427 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2675973545258881117, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+  m_PrefabInstance: {fileID: 3538457871129888430}
+  m_PrefabAsset: {fileID: 0}
