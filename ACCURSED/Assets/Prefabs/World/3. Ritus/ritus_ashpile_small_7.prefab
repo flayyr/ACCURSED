@@ -64,7 +64,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: fa97fd7fe869306448c8b9cc253f287a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -140,6 +140,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 0
+  cullingChunkSize:
+    x: 1
+    y: 1
   isAnimated: 0
   normalMap: {fileID: 0}
   refTransform: {fileID: 0}
@@ -213,7 +216,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 2.559400, y: 0.489250}
+  m_Size: {x: 2.5594, y: 0.48925}
   m_EdgeRadius: 0
 --- !u!1001 &3538457871129888430
 PrefabInstance:
@@ -280,13 +283,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
---- !u!198 &3464612240326855914 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 76533526564358724, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
-  m_PrefabInstance: {fileID: 3538457871129888430}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1457432819127965427 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2675973545258881117, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
+  m_PrefabInstance: {fileID: 3538457871129888430}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &3464612240326855914 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 76533526564358724, guid: dac03bfe1c15ccf4a871d73a06643e94, type: 3}
   m_PrefabInstance: {fileID: 3538457871129888430}
   m_PrefabAsset: {fileID: 0}
