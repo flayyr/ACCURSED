@@ -1159,7 +1159,7 @@ PrefabInstance:
     - target: {fileID: 2633356291589596924, guid: 1125e6d111f595b49aa8a246e127c0f8, type: 3}
       propertyPath: playerAbilities
       value: 
-      objectReference: {fileID: 2479160642395338170}
+      objectReference: {fileID: 0}
     - target: {fileID: 2633356291589596924, guid: 1125e6d111f595b49aa8a246e127c0f8, type: 3}
       propertyPath: playerStatistics
       value: 
@@ -1456,6 +1456,10 @@ PrefabInstance:
     - target: {fileID: 7834398076565067503, guid: ec977e09345fbde43ac25e4402cfeadf, type: 3}
       propertyPath: m_Name
       value: MirrorKnightEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526102269393668040, guid: ec977e09345fbde43ac25e4402cfeadf, type: 3}
+      propertyPath: _id.Value
+      value: 6890e22b-7f27-4893-bc23-c339b6d971a6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -102710,6 +102714,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MirrorKnightEnemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8526102269393668040, guid: ec977e09345fbde43ac25e4402cfeadf, type: 3}
+      propertyPath: _id.Value
+      value: 9dfc5b35-5789-413e-ba21-c723b404989f
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -104763,6 +104771,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5128340459437188432, guid: 83c3038df53a2814e8e6aa25ec560474, type: 3}
+      propertyPath: _id.Value
+      value: 07622614-6b40-44fb-9475-3ab1b65a6f3a
+      objectReference: {fileID: 0}
     - target: {fileID: 6191780428714321842, guid: 83c3038df53a2814e8e6aa25ec560474, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.59
@@ -106085,6 +106097,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2877741103487592271, guid: 1cfdce5c7be9e96499362a3d123afb26, type: 3}
+      propertyPath: _id.Value
+      value: cee35575-7bce-4387-a3e9-0e33bc805172
+      objectReference: {fileID: 0}
     - target: {fileID: 4396737081198360168, guid: 1cfdce5c7be9e96499362a3d123afb26, type: 3}
       propertyPath: m_Name
       value: Lantern
@@ -106338,22 +106354,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1687550026808125083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2455061191692369590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ad080a36fe65924db5a4803e6becc84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerHitter
-  attackList:
-  - {fileID: 11400000, guid: 2e11228bcf10f7542b98016bc0a107ef, type: 2}
-  - {fileID: 11400000, guid: 1eac571b22be33b458efa26b052a0d65, type: 2}
-  - {fileID: 11400000, guid: 5f35715d7f7d3404a9560feea5e55f3a, type: 2}
 --- !u!114 &2064164595605401263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106528,15 +106528,15 @@ GameObject:
   - component: {fileID: 1252308817016608438}
   - component: {fileID: 4391470349969328317}
   - component: {fileID: 5672772566119063277}
-  - component: {fileID: 2479160642395338170}
   - component: {fileID: 4056418395187423886}
   - component: {fileID: 3301359450843827863}
-  - component: {fileID: 1687550026808125083}
   - component: {fileID: 1018752094106337039}
   - component: {fileID: 5672772566119063281}
-  - component: {fileID: 5672772566119063280}
   - component: {fileID: 5672772566119063279}
   - component: {fileID: 5672772566119063278}
+  - component: {fileID: 5672772566119063283}
+  - component: {fileID: 5672772566119063282}
+  - component: {fileID: 5672772566119063284}
   m_Layer: 19
   m_Name: Player
   m_TagString: Player
@@ -106544,23 +106544,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2479160642395338170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2455061191692369590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7224a7e8eee656498d0c12ad36c8588, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAbilities
-  vestigeAbility: {fileID: 11400000, guid: 6dcaae1234e06bf4599e6936aaaf2944, type: 2}
-  remembranceAbility: {fileID: 11400000, guid: 07216a182842f8347b98f69422053c9d, type: 2}
-  healAction: {fileID: 11400000, guid: 4031b5dd3d605ad4dab4a2abbbc97b95, type: 2}
-  parryAction: {fileID: 11400000, guid: 259ebed5e6e56c042b53c768bbb2e8e1, type: 2}
-  fableAbility: {fileID: 11400000, guid: 0fd45da09e99ef94cafd2b38e5c7d110, type: 2}
 --- !u!120 &2810051884677359401
 LineRenderer:
   serializedVersion: 3
@@ -107022,6 +107005,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ColdlightSorcererEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 8123708070477260429, guid: 0ce9d0f2a86061541bb238f6e61b3cb5, type: 3}
+      propertyPath: _id.Value
+      value: d9ef70cf-3ba4-4464-bb03-8135f3dccf13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -107117,6 +107104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ca736b2eb2635d4796a5b95331c8e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovementNew
+  movementSpeed: 5
 --- !u!114 &5672772566119063279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107131,9 +107119,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimatorNew
   spriteLibraries:
   - {fileID: 1446869350397876801}
-  direction: 5
-  attackRotator: {fileID: 0}
-  libraryAssets: []
+  directionIndex: 2
+  attackRotator: {fileID: 1051238106767444815}
+  libraryAssets:
+  - {fileID: 7108339969198208228, guid: 65ce56df7a85bd44dbbd195ac3364ba3, type: 3}
+  - {fileID: 7108339969198208228, guid: 172e6fa02cd568748a33415b55278bec, type: 3}
+  - {fileID: 7108339969198208228, guid: 56e8a91d407e5964bbad23404926fe78, type: 3}
+  - {fileID: 7108339969198208228, guid: e4b3be61f971cce42b4826f306677096, type: 3}
   vfxSpawner: {fileID: 0}
   footstepVFXParent: {fileID: 0}
   tileSurfaceDataBase: {fileID: 0}
@@ -107141,18 +107133,6 @@ MonoBehaviour:
   surfaceLayers:
     serializedVersion: 2
     m_Bits: 0
---- !u!114 &5672772566119063280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2455061191692369590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07aa91cd2eed7af45a9f1a1af21fe945, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterData
 --- !u!114 &5672772566119063281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107165,6 +107145,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50d91821001ab9c408f662e36e6f69ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActionManager
+--- !u!114 &5672772566119063282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2455061191692369590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 997ff088a7108844692f1077369f95b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerActionKit
+  attackSO: {fileID: 0}
+--- !u!114 &5672772566119063283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2455061191692369590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c603b1da3297d4f4db3c5b4fb6c0b988, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInput
+--- !u!114 &5672772566119063284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2455061191692369590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61aa7cc2735322747a836c03b00e3656, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerData
+  maxHP: 2
 --- !u!4 &5716539143437125548
 Transform:
   m_ObjectHideFlags: 0

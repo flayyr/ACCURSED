@@ -7,7 +7,7 @@ using UnityEngine.InputSystem.LowLevel;
 
 public enum PlayerControlState
 {
-    Normal, Disabled, None
+    Normal, Disabled
 }
 
 public class PlayerController : MonoBehaviour

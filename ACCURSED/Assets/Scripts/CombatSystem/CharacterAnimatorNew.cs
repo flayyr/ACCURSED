@@ -2,6 +2,7 @@ using SaintsField.Playa;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.U2D.Animation;
 
 public class CharacterAnimatorNew : MonoBehaviour
@@ -10,9 +11,11 @@ public class CharacterAnimatorNew : MonoBehaviour
     public Action OnActionFinished;
     public Action OnDodgeCancellable;
 
+    private CharacterData cData;
+
     [LayoutStart("Library Management", ELayout.FoldoutBox)]
     [SerializeField] SpriteLibrary[] spriteLibraries;
-    [SerializeField] private int direction = 2; //0=up, 1=right, 2=down, 3=left
+    [SerializeField] private int directionIndex = 2; //0=up, 1=right, 2=down, 3=left
     [SerializeField] private Transform attackRotator;
     [SerializeField] private List<SpriteLibraryAsset> libraryAssets = new List<SpriteLibraryAsset>();
 
@@ -38,6 +41,24 @@ public class CharacterAnimatorNew : MonoBehaviour
         anim = GetComponent<Animator>();
         if (vfxSpawner == null)
             vfxSpawner = GetComponentInChildren<VFXSpawner>();
+        cData = GetComponent<CharacterData>();
+    }
+
+    private void Update() {
+        directionIndex = dirToIndex(cData.facingDirection);
+        SetSpriteLibraries(directionIndex);
+
+        if (cData.isIdle) {
+            SetMoveState((int)cData.movementState);
+        }
+    }
+
+    private int dirToIndex(Vector2 dir) {
+        if (dir == Vector2.up) {return 0;} 
+        else if (dir == Vector2.right) {return 1;} 
+        else if (dir == Vector2.down) {return 2;} 
+        else if (dir == Vector2.left) {return 3;} 
+        else {return -1;}
     }
 
     void SetSpriteLibraries(int index) {
@@ -103,7 +124,60 @@ public class CharacterAnimatorNew : MonoBehaviour
         currentAction = action;
     }
 
-    public int Direction => direction;
+    public int Direction => directionIndex;
 
+    #endregion
+
+    #region Foot Step VFX
+    /// <summary>
+    /// Called from animator
+    /// plays a shot of the footstep particles (changes depending on the ground we are on)
+    /// </summary>
+    public void Footstep() {
+        ParticleSystem prefab = FindFootstepVFX(transform.position); // pivot is at the feet
+        if (prefab == null) return;
+
+        ParticleSystem vfx = GetPooledFootstepVFX(prefab);
+        vfx.transform.position = transform.position;
+
+        // StopEmitting keeps the last step's particles alive (world space), Play restarts the burst
+        vfx.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        vfx.Play(true);
+    }
+
+    // OverlapPoint returns the lowest-z collider on surfaceLayers, so the top surface wins (prefab or tilemap)
+    private ParticleSystem FindFootstepVFX(Vector2 footPos) {
+        Collider2D ground = Physics2D.OverlapPoint(footPos, surfaceLayers);
+        if (ground == null) return defaultFootstepVFX;
+
+        SurfaceData surface = ground.GetComponentInParent<SurfaceData>();
+        if (surface != null && surface.FootstepVFX != null) return surface.FootstepVFX;
+
+        if (tileSurfaceDataBase != null && ground.TryGetComponent(out Tilemap tilemap)) {
+            Vector3Int cell = tilemap.WorldToCell(footPos);
+            cell.z = 0; // ignore the tilemap's z offset
+            if (tileSurfaceDataBase.TryGetFootstepVFX(tilemap.GetTile(cell), out ParticleSystem tileVFX))
+                return tileVFX;
+        }
+
+        return defaultFootstepVFX;
+    }
+
+    // One instance per VFX prefab, created the first time that surface is stepped on, then reused
+    private ParticleSystem GetPooledFootstepVFX(ParticleSystem prefab) {
+        if (footstepVFXPool.TryGetValue(prefab, out ParticleSystem instance) && instance != null)
+            return instance;
+
+        instance = Instantiate(prefab, transform.position, prefab.transform.rotation, footstepVFXParent);
+
+        foreach (ParticleSystem ps in instance.GetComponentsInChildren<ParticleSystem>(true)) {
+            ParticleSystem.MainModule main = ps.main;
+            main.simulationSpace = ParticleSystemSimulationSpace.World; // particles stay where they were emitted
+            main.stopAction = ParticleSystemStopAction.None;            // a Destroy stop action would break the pool
+        }
+
+        footstepVFXPool[prefab] = instance;
+        return instance;
+    }
     #endregion
 }

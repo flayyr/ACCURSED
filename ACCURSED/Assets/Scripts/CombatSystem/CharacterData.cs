@@ -2,29 +2,67 @@ using UnityEngine;
 
 public class CharacterData : MonoBehaviour
 {
+    const float horizontalDirectionalPriority = 0.15f;
+
+    [SerializeField] float maxHP;
+
+
+    public ActionState actionState { get; set; }
+    public bool isIdle { get { return actionState == ActionState.Idle; } }
+    public BaseMoveState movementState { get; set; }
+
+    #region directions
     //current direction, cannot be zero
     private Vector2 currDirection = Vector2.down;
     //currently inputted direction, can be zero
-    public Vector2 inputDirection {  get; private set; }
+    public Vector2 moveInputDirection {  get; private set; }
     //current direction translated into the othogonal directions
     public Vector2 facingDirection { 
         get {
             Vector2[] orthogonalDirections = {Vector2.up, Vector2.right, Vector2.down, Vector2.left};
+            float[] dotToDirections = {
+                Vector2.Dot(orthogonalDirections[0], currDirection),
+                Vector2.Dot(orthogonalDirections[1], currDirection) + horizontalDirectionalPriority,
+                Vector2.Dot(orthogonalDirections[2], currDirection),
+                Vector2.Dot(orthogonalDirections[3], currDirection) + horizontalDirectionalPriority,
+            };
 
-            Vector2 output = orthogonalDirections[0];
-            float largestDot = Vector2.Dot(output, currDirection);
+            int outputIndex = 0;
+            float largestDot = dotToDirections[0];
 
-            for (int i = 1; i < orthogonalDirections.Length; i++) {
-                if (Vector2.Dot(orthogonalDirections[i], currDirection) > largestDot) {
-                    output = orthogonalDirections[i];
+            for (int i = 1; i < dotToDirections.Length; i++) {
+                if (dotToDirections[i] > largestDot) {
+                    outputIndex = i;
+                    largestDot = dotToDirections[i];
                 }
             }
+            return orthogonalDirections[outputIndex];
+        }
+    }
+    #endregion
 
-            return output;
+    public float hp { get;set; }
+
+    private void Awake() {
+        hp = maxHP;
+    }
+
+    private void Update() {
+        UpdateMovementState();
+    }
+
+    protected void UpdateMovementState() {
+        if (isIdle && moveInputDirection != Vector2.zero) {
+            movementState = BaseMoveState.Run;
+        } else {
+            movementState = BaseMoveState.None;
         }
     }
 
-    private void Start() {
-        
+    public void SetMoveInputDirection(Vector2 moveDir) {
+        moveInputDirection = moveDir.normalized;
+        if (moveInputDirection != Vector2.zero) {
+            currDirection = moveInputDirection;
+        }
     }
 }

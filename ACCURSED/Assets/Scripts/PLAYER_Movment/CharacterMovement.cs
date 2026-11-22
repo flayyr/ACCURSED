@@ -19,14 +19,14 @@ public class CharacterMovement : MonoBehaviour
     public MovementState movementState; // used to manage when the player should have full control vs when they are knocked back/ dashing
     #endregion
 
-    #region Animations
-    [LayoutStart("Animation Names", ELayout.FoldoutBox)]
-    private float idleTime;
-    [SerializeField] private float timeTillSpecialIdle;
-    private bool doingIdleSpecial;
-    [SerializeField] public List<string> idles; //first is the normal idle the rest are the special ones that happen randomly
-    [SerializeField] public List<string> movements; // 0 is walk, 1 is run, 2 is sprint (will be multiples of of this for each direction bc the animations later)
-    #endregion
+    //#region Animations
+    //[LayoutStart("Animation Names", ELayout.FoldoutBox)]
+    //private float idleTime;
+    //[SerializeField] private float timeTillSpecialIdle;
+    //private bool doingIdleSpecial;
+    //[SerializeField] public List<string> idles; //first is the normal idle the rest are the special ones that happen randomly
+    //[SerializeField] public List<string> movements; // 0 is walk, 1 is run, 2 is sprint (will be multiples of of this for each direction bc the animations later)
+    //#endregion
 
 
     #region Dash
