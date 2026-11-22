@@ -178,6 +178,37 @@ PolygonCollider2D:
       - {x: 2.2072616, y: -1.2717245}
       - {x: 3.7903967, y: 2.286049}
   m_UseDelaunayMesh: 1
+--- !u!1 &294457397075986403
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8970588119580333676}
+  m_Layer: 19
+  m_Name: FootStepParticleParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8970588119580333676
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294457397075986403}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5370293493160913605}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1040940457257564178
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,6 +564,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 1
+  cullingChunkSize:
+    x: 1
+    y: 1
   isAnimated: 1
   normalMap: {fileID: -2197359250157334493, guid: 64fb19783aa572947b90c9b3d4f499f4, type: 3}
   refTransform: {fileID: 5370293493160913605}
@@ -817,6 +851,7 @@ Transform:
   m_Children:
   - {fileID: 8007200270477320898}
   - {fileID: 4802107264348243449}
+  - {fileID: 8970588119580333676}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3234503567105461568
@@ -968,6 +1003,12 @@ MonoBehaviour:
   - {fileID: 7108339969198208228, guid: e4b3be61f971cce42b4826f306677096, type: 3}
   - {fileID: 7108339969198208228, guid: d430232e841c60c4eb0ec174562aee84, type: 3}
   vfxSpawner: {fileID: 7410480554128925755}
+  footstepVFXParent: {fileID: 8970588119580333676}
+  tileSurfaceDataBase: {fileID: 0}
+  defaultFootstepVFX: {fileID: 0}
+  surfaceLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &4848131160581659832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -995,9 +1036,12 @@ MonoBehaviour:
   maxHealth: 200
   maxHealCharge: 3
   maxVitality: 10
+  freezeDrainPerSecond: 0.5
   currentHealCharge: 0
   currentVitality: 0
   currentRemembranceCharge: 0
+  currentVitalityFreeze: 0
+  totalVitalityFreeze: 1
 --- !u!114 &4688762448128058071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1159,6 +1203,7 @@ MonoBehaviour:
     hitFeedback: {fileID: 0}
   dashAction: {fileID: 11400000, guid: ac376dfa5d0f9d642bdf41cc579627b4, type: 2}
   parryGriefGain: 0
+  spriteRenderer: {fileID: 0}
 --- !u!114 &8693074642358573747
 MonoBehaviour:
   m_ObjectHideFlags: 0
