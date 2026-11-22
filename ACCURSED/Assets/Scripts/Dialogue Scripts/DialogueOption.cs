@@ -113,16 +113,29 @@ public class DialogueOption : MonoBehaviour
         var textbox = textBox.GetComponent<Textbox>();
         var spawner = textbox.refSpawner.GetComponent<DialogueSpawner>();
 
-        spawner.placeholder = new List<NPCDialogue>
+        //spawner.placeholder = new List<NPCDialogue>
+        {
+            //branchedText
+        };
+
+        textbox.npcText = new List<NPCDialogue>
         {
             branchedText
         };
 
         //spawner.baseIndex = 0;
         textbox.index = 0;
-        spawner.activeAndClear();
+        //spawner.activeAndClear();
+
+        if (!spawner.textBoxPrefab.activeInHierarchy)
+        {
+            spawner.textBoxPrefab.SetActive(true);
+        }
+
         //textbox.nextSentence();
         textbox.stuff();
+
+        //spawner.baseIndex++;
 
         textDisplay.SetActive(true);
 

@@ -12,7 +12,7 @@ public class DialogueSpawner : MonoBehaviour
 
     [Header("Reference to the textbox prefab that should spawn")]
     [SerializeField]
-    private GameObject textBoxPrefab;
+    public GameObject textBoxPrefab;
     [Header("Refernece to the sidebar prefab that should spawn")]
     [SerializeField]
     private GameObject sideBarPrefab;
@@ -68,10 +68,10 @@ public class DialogueSpawner : MonoBehaviour
     //[Header("DONT TOUCH THESE")]
     [HideInInspector]
     public bool sidebarRunnin;
-    [HideInInspector] 
+    //[HideInInspector] 
     public int baseIndex;
     [HideInInspector] public int baseSideDex;
-    [HideInInspector] 
+    //[HideInInspector] 
     public List<NPCDialogue> placeholder;
     [HideInInspector] public NPCDialogue placeholderOptions;
     [HideInInspector] public List<NPCDialogue> highway;
@@ -183,6 +183,7 @@ public class DialogueSpawner : MonoBehaviour
                 if (QuestVarHolder.instance.questBools[var] != tempRefVars[tIndex])
                 {
                     baseIndex = 0;
+                    //Debug.Log("this is resetting");
                     tempRefVars[tIndex] = QuestVarHolder.instance.questBools[var];
                 }
 
@@ -197,6 +198,7 @@ public class DialogueSpawner : MonoBehaviour
                     }
                 }
             }
+
             tIndex++;
         }
 
@@ -222,18 +224,20 @@ public class DialogueSpawner : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
+                Debug.Log("happening");
                 spawnText();
                 activeAndClear();
+                //baseIndex++;
             }
         }
     }
 
     //COMMENT OUT LATER THIS IS FOR TESTING PURPOSES
     
-    //public void Update()
-    //{
-     //   checkInput();
-    //}
-    
+    /*public void Update()
+    {
+        checkInput();
+    }
+    */
 
 }

@@ -38,6 +38,14 @@ public class QuestVarHolder : MonoBehaviour
         questBools.Add("Rest1", false);
         questBools.Add("Rest2", false);
 
+        questBools.Add("PLACEHOLDER1", false);
+        questBools.Add("PLACEHOLDER2", false);
+
+        questBools.Add("ContentWoman2", false);
+
+        questBools.Add("RimelightMerchant1", false);
+        questBools.Add("CotsDead", false);
+
 
     }
 
@@ -60,11 +68,11 @@ public class QuestVarHolder : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
-            questBools["Rest1"] = true;
+            questBools["PLACEHOLDER1"] = true;
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
-            questBools["Rest2"] = true;
+            questBools["PLACEHOLDER2"] = true;
         }
 
     }
