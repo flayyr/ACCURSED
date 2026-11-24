@@ -15,11 +15,18 @@ public class SettingsSoundRow : SettingsSliderSelectable
 
     [SerializeField] private GameObject selectionHighlight;
 
+    [Header("Adjust Highlight Blink")]
+    [SerializeField, Min(0f)] private float adjustBlinkCyclesPerSecond = 0.7f;
+    [SerializeField, Range(0f, 1f)] private float minimumAdjustBlinkAlpha = 0.2f;
+    [SerializeField, Range(0f, 1f)] private float maximumAdjustBlinkAlpha = 0.85f;
+
     private SettingsSoundSetting setting;
     private SettingsSoundManager soundManager;
+    private CanvasGroup selectionHighlightCanvasGroup;
 
     private bool hasBeenInitialized;
     private bool rowSelected;
+    private bool isAdjustingSlider;
 
     public SettingsSoundSetting Setting
     {
@@ -86,6 +93,11 @@ public class SettingsSoundRow : SettingsSliderSelectable
         if (selectionHighlight == null)
             return;
 
+        selectionHighlightCanvasGroup = selectionHighlight.GetComponent<CanvasGroup>();
+
+        if (selectionHighlightCanvasGroup == null)
+            selectionHighlightCanvasGroup = selectionHighlight.AddComponent<CanvasGroup>();
+
         if (rowBackground != null)
         {
             RectTransform highlightRect = selectionHighlight.GetComponent<RectTransform>();
@@ -117,6 +129,21 @@ public class SettingsSoundRow : SettingsSliderSelectable
         }
 
         selectionHighlight.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (!isAdjustingSlider || selectionHighlightCanvasGroup == null)
+            return;
+
+        float sine = Mathf.Sin(Time.unscaledTime * adjustBlinkCyclesPerSecond * Mathf.PI * 2f);
+        float normalizedSine = (sine + 1f) * 0.5f;
+
+        selectionHighlightCanvasGroup.alpha = Mathf.Lerp(
+            minimumAdjustBlinkAlpha,
+            maximumAdjustBlinkAlpha,
+            normalizedSine
+        );
     }
 
     private void HandleSliderChanged(float value)
@@ -158,6 +185,15 @@ public class SettingsSoundRow : SettingsSliderSelectable
         RefreshHighlight();
     }
 
+    public override void SetAdjusting(bool adjusting)
+    {
+        base.SetAdjusting(adjusting);
+        isAdjustingSlider = adjusting;
+
+        if (!adjusting && selectionHighlightCanvasGroup != null)
+            selectionHighlightCanvasGroup.alpha = 1f;
+    }
+
     private void RefreshHighlight()
     {
         if (selectionHighlight == null)
@@ -173,5 +209,14 @@ public class SettingsSoundRow : SettingsSliderSelectable
 
         if (soundManager != null)
             soundManager.UnregisterRow(this);
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        isAdjustingSlider = false;
+
+        if (selectionHighlightCanvasGroup != null)
+            selectionHighlightCanvasGroup.alpha = 1f;
     }
 }

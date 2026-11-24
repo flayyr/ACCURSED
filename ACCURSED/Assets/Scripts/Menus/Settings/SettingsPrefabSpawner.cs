@@ -103,22 +103,31 @@ public class SettingsPrefabSpawner : MonoBehaviour
         }
             
 
-        if (!closeWithEscape)
+        bool escapePressed = closeWithEscape && Input.GetKeyDown(KeyCode.Escape);
+        bool gamepadCancelPressed =
+            Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame;
+
+        if (!escapePressed && !gamepadCancelPressed)
             return;
 
-        if (!Input.GetKeyDown(KeyCode.Escape))
-            return;
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-            CloseSettings();
-
-        // Escape is currently being assigned as a keybind,
-        // or was assigned during this same frame.
         if (settingsNavigator != null)
         {
-            return;
-        }
+            if (gamepadCancelPressed && settingsNavigator.IsListeningForBinding)
+            {
+                settingsNavigator.CancelKeybindListen();
+                return;
+            }
 
+            if (settingsNavigator.IsAdjustingSlider)
+            {
+                settingsNavigator.StopSliderAdjustMode();
+                return;
+            }
+
+            // Escape remains available as a keybind while listening.
+            if (escapePressed && settingsNavigator.IsListeningForBinding)
+                return;
+        }
 
         CloseSettings();
 

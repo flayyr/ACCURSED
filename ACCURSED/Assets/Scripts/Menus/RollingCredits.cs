@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class RollingCredits : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class RollingCredits : MonoBehaviour
     {
         float currentSpeed = normalSpeed;
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.isPressed))
             currentSpeed = fastSpeed;
 
         if (rectTransform.anchoredPosition.y < endYPosition)

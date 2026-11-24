@@ -59,6 +59,7 @@ public class SettingsKeybindRow : SettingsMenuSelectable
     private bool interactionLocked;
 
     private SettingsKeybindSlot listeningSlot = SettingsKeybindSlot.Trigger;
+    private SettingsKeybindSlot gamepadSelectedSlot = SettingsKeybindSlot.Trigger;
 
     public SettingsKeybindAction Action
     {
@@ -280,14 +281,39 @@ public class SettingsKeybindRow : SettingsMenuSelectable
     public override void SetSelected(bool selected)
     {
         rowSelected = selected;
+
+        if (!selected)
+            gamepadSelectedSlot = SettingsKeybindSlot.Trigger;
+
         RefreshHighlight();
+        RefreshDisplay();
+    }
+
+    public bool MoveGamepadBindingFocus(int direction)
+    {
+        FindReferences();
+
+        if (!hasBeenInitialized || keybindManager == null ||
+            !keybindManager.GetBinding(action).IsChord)
+        {
+            return false;
+        }
+
+        SettingsKeybindSlot nextSlot = direction < 0
+            ? SettingsKeybindSlot.Modifier
+            : SettingsKeybindSlot.Trigger;
+
+        if (gamepadSelectedSlot == nextSlot)
+            return false;
+
+        gamepadSelectedSlot = nextSlot;
+        RefreshDisplay();
+        return true;
     }
 
     public override void Activate()
     {
-        // Intentionally empty.
-        // Selecting the row or pressing Enter/Space does not start rebinding.
-        // Only clicking a specific value field starts listening.
+        BeginListening(gamepadSelectedSlot);
     }
 
     public void SetListening(bool listening)
@@ -379,24 +405,56 @@ public class SettingsKeybindRow : SettingsMenuSelectable
 
         if (keyText != null)
         {
-            keyText.text = isListening && listeningSlot == SettingsKeybindSlot.Trigger
+            string displayedKey = isListening && listeningSlot == SettingsKeybindSlot.Trigger
                 ? "..."
                 : keybindManager.GetKeyDisplayName(binding.Trigger);
+
+            keyText.text = FormatGamepadBindingFocus(
+                displayedKey,
+                SettingsKeybindSlot.Trigger,
+                !binding.IsChord
+            );
         }
 
         if (modifierKeyText != null)
         {
-            modifierKeyText.text = isListening && listeningSlot == SettingsKeybindSlot.Modifier
+            string displayedKey = isListening && listeningSlot == SettingsKeybindSlot.Modifier
                 ? "..."
                 : keybindManager.GetKeyDisplayName(binding.Modifier);
+
+            modifierKeyText.text = FormatGamepadBindingFocus(
+                displayedKey,
+                SettingsKeybindSlot.Modifier,
+                binding.IsChord
+            );
         }
 
         if (triggerKeyText != null)
         {
-            triggerKeyText.text = isListening && listeningSlot == SettingsKeybindSlot.Trigger
+            string displayedKey = isListening && listeningSlot == SettingsKeybindSlot.Trigger
                 ? "..."
                 : keybindManager.GetKeyDisplayName(binding.Trigger);
+
+            triggerKeyText.text = FormatGamepadBindingFocus(
+                displayedKey,
+                SettingsKeybindSlot.Trigger,
+                binding.IsChord
+            );
         }
+    }
+
+    private string FormatGamepadBindingFocus(
+        string displayedKey,
+        SettingsKeybindSlot slot,
+        bool isChordField
+    )
+    {
+        bool isFocusedField = rowSelected &&
+            (isChordField
+                ? gamepadSelectedSlot == slot
+                : slot == SettingsKeybindSlot.Trigger);
+
+        return isFocusedField ? "<u>" + displayedKey + "</u>" : displayedKey;
     }
 
     private static void SetRootActive(GameObject explicitRoot, RectTransform fallbackArea, bool active)

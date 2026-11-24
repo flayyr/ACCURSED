@@ -20,7 +20,7 @@ public class SettingsMenuNavigator : MonoBehaviour
     public List<SettingsTabButton> tabs = new List<SettingsTabButton>();
 
     [Header("Scroll View")]
-    public ScrollRect scrollRect;
+    public ScrollRect scrollRect; 
     public RectTransform scrollContent;
     public RectTransform scrollViewport;
     public float scrollPadding = 30f;
@@ -136,6 +136,36 @@ public class SettingsMenuNavigator : MonoBehaviour
                 return;
             }
         
+
+            if (currentOptions.Count > 0 &&
+                selectedOptionIndex >= 0 &&
+                selectedOptionIndex < currentOptions.Count)
+            {
+                SettingsKeybindRow selectedKeybindRow = currentOptions[selectedOptionIndex] as SettingsKeybindRow;
+
+                if (selectedKeybindRow != null)
+                {
+                    if (Input.GetKeyDown(KeyCode.LeftArrow) ||
+                        (Gamepad.current != null && Gamepad.current.leftStick.left.ReadValue() > 0.5f) ||
+                        (Gamepad.current != null && Gamepad.current.dpad.left.wasPressedThisFrame))
+                    {
+                        if (selectedKeybindRow.MoveGamepadBindingFocus(-1))
+                            nextNavigationTime = currentTime + navigationCooldown;
+
+                        return;
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.RightArrow) ||
+                        (Gamepad.current != null && Gamepad.current.leftStick.right.ReadValue() > 0.5f) ||
+                        (Gamepad.current != null && Gamepad.current.dpad.right.wasPressedThisFrame))
+                    {
+                        if (selectedKeybindRow.MoveGamepadBindingFocus(1))
+                            nextNavigationTime = currentTime + navigationCooldown;
+
+                        return;
+                    }
+                }
+            }
 
             if (Input.GetKeyDown(KeyCode.DownArrow) ||
                 (Gamepad.current != null && Gamepad.current.leftStick.down.ReadValue() > 0.5f) ||

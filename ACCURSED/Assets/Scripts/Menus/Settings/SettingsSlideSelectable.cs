@@ -55,7 +55,7 @@ public class SettingsSliderSelectable : SettingsMenuSelectable
         slider.value += amount;
     }
 
-    public void SetAdjusting(bool adjusting)
+    public virtual void SetAdjusting(bool adjusting)
     {
         if (adjusting)
         {

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -74,6 +75,8 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private static readonly List<SaveMenuButton> buttons = new List<SaveMenuButton>();
 
     private static int selectedIndex = 0;
+    [SerializeField, Min(0f)] private float navigationCooldown = 0.25f;
+    private float nextNavigationTime;
 
     public int SlotIndex
     {
@@ -191,16 +194,29 @@ public class SaveMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     // Navigation
     private void HandleKeyboardSelection()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow))
-            SelectButton(selectedIndex + 1);
+        float currentTime = Time.unscaledTime;
+        if (currentTime < nextNavigationTime)
+            return;
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow) || (Gamepad.current != null && Gamepad.current.leftStick.right.ReadValue() > 0.5f) ||
+        (Gamepad.current != null && Gamepad.current.dpad.right.wasPressedThisFrame))
+        {
+            SelectButton(selectedIndex + 1);
+            nextNavigationTime = currentTime + navigationCooldown;
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow) ||
+        (Gamepad.current != null && Gamepad.current.leftStick.left.ReadValue() > 0.5f) ||
+        (Gamepad.current != null && Gamepad.current.dpad.left.wasPressedThisFrame))
+        {
             SelectButton(selectedIndex - 1);
+            nextNavigationTime = currentTime + navigationCooldown;
+        }
     }
 
     private void HandleConfirmInput()
     {
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Space) || 
+        (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame))
         {
             if (selectedIndex >= 0 && selectedIndex < buttons.Count)
                 buttons[selectedIndex].ActivateButton();

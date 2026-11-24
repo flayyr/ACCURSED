@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class EscapeMenuHandler : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class EscapeMenuHandler : MonoBehaviour
         if (!listenForEscapeKey || transitionRequested || SaveNamePopup.BlocksMenuInput)
             return;
 
-        if (Input.GetKeyDown(escapeKey))
+        if (Input.GetKeyDown(escapeKey) ||  (Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame))
             ReturnToStartMenu();
     }
 

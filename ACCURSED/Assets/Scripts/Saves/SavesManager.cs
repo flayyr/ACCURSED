@@ -86,11 +86,11 @@ public class SavesManager : MonoBehaviour
     }
 
     public void DeleteSave(string saveName) {
-        if (!SaveStorage.instance.ContainsKey(saveName))
+        if (!SaveStorage.instance.saves.TryGetValue(saveName, out SaveFile toDelete) || toDelete == null)
         {
-            Debug.LogError("file with name " + saveName + " does not exist in save storage");
+            Debug.LogWarning("Save file '" + saveName + "' is missing from save storage; its slot reference may be stale.");
+            return;
         }
-        SaveFile toDelete = SaveStorage.instance.GetSaveByFileName(saveName);
         SaveStorage.instance.RemoveSave(toDelete);
         toDelete.DeleteFile();
     }

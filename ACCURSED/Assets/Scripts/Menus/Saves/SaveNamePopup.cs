@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class SaveNamePopup : MonoBehaviour
 {
@@ -67,13 +68,15 @@ public class SaveNamePopup : MonoBehaviour
         if (Time.frameCount == openedFrame)
             return;
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || 
+        (Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame))
         {
             Cancel();
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || 
+        (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame))
             Accept();
     }
 
