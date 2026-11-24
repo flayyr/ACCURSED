@@ -76,6 +76,7 @@ public class CustomDynamicLit : MonoBehaviour, ICullable
 
     public void SetUpLitMat()
     {
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.material = Resources.Load<Material>("CustomLitMat");
 
@@ -114,17 +115,18 @@ public class CustomDynamicLit : MonoBehaviour, ICullable
         //spriteRenderer.SetPropertyBlock(litMatProperty);
 
 
-        //Set up shadows
-        if (shadowMat == null)
-        {
-            return;
-        }
+        ////Set up shadows
+        //if (shadowMat == null)
+        //{
+        //    return;
+        //}
 
         shadowRenderers = new SpriteRenderer[4];
         shadowPrefab = Resources.Load<GameObject>("ShadowPrefab");
         if (useAmbientShadow)
         {
             GameObject shadowObj = Instantiate(shadowPrefab, transform);
+            //Debug.Log(gameObject.name);
             shadowObj.transform.localPosition = Vector3.zero;
             ambientShadowRenderer = shadowObj.GetComponent<SpriteRenderer>();
             ambientShadowRenderer.material = Resources.Load<Material>("SkewShadowMat");

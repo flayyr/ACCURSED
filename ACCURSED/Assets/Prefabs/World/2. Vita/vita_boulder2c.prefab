@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7140840844937824923}
   - component: {fileID: 1253817638826145998}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 4616706200623761026}
   - component: {fileID: 7483113366611169967}
   - component: {fileID: 6928732864548222596}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: vita_boulder2c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,6 +242,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 0
+  cullingChunkSize:
+    x: 1
+    y: 1
   isAnimated: 0
   normalMap: {fileID: 0}
   refTransform: {fileID: 0}

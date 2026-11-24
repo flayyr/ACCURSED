@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2779113853491689509}
   - component: {fileID: 3714983975096044451}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 319310113670494396}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: vita_cliff_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 8455754550939467341}
   - component: {fileID: 7343603032803538796}
   - component: {fileID: 7937774948222254620}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: vita_cliff3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -344,6 +344,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDynamicLit
   canMove: 0
+  cullingChunkSize:
+    x: 1
+    y: 1
   isAnimated: 0
   normalMap: {fileID: 0}
   refTransform: {fileID: 0}
