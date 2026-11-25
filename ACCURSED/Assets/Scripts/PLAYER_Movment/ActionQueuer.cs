@@ -7,13 +7,13 @@ public class ActionInstance
     public delegate void FunctionCall();
 
     public ActionSO actionSO;
-    public float queueTime;
-    public bool skipWindWhenQueued = false;
-    public bool loaded = false;
-    public float finishTime = -1;
-    public float startTime = -1;
-    public float loadTime = -1;
-    public bool interrupted = false;
+    public float queueTime { set; get; }
+    public bool skipWindWhenQueued { set; get; } = false;
+    public bool loaded { set; get; } = false;
+    public float finishTime { set; get; } = -1;//time when completed
+    public float startTime { set; get; } = -1;//time when wind ended
+    public float loadTime { set; get; } = -1;//time when loaded into actionManager
+    public bool interrupted { set; get; } = false;
     public FunctionCall onFinish;
 
     public ActionInstance(ActionSO actionSO, float currTime, FunctionCall func=null)

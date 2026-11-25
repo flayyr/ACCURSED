@@ -14,7 +14,7 @@ public struct CharacterReference
     public VFXSpawner vfxSpawner;
     public CharacterMovement cMovement;
 }
-public enum ActionState { Idle, Winding, Attacking, Stunned, StunnedCancellable }
+public enum ActionState { Idle, Winding, Acting, Stunned, StunnedCancellable }
 public enum BaseMoveState { None = 0, Walk = 1, Run = 2, Sprint = 3 }
 
 public class CharacterManager : MonoBehaviour
@@ -203,7 +203,7 @@ public class CharacterManager : MonoBehaviour
 
         windTimer = 0;
         cAnim.SetWind(false);
-        combatState = ActionState.Attacking;
+        combatState = ActionState.Acting;
 
         Launch(moveDir, currAction.actionSO.attackData.stepAmount, true);
 

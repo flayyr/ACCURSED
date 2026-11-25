@@ -68,6 +68,12 @@ public class CharacterAnimatorNew : MonoBehaviour
         }
     }
 
+    public void SetAnimationState(string stateName) {
+        anim.Play(stateName);
+    }
+
+
+
     //Called by animation event when an action animation finishes.
     public void OnActionAnimationFinish() {
         //invokes function in CharacterManager
@@ -118,10 +124,6 @@ public class CharacterAnimatorNew : MonoBehaviour
 
     public void SetMoveState(int moveState) {
         anim.SetInteger("MoveState", moveState);
-    }
-
-    public void SetCurrentAction(ActionSO action) {
-        currentAction = action;
     }
 
     public int Direction => directionIndex;

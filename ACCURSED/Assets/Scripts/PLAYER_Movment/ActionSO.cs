@@ -30,8 +30,10 @@ public enum BuffTarget { Enemy, Player }
 public class ActionSO : ScriptableObject
 {
     [SerializeField] public string actionName;
-    [SerializeField] public string actionAnimationState;
-    [SerializeField] public string windAnimationState;
+    [SerializeField] public string windAnimationState;//will need to rename this at some point, not done rn cus i dont want to reinput all the animation names just yet
+
+    [Header("Winding")]
+    [SerializeField] public bool useWind;
     [SerializeField] public float windDuration;
 
     [Header("Movement")] 

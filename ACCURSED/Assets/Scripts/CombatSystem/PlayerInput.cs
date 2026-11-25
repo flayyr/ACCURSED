@@ -5,11 +5,8 @@ using UnityEngine.InputSystem;
 public class PlayerInput : MonoBehaviour //replacing PlayerController
 {
     #region References
-    //PlayerAbilities playerAbilities;
-
-    //PlayerAttacker basicAttacker;
-    //PlayerManager playerManager;
     PlayerData pData;
+    PlayerActionKit actionKit;
     #endregion
 
     public event Action InteractKeyPressed;
@@ -19,15 +16,12 @@ public class PlayerInput : MonoBehaviour //replacing PlayerController
     }
 
     void RefrenceRetreival() {
-        //playerAbilities = GetComponent<PlayerAbilities>();
-        //basicAttacker = GetComponent<PlayerAttacker>();
-        //playerManager = GetComponent<PlayerManager>();
         pData = GetComponent<PlayerData>();
+        actionKit = GetComponent<PlayerActionKit>();
     }
 
     #region Movement
     public void OnMove(InputValue value) {
-        //playerManager.MoveInput(state == PlayerControlState.Normal ? value.Get<Vector2>() : Vector2.zero);
         pData.SetMoveInputDirection(pData.controlEnabled ? value.Get<Vector2>().normalized : Vector2.zero);
     }
     public void OnWalk(InputValue value) {
@@ -39,7 +33,6 @@ public class PlayerInput : MonoBehaviour //replacing PlayerController
         //playerManager.SetSprintInput(value.isPressed);
     }
     public void OnDash(InputValue value) {
-        //if (state is PlayerControlState.Disabled || !value.isPressed) return; //runs during dodgeonly state
         if (!pData.controlEnabled) return;
 
         //if (playerManager.CueDash())
@@ -49,9 +42,8 @@ public class PlayerInput : MonoBehaviour //replacing PlayerController
 
     #region Combat
     public void OnAttack(InputValue value) {
-        //if (state is not PlayerControlState.Normal && value.isPressed) return;
         if (!pData.controlEnabled) return;
-
+        actionKit.CueAttack(value.isPressed);
         //basicAttacker.CueAttack(value.isPressed);
     }
 
