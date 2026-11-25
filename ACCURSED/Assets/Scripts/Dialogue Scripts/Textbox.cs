@@ -180,6 +180,12 @@ public class Textbox : MonoBehaviour
             refSpawner.GetComponent<DialogueSpawner>().baseIndex++;
             //Debug.Log("thist hing");
 
+            if (npcText[baseIndexRef].kill)
+            {
+                //refSpawner.gameObject.transform.parent.gameObject.SetActive(false);
+                refSpawner.gameObject.SetActive(false);
+            }
+
             gameObject.SetActive(false);
         }
 

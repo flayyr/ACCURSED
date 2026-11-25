@@ -131,7 +131,7 @@ public class CharacterMovement : MonoBehaviour
                 movementSpeed = sprintSpeed;
                 break;
             default:
-                UpdateSound();
+                //UpdateSound();
                 break;
         }
     }
@@ -139,7 +139,7 @@ public class CharacterMovement : MonoBehaviour
     public void BaseMove(Vector2 moveInput)
     {
         if (movementState is MovementState.normal)
-            UpdateSound();
+            //UpdateSound();
             rb.linearVelocity = moveInput.normalized * movementSpeed * speedMultiplier;
     }
     #endregion
