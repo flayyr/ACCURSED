@@ -45,5 +45,7 @@ public class NPCDialogue : ScriptableObject
     [Header("flip this on if npc should die")]
     public bool kill;
 
+    [Header("item id to check if a thing has")]
+    public string itemCheckID;
 
 }

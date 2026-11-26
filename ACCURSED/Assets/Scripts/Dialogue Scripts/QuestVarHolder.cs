@@ -32,6 +32,7 @@ public class QuestVarHolder : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         questBools.Add("reckonerDefeat", false);
+        questBools.Add("ReckonerEcho", false);
         questBools.Add("gotEye", false);
 
         questBools.Add("Graveyard", false);
@@ -41,7 +42,9 @@ public class QuestVarHolder : MonoBehaviour
         questBools.Add("PLACEHOLDER1", false);
         questBools.Add("PLACEHOLDER2", false);
 
+        questBools.Add("ContentWoman1", false);
         questBools.Add("ContentWoman2", false);
+        questBools.Add("ContentWomanAltar", false);
 
         questBools.Add("FractureKnight1", false);
         questBools.Add("FractureKnight2", false);
