@@ -43,6 +43,9 @@ public class QuestVarHolder : MonoBehaviour
 
         questBools.Add("ContentWoman2", false);
 
+        questBools.Add("FractureKnight1", false);
+        questBools.Add("FractureKnight2", false);
+
         questBools.Add("RimelightMerchant1", false);
         questBools.Add("CotsDead", false);
 
@@ -73,6 +76,7 @@ public class QuestVarHolder : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             questBools["PLACEHOLDER2"] = true;
+            questBools["FractureKnight2"] = true;
         }
 
     }
