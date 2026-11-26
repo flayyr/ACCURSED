@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+//using FMODUnity;
+using FMOD.Studio;
 using SaintsField;
 using SaintsField.Playa;
 using UnityEngine;
@@ -8,6 +10,16 @@ using UnityEngine.InputSystem;
 
 public class CharacterMovement : MonoBehaviour
 {
+    /*
+    [Serializable]
+    public class AudioStuff
+    {
+        [SerializeField] private EventReference tallGrassWalkSFX;
+        [SerializeField] private EventReference waterWalkSFX;
+        [SerializeField] private EventReference foliageWalkSFX;
+    }
+    */
+
     public enum MovementState
     {
         normal, // can move
@@ -60,8 +72,11 @@ public class CharacterMovement : MonoBehaviour
 
     float speedMultiplier = 1;
 
+    private EventInstance playerFootsteps;
+
     void Start()
     {
+        playerFootsteps = AudioManager.instance.CreateEventInstance(FMODEvents.instance.stoneWalkSFX);
         GetComponents();
     }
     void GetComponents()
@@ -116,6 +131,7 @@ public class CharacterMovement : MonoBehaviour
                 movementSpeed = sprintSpeed;
                 break;
             default:
+                //UpdateSound();
                 break;
         }
     }
@@ -123,6 +139,7 @@ public class CharacterMovement : MonoBehaviour
     public void BaseMove(Vector2 moveInput)
     {
         if (movementState is MovementState.normal)
+            //UpdateSound();
             rb.linearVelocity = moveInput.normalized * movementSpeed * speedMultiplier;
     }
     #endregion
@@ -146,5 +163,24 @@ public class CharacterMovement : MonoBehaviour
 
     public void SetSpeedMultiplier(float multiplier) {
         speedMultiplier = multiplier;
+    }
+
+    private void UpdateSound()
+    {
+        //requires checks for switching between various states of walking sfx
+        //also, whoever made this will probably know a better way to check for player movement so plz fix
+        if (rb.linearVelocityX != 0 || rb.linearVelocityY != 0)
+        {
+            PLAYBACK_STATE playbackState;
+            playerFootsteps.getPlaybackState(out playbackState);
+            if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+            {
+                playerFootsteps.start();
+            }
+        }
+        else
+        {
+            playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+        }
     }
 }
