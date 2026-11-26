@@ -20056,6 +20056,127 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5247582969017214662, guid: fead3bdd9c6157b4b9648e6aa34fc4a6, type: 3}
   m_PrefabInstance: {fileID: 189206016}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &189862725
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 189862726}
+  - component: {fileID: 189862727}
+  m_Layer: 0
+  m_Name: fmodevents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &189862726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189862725}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 954253565}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &189862727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189862725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebd651dbbe152dd4d83ae59b01d56628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FMODEvents
+  <tallGrassWalkSFX>k__BackingField:
+    Guid:
+      Data1: 2145208848
+      Data2: 1254289312
+      Data3: -2040084546
+      Data4: -1982228492
+    Path: event:/Footsteps_tallGrass
+  <foliageWalkSFX>k__BackingField:
+    Guid:
+      Data1: -393932086
+      Data2: 1316446354
+      Data3: 607543476
+      Data4: -734612625
+    Path: event:/Footsteps_foliage
+  <waterWalkSFX>k__BackingField:
+    Guid:
+      Data1: -407504660
+      Data2: 1105270125
+      Data3: -1814096966
+      Data4: 280309312
+    Path: event:/Footsteps_water
+  <betterWaterWalkSFX>k__BackingField:
+    Guid:
+      Data1: -1475172682
+      Data2: 1225369811
+      Data3: 426915494
+      Data4: 1586577349
+    Path: event:/Footsteps_betterWater
+  <dirtWalkSFX>k__BackingField:
+    Guid:
+      Data1: -1567873184
+      Data2: 1286492144
+      Data3: 1421068936
+      Data4: 1971110202
+    Path: event:/Footsteps_dirt
+  <grassWalkSFX>k__BackingField:
+    Guid:
+      Data1: -1508961773
+      Data2: 1145255679
+      Data3: 890791059
+      Data4: -867147911
+    Path: event:/Footsteps_grass
+  <leavesWalkSFX>k__BackingField:
+    Guid:
+      Data1: -656392121
+      Data2: 1341221745
+      Data3: 1568581530
+      Data4: -388101667
+    Path: event:/Footsteps_leaves
+  <sandWalkSFX>k__BackingField:
+    Guid:
+      Data1: 56531261
+      Data2: 1310501771
+      Data3: 208302748
+      Data4: 1533436042
+    Path: event:/Footsteps_sand
+  <stoneWalkSFX>k__BackingField:
+    Guid:
+      Data1: 1582359762
+      Data2: 1074010086
+      Data3: 109525667
+      Data4: -1499099646
+    Path: event:/Footsteps_stone
+  <snowWalkSFX>k__BackingField:
+    Guid:
+      Data1: 1282842966
+      Data2: 1325441247
+      Data3: -1906660438
+      Data4: 1074718185
+    Path: event:/Footsteps_snow
+  <woodWalkSFX>k__BackingField:
+    Guid:
+      Data1: -903588230
+      Data2: 1200763817
+      Data3: -963305572
+      Data4: -2120877292
+    Path: event:/Footsteps_wood
 --- !u!1001 &189904649
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99947,6 +100068,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6191780428714321842, guid: 83c3038df53a2814e8e6aa25ec560474, type: 3}
   m_PrefabInstance: {fileID: 954218435}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &954253563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 954253565}
+  - component: {fileID: 954253564}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &954253564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954253563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf848df46061064478e7d800252f1d94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+--- !u!4 &954253565
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954253563}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1919.4901, y: 1059.3942, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 189862726}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &954519371
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -213662,11 +213828,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3968804553735139384, guid: e4db5bce34ecbf942a7b5925b647f52b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 95.122284
+      value: 95.123184
       objectReference: {fileID: 0}
     - target: {fileID: 4304853422388347417, guid: e4db5bce34ecbf942a7b5925b647f52b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000023446224
+      value: 0.0009708916
       objectReference: {fileID: 0}
     - target: {fileID: 4706753361957882017, guid: e4db5bce34ecbf942a7b5925b647f52b, type: 3}
       propertyPath: m_AnchorMax.x
@@ -236065,3 +236231,4 @@ SceneRoots:
   - {fileID: 36462641}
   - {fileID: 2000943516}
   - {fileID: 1055842747}
+  - {fileID: 954253565}
