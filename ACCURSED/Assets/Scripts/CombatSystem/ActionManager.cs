@@ -40,7 +40,18 @@ public class ActionManager : MonoBehaviour
         if (currentAction != null) {
             PerformAction();
         }
-    } 
+    }
+
+    private void GetNextAction(ActionSO previousAction) {
+        if (!cData.isIdle)
+            return;
+
+        currentAction = actionQueuer.GetNextAction();
+        if (currentAction != null) {
+            currentAction.actionSO = currentAction.actionSO.GetChainedAction(previousAction);
+            PerformAction();
+        }
+    }
 
     private void PerformAction() {
         currentAction.loaded = true;
@@ -58,7 +69,7 @@ public class ActionManager : MonoBehaviour
 
         cData.actionState = ActionState.Idle;
 
-        GetNextAction();
+        GetNextAction(currentAction.actionSO);
     }
 
     private void SetUpWinding() {

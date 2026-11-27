@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlayerAttack3
   m_EditorClassIdentifier: Assembly-CSharp::ChargeableActionSO
   actionName: Attack 3
-  actionAnimationState: Attack3
   windAnimationState: Attack3Wind
+  useWind: 1
   windDuration: 1.5
   HorizontalDisplacementWind:
     serializedVersion: 2
@@ -68,6 +68,7 @@ MonoBehaviour:
       target: 0
       amount: 0
       duration: 0
+  chainedActions: []
   windFeedback: {fileID: 0}
   attackFeedback: {fileID: 0}
   attackHitFeedback: {fileID: 348020824145329058, guid: f0cc677f1cc326b408b4874945f9666c, type: 3}
