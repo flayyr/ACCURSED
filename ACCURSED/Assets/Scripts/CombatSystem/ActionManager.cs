@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ActionManager : MonoBehaviour
 {
@@ -6,8 +7,6 @@ public class ActionManager : MonoBehaviour
     CharacterData cData;
     CharacterMovementNew cMove;
     CharacterAnimatorNew cAnimator;
-
-    ActionInstance currentAction;
 
 
     float windTimer;
@@ -25,7 +24,7 @@ public class ActionManager : MonoBehaviour
     private void Update() {
         if (windTimer > 0) {
             windTimer -= Time.deltaTime;
-            if (windTimer < 0 || currentAction.skipWindWhenQueued) {
+            if (windTimer < 0 || cData.currentAction.skipWindWhenQueued) {
                 windTimer = 0;
                 EndWind();
             }
@@ -36,8 +35,8 @@ public class ActionManager : MonoBehaviour
         if (!cData.isIdle)
             return;
 
-        currentAction = actionQueuer.GetNextAction();
-        if (currentAction != null) {
+        cData.currentAction = actionQueuer.GetNextAction();
+        if (cData.currentAction != null) {
             PerformAction();
         }
     }
@@ -46,37 +45,37 @@ public class ActionManager : MonoBehaviour
         if (!cData.isIdle)
             return;
 
-        currentAction = actionQueuer.GetNextAction();
-        if (currentAction != null) {
-            currentAction.actionSO = currentAction.actionSO.GetChainedAction(previousAction);
+        cData.currentAction = actionQueuer.GetNextAction();
+        if (cData.currentAction != null) {
+            cData.currentAction.actionSO = cData.currentAction.actionSO.GetChainedAction(previousAction);
             PerformAction();
         }
     }
 
     private void PerformAction() {
-        currentAction.loaded = true;
-        currentAction.loadTime = Time.time;
+        cData.currentAction.loaded = true;
+        cData.currentAction.loadTime = Time.time;
 
         SetUpWinding();
 
-        cAnimator.SetAnimationState(currentAction.actionSO.windAnimationState);
+        cAnimator.SetAnimationState(cData.currentAction.actionSO.windAnimationState);
         cData.actionState = ActionState.Acting;
     }
 
     private void EndAction() {
-        currentAction.finishTime = Time.time;
-        currentAction.onFinish?.Invoke();
+        cData.currentAction.finishTime = Time.time;
+        cData.currentAction.onFinish?.Invoke();
 
         cData.actionState = ActionState.Idle;
 
-        GetNextAction(currentAction.actionSO);
+        GetNextAction(cData.currentAction.actionSO);
     }
 
     private void SetUpWinding() {
-        bool winding = currentAction.actionSO.useWind && !currentAction.skipWindWhenQueued;
+        bool winding = cData.currentAction.actionSO.useWind && !cData.currentAction.skipWindWhenQueued;
         cAnimator.SetWind(winding);
         if (winding) {
-            windTimer = currentAction.actionSO.windDuration;
+            windTimer = cData.currentAction.actionSO.windDuration;
         }
     }
 

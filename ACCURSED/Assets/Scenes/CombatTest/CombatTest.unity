@@ -107182,6 +107182,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61aa7cc2735322747a836c03b00e3656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
+  characterCollider: {fileID: 4056418395187423886}
+  movementCheckContactFilter:
+    useTriggers: 0
+    useLayerMask: 0
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 786432
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
+  characterRef:
+    spriteRenderer: {fileID: 8983585333070224275}
+    hurtBox: {fileID: 5795173446560197926}
+    hitBox: {fileID: 8493094302836760468}
+    cStats: {fileID: 0}
+    cManager: {fileID: 0}
+    vfxSpawner: {fileID: 0}
+    cMovement: {fileID: 0}
+  staggerDuration: 1
   maxHP: 2
 --- !u!4 &5716539143437125548
 Transform:

@@ -43,6 +43,10 @@ public class PlayerInput : MonoBehaviour //replacing PlayerController
     #region Combat
     public void OnAttack(InputValue value) {
         if (!pData.controlEnabled) return;
+        if (pData.isIdle) {
+            //for whatever fucking reason mouse input position is offset, so i added a temporary offset for now
+            pData.currDirection = ((Vector2)(Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue())+ new Vector3(-4,-2,0) - transform.position)).normalized;
+        }
         actionKit.CueAttack(value.isPressed);
         //basicAttacker.CueAttack(value.isPressed);
     }

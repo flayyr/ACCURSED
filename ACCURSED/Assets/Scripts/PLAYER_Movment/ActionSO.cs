@@ -42,8 +42,8 @@ public class ActionSO : ScriptableObject
     [SerializeField] public bool useWind;
     [SerializeField] public float windDuration;
 
-    [Header("Movement")] 
-    [SerializeField] public AnimationCurve HorizontalDisplacementWind;
+    [Header("Movement")]
+    [SerializeField] public bool useMoveDirection;
     [SerializeField] public AnimationCurve HorizontalDisplacement;
 
     [Header("Attack Data")]

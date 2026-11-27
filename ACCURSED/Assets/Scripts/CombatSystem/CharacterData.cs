@@ -2,10 +2,16 @@ using UnityEngine;
 
 public class CharacterData : MonoBehaviour
 {
-    const float horizontalDirectionalPriority = 0.15f;
+    const float _horizontalDirectionalPriority = 0.15f;
 
+    [SerializeField] public Collider2D characterCollider;
+    [SerializeField] public ContactFilter2D movementCheckContactFilter;
+    [SerializeField] public CharacterReference characterRef;
+    [Header("Stagger")]
+    [SerializeField] public float staggerDuration;
     [SerializeField] float maxHP;
 
+    public ActionInstance currentAction { get; set; }
 
     public ActionState actionState { get; set; }
     public bool isIdle { get { return actionState == ActionState.Idle; } }
@@ -13,18 +19,20 @@ public class CharacterData : MonoBehaviour
 
     #region directions
     //current direction, cannot be zero
-    private Vector2 currDirection = Vector2.down;
+    public Vector2 currDirection { get; set; } = Vector2.down;
+
     //currently inputted direction, can be zero
     public Vector2 moveInputDirection {  get; private set; }
+
     //current direction translated into the othogonal directions
     public Vector2 facingDirection { 
         get {
             Vector2[] orthogonalDirections = {Vector2.up, Vector2.right, Vector2.down, Vector2.left};
             float[] dotToDirections = {
                 Vector2.Dot(orthogonalDirections[0], currDirection),
-                Vector2.Dot(orthogonalDirections[1], currDirection) + horizontalDirectionalPriority,
+                Vector2.Dot(orthogonalDirections[1], currDirection) + _horizontalDirectionalPriority,
                 Vector2.Dot(orthogonalDirections[2], currDirection),
-                Vector2.Dot(orthogonalDirections[3], currDirection) + horizontalDirectionalPriority,
+                Vector2.Dot(orthogonalDirections[3], currDirection) + _horizontalDirectionalPriority,
             };
 
             int outputIndex = 0;
