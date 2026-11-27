@@ -47,10 +47,7 @@ public class CharacterAnimatorNew : MonoBehaviour
     private void Update() {
         directionIndex = dirToIndex(cData.facingDirection);
         SetSpriteLibraries(directionIndex);
-
-        if (cData.isIdle) {
-            SetMoveState((int)cData.movementState);
-        }
+        SetMoveState((int)cData.movementState);
     }
 
     private int dirToIndex(Vector2 dir) {

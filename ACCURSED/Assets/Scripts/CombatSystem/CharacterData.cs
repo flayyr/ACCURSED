@@ -53,6 +53,7 @@ public class CharacterData : MonoBehaviour
 
     protected void UpdateMovementState() {
         if (isIdle && moveInputDirection != Vector2.zero) {
+            currDirection = moveInputDirection;
             movementState = BaseMoveState.Run;
         } else {
             movementState = BaseMoveState.None;
@@ -61,8 +62,5 @@ public class CharacterData : MonoBehaviour
 
     public void SetMoveInputDirection(Vector2 moveDir) {
         moveInputDirection = moveDir.normalized;
-        if (moveInputDirection != Vector2.zero) {
-            currDirection = moveInputDirection;
-        }
     }
 }

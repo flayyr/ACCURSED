@@ -25,7 +25,8 @@ public class ActionManager : MonoBehaviour
     private void Update() {
         if (windTimer > 0) {
             windTimer -= Time.deltaTime;
-            if (windTimer < 0) {
+            if (windTimer < 0 || currentAction.skipWindWhenQueued) {
+                windTimer = 0;
                 EndWind();
             }
         }
@@ -61,7 +62,7 @@ public class ActionManager : MonoBehaviour
     }
 
     private void SetUpWinding() {
-        bool winding = currentAction.actionSO.useWind;
+        bool winding = currentAction.actionSO.useWind && !currentAction.skipWindWhenQueued;
         cAnimator.SetWind(winding);
         if (winding) {
             windTimer = currentAction.actionSO.windDuration;
