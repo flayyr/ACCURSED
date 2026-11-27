@@ -3,6 +3,10 @@ using UnityEngine;
 public class PlayerActionKit : MonoBehaviour  //replaces PlayerAbilities
 {
     [SerializeField] ActionSO baseAttackSO;
+    [SerializeField] ActionSO dashActionSO;
+    [SerializeField] HealingActionSO healingActionSO;
+    [SerializeField] VestigeSO vestigeSO;
+    [SerializeField] RemembranceSO remembranceSO;
 
     ActionQueuer actionQueuer;
     PlayerData pData;
@@ -22,5 +26,9 @@ public class PlayerActionKit : MonoBehaviour  //replaces PlayerAbilities
                 currAttackAction.skipWindWhenQueued = true;
             }
         }
+    }
+
+    public void CueDash() {
+        actionQueuer.QueueAction(dashActionSO);
     }
 }

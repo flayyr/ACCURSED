@@ -24,6 +24,9 @@ public class CharacterData : MonoBehaviour
     //currently inputted direction, can be zero
     public Vector2 moveInputDirection {  get; private set; }
 
+    //latest nonzero inputted direction
+    public Vector2 prevMoveInputDirection { get; private set; }
+
     //current direction translated into the othogonal directions
     public Vector2 facingDirection { 
         get {
@@ -70,5 +73,12 @@ public class CharacterData : MonoBehaviour
 
     public void SetMoveInputDirection(Vector2 moveDir) {
         moveInputDirection = moveDir.normalized;
+        if(moveInputDirection != Vector2.zero) {
+            prevMoveInputDirection = moveInputDirection;
+        }
+    }
+
+    public void UpdateCurrDirection() {
+        currDirection = prevMoveInputDirection;
     }
 }

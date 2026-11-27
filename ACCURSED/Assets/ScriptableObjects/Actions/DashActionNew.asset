@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d0af707d8eb21b4db8b0bb335318f77, type: 3}
+  m_Name: DashActionNew
+  m_EditorClassIdentifier: Assembly-CSharp::ActionSO
+  actionName: Dash
+  windAnimationState: Dash
+  useWind: 0
+  windDuration: 0
+  useMoveDirection: 1
+  HorizontalDisplacement:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 6.582238
+      outSlope: 6.582238
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0157572
+      value: 6.685956
+      inSlope: 6.582238
+      outSlope: 6.582238
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  attackData:
+    attackDamage: 1
+    stepAmount: 0
+    knockbackPower: 0
+    stunDuration: 0
+    staggerAmount: 0
+    vitalityBuildUp: 1
+    parryLeniency: 0.5
+    buffData:
+      type: 0
+      target: 0
+      amount: 0
+      duration: 0
+  chainedActions: []
+  windFeedback: {fileID: 0}
+  attackFeedback: {fileID: 0}
+  attackHitFeedback: {fileID: 0}

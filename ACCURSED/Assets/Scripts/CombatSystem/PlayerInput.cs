@@ -35,8 +35,10 @@ public class PlayerInput : MonoBehaviour //replacing PlayerController
     public void OnDash(InputValue value) {
         if (!pData.controlEnabled) return;
 
+        actionKit.CueDash();
+
         //if (playerManager.CueDash())
-            //SetState(PlayerControlState.Normal);
+        //SetState(PlayerControlState.Normal);
     }
     #endregion
 

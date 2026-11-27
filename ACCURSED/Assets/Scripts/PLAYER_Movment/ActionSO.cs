@@ -44,6 +44,7 @@ public class ActionSO : ScriptableObject
 
     [Header("Movement")]
     [SerializeField] public bool useMoveDirection;
+    [SerializeField] public bool allowDirectionUpdate;
     [SerializeField] public AnimationCurve HorizontalDisplacement;
 
     [Header("Attack Data")]

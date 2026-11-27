@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "HealingAction", menuName = "Actions/HealingAction")]
-public class HealingAction : ActionSO
+public class HealingActionSO : ActionSO
 {
     [Header("Healing")]
     public float healingInvincibleDuration = 1f;

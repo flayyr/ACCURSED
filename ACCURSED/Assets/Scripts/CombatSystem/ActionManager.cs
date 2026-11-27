@@ -53,6 +53,10 @@ public class ActionManager : MonoBehaviour
     }
 
     private void PerformAction() {
+        if (cData.currentAction.actionSO.allowDirectionUpdate) {
+            cData.UpdateCurrDirection();
+        }
+
         cData.currentAction.loaded = true;
         cData.currentAction.loadTime = Time.time;
 
