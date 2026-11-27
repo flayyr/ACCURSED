@@ -76,7 +76,7 @@ public class CharacterMovement : MonoBehaviour
 
     void Start()
     {
-        playerFootsteps = AudioManager.instance.CreateEventInstance(FMODEvents.instance.stoneWalkSFX);
+        //playerFootsteps = AudioManager.instance.CreateEventInstance(FMODEvents.instance.stoneWalkSFX);
         GetComponents();
     }
     void GetComponents()
@@ -131,7 +131,6 @@ public class CharacterMovement : MonoBehaviour
                 movementSpeed = sprintSpeed;
                 break;
             default:
-                //UpdateSound();
                 break;
         }
     }
@@ -139,8 +138,8 @@ public class CharacterMovement : MonoBehaviour
     public void BaseMove(Vector2 moveInput)
     {
         if (movementState is MovementState.normal)
-            //UpdateSound();
             rb.linearVelocity = moveInput.normalized * movementSpeed * speedMultiplier;
+            //UpdateSound();
     }
     #endregion
 
