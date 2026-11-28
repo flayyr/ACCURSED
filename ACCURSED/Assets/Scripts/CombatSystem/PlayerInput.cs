@@ -11,6 +11,8 @@ public class PlayerInput : MonoBehaviour //replacing PlayerController
 
     public event Action InteractKeyPressed;
 
+    Vector2 mousePosition;
+
     void Start() {
         RefrenceRetreival();
     }
@@ -49,9 +51,17 @@ public class PlayerInput : MonoBehaviour //replacing PlayerController
     //aim currDirection to align with mouseDirection
     public void UpdateAimingDirection() {
         if (pData.isIdle) {
-            //for whatever fucking reason mouse input position is offset, so i added a temporary offset for now
-            pData.currDirection = ((Vector2)(Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) + new Vector3(-4, -2, 0) - transform.position)).normalized;
+            //for whatever fucking reason mouse input position is offset
+            pData.currDirection = (mousePosition - (Vector2)transform.position).normalized;
         }
+
+        Debug.Log(mousePosition);
+        Vector3 objectScreen = Camera.main.WorldToScreenPoint(
+            transform.position
+        );
+
+        Debug.Log($"Object screen: {objectScreen}");
+        Debug.Log($"Mouse screen: {Input.mousePosition}");
     }
     #endregion
 
@@ -111,7 +121,13 @@ public class PlayerInput : MonoBehaviour //replacing PlayerController
 
     public void OnMousePosition(InputValue value) {
         Vector2 screePos = value.Get<Vector2>();
-        Vector2 worldPos = Camera.main.ScreenToWorldPoint(screePos);
-        //playerManager.UpdateMouseDirection(worldPos);
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        Plane plane = new Plane(Vector3.forward, Vector3.zero);
+
+        if (plane.Raycast(ray, out float distance)) {
+            mousePosition = ray.GetPoint(distance);
+        }
     }
 }
