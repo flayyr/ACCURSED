@@ -1522,6 +1522,10 @@ PrefabInstance:
       propertyPath: _id.Value
       value: 6890e22b-7f27-4893-bc23-c339b6d971a6
       objectReference: {fileID: 0}
+    - target: {fileID: 8768678283756444504, guid: ec977e09345fbde43ac25e4402cfeadf, type: 3}
+      propertyPath: maxHealth
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -107227,7 +107231,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ca736b2eb2635d4796a5b95331c8e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovementNew
-  movementSpeed: 9
+  baseMovementSpeed: 9
+  fasterMovementSpeed: 12
+  slowerMovementSpeed: 3
 --- !u!114 &5672772566119063279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107357,6 +107363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerActionManager
   staggerDuration: 0
+  attackRotator: {fileID: 1051238106767444815}
 --- !u!114 &5672772566119063286
 MonoBehaviour:
   m_ObjectHideFlags: 0

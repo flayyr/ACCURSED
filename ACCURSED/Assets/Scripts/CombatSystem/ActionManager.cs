@@ -16,6 +16,8 @@ public class ActionManager : MonoBehaviour
     protected float staggerTimer = 0;
     [Header("Stagger")]
     [SerializeField] protected float staggerDuration;
+    [Header("Hitbox Rotator")]
+    [SerializeField] private Transform attackRotator;
 
     protected virtual void Awake() {
         actionQueuer = GetComponent<ActionQueuer>();
@@ -79,6 +81,9 @@ public class ActionManager : MonoBehaviour
 
         cData.currentAction.loaded = true;
         cData.currentAction.loadTime = Time.time;
+
+        cData.characterRef.hitBox.SetAttackData(cData.currentAction.actionSO.attackData);
+        attackRotator.up = -cData.facingDirection;
 
         SetUpWinding();
 

@@ -15,7 +15,6 @@ public class ParryAction : ActionSO
         if(playerRef.playerData != null) {
             direction = playerRef.playerData.facingDirection;
         }
-        Debug.Log("Parry direction: " + direction);
         playerRef.hurtBox.Parry(parryDuration, direction);
     }
 }

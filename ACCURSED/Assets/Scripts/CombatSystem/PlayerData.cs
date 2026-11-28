@@ -48,7 +48,6 @@ public class PlayerData : CharacterData
     }
 
     public bool UseHealCharge() {
-        Debug.Log("heal attempt");
         if (CanHeal()) {
             UpdateHealth(1);
             currentHealCharge--;

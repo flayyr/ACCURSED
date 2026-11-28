@@ -3,9 +3,12 @@ using static UnityEngine.LowLevelPhysics2D.PhysicsShape;
 
 public class CharacterMovementNew : MonoBehaviour
 {
-    [SerializeField] private float movementSpeed;
+    [SerializeField] private float baseMovementSpeed;
+    [SerializeField] private float fasterMovementSpeed;
+    [SerializeField] private float slowerMovementSpeed;
 
     private float speedMultiplier = 1;
+    private float movementSpeed;
 
     CharacterData cData;
 
@@ -15,6 +18,8 @@ public class CharacterMovementNew : MonoBehaviour
 
     void Start() {
         GetComponents();
+
+        movementSpeed = baseMovementSpeed;
     }
     void GetComponents() {
         rb = GetComponent<Rigidbody2D>();
@@ -23,6 +28,7 @@ public class CharacterMovementNew : MonoBehaviour
 
     private void Update() {
         if (cData.isIdle) {
+            SetMoveSpeed(cData.movementState);
             BaseMove(cData.moveInputDirection);
         } else {
             BaseMove(Vector2.zero);
@@ -37,6 +43,21 @@ public class CharacterMovementNew : MonoBehaviour
     public void BaseMove(Vector2 moveInput) {
         rb.linearVelocity = moveInput.normalized * movementSpeed * speedMultiplier;
     }
+
+    public void SetMoveSpeed(BaseMoveState moveState) {
+        switch (moveState) {
+            case BaseMoveState.Walk:
+                movementSpeed = slowerMovementSpeed;
+                break;
+            case BaseMoveState.Run:
+                movementSpeed = baseMovementSpeed;
+                break;
+            case BaseMoveState.Sprint:
+                movementSpeed = fasterMovementSpeed;
+                break;
+        }
+    }
+
 
     private void HandleHorizontalDisplacement(float startTime, AnimationCurve displacementCurve) {
         float timeSincePlayed = Time.time - startTime;

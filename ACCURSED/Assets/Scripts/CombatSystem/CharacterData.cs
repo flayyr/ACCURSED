@@ -18,6 +18,8 @@ public class CharacterData : MonoBehaviour
     public ActionState actionState { get; set; }
     public bool isIdle { get { return actionState == ActionState.Idle; } }
     public BaseMoveState movementState { get; set; }
+    public bool sprintInput { private get; set; } = false;
+    public bool walkInput { private get; set; } = false;
 
     #region directions
     //current direction, cannot be zero
@@ -77,7 +79,13 @@ public class CharacterData : MonoBehaviour
     protected void UpdateMovementState() {
         if (isIdle && moveInputDirection != Vector2.zero) {
             currDirection = moveInputDirection;
-            movementState = BaseMoveState.Run;
+            if(sprintInput) {
+                movementState = BaseMoveState.Sprint;
+            } else if (walkInput) {
+                movementState = BaseMoveState.Walk;
+            } else {
+                movementState = BaseMoveState.Run;
+            }
         } else {
             movementState = BaseMoveState.None;
         }

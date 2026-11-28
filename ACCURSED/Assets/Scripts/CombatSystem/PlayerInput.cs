@@ -26,10 +26,14 @@ public class PlayerInput : MonoBehaviour //replacing PlayerController
     }
     public void OnWalk(InputValue value) {
         if (!pData.controlEnabled) return;
+
+        pData.walkInput = value.isPressed;
         //playerManager.SetWalkInput(value.isPressed);
     }
     public void OnSprint(InputValue value) {
         if (!pData.controlEnabled) return;
+
+        pData.sprintInput = value.isPressed;
         //playerManager.SetSprintInput(value.isPressed);
     }
 
