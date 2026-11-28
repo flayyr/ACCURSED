@@ -13,6 +13,7 @@ public struct CharacterReference
     public CharacterManager cManager;
     public VFXSpawner vfxSpawner;
     public CharacterMovement cMovement;
+    public CharacterMovementNew cMovementNew;
     public CharacterDeath cDeath;
 }
 public enum ActionState { Idle, Winding, Acting, Stunned, StunnedCancellable }

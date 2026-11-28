@@ -9,6 +9,7 @@ public class HitBox : MonoBehaviour
     [SerializeField] public Vector3 PostAnimDirection;
     [Space]
     [SerializeField] private PlayerStatistics playerStats;
+    [SerializeField] private PlayerData pData;
     [Header("Parried")]
     [SerializeField] private float parryStunDuration = 1f;
     [Header("Destroy on hit")]
@@ -22,6 +23,7 @@ public class HitBox : MonoBehaviour
 
     CircleCollider2D c_cc;
     CharacterManager cManager;
+    ActionManager cActionManager;
 
     [Header("Start Attack")]
     [SerializeField] ActionSO startingAttack;
@@ -32,6 +34,7 @@ public class HitBox : MonoBehaviour
     {
         c_cc = GetComponent<CircleCollider2D>();
         cManager = GetComponentInParent<CharacterManager>();
+        cActionManager = GetComponentInParent<ActionManager>();
         originObject = transform.root.gameObject;
 
         if (vfxSpawner == null && transform.parent != null)
@@ -67,6 +70,10 @@ public class HitBox : MonoBehaviour
             playerStats.UpdateVitality(attackData.vitalityBuildUp);
             playerStats.UpdateRemembranceCharge(attackData.vitalityBuildUp);
         }
+        if (pData != null) {
+            pData.UpdateVitality(attackData.vitalityBuildUp);
+            pData.UpdateRemembranceCharge(attackData.vitalityBuildUp);
+        }
 
         if (vfxSpawner != null)
             vfxSpawner.SpawnAttackHitVFX(action, hitPoint, victim);
@@ -80,6 +87,8 @@ public class HitBox : MonoBehaviour
     {
         if(cManager != null)
             cManager.Stun(parryStunDuration, 0f);
+        if(cActionManager != null)
+            cActionManager.Stun(parryStunDuration, 0f);
 
         if (destroyOnHit) {
             Destroy(transform.root.gameObject);

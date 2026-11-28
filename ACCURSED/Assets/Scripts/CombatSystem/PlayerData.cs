@@ -7,7 +7,7 @@ public class PlayerData : CharacterData
     public event Action OnVitalityUpdate;
     public event Action OnRemembranceChargeUpdate;
 
-    public bool controlEnabled { get; private set; } = true;
+    public bool controlEnabled { get; set; } = true;
 
     [Header("Player Data")]
     [SerializeField] public PlayerReference playerRef;
@@ -113,12 +113,26 @@ public class PlayerData : CharacterData
         OnHealChargeUpdate?.Invoke();
         OnVitalityUpdate?.Invoke();
         OnRemembranceChargeUpdate?.Invoke();
+
+        controlEnabled = true;
     }
 
     public void SetMaxRemembranceCharge(float maxRemembranceCharge) {
         this.maxRemembranceCharge = Mathf.Max(0f, maxRemembranceCharge);
         currentRemembranceCharge = Mathf.Clamp(currentRemembranceCharge, 0f, this.maxRemembranceCharge);
         OnRemembranceChargeUpdate?.Invoke();
+    }
+
+    protected override void ResolveBuff(BuffData buffData, bool isApplying) {
+        base.ResolveBuff(buffData, isApplying);
+        switch (buffData.type) {
+            case BuffType.RimeflowerFreeze:
+                if (isApplying)
+                    playerRef.playerData.SetVitalityFreeze(buffData.amount);
+                break;
+            default:
+                break;
+        }
     }
 
 }

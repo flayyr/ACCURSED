@@ -5,6 +5,8 @@ public class CharacterMovementNew : MonoBehaviour
 {
     [SerializeField] private float movementSpeed;
 
+    private float speedMultiplier = 1;
+
     CharacterData cData;
 
     #region Refrences
@@ -33,7 +35,7 @@ public class CharacterMovementNew : MonoBehaviour
 
     #region Basic Movement
     public void BaseMove(Vector2 moveInput) {
-        rb.linearVelocity = moveInput.normalized * movementSpeed;// * speedMultiplier;
+        rb.linearVelocity = moveInput.normalized * movementSpeed * speedMultiplier;
     }
 
     private void HandleHorizontalDisplacement(float startTime, AnimationCurve displacementCurve) {
@@ -48,4 +50,6 @@ public class CharacterMovementNew : MonoBehaviour
         }
     }
     #endregion
+
+    public void SetSpeedMultiplier(float multiplier) { speedMultiplier = multiplier; }
 }

@@ -15,6 +15,7 @@ public struct PlayerReference
     public MMF_Player hitFeedback;
 
     public PlayerData playerData;
+    public PlayerActionManager playerActionManager;
 }
 
 public class PlayerManager : CharacterManager

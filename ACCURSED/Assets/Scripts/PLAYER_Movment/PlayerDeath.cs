@@ -12,6 +12,12 @@ public class PlayerDeath : CharacterDeath
     [SerializeField] Collider2D hurtBoxCollider;
     [SerializeField] AnimationClip reviveClip;
 
+    PlayerData pData;
+
+    private void Awake() {
+        pData = GetComponent<PlayerData>();
+    }
+
     public void SetRespawnAspect(AspectSO aspect)
     {
         respawnAspect = aspect;
@@ -20,7 +26,14 @@ public class PlayerDeath : CharacterDeath
     public override void Die()
     {
         base.Die();
-        GetComponent<PlayerController>().SetState( PlayerControlState.Disabled);
+        PlayerController playerController = GetComponent<PlayerController>();
+        if (playerController != null) {
+            playerController.SetState(PlayerControlState.Disabled);
+        }
+
+        if(pData != null)
+            pData.controlEnabled = false;
+
         hurtBoxCollider.enabled = false;
         OnDeath?.Invoke();
         Invoke("StartRespawnTransition", deathWaitBeforeFadeTime);
@@ -44,7 +57,12 @@ public class PlayerDeath : CharacterDeath
     private void ResetPlayerStates() {
         OnReviveAnimFinished?.Invoke();
         hurtBoxCollider.enabled = true;
-        GetComponent<PlayerController>().SetState(PlayerControlState.Normal);
-        GetComponent<PlayerStatistics>().Reset();
+        if(GetComponent<PlayerController>() != null)
+            GetComponent<PlayerController>().SetState(PlayerControlState.Normal);
+        if(GetComponent<PlayerStatistics>() != null)
+            GetComponent<PlayerStatistics>().Reset();
+
+        if (pData != null)
+            pData.Reset();
     }
 }

@@ -71,7 +71,11 @@ public class PlayerActionKit : MonoBehaviour  //replaces PlayerAbilities
     }
 
     public void CueDash() {
-        actionQueuer.QueueAction(dashActionSO);
+        if (pData.actionState is ActionState.StunnedCancellable) {
+            pData.playerRef.playerActionManager.PlayActionInstantly(dashActionSO);
+        } else {
+            actionQueuer.QueueAction(dashActionSO);
+        }
     }
 
     public bool CueRemembrance() {

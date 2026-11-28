@@ -19,10 +19,12 @@ public class HurtBox : MonoBehaviour
     [SerializeField] List<GameObject> personalHurtBoxes = new List<GameObject>();
     [SerializeField] List<GameObject> personalHitBoxes = new List<GameObject>();
 
-    CharacterMovement cMovement;
     CharacterStatistics cStatistics;
     CharacterManager cManager;
     Collider2D myCollider;
+
+    CharacterData cData;
+    ActionManager cActionManager;
 
     [SerializeField] bool invincible = false;
     bool parrying = false;
@@ -33,10 +35,12 @@ public class HurtBox : MonoBehaviour
 
     void Start()
     {
-        cMovement = GetComponentInParent<CharacterMovement>();
         cStatistics = GetComponentInParent<CharacterStatistics>();
         cManager = GetComponentInParent<CharacterManager>();
         myCollider = GetComponent<Collider2D>();
+
+        cData = GetComponentInParent<CharacterData>();
+        cActionManager = GetComponentInParent<ActionManager>();
     }
 
     private void OnEnable()
@@ -82,18 +86,29 @@ public class HurtBox : MonoBehaviour
 
                 //midpoint between me and the attacker, used as the parry vfx position
                 Vector2 parryPoint = (transform.root.position + hitBox.originObject.transform.position) * .5f;
-                cManager.ParrySuccess(parryPoint, hitBox.originObject);//spawns my parry action's hit vfx
+                if(cManager != null)
+                    cManager.ParrySuccess(parryPoint, hitBox.originObject);//spawns my parry action's hit vfx
 
                 //Debug.Log("successful parry, accuracy: " + (1f - hitAlignment));
                 //Debug.Log("hitBoxDir: " + direction + " my dir: " + facingDirection + " accuracy: " + (1f - hitAlignment));
             } else if (!invincible) {
                 InvincibleForSeconds(afterHurtInvincibleDuration);
                 // Use Hitbox info to affect me
-                cManager.Stun(attackData.stunDuration, durationUntilDodgeCancellable);
-                cManager.Stagger(attackData.staggerAmount);
+                if (cManager != null) {
+                    cManager.Stun(attackData.stunDuration, durationUntilDodgeCancellable);
+                    cManager.Stagger(attackData.staggerAmount);
+                    cManager.Launch(direction, attackData.knockbackPower, true);
+                }
+                if(cActionManager != null) {
+                    cActionManager.Stun(attackData.stunDuration, durationUntilDodgeCancellable);
+                    cActionManager.Stagger(attackData.staggerAmount);
+                    cActionManager.Launch(direction, attackData.knockbackPower, true);
+                }
 
-                cManager.Launch(direction, attackData.knockbackPower, true);
-                cStatistics.UpdateHealth(-(attackData.attackDamage / defenseModifier));
+                if (cStatistics != null)
+                    cStatistics.UpdateHealth(-(attackData.attackDamage / defenseModifier));
+                if(cData != null)
+                    cData.UpdateHealth(-(attackData.attackDamage / defenseModifier));   
 
                 hitBox.Hit(this, hitPoint, transform.root.gameObject);
             }
@@ -103,7 +118,10 @@ public class HurtBox : MonoBehaviour
     protected virtual void ReceiveBuff(HitBox hitBox) {
         BuffData buffData = hitBox.GetBuffs(this);
         if (buffData != null) {
-            cManager.AddBuff(buffData);
+            if(cManager != null)
+                cManager.AddBuff(buffData);
+            if(cData != null)
+                cData.AddBuff(buffData);
         }
     }
 
