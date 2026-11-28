@@ -106535,12 +106535,12 @@ GameObject:
   - component: {fileID: 4056418395187423886}
   - component: {fileID: 3301359450843827863}
   - component: {fileID: 1018752094106337039}
-  - component: {fileID: 5672772566119063281}
   - component: {fileID: 5672772566119063279}
   - component: {fileID: 5672772566119063278}
   - component: {fileID: 5672772566119063283}
   - component: {fileID: 5672772566119063282}
   - component: {fileID: 5672772566119063284}
+  - component: {fileID: 5672772566119063285}
   m_Layer: 19
   m_Name: Player
   m_TagString: Player
@@ -107137,18 +107137,6 @@ MonoBehaviour:
   surfaceLayers:
     serializedVersion: 2
     m_Bits: 0
---- !u!114 &5672772566119063281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2455061191692369590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50d91821001ab9c408f662e36e6f69ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ActionManager
 --- !u!114 &5672772566119063282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107162,6 +107150,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerActionKit
   baseAttackSO: {fileID: 11400000, guid: 2e11228bcf10f7542b98016bc0a107ef, type: 2}
+  dashActionSO: {fileID: 11400000, guid: ac376dfa5d0f9d642bdf41cc579627b4, type: 2}
+  healingActionSO: {fileID: 11400000, guid: 4031b5dd3d605ad4dab4a2abbbc97b95, type: 2}
+  parryActionSO: {fileID: 11400000, guid: 259ebed5e6e56c042b53c768bbb2e8e1, type: 2}
+  vestigeAbilitySO: {fileID: 11400000, guid: 6dcaae1234e06bf4599e6936aaaf2944, type: 2}
+  remembranceAbilitySO: {fileID: 11400000, guid: 07216a182842f8347b98f69422053c9d, type: 2}
+  fableAbility: {fileID: 0}
 --- !u!114 &5672772566119063283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107196,7 +107190,7 @@ MonoBehaviour:
     useOutsideNormalAngle: 0
     layerMask:
       serializedVersion: 2
-      m_Bits: 786432
+      m_Bits: 65527
     minDepth: 0
     maxDepth: 0
     minNormalAngle: 0
@@ -107209,8 +107203,38 @@ MonoBehaviour:
     cManager: {fileID: 0}
     vfxSpawner: {fileID: 0}
     cMovement: {fileID: 0}
+    cDeath: {fileID: 0}
   staggerDuration: 1
   maxHP: 2
+  playerRef:
+    particleSystem: {fileID: 0}
+    spriteRenderer: {fileID: 8983585333070224275}
+    hurtBox: {fileID: 5795173446560197926}
+    hitBox: {fileID: 8493094302836760468}
+    playerStats: {fileID: 0}
+    playerManager: {fileID: 0}
+    hitFeedback: {fileID: 0}
+    playerData: {fileID: 5672772566119063284}
+  maxHealCharge: 3
+  maxVitality: 10
+  freezeDrainPerSecond: 0.5
+  currentHealCharge: 0
+  currentVitality: 0
+  currentRemembranceCharge: 0
+  currentVitalityFreeze: 0
+  totalVitalityFreeze: 1
+--- !u!114 &5672772566119063285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2455061191692369590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e294e10627e9ef40b61d234ca47c658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerActionManager
 --- !u!4 &5716539143437125548
 Transform:
   m_ObjectHideFlags: 0

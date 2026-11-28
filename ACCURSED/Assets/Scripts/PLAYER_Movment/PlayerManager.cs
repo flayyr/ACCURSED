@@ -13,6 +13,8 @@ public struct PlayerReference
     public PlayerStatistics playerStats;
     public PlayerManager playerManager;
     public MMF_Player hitFeedback;
+
+    public PlayerData playerData;
 }
 
 public class PlayerManager : CharacterManager

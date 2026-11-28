@@ -3,15 +3,15 @@ using UnityEngine.InputSystem;
 
 public class ActionManager : MonoBehaviour
 {
-    ActionQueuer actionQueuer;
-    CharacterData cData;
-    CharacterMovementNew cMove;
-    CharacterAnimatorNew cAnimator;
+    protected ActionQueuer actionQueuer;
+    protected CharacterData cData;
+    protected CharacterMovementNew cMove;
+    protected CharacterAnimatorNew cAnimator;
 
 
     float windTimer;
 
-    private void Awake() {
+    protected virtual void Awake() {
         actionQueuer = GetComponent<ActionQueuer>();
         cData = GetComponent<CharacterData>();
         cMove = GetComponent<CharacterMovementNew>();
@@ -22,6 +22,10 @@ public class ActionManager : MonoBehaviour
     }
 
     private void Update() {
+        UpdateWind();
+    }
+
+    private void UpdateWind() {
         if (windTimer > 0) {
             windTimer -= Time.deltaTime;
             if (windTimer < 0 || cData.currentAction.skipWindWhenQueued) {
@@ -40,7 +44,6 @@ public class ActionManager : MonoBehaviour
             PerformAction();
         }
     }
-
     private void GetNextAction(ActionSO previousAction) {
         if (!cData.isIdle)
             return;
@@ -80,11 +83,14 @@ public class ActionManager : MonoBehaviour
         cAnimator.SetWind(winding);
         if (winding) {
             windTimer = cData.currentAction.actionSO.windDuration;
+        } else {
+            EndWind();
         }
     }
 
-    private void EndWind() {
+    protected virtual void EndWind() {
         cAnimator.SetWind(false);
+        cData.currentAction.actionSO.GeneralActionTrigger(ref cData.characterRef);
     }
 
 }

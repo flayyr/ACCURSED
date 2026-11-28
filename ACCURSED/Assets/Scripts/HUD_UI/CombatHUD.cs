@@ -16,6 +16,10 @@ public class CombatHUD : MonoBehaviour
     PlayerStatistics playerStatistics;
     PlayerAbilities playerAbilities;
 
+    PlayerData pData;
+    PlayerActionKit pActionKit;
+
+
     bool showing = true;
 
     float currentShowingTime = 0;
@@ -30,20 +34,35 @@ public class CombatHUD : MonoBehaviour
         playerStatistics = PersistentPlayer.Instance.gameObject.GetComponent<PlayerStatistics>();
         playerAbilities = PersistentPlayer.Instance.gameObject.GetComponent<PlayerAbilities>();
 
+        pData = PersistentPlayer.Instance.gameObject.GetComponent<PlayerData>();
+        pActionKit = PersistentPlayer.Instance.gameObject.GetComponent<PlayerActionKit>();
+
         if (playerStatistics != null)
         {
             playerStatistics.OnHealChargeUpdate += Show;
             playerStatistics.OnHealthUpdate += Show;
             playerStatistics.OnVitalityUpdate += Show;
 
-            playerAbilities.OnAbilityUsed += Show;
-
             healthUI.Initialize(playerStatistics);
         }
 
         if (playerAbilities != null)
         {
+            playerAbilities.OnAbilityUsed += Show;
             playerAbilities.InitializeUI(vestigeUI, remembranceUI);
+        }
+
+        if (pData != null) {
+            pData.OnHealChargeUpdate += Show;
+            pData.OnHealthUpdate += Show;
+            pData.OnVitalityUpdate += Show;
+
+            healthUI.Initialize(pData);
+        }
+
+        if (pActionKit != null) {
+            pActionKit.OnAbilityUsed += Show;
+            pActionKit.InitializeUI(vestigeUI, remembranceUI);
         }
     }
 
@@ -54,8 +73,18 @@ public class CombatHUD : MonoBehaviour
             playerStatistics.OnHealChargeUpdate -= Show;
             playerStatistics.OnHealthUpdate -= Show;
             playerStatistics.OnVitalityUpdate -= Show;
-
+        }
+        if (playerAbilities != null) {
             playerAbilities.OnAbilityUsed -= Show;
+        }
+
+        if (pData != null) {
+            pData.OnHealChargeUpdate -= Show;
+            pData.OnHealthUpdate -= Show;
+            pData.OnVitalityUpdate -= Show;
+        }
+        if (pActionKit != null) {
+            pActionKit.OnAbilityUsed -= Show;
         }
     }
 
@@ -66,8 +95,18 @@ public class CombatHUD : MonoBehaviour
             playerStatistics.OnHealChargeUpdate += Show;
             playerStatistics.OnHealthUpdate += Show;
             playerStatistics.OnVitalityUpdate += Show;
-
+        }
+        if (playerAbilities != null) {
             playerAbilities.OnAbilityUsed += Show;
+        }
+
+        if (pData != null) {
+            pData.OnHealChargeUpdate += Show;
+            pData.OnHealthUpdate += Show;
+            pData.OnVitalityUpdate += Show;
+        }
+        if (pActionKit != null) {
+            pActionKit.OnAbilityUsed += Show;
         }
     }
 

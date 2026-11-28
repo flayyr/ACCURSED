@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CharacterData : MonoBehaviour
@@ -9,7 +10,7 @@ public class CharacterData : MonoBehaviour
     [SerializeField] public CharacterReference characterRef;
     [Header("Stagger")]
     [SerializeField] public float staggerDuration;
-    [SerializeField] float maxHP;
+    [SerializeField] protected float maxHP;
 
     public ActionInstance currentAction { get; set; }
 
@@ -52,13 +53,22 @@ public class CharacterData : MonoBehaviour
     }
     #endregion
 
-    public float hp { get;set; }
+    #region hp
+    public event Action OnHealthUpdate;
+    public float currHP { get;set; }
+    bool dead = false;
+    #endregion
+
 
     private void Awake() {
-        hp = maxHP;
+        currHP = maxHP;
     }
 
-    private void Update() {
+    protected virtual void Start() {
+        Reset();
+    }
+
+    protected virtual void Update() {
         UpdateMovementState();
     }
 
@@ -80,5 +90,26 @@ public class CharacterData : MonoBehaviour
 
     public void UpdateCurrDirection() {
         currDirection = prevMoveInputDirection;
+    }
+
+    public float UpdateHealth(float healthChange) {
+        if (dead) return currHP;
+
+        currHP += healthChange;
+        currHP = Mathf.Clamp(currHP, 0, maxHP);
+
+        if (currHP == 0) {
+            characterRef.cDeath.Die();
+            dead = true;
+        }
+
+        OnHealthUpdate?.Invoke();
+
+        return currHP;
+    }
+
+    public virtual void Reset() {
+        dead = false;
+        UpdateHealth(maxHP);
     }
 }

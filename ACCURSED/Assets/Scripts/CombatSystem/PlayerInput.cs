@@ -32,6 +32,7 @@ public class PlayerInput : MonoBehaviour //replacing PlayerController
         if (!pData.controlEnabled) return;
         //playerManager.SetSprintInput(value.isPressed);
     }
+
     public void OnDash(InputValue value) {
         if (!pData.controlEnabled) return;
 
@@ -40,15 +41,21 @@ public class PlayerInput : MonoBehaviour //replacing PlayerController
         //if (playerManager.CueDash())
         //SetState(PlayerControlState.Normal);
     }
+
+    //aim currDirection to align with mouseDirection
+    public void UpdateAimingDirection() {
+        if (pData.isIdle) {
+            //for whatever fucking reason mouse input position is offset, so i added a temporary offset for now
+            pData.currDirection = ((Vector2)(Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) + new Vector3(-4, -2, 0) - transform.position)).normalized;
+        }
+    }
     #endregion
 
     #region Combat
     public void OnAttack(InputValue value) {
         if (!pData.controlEnabled) return;
-        if (pData.isIdle) {
-            //for whatever fucking reason mouse input position is offset, so i added a temporary offset for now
-            pData.currDirection = ((Vector2)(Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue())+ new Vector3(-4,-2,0) - transform.position)).normalized;
-        }
+
+        UpdateAimingDirection();
         actionKit.CueAttack(value.isPressed);
         //basicAttacker.CueAttack(value.isPressed);
     }
@@ -57,32 +64,35 @@ public class PlayerInput : MonoBehaviour //replacing PlayerController
         //if (state is not PlayerControlState.Normal) return;
         if (!pData.controlEnabled) return;
 
-        //if (value.isPressed)
-        //    playerAbilities.UseParry();
+        UpdateAimingDirection();
+        if (value.isPressed)
+            actionKit.UseParry();
     }
 
     public void OnHeal(InputValue value) {
         //if (state is not PlayerControlState.Normal) return;
         if (!pData.controlEnabled) return;
 
-        //if (value.isPressed)
-        //    playerAbilities.UseHeal();
+        if (value.isPressed)
+            actionKit.UseHeal();
     }
 
     public void OnVestige(InputValue value) {
         //if (state is not PlayerControlState.Normal) return;
         if (!pData.controlEnabled) return;
 
-        //if (value.isPressed)
-        //    playerAbilities.UseVestige();
+        UpdateAimingDirection();
+        if (value.isPressed)
+            actionKit.CueVestige();
     }
 
     public void OnRememberance(InputValue value) {
         //if (state is not PlayerControlState.Normal) return;
         if (!pData.controlEnabled) return;
 
-        //if (value.isPressed)
-        //    playerAbilities.UseRemembrance();
+        UpdateAimingDirection();
+        if (value.isPressed)
+            actionKit.CueRemembrance();
     }
 
     #endregion
