@@ -98,7 +98,7 @@ public class ActionManager : MonoBehaviour
     private void SetUpWinding() {
         bool winding = cData.currentAction.actionSO.useWind && !cData.currentAction.skipWindWhenQueued;
         cAnimator.SetWind(winding);
-        if (winding) {
+        if (winding && cData.currentAction.actionSO.windDuration>0) {
             windTimer = cData.currentAction.actionSO.windDuration;
         } else {
             EndWind();

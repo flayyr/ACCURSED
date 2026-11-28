@@ -13,24 +13,10 @@ MonoBehaviour:
   m_Name: ParryAction
   m_EditorClassIdentifier: Assembly-CSharp::ParryAction
   actionName: Parry
-  actionAnimationState: Parry
   windAnimationState: ParryWind
-  windDuration: 0.25
-  HorizontalDisplacementWind:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 28.201956
-      outSlope: 28.201956
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.034524888
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  useWind: 1
+  windDuration: 0.1
+  allowDirectionUpdate: 0
   HorizontalDisplacement:
     serializedVersion: 2
     m_Curve:
@@ -68,6 +54,7 @@ MonoBehaviour:
       target: 0
       amount: 0
       duration: 0
+  chainedActions: []
   windFeedback: {fileID: 0}
   attackFeedback: {fileID: 0}
   attackHitFeedback: {fileID: 3176097607384497786, guid: 3adff515a18c81349b5f916151222fca, type: 3}
